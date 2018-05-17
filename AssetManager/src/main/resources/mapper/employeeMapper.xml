@@ -4,9 +4,9 @@
 <mapper namespace="com.eseict.mapper.EmployeeMapper">
 
 	<insert id="newEmployee">
-		INSERT INTO employee values
-		(nextval('employee_sequence), #{employeeName}, #{employeeId}, #{employeePw}, #{employeeRank},
-		#{employeeDepartment}, #{employeeLocation}, #{employeeEmail}, #{employeePhone})
+		INSERT INTO employee VALUES
+		(nextval('employee_sequence'), #{employeeName}, #{employeeId}, #{employeePw}, #{employeeRank},
+		#{employeeDepartment}, #{employeeLocation}, #{employeeEmail}, #{employeePhone}, #{employeeStatus})
 	</insert>
 
 	<select id="checkIdDuplication" resultType="integer">

@@ -10,7 +10,14 @@ public class EmployeeVO {
 	private String employeeLocation;
 	private String employeeEmail;
 	private String employeePhone;
+	private String employeeStatus;
 	
+	public String getEmployeeStatus() {
+		return employeeStatus;
+	}
+	public void setEmployeeStatus(String employeeStatus) {
+		this.employeeStatus = employeeStatus;
+	}
 	public int getEmployeeSeq() {
 		return employeeSeq;
 	}

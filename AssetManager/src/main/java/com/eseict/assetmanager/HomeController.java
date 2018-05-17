@@ -87,8 +87,17 @@ public class HomeController {
 
 	}
 	
-	@RequestMapping(value = "/registerSend", method = RequestMethod.GET)
-	public String registerSend(@ModelAttribute EmployeeVO vo) {
+	@RequestMapping(value = "/registerSend", method = RequestMethod.POST)
+	public String registerSend(@ModelAttribute("employee") EmployeeVO vo) {
+		System.out.println("hi!");
+		System.out.println(vo.getEmployeeName());
+		System.out.println(vo.getEmployeeId());
+		System.out.println(vo.getEmployeePw());
+		System.out.println(vo.getEmployeeRank());
+		System.out.println(vo.getEmployeeDepartment());
+		System.out.println(vo.getEmployeeLocation());
+		System.out.println(vo.getEmployeeEmail());
+		System.out.println(vo.getEmployeePhone());
 		service.newEmployee(vo);
 		return "login";
 	}

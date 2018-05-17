@@ -58,7 +58,7 @@
         </script>
         
 		<div style="width: 100%" align="center">
-			<form class="form-signin" action="assetmanager/registerSend" method="POST">
+			<form class="form-signin" action="registerSend" method="POST" modelAttribute="employee">
 				<h2 class="form-signin-heading" style="text-align: center">로그인 정보 입력</h2>
                 <div style="display: flex; height: 100%; margin: 0; margin-left: 100px; auto;">
                     <p>
@@ -116,6 +116,7 @@
                         </select>
                         <input type="email" class="form-control" name="employeeEmail" required autofocus>
                         <input type="text" class="form-control" name="employeePhone" required autofocus>
+                        <input type="hidden" name="employeeStatus" value="재직">
                     </p>
                     <p style="margin-bottom: 15px; margin-left: 30px">
                         <label class="form-control" style="opacity: 0; margin-bottom: -1px">위치</label>
@@ -128,7 +129,18 @@
                     <input type="button" class="btn btn-lg btn-primary btn-block" onclick="location.href='/assetmanager/'" value="취소"/>
                 </div>
 			</form>
-			
+			<form action="registerSend" method="POST" modelAttribute="employee">
+				<input type="text" name="employeeName" value="최윤규"/>
+				<input type="text" name="employeeId" value="choiyk"/>
+				<input type="text" name="employeePw" value="ykyk"/>
+				<input type="text" name="employeeRank" value="11"/>
+				<input type="text" name="employeeDepartment" value="15"/>
+				<input type="text" name="employeeLocation" value="5층"/>
+				<input type="text" name="employeeEmail" value="choiyk@eseict.com"/>
+				<input type="text" name="employeePhone" value="010-0000-0000"/>
+				<input type="hidden" name="employeeStatus" value="재직">
+				<button type="submit">test go!</button>
+			</form>
 		</div> <!-- /container -->	
 	</body>
 </html>
