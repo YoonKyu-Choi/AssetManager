@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.eseict.mapper.EmployeeMapper">
+
+	<insert id="newEmployee">
+		INSERT INTO employee values
+		(nextval('employee_sequence), #{employeeName}, #{employeeId}, #{employeePw}, #{employeeRank},
+		#{employeeDepartment}, #{employeeLocation}, #{employeeEmail}, #{employeePhone})
+	</insert>
+
+	<select id="checkIdDuplication" resultType="integer">
+		SELECT
+			count(*)
+		FROM
+			employee
+		WHERE
+			employee_id=#{employeeId}
+	</select>
+	
+	<select id="checkRegistered" parameterType="hashmap" resultType="integer">
+		SELECT
+			count(*)
+		FROM
+			employee
+		WHERE
+			employee_id=#{id} AND
+			employee_pw=#{pw}			
+	</select>
+
+</mapper>
