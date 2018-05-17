@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -8,7 +8,7 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 		
-		<title>ÀÌ¿¡½ºÀÌ ÀÚ»ê°ü¸®½Ã½ºÅÛ</title>
+		<title>ì´ì—ìŠ¤ì´ ìžì‚°ê´€ë¦¬ì‹œìŠ¤í…œ</title>
 		
 		<!-- Bootstrap core CSS -->
 		<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
@@ -27,7 +27,7 @@
 	
 		<div style="width: 100%">
 			<form class="form-signin" action="/assetmanager/loginSubmit" method="POST">
-				<h2 class="form-signin-heading" style="text-align: center">·Î±×ÀÎ Á¤º¸ ÀÔ·Â</h2>
+				<h2 class="form-signin-heading" style="text-align: center">ë¡œê·¸ì¸ ì •ë³´ ìž…ë ¥</h2>
                 <div style="display: flex; height: 100%; margin:auto">
                     <p>
                         <label class="form-control" style="border: 1; background: transparent; margin-bottom: -1px">USER ID</label>
@@ -38,11 +38,11 @@
                         <input type="password" name="inputPw" class="form-control" placeholder="Password" required>
                     </p>
                     <p style="margin-bottom: 15px">
-                        <button class="btn btn-lg btn-primary btn-block" type="submit" style="height: 100%">·Î±×ÀÎ</button>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" style="height: 100%">ë¡œê·¸ì¸</button>
                     </p>
                 </div>
 			</form>
-			<button class="btn btn-lg btn-primary btn-block" style="width: 20%; margin:auto" onclick="location.href='/assetmanager/register'">È¸¿ø°¡ÀÔ</button>
+			<button class="btn btn-lg btn-primary btn-block" style="width: 20%; margin:auto" onclick="location.href='/assetmanager/register'">íšŒì›ê°€ìž…</button>
 			
 		</div> <!-- /container -->	
 	</body>

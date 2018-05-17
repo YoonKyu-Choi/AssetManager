@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -9,7 +8,7 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 		
-		<title>ÀÌ¿¡½ºÀÌ ÀÚ»ê°ü¸®½Ã½ºÅÛ</title>
+		<title>ì´ì—ìŠ¤ì´ ìžì‚°ê´€ë¦¬ì‹œìŠ¤í…œ</title>
 		
 		<!-- Bootstrap core CSS -->
 		<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
@@ -25,7 +24,7 @@
         	function idCheck(){
         		var id = $('#employeeId').val();
         		if(id.length == 0){
-        			alert("¾ÆÀÌµð¸¦ ÀÔ·ÂÇØ ÁÖ¼¼¿ä.");
+        			alert("ì•„ì´ë””ë¥¼ ìž…ë ¥í•´ ì£¼ì„¸ìš”.");
         			return;
         		} else{
 	        		$.ajax({
@@ -35,10 +34,10 @@
 	        			data	: {checkId:id},
 	        			success	: function(result){
 	        				if(result==1){
-	        					alert("»ç¿ë ºÒ°¡´ÉÇÑ ¾ÆÀÌµðÀÔ´Ï´Ù.");
+	        					alert("ì‚¬ìš© ë¶ˆê°€ëŠ¥í•œ ì•„ì´ë””ìž…ë‹ˆë‹¤.");
 	        					return false;
 	        				} else{
-	        					alert("»ç¿ë °¡´ÉÇÑ ¾ÆÀÌµðÀÔ´Ï´Ù.");
+	        					alert("ì‚¬ìš© ê°€ëŠ¥í•œ ì•„ì´ë””ìž…ë‹ˆë‹¤.");
 	        					return false;
 	        				}
 	        			},
@@ -59,88 +58,90 @@
         
 		<div style="width: 100%" align="center">
 			<form class="form-signin" action="registerSend" method="POST" modelAttribute="employee">
-				<h2 class="form-signin-heading" style="text-align: center">·Î±×ÀÎ Á¤º¸ ÀÔ·Â</h2>
+				<h2 class="form-signin-heading" style="text-align: center">ë¡œê·¸ì¸ ì •ë³´ ìž…ë ¥</h2>
                 <div style="display: flex; height: 100%; margin: 0; margin-left: 100px; auto;">
                     <p>
-                        <label class="form-control" style="background: transparent; margin-bottom: 0px">ÀÌ¸§</label>
-                        <label class="form-control" style="background: transparent; margin-bottom: 0px">¾ÆÀÌµð</label>
-                        <label class="form-control" style="background: transparent; margin-bottom: 0px">ºñ¹Ð¹øÈ£</label>
-                        <label class="form-control" style="background: transparent; margin-bottom: 0px">Á÷±Þ</label>
-                        <label class="form-control" style="background: transparent; margin-bottom: 0px">¼Ò¼Ó</label>
-                        <label class="form-control" style="background: transparent; margin-bottom: 0px">À§Ä¡</label>
-                        <label class="form-control" style="background: transparent; margin-bottom: 0px">ÀÌ¸ÞÀÏ</label>
-                        <label class="form-control" style="background: transparent">¿¬¶ôÃ³</label>
+                        <label class="form-control" style="background: transparent; margin-bottom: 0px">ì´ë¦„</label>
+                        <label class="form-control" style="background: transparent; margin-bottom: 0px">ì•„ì´ë””</label>
+                        <label class="form-control" style="background: transparent; margin-bottom: 0px">ë¹„ë°€ë²ˆí˜¸</label>
+                        <label class="form-control" style="background: transparent; margin-bottom: 0px">ì§ê¸‰</label>
+                        <label class="form-control" style="background: transparent; margin-bottom: 0px">ì†Œì†</label>
+                        <label class="form-control" style="background: transparent; margin-bottom: 0px">ìœ„ì¹˜</label>
+                        <label class="form-control" style="background: transparent; margin-bottom: 0px">ì´ë©”ì¼</label>
+                        <label class="form-control" style="background: transparent">ì—°ë½ì²˜</label>
                     </p>
                     <p>
                         <input type="text" class="form-control" name="employeeName" required autofocus>
                         <input type="text" class="form-control" id="employeeId" name="employeeId" required autofocus>
                         <input type="password" class="form-control" name="employeePw" required autofocus>
                         <select class="form-control dropdown" name="employeeRank">
-                            <option>Á÷±ÞÀ» ¼±ÅÃÇÏ¼¼¿ä</option>
-                            <option value="1">´ëÇ¥ÀÌ»ç</option>
-                            <option value="2">ºÎ»çÀå</option>
-                            <option value="3">Àü¹«ÀÌ»ç</option>
-                            <option value="4">»ó¹«ÀÌ»ç</option>
-                            <option value="5">ÀÌ»ç</option>
-                            <option value="6">ºÎÀå</option>
-                            <option value="7">Â÷Àå</option>
-                            <option value="8">°úÀå</option>
-                            <option value="9">´ë¸®</option>
-                            <option value="10">ÁÖÀÓ</option>
-                            <option value="11">»ç¿ø</option>
+                            <option>ì§ê¸‰ì„ ì„ íƒí•˜ì„¸ìš”</option>
+                            <option value="1">ëŒ€í‘œì´ì‚¬</option>
+                            <option value="2">ë¶€ì‚¬ìž¥</option>
+                            <option value="3">ì „ë¬´ì´ì‚¬</option>
+                            <option value="4">ìƒë¬´ì´ì‚¬</option>
+                            <option value="5">ì´ì‚¬</option>
+                            <option value="6">ë¶€ìž¥</option>
+                            <option value="7">ì°¨ìž¥</option>
+                            <option value="8">ê³¼ìž¥</option>
+                            <option value="9">ëŒ€ë¦¬</option>
+                            <option value="10">ì£¼ìž„</option>
+                            <option value="11">ì‚¬ì›</option>
                         </select>
                         <select class="form-control dropdown" name="employeeDepartment">
-                            <option>¼Ò¼ÓÀ» ¼±ÅÃÇÏ¼¼¿ä</option>
-                            <option value="1">ÀÌ¿¡½ºÀÌ</option>
-                            <option value="2">¦¦ °æ¿µÀü·«±âÈ¹½Ç</option>
-                            <option value="3">¡¡¦¦ °ü¸®ÆÀ</option>
-                            <option value="4">¡¡¦¦ °æ¿µÀü·«ÆÀ</option>
-                            <option value="5">¦¦ Ç°Áú°ü¸®ÆÀ</option>
-                            <option value="6">¦¦ ¸®³ë±â¼ú¿¬±¸¼Ò</option>
-                            <option value="7">¡¡¦¦ ¿¬±¸°³¹ß1ÆÀ</option>
-                            <option value="8">¡¡¦¦ ¿¬±¸°³¹ß2ÆÀ</option>
-                            <option value="9">¦¦ ½º¸¶Æ®»ç¾÷º»ºÎ</option>
-                            <option value="10">¡¡¦¦ Àü·«»ç¾÷TF</option>
-                            <option value="11">¡¡¦¦ ½º¸¶Æ®½ÃÆ¼ÆÀ</option>
-                            <option value="12">¡¡¦¦ ½º¸¶Æ®Å¸¿îÆÀ</option>
-                            <option value="13">¡¡¦¦ Áß±¹Áö»ç</option>
-                            <option value="14">¦¦ ½º¸¶Æ®TSº»ºÎ</option>
-                            <option value="15">¡¡¦¦ TS1ÆÀ</option>
-                            <option value="16">¡¡¦¦ TS2ÆÀ</option>
-                            <option value="17">¡¡¦¦ TS3ÆÀ</option>
+                            <option>ì†Œì†ì„ ì„ íƒí•˜ì„¸ìš”</option>
+                            <option value="1">ì´ì—ìŠ¤ì´</option>
+                            <option value="2">â”” ê²½ì˜ì „ëžµê¸°íšì‹¤</option>
+                            <option value="3">ã€€â”” ê´€ë¦¬íŒ€</option>
+                            <option value="4">ã€€â”” ê²½ì˜ì „ëžµíŒ€</option>
+                            <option value="5">â”” í’ˆì§ˆê´€ë¦¬íŒ€</option>
+                            <option value="6">â”” ë¦¬ë…¸ê¸°ìˆ ì—°êµ¬ì†Œ</option>
+                            <option value="7">ã€€â”” ì—°êµ¬ê°œë°œ1íŒ€</option>
+                            <option value="8">ã€€â”” ì—°êµ¬ê°œë°œ2íŒ€</option>
+                            <option value="9">â”” ìŠ¤ë§ˆíŠ¸ì‚¬ì—…ë³¸ë¶€</option>
+                            <option value="10">ã€€â”” ì „ëžµì‚¬ì—…TF</option>
+                            <option value="11">ã€€â”” ìŠ¤ë§ˆíŠ¸ì‹œí‹°íŒ€</option>
+                            <option value="12">ã€€â”” ìŠ¤ë§ˆíŠ¸íƒ€ìš´íŒ€</option>
+                            <option value="13">ã€€â”” ì¤‘êµ­ì§€ì‚¬</option>
+                            <option value="14">â”” ìŠ¤ë§ˆíŠ¸TSë³¸ë¶€</option>
+                            <option value="15">ã€€â”” TS1íŒ€</option>
+                            <option value="16">ã€€â”” TS2íŒ€</option>
+                            <option value="17">ã€€â”” TS3íŒ€</option>
                         </select>
                         <select class="form-control dropdown" name="employeeLocation">             
-                            <option>À§Ä¡¸¦ ¼±ÅÃÇÏ¼¼¿ä</option>
-                            <option value="4Ãþ">4Ãþ</option>
-                            <option value="5Ãþ">5Ãþ</option>
+                            <option>ìœ„ì¹˜ë¥¼ ì„ íƒí•˜ì„¸ìš”</option>
+                            <option value="4ì¸µ">4ì¸µ</option>
+                            <option value="5ì¸µ">5ì¸µ</option>
                         </select>
                         <input type="email" class="form-control" name="employeeEmail" required autofocus>
                         <input type="text" class="form-control" name="employeePhone" required autofocus>
-                        <input type="hidden" name="employeeStatus" value="ÀçÁ÷">
+                        <input type="hidden" name="employeeStatus" value="ìž¬ì§">
                     </p>
                     <p style="margin-bottom: 15px; margin-left: 30px">
-                        <label class="form-control" style="opacity: 0; margin-bottom: -1px">À§Ä¡</label>
-                        <input type="button" class="btn btn-lg btn-primary btn-block" onclick="idCheck();" value="Áßº¹È®ÀÎ"/>
+                        <label class="form-control" style="opacity: 0; margin-bottom: -1px">ìœ„ì¹˜</label>
+                        <input type="button" class="btn btn-lg btn-primary btn-block" onclick="idCheck();" value="ì¤‘ë³µí™•ì¸"/>
                     </p>
                 </div>
                 <div style="display: flex; width: 300px">
-	                <button class="btn btn-lg btn-primary btn-block" type="submit">È¸¿ø°¡ÀÔ</button>
+	                <button class="btn btn-lg btn-primary btn-block" type="submit">íšŒì›ê°€ìž…</button>
                     <label style="opacity: 0; margin: 10px"></label>
-                    <input type="button" class="btn btn-lg btn-primary btn-block" onclick="location.href='/assetmanager/'" value="Ãë¼Ò"/>
+                    <input type="button" class="btn btn-lg btn-primary btn-block" onclick="location.href='/assetmanager/'" value="ì·¨ì†Œ"/>
                 </div>
+<!-- 
 			</form>
 			<form action="registerSend" method="POST" modelAttribute="employee">
-				<input type="text" name="employeeName" value="ÃÖÀ±±Ô"/>
+				<input type="text" name="employeeName" value="ìµœìœ¤ê·œ"/>
 				<input type="text" name="employeeId" value="choiyk"/>
 				<input type="text" name="employeePw" value="ykyk"/>
 				<input type="text" name="employeeRank" value="11"/>
 				<input type="text" name="employeeDepartment" value="15"/>
-				<input type="text" name="employeeLocation" value="5Ãþ"/>
+				<input type="text" name="employeeLocation" value="5ì¸µ"/>
 				<input type="text" name="employeeEmail" value="choiyk@eseict.com"/>
 				<input type="text" name="employeePhone" value="010-0000-0000"/>
-				<input type="hidden" name="employeeStatus" value="ÀçÁ÷">
+				<input type="hidden" name="employeeStatus" value="ìž¬ì§">
 				<button type="submit">test go!</button>
 			</form>
+			 -->
 		</div> <!-- /container -->	
 	</body>
 </html>
