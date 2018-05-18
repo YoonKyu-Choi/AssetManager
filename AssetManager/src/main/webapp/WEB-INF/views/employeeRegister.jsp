@@ -53,6 +53,7 @@
 	        		});
         		}
         	}
+<<<<<<< HEAD
         	
         	function idInputCheck(){
         		alert("id첵 오나");
@@ -98,23 +99,24 @@
         		
         		
         	}
+
         </script>
         <input type="hidden" value="false" id="btnCheck">
-		<div style="width: 100%" align="center">
+		<div style="text-align: center" id="main">
 			<form class="form-signin" action="registerSend" method="POST" modelAttribute="employee">
 				<h2 class="form-signin-heading" style="text-align: center">로그인 정보 입력</h2>
-                <div style="display: flex; height: 100%; margin: 0; margin-left: 100px; auto;">
+                <div style="display: flex; margin-left: 90px">
                     <p>
                         <label class="form-control" style="background: transparent; margin-bottom: 0px">이름</label>
                         <label class="form-control" style="background: transparent; margin-bottom: 0px">아이디</label>
                         <label class="form-control" style="background: transparent; margin-bottom: 0px">비밀번호</label>
-                        <label class="form-control" style="background: transparent; margin-bottom: 0px">직급</label>
+                        <label class="form-control" style="background: transparent; margin-bottom: 0px" id="rank">직급</label>
                         <label class="form-control" style="background: transparent; margin-bottom: 0px">소속</label>
                         <label class="form-control" style="background: transparent; margin-bottom: 0px">위치</label>
                         <label class="form-control" style="background: transparent; margin-bottom: 0px">이메일</label>
                         <label class="form-control" style="background: transparent">연락처</label>
                     </p>
-                    <p>
+                    <p style="margin:0; justify-content: center" id="inputs">
                         <input type="text" class="form-control" name="employeeName" required autofocus>
                         <input type="text" class="form-control" id="employeeId" name="employeeId" required autofocus>
                         <input type="password" class="form-control" name="employeePw" required autofocus>
@@ -161,17 +163,24 @@
                         <input type="text" class="form-control" name="employeePhone" required autofocus>
                         <input type="hidden" name="employeeStatus" value="재직">
                     </p>
-                    <p style="margin-bottom: 15px; margin-left: 30px">
+                    
+                    <script type="text/javascript">
+                        var left = $('#rank').height();
+                        var right = $('.dropdown').height();
+                        $('.dropdown').height(left);                        
+                    </script>
+                    
+                    <p style="margin-left: 10px">
                         <label class="form-control" style="opacity: 0; margin-bottom: -1px">위치</label>
                         <input type="button" class="btn btn-lg btn-primary btn-block" onclick="idCheck();" value="중복확인"/>
                     </p>
                 </div>
-                <div style="display: flex; width: 300px">
+                <div style="display: flex; width: 300px; margin-left: 90px">
 	                <button class="btn btn-lg btn-primary btn-block" type="submit">회원가입</button>
                     <label style="opacity: 0; margin: 10px"></label>
                     <input type="button" class="btn btn-lg btn-primary btn-block" onclick="location.href='/assetmanager/'" value="취소"/>
                 </div>
-
-		</div> <!-- /container -->	
+            </form>
+        </div>
 	</body>
 </html>
