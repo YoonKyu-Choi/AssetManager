@@ -23,41 +23,10 @@ import com.eseict.service.EmployeeService;
  * Handles requests for the application home page.
  */
 @Controller
-public class HomeController {
+public class LoginController {
 	
 	@Autowired
 	private EmployeeService service;
-	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-		
-		String id = "kangsj";
-		int checkDuplicate = service.checkIdDuplication(id);
-		String dup1;
-		if(checkDuplicate == 1)
-			dup1 = "Already exists";
-		else
-			dup1 = "Available";
-
-		id = "choiyk";
-		checkDuplicate = service.checkIdDuplication(id);
-		String dup2;
-		if(checkDuplicate == 1)
-			dup2 = "Already exists";
-		else
-			dup2 = "Available";
-
-		model.addAttribute("dup1", dup1 );
-		model.addAttribute("dup2", dup2 );
-		
-		return "home";
-	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String login(Locale locale, Model model) {
