@@ -1,6 +1,5 @@
 *.bat
 *.exe
-*.class
 bin/
 target/
 build/
