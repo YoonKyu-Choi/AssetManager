@@ -48,10 +48,14 @@
 	        		return;
         		}
         	}
+        	
+        	function btnCheck(){
+        		
+        	}
         </script>
         
 		<div style="width: 100%" align="center">
-			<form class="form-signin" action="registerSend" method="POST" modelAttribute="employee">
+			<form class="form-signin" action="registerSend" method="POST" modelAttribute="employee" onsubmit="btnCheck()">
 				<h2 class="form-signin-heading" style="text-align: center">로그인 정보 입력</h2>
                 <div style="display: flex; height: 100%; margin: 0; margin-left: 100px; auto;">
                     <p>
@@ -121,21 +125,7 @@
                     <label style="opacity: 0; margin: 10px"></label>
                     <input type="button" class="btn btn-lg btn-primary btn-block" onclick="location.href='/assetmanager/'" value="취소"/>
                 </div>
-<!-- 
-			</form>
-			<form action="registerSend" method="POST" modelAttribute="employee">
-				<input type="text" name="employeeName" value="최윤규"/>
-				<input type="text" name="employeeId" value="choiyk"/>
-				<input type="text" name="employeePw" value="ykyk"/>
-				<input type="text" name="employeeRank" value="11"/>
-				<input type="text" name="employeeDepartment" value="15"/>
-				<input type="text" name="employeeLocation" value="5층"/>
-				<input type="text" name="employeeEmail" value="choiyk@eseict.com"/>
-				<input type="text" name="employeePhone" value="010-0000-0000"/>
-				<input type="hidden" name="employeeStatus" value="재직">
-				<button type="submit">test go!</button>
-			</form>
-			 -->
+
 		</div> <!-- /container -->	
 	</body>
 </html>

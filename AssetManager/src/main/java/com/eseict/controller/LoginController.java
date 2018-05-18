@@ -19,9 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.eseict.VO.EmployeeVO;
 import com.eseict.service.EmployeeService;
 
-/**
- * Handles requests for the application home page.
- */
 @Controller
 public class LoginController {
 	
@@ -30,7 +27,6 @@ public class LoginController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String login(Locale locale, Model model) {
-		
 		return "login";
 	}
 	
