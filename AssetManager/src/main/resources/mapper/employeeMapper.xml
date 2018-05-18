@@ -9,9 +9,9 @@
 		#{employeeDepartment}, #{employeeLocation}, #{employeeEmail}, #{employeePhone}, #{employeeStatus})
 	</insert>
 
-	<select id="checkIdDuplication" resultType="integer">
+	<select id="checkIdDuplication" resultType="String">
 		SELECT
-			count(*)
+			employee_id
 		FROM
 			employee
 		WHERE

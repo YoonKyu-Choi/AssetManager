@@ -18,7 +18,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	@Override
-	public int checkIdDuplication(String employeeId) {
+	public String checkIdDuplication(String employeeId) {
 		return dao.checkIdDuplication(employeeId);
 	}
 

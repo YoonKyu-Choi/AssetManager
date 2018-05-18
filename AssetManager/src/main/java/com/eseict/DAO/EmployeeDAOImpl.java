@@ -22,7 +22,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 	}
 
 	@Override
-	public int checkIdDuplication(String employeeId) {
+	public String checkIdDuplication(String employeeId) {
 		return sqlSession.selectOne(namespace+".checkIdDuplication", employeeId);
 	}
 

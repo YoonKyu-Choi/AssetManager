@@ -5,8 +5,6 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,14 +34,19 @@ public class LoginController {
 		response.getWriter().println(check);			
 	}
 	
-	@RequestMapping(value = "/checkId", method = RequestMethod.POST)
-	public void checkId(HttpServletResponse response, @RequestParam("checkId") String inputId) throws IOException {
-		int check = service.checkIdDuplication(inputId);
-		response.getWriter().println(check);
+	@RequestMapping(value = "/checkId")
+	@ResponseBody
+	public String checkId(@RequestParam("id") String inputId) throws IOException {
+		if(!inputId.isEmpty()) {
+			if(service.checkIdDuplication(inputId)==null) {
+				return "new";
+			} else { return "deplicated";}
+		}else {	return "empty"; }
 	}
 	
-	@RequestMapping(value = "/registerSend", method = RequestMethod.POST)
-	public String registerSend(@ModelAttribute("employee") EmployeeVO vo) {
+	@RequestMapping(value = "/registerSend")
+	public String registerSend(@ModelAttribute EmployeeVO vo) {
+		System.out.println("등록 오나요");
 		service.newEmployee(vo);
 		return "redirect:/";
 	}
