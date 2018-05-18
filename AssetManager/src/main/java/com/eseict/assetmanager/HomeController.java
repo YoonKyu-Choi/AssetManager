@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.eseict.domain.EmployeeVO;
 import com.eseict.service.EmployeeService;
@@ -65,32 +66,21 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/loginSubmit", method = RequestMethod.POST)
-	public String loginSubmit(Model model, @RequestParam("inputId") String inputId, @RequestParam("inputPw") String inputPw) {
+	public void loginSubmit(HttpServletResponse response, @RequestParam("inputId") String inputId, @RequestParam("inputPw") String inputPw) throws IOException {
 		int check = service.checkRegistered(inputId, inputPw);
-		if(check==0) {
-			model.addAttribute("loginAlert", "Wrong ID/PW!");
-			return "login";
-		}
-		else
-			return "";
+		response.getWriter().println(check);			
 	}
 	
 	@RequestMapping(value = "/checkId", method = RequestMethod.POST)
 	public void checkId(HttpServletResponse response, @RequestParam("checkId") String inputId) throws IOException {
 		int check = service.checkIdDuplication(inputId);
-		if(check==1) {
-			response.getWriter().println(check);
-		}
-		else {
-			response.getWriter().println(check);
-		}
-
+		response.getWriter().println(check);
 	}
 	
 	@RequestMapping(value = "/registerSend", method = RequestMethod.POST)
 	public String registerSend(@ModelAttribute("employee") EmployeeVO vo) {
 		service.newEmployee(vo);
-		return "login";
+		return "redirect:/";
 	}
 		
 	@RequestMapping(value = "/register", method = RequestMethod.GET)

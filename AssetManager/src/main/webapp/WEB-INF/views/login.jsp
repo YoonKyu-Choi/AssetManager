@@ -15,18 +15,38 @@
 		
 		<!-- Custom styles for this template -->
 		<link href="${pageContext.request.contextPath}/resources/css/signin.css" rel="stylesheet">
+		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	</head>
 
 	<body>
 		<script type="text/javascript">
-			var message='${loginAlert}';
-			if(message)
-				alert(message);
+			function loginCheck(){
+	    		var id = $('#inputId').val();
+	    		var pw = $('#inputPw').val();
+	       		$.ajax({
+	       			type	: 'POST',
+	       			url		: 'loginSubmit',
+	       			dataType: 'text',
+	       			data	: {inputId:id, inputPw:pw},
+	       			success	: function(result){
+	       				if(result==0){
+	       					alert("없는 아이디/비밀번호입니다.");
+	       					return true;
+	       				} else{
+	       					alert("로그인되었습니다.");
+	       					return true;
+	       				}
+	       			},
+	       			error	: function(request, status, error){
+	       				alert("code:"+request.status+"\nmessage:"+request.responseText+"\nerror:"+error);
+	       			}
+	       		});
+	       		return false;
+	    	}
 		</script>
-	
-	
+			
 		<div style="width: 100%">
-			<form class="form-signin" action="/assetmanager/loginSubmit" method="POST">
+			<form class="form-signin" onsubmit="return loginCheck();" method="POST">
 				<h2 class="form-signin-heading" style="text-align: center">로그인 정보 입력</h2>
                 <div style="display: flex; height: 100%; margin:auto">
                     <p>
@@ -34,11 +54,11 @@
                         <label class="form-control" style="border: 1; background: transparent">PASSWORD</label>
                     </p>
                     <p>
-                        <input type="text" name="inputId" class="form-control" placeholder="ID" required autofocus>
-                        <input type="password" name="inputPw" class="form-control" placeholder="Password" required>
+                        <input type="text" id="inputId" name="inputId" class="form-control" placeholder="ID" required autofocus>
+                        <input type="password" id="inputPw" name="inputPw" class="form-control" placeholder="Password" required>
                     </p>
                     <p style="margin-bottom: 15px">
-                        <button class="btn btn-lg btn-primary btn-block" type="submit" style="height: 100%">로그인</button>
+                        <button class="btn btn-lg btn-primary btn-block" style="height: 100%">로그인</button>
                     </p>
                 </div>
 			</form>
