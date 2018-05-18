@@ -49,12 +49,6 @@
         		}
         	}
         </script>
-        <script type="text/javascript">
-        	$(function(){
-        		var idCheckMessage = ${idCheckAlert};
-        		alert(idCheckMessage);
-        	});
-        </script>
         
 		<div style="width: 100%" align="center">
 			<form class="form-signin" action="registerSend" method="POST" modelAttribute="employee">
