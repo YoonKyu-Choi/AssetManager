@@ -46,7 +46,7 @@ public class LoginController {
 	
 	@RequestMapping(value = "/registerSend")
 	public String registerSend(@ModelAttribute EmployeeVO vo) {
-		System.out.println("등록 오나요");
+		System.out.println(vo.getEmployeeRank());
 		service.newEmployee(vo);
 		return "redirect:/";
 	}

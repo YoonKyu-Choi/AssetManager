@@ -63,7 +63,20 @@
 		function submitCheck() {
 			if ($("#idInputCheck").val() == 'false') {
 				alert("아이디 중복확인을 체크해주세요.");
-			} else {
+				return false;
+			} 
+			else if($("#employeeRank").val()=='0'){
+				alert($("#employeeRank").val());
+				alert("직급을 선택해주세요.");
+				return false;
+			} else if($("#employeeDepartment").val()=='0'){
+				alert("소속을 선택해주세요.");
+				return false;
+			} else if($("#employeeLocation").val()=='0'){
+				alert("위치를 선택해주세요.");
+				return false;
+			}
+			else {
 				$("#registerSend").submit();
 			}
 		};
@@ -118,13 +131,11 @@
 						class="form-control" style="background: transparent">연락처</label>
 				</p>
 				<p style="margin: 0; justify-content: center" id="inputs">
-					<input type="text" class="form-control" name="employeeName"
-						required autofocus> <input type="text"
-						class="form-control" id="employeeId" name="employeeId" required
-						autofocus> <input type="password" class="form-control"
-						name="employeePw" required autofocus> <select
-						class="form-control dropdown" name="employeeRank">
-						<option>직급을 선택하세요</option>
+					<input type="text" class="form-control" name="employeeName" required autofocus> 
+					<input type="text" class="form-control" id="employeeId" name="employeeId" required autofocus> 
+					<input type="password" class="form-control" name="employeePw" required autofocus> 
+					<select	class="form-control dropdown" id="employeeRank" name="employeeRank">
+						<option value="0">직급을 선택하세요</option>
 						<option value="1">대표이사</option>
 						<option value="2">부사장</option>
 						<option value="3">전무이사</option>
@@ -136,8 +147,9 @@
 						<option value="9">대리</option>
 						<option value="10">주임</option>
 						<option value="11">사원</option>
-					</select> <select class="form-control dropdown" name="employeeDepartment">
-						<option>소속을 선택하세요</option>
+					</select> 
+					<select class="form-control dropdown" id="employeeDepartment" name="employeeDepartment">
+						<option value="0">소속을 선택하세요</option>
 						<option value="1">이에스이</option>
 						<option value="2">└ 경영전략기획실</option>
 						<option value="3">└ 관리팀</option>
@@ -155,8 +167,9 @@
 						<option value="15">└ TS1팀</option>
 						<option value="16">└ TS2팀</option>
 						<option value="17">└ TS3팀</option>
-					</select> <select class="form-control dropdown" name="employeeLocation">
-						<option>위치를 선택하세요</option>
+					</select> 
+					<select class="form-control dropdown" id="employeeLocation" name="employeeLocation">
+						<option value="0">위치를 선택하세요</option>
 						<option value="4층">4층</option>
 						<option value="5층">5층</option>
 					</select> <input type="email" class="form-control" name="employeeEmail"
