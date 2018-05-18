@@ -1,4 +1,4 @@
-package com.eseict.domain;
+package com.eseict.VO;
 
 public class EmployeeVO {
 	private int employeeSeq;

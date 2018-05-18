@@ -3,8 +3,8 @@ package com.eseict.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.eseict.domain.EmployeeVO;
-import com.eseict.persistence.EmployeeDAO;
+import com.eseict.DAO.EmployeeDAO;
+import com.eseict.VO.EmployeeVO;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService{

@@ -1,6 +1,6 @@
 package com.eseict.service;
 
-import com.eseict.domain.EmployeeVO;
+import com.eseict.VO.EmployeeVO;
 
 public interface EmployeeService {
 	// 새 사용자를 추가

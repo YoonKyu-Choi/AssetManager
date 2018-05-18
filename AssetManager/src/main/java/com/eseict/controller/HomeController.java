@@ -1,4 +1,4 @@
-package com.eseict.assetmanager;
+package com.eseict.controller;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.eseict.domain.EmployeeVO;
+import com.eseict.VO.EmployeeVO;
 import com.eseict.service.EmployeeService;
 
 /**

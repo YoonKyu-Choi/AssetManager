@@ -1,4 +1,4 @@
-package com.eseict.persistence;
+package com.eseict.DAO;
 
 import java.util.HashMap;
 
@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.eseict.domain.EmployeeVO;
+import com.eseict.VO.EmployeeVO;
 
 @Repository
 public class EmployeeDAOImpl implements EmployeeDAO{

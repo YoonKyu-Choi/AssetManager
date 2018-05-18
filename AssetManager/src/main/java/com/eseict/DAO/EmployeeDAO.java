@@ -1,6 +1,6 @@
-package com.eseict.persistence;
+package com.eseict.DAO;
 
-import com.eseict.domain.EmployeeVO;
+import com.eseict.VO.EmployeeVO;
 
 public interface EmployeeDAO {
 	// 새 사용자를 추가
