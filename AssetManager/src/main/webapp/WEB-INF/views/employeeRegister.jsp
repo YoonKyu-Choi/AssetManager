@@ -15,47 +15,93 @@
 		
 		<!-- Custom styles for this template -->
 		<link href="${pageContext.request.contextPath}/resources/css/signin.css" rel="stylesheet">
-
-		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	</head>
 
 	<body>
+		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
         <script type="text/javascript">
         	function idCheck(){
         		var id = $('#employeeId').val();
         		if(id.length == 0){
         			alert("아이디를 입력해 주세요.");
-        			return;
         		} else{
 	        		$.ajax({
 	        			type	: 'POST',
 	        			url		: 'checkId',
 	        			dataType: 'text',
 	        			data	: {checkId:id},
+	        			<%--
+	        			beforeSend : function(){
+	        				alert("비포센");
+	        				var flag = idInputCheck();
+	        				if(flag==false){
+	        					return false;
+	        				}
+	        			}
+	        			--%>
 	        			success	: function(result){
 	        				if(result==1){
 	        					alert("사용 불가능한 아이디입니다.");
-	        					return false;
 	        				} else{
 	        					alert("사용 가능한 아이디입니다.");
-	        					return false;
+	        					$("#employeeId").addClass("disable");
 	        				}
 	        			},
 	        			error	: function(request, status, error){
 	        				alert("code:"+request.status+"\nmessage:"+request.responseText+"\nerror:"+error);
 	        			}
 	        		});
-	        		return;
         		}
         	}
         	
-        	function btnCheck(){
+        	function idInputCheck(){
+        		alert("id첵 오나");
+        		var str = $("#employeeId").val();
+        		
+        		var pattern1 = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; // 한글 x
+        		var pattern2 = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자 x
+        		var pattern3 = /[/s]/;	// 공백 x
+        		
+        		if(pattern1.test(str)){
+        			alert("아이디로 한글은 사용할 수 없습니다.");
+        			$("#employeeId").val("");
+        			$("#employeeId").focus();
+        			return false;
+        		}
+        		
+        		if(pattern2.test(str)){
+        			alert("아이디는 특수문자를 사용할 수 없습니다");
+        			$("#employeeId").val("");
+        			$("#employeeId").focus();
+        			return false;
+        		}
+        		
+        		if(pattern3.test(str)){
+        			alert("아이디에 공백을 넣을 수 없습니다.");
+        			$("#employeeId").val("");
+        			$("#employeeId").focus();
+        			return false;
+        		}
+        		
+        		function nameInputCheck(){
+        			var str=$("#employeeName").val();
+        			
+        		}
+        		
+        		function phoneInputCheck(){
+        			
+        		}
+        		
+        		function selectCheck(){
+        			
+        		}
+        		
         		
         	}
         </script>
-        
+        <input type="hidden" value="false" id="btnCheck">
 		<div style="width: 100%" align="center">
-			<form class="form-signin" action="registerSend" method="POST" modelAttribute="employee" onsubmit="btnCheck()">
+			<form class="form-signin" action="registerSend" method="POST" modelAttribute="employee">
 				<h2 class="form-signin-heading" style="text-align: center">로그인 정보 입력</h2>
                 <div style="display: flex; height: 100%; margin: 0; margin-left: 100px; auto;">
                     <p>
