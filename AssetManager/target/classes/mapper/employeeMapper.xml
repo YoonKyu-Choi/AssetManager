@@ -3,6 +3,20 @@
 
 <mapper namespace="com.eseict.mapper.EmployeeMapper">
 
+	<resultMap type="com.eseict.VO.EmployeeVO" id="EmployeeVO-result">
+		<id column="employee_seq" property="employeeSeq"/>
+		<result column="employee_name" property="employeeName"/>
+		<result column="employee_id" property="employeeName"/>
+		<result column="employee_pw" property="employeeId"/>
+		<result column="employee_rank" property="employeeRank"/>
+		<result column="employee_department" property="employeeDepartment"/>
+		<result column="employee_location" property="employeeLocation"/>
+		<result column="employee_email" property="employeeEmail"/>
+		<result column="employee_phone" property="employeePhone"/>
+		<result column="employee_status" property="employeeStatus"/>
+	</resultMap>
+
+
 	<insert id="newEmployee">
 		INSERT INTO employee VALUES
 		(nextval('employee_sequence'), #{employeeName}, #{employeeId}, #{employeePw}, #{employeeRank},
@@ -28,22 +42,8 @@
 			employee_pw=#{pw}			
 	</select>
 	
-	<select id="getEmployeeList" resultType="com.eseict.VO.EmployeeVO">
-	<![CDATA[
-		SELECT
-			employee_seq	as "employeeSeq",
-			employee_name	as "employeeName",
-			employee_id		as "employeeId",
-			employee_pw		as "employeePw",
-			employee_rank	as "employeeRank",
-			employee_department	as "employeeDepartment",
-			employee_location	as "employeeLocation",
-			employee_email	as "employeeEmail",
-			employee_phone	as "employeePhone",
-			employee_status	as "employeeStatus"
-		FROM
-			employee
-	]]>
+	<select id="getEmployeeList" resultMap="EmployeeVO-result">
+		SELECT * FROM employee
 	</select>
 
 	<select id="getDepartment" parameterType="integer" resultType="string">
@@ -63,5 +63,9 @@
 		WHERE
 			employee_rank=#{rank}
 	</select>
-
+	
+	<select id="selectEmployeeByEmployeeSeq" parameterType="integer" resultMap="EmployeeVO-result">
+	select * from employee where employee_seq = #{employeeSeq}
+	</select>
+	
 </mapper>

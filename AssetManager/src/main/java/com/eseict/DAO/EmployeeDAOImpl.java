@@ -50,4 +50,9 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 		return sqlSession.selectOne(namespace+".getRank", employeeRank);
 	}
 
+	@Override
+	public EmployeeVO selectEmployeeByEmployeeSeq(int employeeSeq) {
+		return sqlSession.selectOne(namespace+".selectEmployeeByEmployeeSeq",employeeSeq);
+	}
+
 }

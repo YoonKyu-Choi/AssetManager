@@ -33,4 +33,13 @@ public class UserController {
 		model.addAttribute("employeeList", employeeHSMList);
 		return "userList";
 	}
+	
+	/*
+	@RequestMapping(value="userDetail")
+	public ModelAndView userDetail(@RequestParam int employeeSeq) {
+		
+		return ;
+	}
+	*/
+	
 }
