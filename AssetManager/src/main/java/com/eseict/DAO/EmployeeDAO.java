@@ -16,4 +16,10 @@ public interface EmployeeDAO {
 	
 	// 임직원 리스트 가져오기
 	public List<EmployeeVO> getEmployeeList();
+	
+	// 소속 코드에 대한 문자열 가져오기
+	public String getDepartment(int employeeDepartment);
+
+	// 직급 코드에 대한 문자열 가져오기
+	public String getRank(int employeeRank);
 }

@@ -46,4 +46,22 @@
 	]]>
 	</select>
 
+	<select id="getDepartment" parameterType="integer" resultType="string">
+		SELECT
+			employee_department_string
+		FROM
+			department
+		WHERE
+			employee_department=#{employeeDepartment}
+	</select>
+
+	<select id="getRank" parameterType="integer" resultType="string">
+		SELECT
+			employee_rank_string
+		FROM
+			rank
+		WHERE
+			employee_rank=#{rank}
+	</select>
+
 </mapper>

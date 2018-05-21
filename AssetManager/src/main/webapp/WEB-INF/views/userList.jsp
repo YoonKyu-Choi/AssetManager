@@ -20,62 +20,73 @@
 		<!-- Custom styles for this template -->
 		<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
 		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
+		<script src="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.js"></script>
+		<link href="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.css" rel="stylesheet"/>
+		
 	</head>
 
 	<body>
 	
 		 <div class="container-fluid">
 			<div class="row">
-				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-					<h1 class="page-header">Dashboard</h1>
+				<div class="main">
+					<h1 class="page-header">사용자 목록</h1>
 					
-					<h2 class="sub-header">Section title</h2>
 					<div class="table-responsive">
-						<table class="table table-striped">
+						<table class="table table-striped" data-toggle="table">
 							<thead>
 								<tr>
-									<th>번호</th>
-									<th>상태</th>
-									<th>이름</th>
+									<th data-sortable="true">번호</th>
+									<th data-sortable="true">상태</th>
+									<th data-sortable="true">이름</th>
 									<th>아이디</th>
-									<th>소속</th>
-									<th>직급</th>
-									<th>위치</th>
+									<th data-sortable="true" data-sorter="depSort" data-field="dep" data-sort-name="_dep_data">소속</th>
+									<th data-sortable="true" data-sorter="rankSort" data-field="rank" data-sort-name="_rank_data">직급</th>
+									<th data-sortable="true">위치</th>
 									<th>이메일</th>
 									<th>연락처</th>
 								</tr>
 							</thead>
 							<tbody>
 							
-							<c:forEach items="${employeeList}" var="employeeVO">
+							<script>
+								function depSort(a, b){
+									if(a.dep < b.dep) return -1;
+									if(a.dep > b.dep) return 1;
+									return 0;
+								}
+							</script>
+							<script>
+								function rankSort(a, b){
+									if(a.rank < b.rank) return -1;
+									if(a.rank > b.rank) return 1;
+									return 0;
+								}
+							</script>
+							
+							<c:forEach items="${employeeList}" var="employee">
 								<tr>
-									<td>${employeeVO.employeeSeq}</td>
-									<td>${employeeVO.employeeStatus}</td>
-									<td>${employeeVO.employeeName}</td>
-									<td>${employeeVO.employeeId}</td>
-									<td>${employeeVO.employeeDepartment}</td>
-									<td>${employeeVO.employeeRank}</td>
-									<td>${employeeVO.employeeLocation}</td>
-									<td>${employeeVO.employeeEmail}</td>
-									<td>${employeeVO.employeePhone}</td>
+									<td>${employee.vo.employeeSeq}</td>
+									<td>${employee.vo.employeeStatus}</td>
+									<td>${employee.vo.employeeName}</td>
+									<td>${employee.vo.employeeId}</td>
+									<td data-dep="${employee.vo.employeeDepartment}">${employee.dep}</td>
+									<td data-rank="${employee.vo.employeeRank}">${employee.rank}</td>
+									<td>${employee.vo.employeeLocation}</td>
+									<td>${employee.vo.employeeEmail}</td>
+									<td>${employee.vo.employeePhone}</td>
 								</tr>
 							</c:forEach>
 
 							</tbody>
 						</table>
 					</div>
+					<button class="btn btn-lg btn-primary" style="float:right">회원 추가</button>
 				</div>
 			</div>
 		</div>
 		
-		<!-- Bootstrap core JavaScript
-		================================================== -->
-		<!-- Placed at the end of the document so the pages load faster -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-		<script src="../../dist/js/bootstrap.min.js"></script>
-		<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-		<script src="../../assets/js/vendor/holder.js"></script>
-		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-		<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 	</body>
 </html>
