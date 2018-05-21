@@ -29,10 +29,21 @@
 	</select>
 	
 	<select id="getEmployeeList" resultType="com.eseict.VO.EmployeeVO">
+	<![CDATA[
 		SELECT
-			*
+			employee_seq	as "employeeSeq",
+			employee_name	as "employeeName",
+			employee_id		as "employeeId",
+			employee_pw		as "employeePw",
+			employee_rank	as "employeeRank",
+			employee_department	as "employeeDepartment",
+			employee_location	as "employeeLocation",
+			employee_email	as "employeeEmail",
+			employee_phone	as "employeePhone",
+			employee_status	as "employeeStatus"
 		FROM
 			employee
+	]]>
 	</select>
 
 </mapper>

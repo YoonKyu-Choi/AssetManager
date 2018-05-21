@@ -31,7 +31,6 @@ public class EmployeeServiceImpl implements EmployeeService{
 
 	@Override
 	public List<EmployeeVO> getEmployeeList() {
-		System.out.println("ServiceImpl "+dao.getEmployeeList());
 		return dao.getEmployeeList();
 	}
 

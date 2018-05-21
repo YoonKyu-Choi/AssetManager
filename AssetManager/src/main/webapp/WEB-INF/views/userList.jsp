@@ -31,7 +31,7 @@
 					
 					<h2 class="sub-header">Section title</h2>
 					<div class="table-responsive">
-						<table class="table table-striped" border="1">
+						<table class="table table-striped">
 							<thead>
 								<tr>
 									<th>번호</th>

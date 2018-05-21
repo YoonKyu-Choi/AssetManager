@@ -37,7 +37,6 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
 	@Override
 	public List<EmployeeVO> getEmployeeList() {
-		System.out.println("DAOImpl "+sqlSession.selectList(namespace+".getEmployeeList"));
 		return sqlSession.selectList(namespace+".getEmployeeList");
 	}
 
