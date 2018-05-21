@@ -1,6 +1,7 @@
 package com.eseict.DAO;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,12 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 		login.put("id", employeeId);
 		login.put("pw", employeePw);
 		return sqlSession.selectOne(namespace+".checkRegistered", login);
+	}
+
+	@Override
+	public List<EmployeeVO> getEmployeeList() {
+		System.out.println("DAOImpl "+sqlSession.selectList(namespace+".getEmployeeList"));
+		return sqlSession.selectList(namespace+".getEmployeeList");
 	}
 
 }

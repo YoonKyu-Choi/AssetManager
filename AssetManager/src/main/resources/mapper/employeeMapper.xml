@@ -27,5 +27,12 @@
 			employee_id=#{id} AND
 			employee_pw=#{pw}			
 	</select>
+	
+	<select id="getEmployeeList" resultType="com.eseict.VO.EmployeeVO">
+		SELECT
+			*
+		FROM
+			employee
+	</select>
 
 </mapper>

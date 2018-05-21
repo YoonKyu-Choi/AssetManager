@@ -1,14 +1,19 @@
 package com.eseict.DAO;
 
+import java.util.List;
+
 import com.eseict.VO.EmployeeVO;
 
 public interface EmployeeDAO {
-	// »õ »ç¿ëÀÚ¸¦ Ãß°¡
+	// ìƒˆ ì„ì§ì›ì„ ì¶”ê°€
 	public void newEmployee(EmployeeVO vo);
 	
-	// Á¸ÀçÇÏ´Â ¾ÆÀÌµğÀÏ °æ¿ì 1À» ¹İÈ¯, ¾Æ´Ï¸é 0À» ¹İÈ¯
+	// ì•„ì´ë”” ì¤‘ë³µí™•ì¸, 1ì´ë©´ ì¤‘ë³µ
 	public String checkIdDuplication(String employeeId);
 	
-	// µî·ÏµÈ »ç¿ëÀÚÀÏ °æ¿ì 1À» ¹İÈ¯, ¾Æ´Ï¸é 0À» ¹İÈ¯
+	// ë“±ë¡ëœ ì‚¬ìš©ìì¸ì§€ í™•ì¸, 1ì´ë©´ ok
 	public int checkRegistered(String employeeId, String employeePw);
+	
+	// ì„ì§ì› ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
+	public List<EmployeeVO> getEmployeeList();
 }
