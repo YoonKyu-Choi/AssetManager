@@ -16,7 +16,6 @@
 		<result column="employee_status" property="employeeStatus"/>
 	</resultMap>
 
-
 	<insert id="newEmployee">
 		INSERT INTO employee VALUES
 		(nextval('employee_sequence'), #{employeeName}, #{employeeId}, #{employeePw}, #{employeeRank},
@@ -42,30 +41,25 @@
 			employee_pw=#{pw}			
 	</select>
 	
-	<select id="getEmployeeList" resultMap="EmployeeVO-result">
-		SELECT * FROM employee
+	<select id="getEmployeeList" resultType="com.eseict.VO.EmployeeVO" >
+		SELECT e.employee_seq as "employeeSeq", 
+			   e.employee_name as "employeeName", 
+			   e.employee_id as "employeeId", 
+			   r.employee_rank_string as "employeeRank", 
+			   d.employee_department_string as "employeeDepartment", 
+			   e.employee_location as "employeeLocation", 
+			   e.employee_email as "employeeEmail", 
+			   e.employee_phone as "employeePhone", 
+			   e.employee_status as "employeeStatus"
+		FROM employee e, rank r, department d 
+		where e.employee_rank = r.employee_rank 
+			  and e.employee_department = d.employee_department
 	</select>
-
-	<select id="getDepartment" parameterType="integer" resultType="string">
-		SELECT
-			employee_department_string
-		FROM
-			department
-		WHERE
-			employee_department=#{employeeDepartment}
-	</select>
-
-	<select id="getRank" parameterType="integer" resultType="string">
-		SELECT
-			employee_rank_string
-		FROM
-			rank
-		WHERE
-			employee_rank=#{rank}
-	</select>
-	
+ 
 	<select id="selectEmployeeByEmployeeSeq" parameterType="integer" resultMap="EmployeeVO-result">
-	select * from employee where employee_seq = #{employeeSeq}
+	select * 
+	from employee 
+	where employee_seq = #{employeeSeq}
 	</select>
 	
 </mapper>

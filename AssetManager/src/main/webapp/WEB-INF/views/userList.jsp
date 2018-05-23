@@ -25,15 +25,19 @@
 		<script src="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.js"></script>
 		<link href="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.css" rel="stylesheet"/>
 		
+		<script type="text/javascript">
+			function goDetail(Seq){
+	    		document.location.href='/assetmanager/userDetail?employeeSeq='+Seq;
+	    	}
+		</script>
+		
 	</head>
 
 	<body>
-	
 		 <div class="container-fluid">
 			<div class="row">
 				<div class="main">
 					<h1 class="page-header">사용자 목록</h1>
-					
 					<div class="table-responsive">
 						<table class="table table-striped" data-toggle="table">
 							<thead>
@@ -67,16 +71,16 @@
 							</script>
 							
 							<c:forEach items="${employeeList}" var="employee">
-								<tr class="clickable-row" data-href="assetmanager/userList?employeeSeq=${employee.vo.employeeSeq}">
-									<td>${employee.vo.employeeSeq}</td>
-									<td>${employee.vo.employeeStatus}</td>
-									<td>${employee.vo.employeeName}</td>
-									<td>${employee.vo.employeeId}</td>
-									<td data-dep="${employee.vo.employeeDepartment}">${employee.dep}</td>
-									<td data-rank="${employee.vo.employeeRank}">${employee.rank}</td>
-									<td>${employee.vo.employeeLocation}</td>
-									<td>${employee.vo.employeeEmail}</td>
-									<td>${employee.vo.employeePhone}</td>
+								<tr>
+									<td>${employee.employeeSeq}</td>
+									<td>${employee.employeeStatus}</td>
+									<td><a onclick="goDetail('${employee.employeeSeq}');">${employee.employeeName}</a></td>
+									<td>${employee.employeeId}</td>
+									<td>${employee.employeeDepartment}</td>
+									<td>${employee.employeeRank}</td>
+									<td>${employee.employeeLocation}</td>
+									<td>${employee.employeeEmail}</td>
+									<td>${employee.employeePhone}</td>
 								</tr>
 							</c:forEach>
 

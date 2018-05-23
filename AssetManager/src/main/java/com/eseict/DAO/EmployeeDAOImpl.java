@@ -40,6 +40,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 		return sqlSession.selectList(namespace+".getEmployeeList");
 	}
 
+	/*
 	@Override
 	public String getDepartment(int employeeDepartment) {
 		return sqlSession.selectOne(namespace+".getDepartment", employeeDepartment);
@@ -49,6 +50,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 	public String getRank(int employeeRank) {
 		return sqlSession.selectOne(namespace+".getRank", employeeRank);
 	}
+	*/
 
 	@Override
 	public EmployeeVO selectEmployeeByEmployeeSeq(int employeeSeq) {

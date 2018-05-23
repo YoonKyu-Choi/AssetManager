@@ -1,5 +1,6 @@
 package com.eseict.DAO;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.eseict.VO.EmployeeVO;
@@ -17,11 +18,13 @@ public interface EmployeeDAO {
 	// �엫吏곸썝 由ъ뒪�듃 媛��졇�삤湲�
 	public List<EmployeeVO> getEmployeeList();
 	
+	/*
 	// �냼�냽 肄붾뱶�뿉 ���븳 臾몄옄�뿴 媛��졇�삤湲�
 	public String getDepartment(int employeeDepartment);
 
 	// 吏곴툒 肄붾뱶�뿉 ���븳 臾몄옄�뿴 媛��졇�삤湲�
 	public String getRank(int employeeRank);
+	*/
 
 	// 사용자 상세보기
 	public EmployeeVO selectEmployeeByEmployeeSeq(int employeeSeq);
