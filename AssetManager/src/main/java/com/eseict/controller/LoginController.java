@@ -3,7 +3,9 @@ package com.eseict.controller;
 import java.io.IOException;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,14 +26,22 @@ public class LoginController {
 	private EmployeeService service;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String login(Locale locale, Model model) {
-		return "login";
+	public String login(HttpSession session, Locale locale, Model model) {
+		if(session.getAttribute("userLoginInfo") == "Logged")
+			return "redirect:/loginGet";
+		else
+			return "login";
 	}
 	
 	@RequestMapping(value = "/loginSubmit", method = RequestMethod.POST)
-	public void loginSubmit(HttpServletResponse response, @RequestParam("inputId") String inputId, @RequestParam("inputPw") String inputPw) throws IOException {
+	@ResponseBody
+	public String loginSubmit(HttpSession session, HttpServletResponse response, @RequestParam("inputId") String inputId, @RequestParam("inputPw") String inputPw) throws IOException {
 		int check = service.checkRegistered(inputId, inputPw);
-		response.getWriter().println(check);			
+		session.removeAttribute("userLoginInfo");
+		if(check == 1) {
+			session.setAttribute("userLoginInfo", "Logged");
+		}
+		return Integer.toString(check);
 	}
 	
 	@RequestMapping(value = "/checkId")

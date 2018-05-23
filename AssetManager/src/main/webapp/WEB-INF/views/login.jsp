@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -29,13 +30,13 @@
 	       			dataType: 'text',
 	       			data	: {inputId:id, inputPw:pw},
 	       			success	: function(result){
-	       				if(result==0){
-	       					alert("없는 아이디/비밀번호입니다.");
-	       					return true;
-	       				} else{
+	       				if(result == "1"){
 	       					alert("로그인되었습니다.");
-	       					return true;
+	       				} else{
+	       					alert("아이디와 비밀번호를 확인해주세요.");
 	       				}
+       					window.location.replace("/assetmanager/");
+       					return true;
 	       			},
 	       			error	: function(request, status, error){
 	       				alert("code:"+request.status+"\nmessage:"+request.responseText+"\nerror:"+error);
@@ -48,7 +49,7 @@
 		<div style="width: 100%">
 			<form class="form-signin" onsubmit="return loginCheck();" method="POST">
 				<h2 class="form-signin-heading" style="text-align: center">로그인 정보 입력</h2>
-                <div style="display: flex; height: 100%; margin:auto">
+                <div style="display: flex; height: 100%; ">
                     <p>
                         <label class="form-control" style="border: 1; background: transparent; margin-bottom: -1px">USER ID</label>
                         <label class="form-control" style="border: 1; background: transparent">PASSWORD</label>

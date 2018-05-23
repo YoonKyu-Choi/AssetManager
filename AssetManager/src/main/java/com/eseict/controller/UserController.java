@@ -33,4 +33,10 @@ public class UserController {
 		model.addAttribute("employeeList", employeeHSMList);
 		return "userList";
 	}
+	
+	@RequestMapping(value = "/loginGet", method = RequestMethod.GET)
+	public String loginGet(Model model) {
+		System.out.println("hi");
+		return "loginGet";
+	}
 }
