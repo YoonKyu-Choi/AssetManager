@@ -36,7 +36,8 @@ public class LoginController {
 		int check = service.checkRegistered(inputId, inputPw);
 		session.removeAttribute("userLoginInfo");
 		if(check == 1) {
-			if(inputId == "admin") {
+			if(inputId.equals("admin")) {
+				System.out.println("ADMIN!!");
 				session.setAttribute("isAdmin", "TRUE");
 			}
 			session.setAttribute("isUser", "TRUE");
@@ -78,5 +79,11 @@ public class LoginController {
 			return "redirect:/loginGet";
 		else
 			return "employeeRegister";
+	}
+	
+	@RequestMapping(value = "/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
 	}
 }

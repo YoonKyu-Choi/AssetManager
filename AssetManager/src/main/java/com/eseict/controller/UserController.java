@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,8 +37,9 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/loginGet", method = RequestMethod.GET)
-	public String loginGet(Model model) {
-		System.out.println("hi");
+	public String loginGet(HttpSession session) {
+		if(session.getAttribute("isUser") != "TRUE")
+			return "redirect:/";
 		return "loginGet";
 	}
 }
