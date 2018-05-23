@@ -25,7 +25,8 @@ public class UserController {
 	public String userList(Model model) {
 		List<EmployeeVO> list = service.getEmployeeList();
 		for(EmployeeVO vo : list) {
-		System.out.println(list.contains(vo));
+			System.out.println(vo.getRankVO());
+			System.out.println(vo.getDepartmentVO());
 		}
 		model.addAttribute("employeeList", list);
 		return "userList";

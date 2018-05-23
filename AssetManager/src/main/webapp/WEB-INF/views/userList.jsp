@@ -78,8 +78,8 @@
 									<td>${employee.employeeStatus}</td>
 									<td>${employee.employeeName}</td>
 									<td>${employee.employeeId}</td>
-									<td>${employee.employeeDepartment}</td>
-									<td>${employee.employeeRank}</td>
+									<td>${employee.departmentVO.employeeDepartmentString}</td>
+									<td>${employee.rankVO.employeeRankString}</td>
 									<td>${employee.employeeLocation}</td>
 									<td>${employee.employeeEmail}</td>
 									<td>${employee.employeePhone}</td>
