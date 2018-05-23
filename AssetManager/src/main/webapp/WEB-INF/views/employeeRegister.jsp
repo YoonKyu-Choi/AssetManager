@@ -85,7 +85,7 @@
 			var str = $("#employeeId").val();
 			var pattern1 = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; // 한글 x
 			var pattern2 = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자 x
-			var pattern3 = /[/s]/; // 공백 x
+			var pattern3 = /[\s]/; // 공백 x
 
 			if (pattern1.test(str)) {
 				alert("아이디로 한글은 사용할 수 없습니다.");

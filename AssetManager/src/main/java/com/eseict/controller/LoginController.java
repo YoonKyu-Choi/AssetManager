@@ -1,15 +1,12 @@
 package com.eseict.controller;
 
 import java.io.IOException;
-import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,8 +23,8 @@ public class LoginController {
 	private EmployeeService service;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String login(HttpSession session, Locale locale, Model model) {
-		if(session.getAttribute("userLoginInfo") == "Logged")
+	public String login(HttpSession session) {
+		if(session.getAttribute("isUser") == "TRUE")
 			return "redirect:/loginGet";
 		else
 			return "login";
@@ -39,30 +36,47 @@ public class LoginController {
 		int check = service.checkRegistered(inputId, inputPw);
 		session.removeAttribute("userLoginInfo");
 		if(check == 1) {
-			session.setAttribute("userLoginInfo", "Logged");
+			if(inputId == "admin") {
+				session.setAttribute("isAdmin", "TRUE");
+			}
+			session.setAttribute("isUser", "TRUE");
 		}
 		return Integer.toString(check);
 	}
 	
 	@RequestMapping(value = "/checkId")
 	@ResponseBody
-	public String checkId(@RequestParam("id") String inputId) throws IOException {
-		if(!inputId.isEmpty()) {
-			if(service.checkIdDuplication(inputId)==null) {
-				return "new";
-			} else { return "deplicated";}
-		}else {	return "empty"; }
+	public String checkId(@RequestParam(value="id", required=false) String inputId, HttpServletResponse response) throws IOException{
+		try {
+			if(!inputId.isEmpty()) {
+				if(service.checkIdDuplication(inputId)==null) {
+					return "new";
+				} else { return "deplicated";}
+			}else {	return "empty"; }
+		} catch(Exception e) {
+			System.out.println(e);
+			response.sendRedirect("redirect:/");
+			return "";
+		}
 	}
 	
 	@RequestMapping(value = "/registerSend")
 	public String registerSend(@ModelAttribute EmployeeVO vo) {
-		System.out.println(vo.getEmployeeRank());
-		service.newEmployee(vo);
-		return "redirect:/";
+		try {
+			System.out.println(vo.getEmployeeRank());
+			service.newEmployee(vo);
+			return "redirect:/";
+		} catch(Exception e) {
+			System.out.println(e);
+			return "redirect:/";
+		}
 	}
 		
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public String register(Locale locale, Model model) {
-		return "employeeRegister";
+	public String register(HttpSession session) {
+		if(session.getAttribute("isUser") == "TRUE")
+			return "redirect:/loginGet";
+		else
+			return "employeeRegister";
 	}
 }
