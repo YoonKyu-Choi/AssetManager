@@ -37,7 +37,6 @@ public class LoginController {
 		session.removeAttribute("userLoginInfo");
 		if(check == 1) {
 			if(inputId.equals("admin")) {
-				System.out.println("ADMIN!!");
 				session.setAttribute("isAdmin", "TRUE");
 			}
 			session.setAttribute("isUser", "TRUE");
