@@ -1,5 +1,6 @@
 *.bat
 *.exe
+*.properties
 bin/
 target/
 build/
