@@ -31,9 +31,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 
 	@Override
 	public List<EmployeeVO> getEmployeeList() {
+		System.out.println("service부분"+dao.getEmployeeList());
 		return dao.getEmployeeList();
 	}
 
+	/*
 	@Override
 	public String getDepartment(int employeeDepartment) {
 		return dao.getDepartment(employeeDepartment);
@@ -43,9 +45,10 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public String getRank(int employeeRank) {
 		return dao.getRank(employeeRank);
 	}
-
+	*/
+	
 	@Override
-	public EmployeeVO EmployeeByEmployeeSeq(int employeeSeq) {
+	public EmployeeVO selectEmployeeByEmployeeSeq(int employeeSeq) {
 		return dao.selectEmployeeByEmployeeSeq(employeeSeq);
 	}
 }

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.eseict.VO.EmployeeVO;
 import com.eseict.service.EmployeeService;
@@ -18,28 +20,22 @@ public class UserController {
 
 	@Autowired
 	private EmployeeService service;
-	
+		
 	@RequestMapping(value = "/userList", method = RequestMethod.GET)
 	public String userList(Model model) {
 		List<EmployeeVO> list = service.getEmployeeList();
-		ArrayList<Object> employeeHSMList = new ArrayList<Object>();
-		for(EmployeeVO vo: list) {
-			HashMap<String, Object> employeeHSM = new HashMap<String, Object>();
-			employeeHSM.put("vo", vo);
-			employeeHSM.put("dep", service.getDepartment(vo.getEmployeeDepartment()));
-			employeeHSM.put("rank", service.getRank(vo.getEmployeeRank()));
-			employeeHSMList.add(employeeHSM);
-		}
-		model.addAttribute("employeeList", employeeHSMList);
+		model.addAttribute("employeeList", list);
+		System.out.println(list);
 		return "userList";
 	}
 	
-	/*
-	@RequestMapping(value="userDetail")
-	public ModelAndView userDetail(@RequestParam int employeeSeq) {
-		
-		return ;
-	}
-	*/
 	
+	
+	@RequestMapping(value="/userDetail")
+	public ModelAndView userDetail(@RequestParam int employeeSeq) {
+		System.out.println("상세보기 오나요");
+		EmployeeVO evo = service.selectEmployeeByEmployeeSeq(employeeSeq);
+		System.out.println(evo);
+		return new ModelAndView("userDetail","evo",evo);
+	}
 }

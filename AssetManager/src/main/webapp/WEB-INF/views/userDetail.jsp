@@ -1,72 +1,91 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-		<meta name="description" content="">
-		<meta name="author" content="">
-		
-		<title>사용자 상세보기</title>
-		
-		<!-- Bootstrap core CSS -->
-		<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
-		
-		<!-- Custom styles for this template -->
-		<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
-		
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
-		<script src="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.js"></script>
-		<link href="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.css" rel="stylesheet"/>
-		
-	</head>
-<body>
-	
-		 <div class="container-fluid">
-			<div class="row">
-				<div class="main">
-					<h1 class="page-header">${employee.vo.employeeName} 님 정보</h1>
-					
-					<div class="table-responsive">
-						<table class="table table-striped" data-toggle="table">
-							<thead>
-								<tr>
-									<th data-sortable="true">번호</th>
-									<th data-sortable="true">상태</th>
-									<th data-sortable="true">이름</th>
-									<th>아이디</th>
-									<th data-sortable="true" data-sorter="depSort" data-field="dep" data-sort-name="_dep_data">소속</th>
-									<th data-sortable="true" data-sorter="rankSort" data-field="rank" data-sort-name="_rank_data">직급</th>
-									<th data-sortable="true">위치</th>
-									<th>이메일</th>
-									<th>연락처</th>
-								</tr>
-							</thead>
-							<tbody>
-							<c:forEach items="${employeeList}" var="employee">
-								<tr>
-									<td>${employee.vo.employeeSeq}</td>
-									<td>${employee.vo.employeeStatus}</td>
-									<td>${employee.vo.employeeName}</td>
-									<td>${employee.vo.employeeId}</td>
-									<td data-dep="${employee.vo.employeeDepartment}">${employee.dep}</td>
-									<td data-rank="${employee.vo.employeeRank}">${employee.rank}</td>
-									<td>${employee.vo.employeeLocation}</td>
-									<td>${employee.vo.employeeEmail}</td>
-									<td>${employee.vo.employeePhone}</td>
-								</tr>
-							</c:forEach>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
 
-							</tbody>
-						</table>
-					</div>
-					<button class="btn btn-lg btn-primary" style="float:right">회원 수정</button>
+<title>사용자 상세보기</title>
+
+<!-- Bootstrap core CSS -->
+<link
+	href="${pageContext.request.contextPath}/resources/css/bootstrap.css"
+	rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link
+	href="${pageContext.request.contextPath}/resources/css/dashboard.css"
+	rel="stylesheet">
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
+<script
+	src="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.js"></script>
+<link
+	href="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.css"
+	rel="stylesheet" />
+
+</head>
+<body>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="main">
+				<h1 class="page-header">${requestScope.employeeVO.employeeName}님
+					정보</h1>
+
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<tr>
+							<th>번호</th>
+							<th>${requestScope.employeeVO.employeeSeq}</th>
+						</tr>
+						<tr>
+							<th>이름</th>
+							<th>${requestScope.employeeVO.employeeName}</th>
+						</tr>
+						<tr>
+							<th>아이디</th>
+							<th>${requestScope.employeeVO.employeeId}</th>
+						</tr>
+						<tr>
+							<th>직급</th>
+							<th>${requestScope.employeeVO.employeeRank}</th>
+						</tr>
+						<tr>
+							<th>소속</th>
+							<th>${requestScope.employeeVO.employeeDepartment}</th>
+						</tr>
+						<tr>
+							<th>위치</th>
+							<th>${requestScope.employeeVO.employeeLocation}</th>
+						</tr>
+						<tr>
+							<th>이메일</th>
+							<th>${requestScope.employeeVO.employeeEmail}</th>
+						</tr>
+						<tr>
+							<th>연락처</th>
+							<th>${requestScope.employeeVO.employeePhone}</th>
+						</tr>
+						<tr>
+							<th>상태</th>
+							<th>${requestScope.employeeVO.employeeStatus}</th>
+						</tr>
+						<tr>
+					</table>
 				</div>
+				<button class="btn btn-lg btn-primary" style="float: right">회원
+					수정</button>
 			</div>
 		</div>
-		
-	</body>
+	</div>
+
+</body>
 </html>
