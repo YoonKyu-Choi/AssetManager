@@ -67,7 +67,7 @@
 							</script>
 							
 							<c:forEach items="${employeeList}" var="employee">
-								<tr>
+								<tr class="clickable-row" data-href="assetmanager/userList?employeeSeq=${employee.vo.employeeSeq}">
 									<td>${employee.vo.employeeSeq}</td>
 									<td>${employee.vo.employeeStatus}</td>
 									<td>${employee.vo.employeeName}</td>
