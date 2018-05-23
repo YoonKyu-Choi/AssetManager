@@ -6,7 +6,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Insert title here</title>
 
-<!-- 		<link href="${pageContext.request.contextPath}/resources/css/authority.css" rel="stylesheet"> -->
+ 		<link href="${pageContext.request.contextPath}/resources/css/authority.css" rel="stylesheet">
 		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	</head>
 
@@ -42,7 +42,7 @@
 			isAdmin: <%= session.getAttribute("isAdmin") %>
 		</div>
 
-		<div class="admin" style="display:none">
+		<div class="admin">
 			이 부분은 관리자만 볼 수 있다
 		</div>
 	</body>
