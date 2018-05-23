@@ -131,9 +131,9 @@
 						class="form-control" style="background: transparent">연락처</label>
 				</p>
 				<p style="margin: 0; justify-content: center" id="inputs">
-					<input type="text" class="form-control" name="employeeName" required autofocus> 
-					<input type="text" class="form-control" id="employeeId" name="employeeId" required autofocus> 
-					<input type="password" class="form-control" name="employeePw" required autofocus> 
+					<input type="text" class="form-control" name="employeeName" maxlength="6" required autofocus> 
+					<input type="text" class="form-control" id="employeeId" name="employeeId" maxlength="10" required autofocus> 
+					<input type="password" class="form-control" name="employeePw" maxlength="10" required autofocus> 
 					<select	class="form-control dropdown" id="employeeRank" name="employeeRank">
 						<option value="0">직급을 선택하세요</option>
 						<option value="1">대표이사</option>
@@ -172,9 +172,9 @@
 						<option value="0">위치를 선택하세요</option>
 						<option value="4층">4층</option>
 						<option value="5층">5층</option>
-					</select> <input type="email" class="form-control" name="employeeEmail"
-						required autofocus> <input type="text"
-						class="form-control" name="employeePhone" required autofocus>
+					</select>
+					<input type="email" class="form-control" name="employeeEmail" maxlength="100" required autofocus>
+					<input type="text" class="form-control" name="employeePhone" maxlength="20" required autofocus>
 					<input type="hidden" name="employeeStatus" value="재직">
 				</p>
 
