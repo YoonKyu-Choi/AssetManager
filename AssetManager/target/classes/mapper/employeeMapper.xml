@@ -14,8 +14,10 @@
 		<result column="employee_email" property="employeeEmail"/>
 		<result column="employee_phone" property="employeePhone"/>
 		<result column="employee_status" property="employeeStatus"/>
+		<result column="rank.employee_rank_string" property="employeeRankString"/>
+		<result column="department.employee_department_string" property="employeeDepartmentString"/>
 	</resultMap>
-
+	
 	<insert id="newEmployee">
 		INSERT INTO employee VALUES
 		(nextval('employee_sequence'), #{employeeName}, #{employeeId}, #{employeePw}, #{employeeRank},
@@ -41,6 +43,7 @@
 			employee_pw=#{pw}			
 	</select>
 	
+	<!-- 
 	<select id="getEmployeeList" resultType="com.eseict.VO.EmployeeVO" >
 		SELECT e.employee_seq as "employeeSeq", 
 			   e.employee_name as "employeeName", 
@@ -55,7 +58,17 @@
 		where e.employee_rank = r.employee_rank 
 			  and e.employee_department = d.employee_department
 	</select>
- 
+ 	 -->
+
+ 	 <select id="getEmployeeList" resultMap="EmployeeVO-result" >
+		SELECT e.*, r.employee_rank_string, d.employee_department_string
+		FROM employee e 
+		JOIN rank r
+		ON e.employee_rank = r.employee_rank
+		JOIN department d
+		ON e.employee_department=d.employee_department
+	</select>
+ 	 
 	<select id="selectEmployeeByEmployeeSeq" parameterType="integer" resultMap="EmployeeVO-result">
 	select * 
 	from employee 
