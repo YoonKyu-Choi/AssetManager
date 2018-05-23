@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,13 +31,17 @@ public class UserController {
 		return "userList";
 	}
 	
-	
-	
 	@RequestMapping(value="/userDetail")
 	public ModelAndView userDetail(@RequestParam int employeeSeq) {
 		System.out.println("상세보기 오나요");
 		EmployeeVO evo = service.selectEmployeeByEmployeeSeq(employeeSeq);
 		System.out.println(evo);
 		return new ModelAndView("userDetail","evo",evo);
+	
+	@RequestMapping(value = "/loginGet", method = RequestMethod.GET)
+	public String loginGet(HttpSession session) {
+		if(session.getAttribute("isUser") != "TRUE")
+			return "redirect:/";
+		return "loginGet";
 	}
 }
