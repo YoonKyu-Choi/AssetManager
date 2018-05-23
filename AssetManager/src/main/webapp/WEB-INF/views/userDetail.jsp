@@ -55,11 +55,11 @@
 						</tr>
 						<tr>
 							<th>직급</th>
-							<th>${requestScope.employeeVO.employeeRank}</th>
+							<th>${requestScope.employeeVO.rankVO.employeeRankString}</th>
 						</tr>
 						<tr>
 							<th>소속</th>
-							<th>${requestScope.employeeVO.employeeDepartment}</th>
+							<th>${requestScope.employeeVO.departmentVO.employeeDepartmentString}</th>
 						</tr>
 						<tr>
 							<th>위치</th>
