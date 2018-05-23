@@ -70,11 +70,19 @@
 								}
 							</script>
 							
+							<script>
+								$(function(){
+									$(".clickable-row").click(function(){
+										goDetail($(this).data("href"));
+									})
+								});
+							</script>
+							
 							<c:forEach items="${employeeList}" var="employee">
-								<tr>
+								<tr class="clickable-row" data-href="${employee.employeeSeq}">
 									<td>${employee.employeeSeq}</td>
 									<td>${employee.employeeStatus}</td>
-									<td><a onclick="goDetail('${employee.employeeSeq}');">${employee.employeeName}</a></td>
+									<td>${employee.employeeName}</td>
 									<td>${employee.employeeId}</td>
 									<td>${employee.employeeDepartment}</td>
 									<td>${employee.employeeRank}</td>
