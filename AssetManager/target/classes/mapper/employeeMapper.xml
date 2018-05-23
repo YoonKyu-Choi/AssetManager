@@ -14,8 +14,18 @@
 		<result column="employee_email" property="employeeEmail"/>
 		<result column="employee_phone" property="employeePhone"/>
 		<result column="employee_status" property="employeeStatus"/>
-		<result column="rank.employee_rank_string" property="employeeRankString"/>
-		<result column="department.employee_department_string" property="employeeDepartmentString"/>
+		<collection property="rankVO" resultMap="RankVO-result"/>
+		<collection property="departmentVO" resultMap="DepartmentVO-result"/>
+	</resultMap>
+	
+	<resultMap type="com.eseict.VO.RankVO" id="RankVO-result">
+		<result column="employee_rank" property="employeeRank"/>
+		<result column="employee_rank_string" property="employeeRankString"/>
+	</resultMap>
+	
+	<resultMap type="com.eseict.VO.DepartmentVO" id="DepartmentVO-result">
+		<result column="employee_department" property="employeeDepartment"/>
+		<result column="employee_department_string" property="employeeDepartmentString"/>
 	</resultMap>
 	
 	<insert id="newEmployee">
@@ -61,12 +71,9 @@
  	 -->
 
  	 <select id="getEmployeeList" resultMap="EmployeeVO-result" >
-		SELECT e.*, r.employee_rank_string, d.employee_department_string
-		FROM employee e 
-		JOIN rank r
-		ON e.employee_rank = r.employee_rank
-		JOIN department d
-		ON e.employee_department=d.employee_department
+		SELECT employee.*, rank.employee_rank_string, department.employee_department_string
+		FROM employee, rank, department
+		where employee.employee_rank = rank.employee_rank and employee.employee_department=department.employee_department
 	</select>
  	 
 	<select id="selectEmployeeByEmployeeSeq" parameterType="integer" resultMap="EmployeeVO-result">

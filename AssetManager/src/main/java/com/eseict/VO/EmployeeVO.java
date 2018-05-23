@@ -11,14 +11,14 @@ public class EmployeeVO {
 	private String employeeEmail;
 	private String employeePhone;
 	private String employeeStatus;
-	private String employeeRankString;
-	private String employeeDepartmentString;
+	private RankVO rankVO;
+	private DepartmentVO departmentVO;
 	
 	public EmployeeVO() {}
 
 	public EmployeeVO(int employeeSeq, String employeeName, String employeeId, String employeePw, int employeeRank,
 			int employeeDepartment, String employeeLocation, String employeeEmail, String employeePhone,
-			String employeeStatus) {
+			String employeeStatus, RankVO rankVO, DepartmentVO departmentVO) {
 		super();
 		this.employeeSeq = employeeSeq;
 		this.employeeName = employeeName;
@@ -30,40 +30,8 @@ public class EmployeeVO {
 		this.employeeEmail = employeeEmail;
 		this.employeePhone = employeePhone;
 		this.employeeStatus = employeeStatus;
-	}
-
-	public EmployeeVO(int employeeSeq, String employeeName, String employeeId, String employeePw,
-			String employeeLocation, String employeeEmail, String employeePhone, String employeeStatus,
-			String employeeRankString, String employeeDepartmentString) {
-		super();
-		this.employeeSeq = employeeSeq;
-		this.employeeName = employeeName;
-		this.employeeId = employeeId;
-		this.employeePw = employeePw;
-		this.employeeLocation = employeeLocation;
-		this.employeeEmail = employeeEmail;
-		this.employeePhone = employeePhone;
-		this.employeeStatus = employeeStatus;
-		this.employeeRankString = employeeRankString;
-		this.employeeDepartmentString = employeeDepartmentString;
-	}
-
-	public EmployeeVO(int employeeSeq, String employeeName, String employeeId, String employeePw, int employeeRank,
-			int employeeDepartment, String employeeLocation, String employeeEmail, String employeePhone,
-			String employeeStatus, String employeeRankString, String employeeDepartmentString) {
-		super();
-		this.employeeSeq = employeeSeq;
-		this.employeeName = employeeName;
-		this.employeeId = employeeId;
-		this.employeePw = employeePw;
-		this.employeeRank = employeeRank;
-		this.employeeDepartment = employeeDepartment;
-		this.employeeLocation = employeeLocation;
-		this.employeeEmail = employeeEmail;
-		this.employeePhone = employeePhone;
-		this.employeeStatus = employeeStatus;
-		this.employeeRankString = employeeRankString;
-		this.employeeDepartmentString = employeeDepartmentString;
+		this.rankVO = rankVO;
+		this.departmentVO = departmentVO;
 	}
 
 	public int getEmployeeSeq() {
@@ -146,28 +114,28 @@ public class EmployeeVO {
 		this.employeeStatus = employeeStatus;
 	}
 
-	public String getEmployeeRankString() {
-		return employeeRankString;
+	public RankVO getRankVO() {
+		return rankVO;
 	}
 
-	public void setEmployeeRankString(String employeeRankString) {
-		this.employeeRankString = employeeRankString;
+	public void setRankVO(RankVO rankVO) {
+		this.rankVO = rankVO;
 	}
 
-	public String getEmployeeDepartmentString() {
-		return employeeDepartmentString;
+	public DepartmentVO getDepartmentVO() {
+		return departmentVO;
 	}
 
-	public void setEmployeeDepartmentString(String employeeDepartmentString) {
-		this.employeeDepartmentString = employeeDepartmentString;
+	public void setDepartmentVO(DepartmentVO departmentVO) {
+		this.departmentVO = departmentVO;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((departmentVO == null) ? 0 : departmentVO.hashCode());
 		result = prime * result + employeeDepartment;
-		result = prime * result + ((employeeDepartmentString == null) ? 0 : employeeDepartmentString.hashCode());
 		result = prime * result + ((employeeEmail == null) ? 0 : employeeEmail.hashCode());
 		result = prime * result + ((employeeId == null) ? 0 : employeeId.hashCode());
 		result = prime * result + ((employeeLocation == null) ? 0 : employeeLocation.hashCode());
@@ -175,9 +143,9 @@ public class EmployeeVO {
 		result = prime * result + ((employeePhone == null) ? 0 : employeePhone.hashCode());
 		result = prime * result + ((employeePw == null) ? 0 : employeePw.hashCode());
 		result = prime * result + employeeRank;
-		result = prime * result + ((employeeRankString == null) ? 0 : employeeRankString.hashCode());
 		result = prime * result + employeeSeq;
 		result = prime * result + ((employeeStatus == null) ? 0 : employeeStatus.hashCode());
+		result = prime * result + ((rankVO == null) ? 0 : rankVO.hashCode());
 		return result;
 	}
 
@@ -190,12 +158,12 @@ public class EmployeeVO {
 		if (getClass() != obj.getClass())
 			return false;
 		EmployeeVO other = (EmployeeVO) obj;
-		if (employeeDepartment != other.employeeDepartment)
-			return false;
-		if (employeeDepartmentString == null) {
-			if (other.employeeDepartmentString != null)
+		if (departmentVO == null) {
+			if (other.departmentVO != null)
 				return false;
-		} else if (!employeeDepartmentString.equals(other.employeeDepartmentString))
+		} else if (!departmentVO.equals(other.departmentVO))
+			return false;
+		if (employeeDepartment != other.employeeDepartment)
 			return false;
 		if (employeeEmail == null) {
 			if (other.employeeEmail != null)
@@ -229,11 +197,6 @@ public class EmployeeVO {
 			return false;
 		if (employeeRank != other.employeeRank)
 			return false;
-		if (employeeRankString == null) {
-			if (other.employeeRankString != null)
-				return false;
-		} else if (!employeeRankString.equals(other.employeeRankString))
-			return false;
 		if (employeeSeq != other.employeeSeq)
 			return false;
 		if (employeeStatus == null) {
@@ -241,9 +204,14 @@ public class EmployeeVO {
 				return false;
 		} else if (!employeeStatus.equals(other.employeeStatus))
 			return false;
+		if (rankVO == null) {
+			if (other.rankVO != null)
+				return false;
+		} else if (!rankVO.equals(other.rankVO))
+			return false;
 		return true;
 	}
-	
+
 	
 	
 	
