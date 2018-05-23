@@ -37,8 +37,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<h1 class="page-header">${requestScope.employeeVO.employeeName}님
-					정보</h1>
+				<h1 class="page-header">${requestScope.employeeVO.employeeName}님 정보</h1>
 
 				<div class="table-responsive">
 					<table class="table table-striped">
@@ -81,8 +80,26 @@
 						<tr>
 					</table>
 				</div>
-				<button class="btn btn-lg btn-primary" style="float: right">회원
-					수정</button>
+				
+				<script>
+					function deleteConfirm(){
+						if(!confirm("삭제하겠습니까?")){
+							return false;
+						}else{
+							$("#idForm")
+						}
+					}
+				</script>
+				
+				<form id="idForm" action="userDelete" method="POST">
+					<input type="hidden" name="employeeSeq" value=${requestScope.employeeVO.employeeSeq} />
+				</form>
+				
+				<div style="display:flex; float:right">
+					<button class="btn btn-lg btn-primary" style="margin-right:10px">회원 수정</button>
+					
+					<button class="btn btn-lg btn-primary" onclick="deleteConfirm();">회원 삭제</button>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -47,4 +47,9 @@ public class UserController {
 			return "redirect:/";
 		return "loginGet";
 	}
+	
+	@RequestMapping(value="/userDelete", method=RequestMethod.POST)
+	public String userDelete() {
+		return "userList";
+	}
 }
