@@ -51,4 +51,10 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public EmployeeVO selectEmployeeByEmployeeSeq(int employeeSeq) {
 		return dao.selectEmployeeByEmployeeSeq(employeeSeq);
 	}
+
+	@Override
+	public void deleteEmployee(int employeeSeq) {
+		dao.deleteEmployee(employeeSeq);
+		
+	}
 }

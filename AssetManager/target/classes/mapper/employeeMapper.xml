@@ -82,4 +82,12 @@
 	where employee_seq = #{employeeSeq}
 	</select>
 	
+	<delete id="deleteEmployee" parameterType="integer">
+		DELETE
+		FROM
+			employee
+		WHERE
+			employee_seq = #{employeeSeq}
+	</delete>
+	
 </mapper>

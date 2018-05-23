@@ -49,7 +49,13 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/userDelete", method=RequestMethod.POST)
-	public String userDelete() {
-		return "userList";
+	public String userDelete(@RequestParam("employeeSeq") int employeeSeq, @RequestParam("checkAdminPw") String checkAdminPw) {
+		int check = service.checkRegistered("admin", checkAdminPw);
+		if(check == 1) {
+			service.deleteEmployee(employeeSeq);
+			return "redirect:/userList";
+		} else {
+			return "redirect:/userList";
+		}
 	}
 }

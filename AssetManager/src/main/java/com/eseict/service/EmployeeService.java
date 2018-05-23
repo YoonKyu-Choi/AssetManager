@@ -27,4 +27,7 @@ public interface EmployeeService {
 	
 	// 사용자 상세보기
 	public EmployeeVO selectEmployeeByEmployeeSeq(int employeeSeq);
+	
+	// 사용자 삭제
+	public void deleteEmployee(int employeeSeq);
 }

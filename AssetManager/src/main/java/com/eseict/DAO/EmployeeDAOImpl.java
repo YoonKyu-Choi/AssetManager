@@ -57,4 +57,10 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 		return sqlSession.selectOne(namespace+".selectEmployeeByEmployeeSeq",employeeSeq);
 	}
 
+	@Override
+	public void deleteEmployee(int employeeSeq) {
+		sqlSession.delete(namespace+".deleteEmployee", employeeSeq);
+		
+	}
+
 }
