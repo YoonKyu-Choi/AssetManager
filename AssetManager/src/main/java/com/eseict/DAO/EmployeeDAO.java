@@ -5,21 +5,24 @@ import java.util.List;
 import com.eseict.VO.EmployeeVO;
 
 public interface EmployeeDAO {
-	// 새 임직원을 추가
+	// �깉 �엫吏곸썝�쓣 異붽�
 	public void newEmployee(EmployeeVO vo);
 	
-	// 아이디 중복확인, 1이면 중복
+	// �븘�씠�뵒 以묐났�솗�씤, 1�씠硫� 以묐났
 	public String checkIdDuplication(String employeeId);
 	
-	// 등록된 사용자인지 확인, 1이면 ok
+	// �벑濡앸맂 �궗�슜�옄�씤吏� �솗�씤, 1�씠硫� ok
 	public int checkRegistered(String employeeId, String employeePw);
 	
-	// 임직원 리스트 가져오기
+	// �엫吏곸썝 由ъ뒪�듃 媛��졇�삤湲�
 	public List<EmployeeVO> getEmployeeList();
 	
-	// 소속 코드에 대한 문자열 가져오기
+	// �냼�냽 肄붾뱶�뿉 ���븳 臾몄옄�뿴 媛��졇�삤湲�
 	public String getDepartment(int employeeDepartment);
 
-	// 직급 코드에 대한 문자열 가져오기
+	// 吏곴툒 肄붾뱶�뿉 ���븳 臾몄옄�뿴 媛��졇�삤湲�
 	public String getRank(int employeeRank);
+
+	// 사용자 상세보기
+	public EmployeeVO selectEmployeeByEmployeeSeq(int employeeSeq);
 }
