@@ -6,8 +6,8 @@
 	<resultMap type="com.eseict.VO.EmployeeVO" id="EmployeeVO-result">
 		<id column="employee_seq" property="employeeSeq"/>
 		<result column="employee_name" property="employeeName"/>
-		<result column="employee_id" property="employeeName"/>
-		<result column="employee_pw" property="employeeId"/>
+		<result column="employee_id" property="employeeId"/>
+		<result column="employee_pw" property="employeePw"/>
 		<result column="employee_rank" property="employeeRank"/>
 		<result column="employee_department" property="employeeDepartment"/>
 		<result column="employee_location" property="employeeLocation"/>
