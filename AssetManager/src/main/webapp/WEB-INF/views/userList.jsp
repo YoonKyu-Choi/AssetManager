@@ -24,13 +24,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
 		<script src="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.js"></script>
 		<link href="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.css" rel="stylesheet"/>
-		
-		<script type="text/javascript">
-			function goDetail(Seq){
-	    		document.location.href='/assetmanager/userDetail?employeeSeq='+Seq;
-	    	}
-		</script>
-		
+				
 	</head>
 
 	<body>
@@ -69,12 +63,12 @@
 									return 0;
 								}
 							</script>
-							
+
 							<script>
 								$(function(){
-									$(".clickable-row").click(function(){
-										goDetail($(this).data("href"));
-									})
+									$(".table-responsive").on("click", ".table tbody tr", function(){
+										document.location.href='/assetmanager/userDetail?employeeSeq='+$(this).data("href");
+									});
 								});
 							</script>
 							

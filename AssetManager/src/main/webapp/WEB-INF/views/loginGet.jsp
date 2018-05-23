@@ -12,6 +12,7 @@
 
 
 	<body>
+		<!-- 로그아웃 부분은 tiles에 삽입할 것 -->
 		<script type="text/javascript">
 			function logout(){
 				alert("로그아웃되었습니다.");
