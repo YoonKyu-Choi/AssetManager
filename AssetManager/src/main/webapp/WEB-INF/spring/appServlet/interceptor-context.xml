@@ -9,6 +9,8 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
  
 	<mvc:interceptors>
+	
+		<!-- 이 부분은 로그인 안 한 사람들에 대한 접근 제한 -->
 		<mvc:interceptor>
 			<mvc:mapping path="/*"/>
 			<mvc:exclude-mapping path="/"/>
@@ -19,6 +21,7 @@
 			<beans:bean class="com.eseict.interceptor.LoginInterceptor" />
 		</mvc:interceptor>
 		
+		<!-- 로그인한 사람인데 아이디가 admin인 사람에 대한 권한 (관리자 권한) -->
 		<mvc:interceptor>
 			<mvc:mapping path="/userList"/>
 			<mvc:mapping path="/userDetail"/>

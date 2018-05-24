@@ -39,7 +39,13 @@
 	</bean>
 	
 	<context:component-scan base-package="com.eseict.DAO" />
-
 	<context:component-scan base-package="com.eseict.service" />
+		
+	<!-- tiles -->
+	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"/>
+		<property name="order" value="2"/>
+	</bean>	
+		
 		
 </beans>

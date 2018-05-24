@@ -9,6 +9,13 @@
 		<param-value>/WEB-INF/spring/root-context.xml</param-value>
 	</context-param>
 	
+	<!-- tiles 설정
+	<context-param>
+		<param-name>org.apache.tiles.imple.BasicTilesContainer.DEFINITIONS_CONFIG</param-name>
+		<param-value>/WEB-INF/spring/tiles-context.xml</param-value>
+	</context-param>
+	 -->
+	 
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

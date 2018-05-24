@@ -41,13 +41,15 @@ public class UserController {
 			return "employeeRegister";
 	}
 	
+	// 사용자 목록
 	@RequestMapping(value = "/userList", method = RequestMethod.GET)
 	public String userList(Model model) {
 		List<EmployeeVO> list = service.getEmployeeList();
 		model.addAttribute("employeeList", list);
-		return "userList";
+		return "userList.tiles";
 	}
 	
+	// 사용자 상세보기
 	@RequestMapping(value="/userDetail")
 	public ModelAndView userDetail(@RequestParam int employeeSeq) {
 		EmployeeVO evo = service.selectEmployeeByEmployeeSeq(employeeSeq);
@@ -61,6 +63,7 @@ public class UserController {
 		return "loginGet";
 	}
 	
+	// 사용자 삭제
 	@RequestMapping(value="/userDelete", method=RequestMethod.POST)
 	public String userDelete(@RequestParam("employeeSeq") int employeeSeq, @RequestParam("checkAdminPw") String checkAdminPw) {
 		int check = service.checkRegistered("admin", checkAdminPw);
@@ -72,12 +75,14 @@ public class UserController {
 		}
 	}
 	
+	// 사용자 수정 페이지 이동
 	@RequestMapping(value="/userModify")
 	public ModelAndView userModify(@RequestParam int employeeSeq) {
 		EmployeeVO evo = service.selectEmployeeByEmployeeSeq(employeeSeq);
 		return new ModelAndView("userModify","employeeVO",evo);
 	}
 	
+	// 사용자 수정 
 	@RequestMapping(value="/userModifyConfirm")
 	public String userModifyConfirm(@ModelAttribute EmployeeVO evo) {
 		int employeeSeq = evo.getEmployeeSeq();
