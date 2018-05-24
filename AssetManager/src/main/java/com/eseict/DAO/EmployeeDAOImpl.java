@@ -50,4 +50,10 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 		return sqlSession.update(namespace+".updateEmployee",evo);
 	}
 
+	@Override
+	public void deleteEmployee(int employeeSeq) {
+		sqlSession.delete(namespace+".deleteEmployee", employeeSeq);
+		
+	}
+
 }

@@ -24,4 +24,6 @@ public interface EmployeeService {
 	// 사용자 수정
 	public void updateEmployee(EmployeeVO evo);
 	
+	// 사용자 삭제
+	public void deleteEmployee(int employeeSeq);
 }

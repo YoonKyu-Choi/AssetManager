@@ -45,5 +45,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 		dao.updateEmployee(evo);
 	}
 	
-	
+	public void deleteEmployee(int employeeSeq) {
+		dao.deleteEmployee(employeeSeq);
+		
+	}
 }

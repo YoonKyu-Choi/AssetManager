@@ -21,7 +21,30 @@ public class UserController {
 
 	@Autowired
 	private EmployeeService service;
+
+	@RequestMapping(value = "/registerSend")
+	public String registerSend(HttpSession session, @ModelAttribute EmployeeVO vo) {
+		try {
+			service.newEmployee(vo);
+			System.out.println(session.getAttribute("isAdmin"));
+			if(session.getAttribute("isAdmin") == "TRUE")
+				return "redirect:/userList";
+			else
+				return "redirect:/";
+		} catch(Exception e) {
+			System.out.println(e);
+			return "redirect:/";
+		}
+	}
 		
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	public String register(HttpSession session) {
+		if(session.getAttribute("isUser") == "TRUE" && session.getAttribute("isAdmin") != "TRUE")
+			return "redirect:/loginGet";
+		else
+			return "employeeRegister";
+	}
+	
 	@RequestMapping(value = "/userList", method = RequestMethod.GET)
 	public String userList(Model model) {
 		List<EmployeeVO> list = service.getEmployeeList();
@@ -45,8 +68,14 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/userDelete", method=RequestMethod.POST)
-	public String userDelete() {
-		return "userList";
+	public String userDelete(@RequestParam("employeeSeq") int employeeSeq, @RequestParam("checkAdminPw") String checkAdminPw) {
+		int check = service.checkRegistered("admin", checkAdminPw);
+		if(check == 1) {
+			service.deleteEmployee(employeeSeq);
+			return "redirect:/userList";
+		} else {
+			return "redirect:/userList";
+		}
 	}
 	
 	@RequestMapping(value="/beforeModify")

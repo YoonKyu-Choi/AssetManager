@@ -21,6 +21,13 @@
 	rel="stylesheet">
 </head>
 <body>
+	<div>
+		isUser: <%= session.getAttribute("isUser") %>
+	</div>
+	<div>
+		isAdmin: <%= session.getAttribute("isAdmin") %>
+	</div>
+
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	<script type="text/javascript">
 		function idCheck() {
@@ -107,6 +114,16 @@
 			};
 		}
 	</script>
+	
+	<script type="text/javascript">
+		$(function(){
+			var isAdmin = "<%=session.getAttribute("isAdmin") %>";
+			if(isAdmin == "TRUE"){
+				$(".admin").show();
+			}
+		});
+	</script>
+
 	<input type="hidden" value="false" id="idInputCheck">
 	<div style="text-align: center" id="main">
 		<form class="form-signin" id="registerSend" method="POST" action="/assetmanager/registerSend">
@@ -114,21 +131,15 @@
 				정보 입력</h2>
 			<div style="display: flex; margin-left: 90px">
 				<p>
-					<label class="form-control"
-						style="background: transparent; margin-bottom: 0px">이름</label> <label
-						class="form-control"
-						style="background: transparent; margin-bottom: 0px">아이디</label> <label
-						class="form-control"
-						style="background: transparent; margin-bottom: 0px">비밀번호</label> <label
-						class="form-control"
-						style="background: transparent; margin-bottom: 0px" id="rank">직급</label>
-					<label class="form-control"
-						style="background: transparent; margin-bottom: 0px">소속</label> <label
-						class="form-control"
-						style="background: transparent; margin-bottom: 0px">위치</label> <label
-						class="form-control"
-						style="background: transparent; margin-bottom: 0px">이메일</label> <label
-						class="form-control" style="background: transparent">연락처</label>
+					<label class="form-control"	style="background: transparent; margin-bottom: 0px">이름</label>
+					<label class="form-control" style="background: transparent; margin-bottom: 0px">아이디</label>
+					<label class="form-control" style="background: transparent; margin-bottom: 0px">비밀번호</label>
+					<label class="form-control" style="background: transparent; margin-bottom: 0px" id="rank">직급</label>
+					<label class="form-control" style="background: transparent; margin-bottom: 0px">소속</label>
+					<label class="form-control" style="background: transparent; margin-bottom: 0px">위치</label>
+					<label class="form-control" style="background: transparent; margin-bottom: 0px">이메일</label>
+					<label class="form-control admin" style="background: transparent; margin-bottom: 0px; display:none">상태</label>
+					<label class="form-control" style="background: transparent">연락처</label>
 				</p>
 				<p style="margin: 0; justify-content: center" id="inputs">
 					<input type="text" class="form-control" name="employeeName" maxlength="6" required autofocus> 
@@ -174,8 +185,12 @@
 						<option value="5층">5층</option>
 					</select>
 					<input type="email" class="form-control" name="employeeEmail" maxlength="100" required autofocus>
+					<select class="form-control dropdown admin" style="display:none" id="employeeStatus" name="employeeStatus">
+						<option value="재직" selected>재직</option>
+						<option value="휴직">휴직</option>
+						<option value="퇴사">퇴사</option>
+					</select>
 					<input type="text" class="form-control" name="employeePhone" maxlength="20" required autofocus>
-					<input type="hidden" name="employeeStatus" value="재직">
 				</p>
 
 				<script type="text/javascript">
@@ -186,16 +201,24 @@
 
 				<p style="margin-left: 10px">
 					<label class="form-control" style="opacity: 0; margin-bottom: -1px">위치</label>
-					<input type="button" class="btn btn-lg btn-primary btn-block"
-						onclick="idCheck();" value="중복확인" />
+					<input type="button" class="btn btn-lg btn-primary btn-block" onclick="idCheck();" value="중복확인" />
 				</p>
 			</div>
+			
+			<script>
+				function registerCancel(){
+					var isAdmin = "<%=session.getAttribute("isAdmin")%>"; 
+					if(isAdmin == "TRUE")
+						location.href='/assetmanager/userList';
+					else
+						location.href='/assetmanager/';
+				}
+			</script>
+			
 			<div style="display: flex; width: 300px; margin-left: 90px">
-				<input type="button" class="btn btn-lg btn-primary btn-block"
-					id="registerBtn" onclick="submitCheck();" value="회원가입" /> <label
-					style="opacity: 0; margin: 10px"></label> <input type="button"
-					class="btn btn-lg btn-primary btn-block"
-					onclick="location.href='/assetmanager/'" value="취소" />
+				<input type="button" class="btn btn-lg btn-primary btn-block" id="registerBtn" onclick="submitCheck();" value="회원가입" />
+				<label style="opacity: 0; margin: 10px"></label>
+				<input type="button" class="btn btn-lg btn-primary btn-block" onclick="registerCancel();" value="취소" />
 			</div>
 		</form>
 	</div>

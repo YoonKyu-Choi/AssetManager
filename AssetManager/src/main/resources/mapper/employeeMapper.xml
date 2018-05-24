@@ -66,7 +66,6 @@
 		  and employee_seq = #{employeeSeq}
 	</select>
 	
-	
 	<update id="updateEmployeeVO" parameterType="com.eseict.VO.EmployeeVO">
 	UPDATE EmployeeVO
 	SET
@@ -79,40 +78,13 @@
 	employee_status=#{employeeStatus}
 	WHERE employee_seq=#{employeeSeq}
 	</update>	
-	
-	
-	
-	
-	
+
+	<delete id="deleteEmployee" parameterType="integer">
+		DELETE
+		FROM
+			employee
+		WHERE
+			employee_seq = #{employeeSeq}
+	</delete>
 	
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

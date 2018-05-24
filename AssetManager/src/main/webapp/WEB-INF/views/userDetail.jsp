@@ -86,7 +86,9 @@
 						if(!confirm("삭제하겠습니까?")){
 							return false;
 						}else{
-							$("#idForm")
+							var pw = prompt("비밀번호를 입력해주세요.");
+							$("input[name=checkAdminPw]").val(pw);
+							$("#idForm").submit();
 						}
 					}
 					function modifyConfirm(){
@@ -100,6 +102,7 @@
 				
 				<form id="idForm" action="userDelete" method="POST">
 					<input type="hidden" name="employeeSeq" value=${requestScope.employeeVO.employeeSeq} />
+					<input type="hidden" name="checkAdminPw"/>
 				</form>
 				<form id="modifyForm" action="beforeModify" method="POST">
 					<input type="hidden" name="employeeSeq" value=${requestScope.employeeVO.employeeSeq} />
