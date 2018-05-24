@@ -52,23 +52,6 @@
 			employee_id=#{id} AND
 			employee_pw=#{pw}			
 	</select>
-	
-	<!-- 
-	<select id="getEmployeeList" resultType="com.eseict.VO.EmployeeVO" >
-		SELECT e.employee_seq as "employeeSeq", 
-			   e.employee_name as "employeeName", 
-			   e.employee_id as "employeeId", 
-			   r.employee_rank_string as "employeeRank", 
-			   d.employee_department_string as "employeeDepartment", 
-			   e.employee_location as "employeeLocation", 
-			   e.employee_email as "employeeEmail", 
-			   e.employee_phone as "employeePhone", 
-			   e.employee_status as "employeeStatus"
-		FROM employee e, rank r, department d 
-		where e.employee_rank = r.employee_rank 
-			  and e.employee_department = d.employee_department
-	</select>
- 	 -->
 
  	 <select id="getEmployeeList" resultMap="EmployeeVO-result" >
 		SELECT employee.*, rank.employee_rank_string, department.employee_department_string
@@ -77,9 +60,10 @@
 	</select>
  	 
 	<select id="selectEmployeeByEmployeeSeq" parameterType="integer" resultMap="EmployeeVO-result">
-	select * 
-	from employee 
-	where employee_seq = #{employeeSeq}
+	SELECT employee.*, rank.employee_rank_string, department.employee_department_string
+	FROM employee, rank, department
+	where employee.employee_rank = rank.employee_rank and employee.employee_department=department.employee_department 
+		  and employee_seq = #{employeeSeq}
 	</select>
 	
 	<delete id="deleteEmployee" parameterType="integer">
