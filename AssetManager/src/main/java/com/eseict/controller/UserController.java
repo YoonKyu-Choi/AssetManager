@@ -53,7 +53,7 @@ public class UserController {
 	@RequestMapping(value="/userDetail")
 	public ModelAndView userDetail(@RequestParam int employeeSeq) {
 		EmployeeVO evo = service.selectEmployeeByEmployeeSeq(employeeSeq);
-		return new ModelAndView("userDetail","employeeVO",evo);
+		return new ModelAndView("userDetail.tiles","employeeVO",evo);
 	}
 
 	@RequestMapping(value = "/loginGet", method = RequestMethod.GET)
@@ -68,14 +68,14 @@ public class UserController {
 		if(check == 1) {
 			service.deleteEmployee(employeeSeq);
 		}
-		return "redirect:/userList";
+		return "redirect:/userList.tiles";
 	}
 	
 	// 사용자 수정 페이지 이동
 	@RequestMapping(value="/userModify")
 	public ModelAndView userModify(@RequestParam int employeeSeq) {
 		EmployeeVO evo = service.selectEmployeeByEmployeeSeq(employeeSeq);
-		return new ModelAndView("userModify","employeeVO",evo);
+		return new ModelAndView("userModify.tiles","employeeVO",evo);
 	}
 	
 	// 사용자 수정 
@@ -83,7 +83,7 @@ public class UserController {
 	public String userModifyConfirm(@ModelAttribute EmployeeVO evo) {
 		int employeeSeq = evo.getEmployeeSeq();
 		service.updateEmployee(evo);
-		return "redirect:/userDetail?employeeSeq="+employeeSeq;
+		return "redirect:/userDetail.tiles?employeeSeq="+employeeSeq;
 	}
 	
 }
