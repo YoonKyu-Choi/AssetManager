@@ -24,17 +24,12 @@ public class UserController {
 
 	@RequestMapping(value = "/registerSend")
 	public String registerSend(HttpSession session, @ModelAttribute EmployeeVO vo) {
-		try {
-			service.newEmployee(vo);
-			System.out.println(session.getAttribute("isAdmin"));
-			if(session.getAttribute("isAdmin") == "TRUE")
-				return "redirect:/userList";
-			else
-				return "redirect:/";
-		} catch(Exception e) {
-			System.out.println(e);
+		service.newEmployee(vo);
+		System.out.println(session.getAttribute("isAdmin"));
+		if(session.getAttribute("isAdmin") == "TRUE")
+			return "redirect:/userList";
+		else
 			return "redirect:/";
-		}
 	}
 		
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -62,8 +57,8 @@ public class UserController {
 
 	@RequestMapping(value = "/loginGet", method = RequestMethod.GET)
 	public String loginGet(HttpSession session) {
-		if(session.getAttribute("isUser") != "TRUE")
-			return "redirect:/";
+//		if(session.getAttribute("isUser") != "TRUE")
+//			return "redirect:/";
 		return "loginGet";
 	}
 	
