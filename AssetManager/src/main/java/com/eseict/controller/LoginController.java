@@ -32,7 +32,6 @@ public class LoginController {
 	@ResponseBody
 	public String loginSubmit(HttpSession session, HttpServletResponse response, @RequestParam("inputId") String inputId, @RequestParam("inputPw") String inputPw) throws IOException {
 		int check = service.checkRegistered(inputId, inputPw);
-		session.removeAttribute("userLoginInfo");
 		if(check == 1) {
 			if(inputId.equals("admin")) {
 				session.setAttribute("isAdmin", "TRUE");
@@ -45,17 +44,11 @@ public class LoginController {
 	@RequestMapping(value = "/checkId")
 	@ResponseBody
 	public String checkId(@RequestParam(value="id", required=false) String inputId, HttpServletResponse response) throws IOException{
-		try {
-			if(!inputId.isEmpty()) {
-				if(service.checkIdDuplication(inputId)==null) {
-					return "new";
-				} else { return "deplicated";}
-			}else {	return "empty"; }
-		} catch(Exception e) {
-			System.out.println(e);
-			response.sendRedirect("redirect:/");
-			return "";
-		}
+		if(!inputId.isEmpty()) {
+			if(service.checkIdDuplication(inputId)==null) {
+				return "new";
+			} else { return "deplicated";}
+		}else {	return "empty"; }
 	}
 	
 	@RequestMapping(value = "/logout")
