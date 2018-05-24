@@ -7,13 +7,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.eseict.VO.EmployeeVO;
 import com.eseict.service.EmployeeService;
 
 @Controller
@@ -58,26 +56,6 @@ public class LoginController {
 			response.sendRedirect("redirect:/");
 			return "";
 		}
-	}
-	
-	@RequestMapping(value = "/registerSend")
-	public String registerSend(@ModelAttribute EmployeeVO vo) {
-		try {
-			System.out.println(vo.getEmployeeRank());
-			service.newEmployee(vo);
-			return "redirect:/";
-		} catch(Exception e) {
-			System.out.println(e);
-			return "redirect:/";
-		}
-	}
-		
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public String register(HttpSession session) {
-		if(session.getAttribute("isUser") == "TRUE")
-			return "redirect:/loginGet";
-		else
-			return "employeeRegister";
 	}
 	
 	@RequestMapping(value = "/logout")

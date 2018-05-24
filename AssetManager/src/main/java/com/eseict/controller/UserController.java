@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,7 +21,30 @@ public class UserController {
 
 	@Autowired
 	private EmployeeService service;
+
+	@RequestMapping(value = "/registerSend")
+	public String registerSend(HttpSession session, @ModelAttribute EmployeeVO vo) {
+		try {
+			service.newEmployee(vo);
+			System.out.println(session.getAttribute("isAdmin"));
+			if(session.getAttribute("isAdmin") == "TRUE")
+				return "redirect:/userList";
+			else
+				return "redirect:/";
+		} catch(Exception e) {
+			System.out.println(e);
+			return "redirect:/";
+		}
+	}
 		
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	public String register(HttpSession session) {
+		if(session.getAttribute("isUser") == "TRUE" && session.getAttribute("isAdmin") != "TRUE")
+			return "redirect:/loginGet";
+		else
+			return "employeeRegister";
+	}
+	
 	@RequestMapping(value = "/userList", method = RequestMethod.GET)
 	public String userList(Model model) {
 		List<EmployeeVO> list = service.getEmployeeList();

@@ -89,7 +89,7 @@
 							</tbody>
 						</table>
 					</div>
-					<button class="btn btn-lg btn-primary" style="float:right">회원 추가</button>
+					<button class="btn btn-lg btn-primary" style="float:right" onclick="location.href='/assetmanager/register';">회원 추가</button>
 				</div>
 			</div>
 		</div>
