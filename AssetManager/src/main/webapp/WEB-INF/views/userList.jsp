@@ -76,8 +76,8 @@
 									<td>${employee.employeeStatus}</td>
 									<td>${employee.employeeName}</td>
 									<td>${employee.employeeId}</td>
-									<td>${employee.departmentVO.employeeDepartmentString}</td>
-									<td>${employee.rankVO.employeeRankString}</td>
+									<td data-dep="${employee.departmentVO.employeeDepartment}">${employee.departmentVO.employeeDepartmentString}</td>
+									<td data-rank="${employee.rankVO.employeeRank}">${employee.rankVO.employeeRankString}</td>
 									<td>${employee.employeeLocation}</td>
 									<td>${employee.employeeEmail}</td>
 									<td>${employee.employeePhone}</td>
