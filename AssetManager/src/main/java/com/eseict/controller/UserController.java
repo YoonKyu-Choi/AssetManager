@@ -49,16 +49,12 @@ public class UserController {
 	
 	@RequestMapping(value="/userDetail")
 	public ModelAndView userDetail(@RequestParam int employeeSeq) {
-		System.out.println("상세보기 오나요");
 		EmployeeVO evo = service.selectEmployeeByEmployeeSeq(employeeSeq);
-		System.out.println(evo);
 		return new ModelAndView("userDetail","employeeVO",evo);
 	}
 
 	@RequestMapping(value = "/loginGet", method = RequestMethod.GET)
 	public String loginGet(HttpSession session) {
-//		if(session.getAttribute("isUser") != "TRUE")
-//			return "redirect:/";
 		return "loginGet";
 	}
 	
@@ -67,10 +63,8 @@ public class UserController {
 		int check = service.checkRegistered("admin", checkAdminPw);
 		if(check == 1) {
 			service.deleteEmployee(employeeSeq);
-			return "redirect:/userList";
-		} else {
-			return "redirect:/userList";
 		}
+		return "redirect:/userList";
 	}
 	
 	@RequestMapping(value="/beforeModify")
