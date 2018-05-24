@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,14 +25,9 @@ public class UserController {
 	@RequestMapping(value = "/userList", method = RequestMethod.GET)
 	public String userList(Model model) {
 		List<EmployeeVO> list = service.getEmployeeList();
-		for(EmployeeVO vo : list) {
-			System.out.println(vo.getRankVO());
-			System.out.println(vo.getDepartmentVO());
-		}
 		model.addAttribute("employeeList", list);
 		return "userList";
 	}
-	
 	
 	@RequestMapping(value="/userDetail")
 	public ModelAndView userDetail(@RequestParam int employeeSeq) {
@@ -52,4 +48,20 @@ public class UserController {
 	public String userDelete() {
 		return "userList";
 	}
+	
+	@RequestMapping(value="/beforeModify")
+	public ModelAndView userBeforeModify(@RequestParam int employeeSeq) {
+		System.out.println("상세보기 오나요");
+		EmployeeVO evo = service.selectEmployeeByEmployeeSeq(employeeSeq);
+		System.out.println(evo);
+		return new ModelAndView("userModify","employeeVO",evo);
+	}
+	
+	@RequestMapping(value="/userModify2")
+	public ModelAndView userModify(@ModelAttribute EmployeeVO evo) {
+		service.updateEmployee(evo);
+		int employeeSeq = evo.getEmployeeSeq();
+		return new ModelAndView("/assetmanager/userDetail?employeeSeq="+employeeSeq,"employeeVO",evo);
+	}
+	
 }

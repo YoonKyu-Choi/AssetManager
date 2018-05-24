@@ -40,21 +40,14 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 		return sqlSession.selectList(namespace+".getEmployeeList");
 	}
 
-	/*
-	@Override
-	public String getDepartment(int employeeDepartment) {
-		return sqlSession.selectOne(namespace+".getDepartment", employeeDepartment);
-	}
-
-	@Override
-	public String getRank(int employeeRank) {
-		return sqlSession.selectOne(namespace+".getRank", employeeRank);
-	}
-	*/
-
 	@Override
 	public EmployeeVO selectEmployeeByEmployeeSeq(int employeeSeq) {
 		return sqlSession.selectOne(namespace+".selectEmployeeByEmployeeSeq",employeeSeq);
+	}
+	
+	@Override
+	public int updateEmployee(EmployeeVO evo) {
+		return sqlSession.update(namespace+".updateEmployee",evo);
 	}
 
 }

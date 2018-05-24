@@ -56,14 +56,63 @@
  	 <select id="getEmployeeList" resultMap="EmployeeVO-result" >
 		SELECT employee.*, rank.employee_rank_string, department.employee_department_string
 		FROM employee, rank, department
-		where employee.employee_rank = rank.employee_rank and employee.employee_department=department.employee_department
+		WHERE employee.employee_rank = rank.employee_rank and employee.employee_department=department.employee_department
 	</select>
  	 
 	<select id="selectEmployeeByEmployeeSeq" parameterType="integer" resultMap="EmployeeVO-result">
 	SELECT employee.*, rank.employee_rank_string, department.employee_department_string
 	FROM employee, rank, department
-	where employee.employee_rank = rank.employee_rank and employee.employee_department=department.employee_department 
+	WHERE employee.employee_rank = rank.employee_rank and employee.employee_department=department.employee_department 
 		  and employee_seq = #{employeeSeq}
 	</select>
 	
+	
+	<update id="updateEmployeeVO" parameterType="com.eseict.VO.EmployeeVO">
+	UPDATE EmployeeVO
+	SET
+	employee_pw=#{EmployeePW},
+	employee_rRank=#{EmployeeRank},
+	employee_department=#{employeeDepartment},
+	employee_location=#{employeeLocation},	
+	employee_email=#{employeeEmail},
+	employee_phone=#{employeePhone},
+	employee_status=#{employeeStatus}
+	WHERE employee_seq=#{employeeSeq}
+	</update>	
+	
+	
+	
+	
+	
+	
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

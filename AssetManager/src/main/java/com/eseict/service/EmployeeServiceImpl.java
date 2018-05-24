@@ -34,21 +34,16 @@ public class EmployeeServiceImpl implements EmployeeService{
 		System.out.println("service부분"+dao.getEmployeeList());
 		return dao.getEmployeeList();
 	}
-
-	/*
-	@Override
-	public String getDepartment(int employeeDepartment) {
-		return dao.getDepartment(employeeDepartment);
-	}
-
-	@Override
-	public String getRank(int employeeRank) {
-		return dao.getRank(employeeRank);
-	}
-	*/
 	
 	@Override
 	public EmployeeVO selectEmployeeByEmployeeSeq(int employeeSeq) {
 		return dao.selectEmployeeByEmployeeSeq(employeeSeq);
 	}
+
+	@Override
+	public void updateEmployee(EmployeeVO evo) {
+		dao.updateEmployee(evo);
+	}
+	
+	
 }
