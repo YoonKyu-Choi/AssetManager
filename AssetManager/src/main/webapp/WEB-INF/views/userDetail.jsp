@@ -104,9 +104,10 @@
 					<input type="hidden" name="employeeSeq" value=${requestScope.employeeVO.employeeSeq} />
 					<input type="hidden" name="checkAdminPw"/>
 				</form>
-				<form id="modifyForm" action="beforeModify" method="POST">
+				<form id="modifyForm" action="userModify" method="POST">
 					<input type="hidden" name="employeeSeq" value=${requestScope.employeeVO.employeeSeq} />
 				</form>
+				<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/userList'" value="목록"/>
 				<div style="display:flex; float:right">
 					<button class="btn btn-lg btn-primary" style="margin-right:10px" onclick="modifyConfirm();">회원 수정</button>
 					<button class="btn btn-lg btn-primary" onclick="deleteConfirm();">회원 삭제</button>

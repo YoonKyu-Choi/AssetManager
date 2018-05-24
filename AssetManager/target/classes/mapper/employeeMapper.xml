@@ -66,11 +66,11 @@
 		  and employee_seq = #{employeeSeq}
 	</select>
 	
-	<update id="updateEmployeeVO" parameterType="com.eseict.VO.EmployeeVO">
-	UPDATE EmployeeVO
+	<update id="updateEmployee" parameterType="com.eseict.VO.EmployeeVO">
+	UPDATE Employee
 	SET
-	employee_pw=#{EmployeePW},
-	employee_rRank=#{EmployeeRank},
+	employee_pw=#{employeePw},
+	employee_rank=#{employeeRank},
 	employee_department=#{employeeDepartment},
 	employee_location=#{employeeLocation},	
 	employee_email=#{employeeEmail},
