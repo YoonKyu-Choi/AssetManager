@@ -78,19 +78,20 @@ public class UserController {
 		}
 	}
 	
-	@RequestMapping(value="/beforeModify")
-	public ModelAndView userBeforeModify(@RequestParam int employeeSeq) {
+	@RequestMapping(value="/userModify")
+	public ModelAndView userModify(@RequestParam int employeeSeq) {
 		System.out.println("상세보기 오나요");
 		EmployeeVO evo = service.selectEmployeeByEmployeeSeq(employeeSeq);
 		System.out.println(evo);
 		return new ModelAndView("userModify","employeeVO",evo);
 	}
 	
-	@RequestMapping(value="/userModify2")
-	public ModelAndView userModify(@ModelAttribute EmployeeVO evo) {
-		service.updateEmployee(evo);
+	@RequestMapping(value="/userModifyConfirm")
+	public String userModifyConfirm(@ModelAttribute EmployeeVO evo) {
 		int employeeSeq = evo.getEmployeeSeq();
-		return new ModelAndView("/assetmanager/userDetail?employeeSeq="+employeeSeq,"employeeVO",evo);
+		System.out.println("컨트롤러 오지요 ?");
+		service.updateEmployee(evo);
+		return "redirect:/userDetail?employeeSeq="+employeeSeq;
 	}
 	
 }

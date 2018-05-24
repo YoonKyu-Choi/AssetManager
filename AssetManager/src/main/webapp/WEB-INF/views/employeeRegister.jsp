@@ -17,19 +17,9 @@
 	rel="stylesheet">
 
 <!-- Custom styles for this template -->
-<link href="${pageContext.request.contextPath}/resources/css/signin.css"
-	rel="stylesheet">
-</head>
-<body>
-	<div>
-		isUser: <%= session.getAttribute("isUser") %>
-	</div>
-	<div>
-		isAdmin: <%= session.getAttribute("isAdmin") %>
-	</div>
-
-	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-	<script type="text/javascript">
+<link href="${pageContext.request.contextPath}/resources/css/signin.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript">
 		function idCheck() {
 			var id = $('#employeeId').val();
 			$.ajax({
@@ -123,7 +113,15 @@
 			}
 		});
 	</script>
-
+	
+</head>
+<body>
+	<div>
+		isUser: <%= session.getAttribute("isUser") %>
+	</div>
+	<div>
+		isAdmin: <%= session.getAttribute("isAdmin") %>
+	</div>
 	<input type="hidden" value="false" id="idInputCheck">
 	<div style="text-align: center" id="main">
 		<form class="form-signin" id="registerSend" method="POST" action="/assetmanager/registerSend">

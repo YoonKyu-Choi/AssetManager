@@ -42,7 +42,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 
 	@Override
 	public void updateEmployee(EmployeeVO evo) {
+		System.out.println("서비스도 오지요 ?");
 		dao.updateEmployee(evo);
+		System.out.println("서비스 끝냈지요 ?");
 	}
 	
 	public void deleteEmployee(int employeeSeq) {
