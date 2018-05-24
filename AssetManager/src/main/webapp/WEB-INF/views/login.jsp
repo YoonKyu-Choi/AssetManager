@@ -17,9 +17,8 @@
 		<!-- Custom styles for this template -->
 		<link href="${pageContext.request.contextPath}/resources/css/signin.css" rel="stylesheet">
 		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-	</head>
 
-	<body>
+
 		<script type="text/javascript">
 			function loginCheck(){
 	    		var id = $('#inputId').val();
@@ -45,11 +44,16 @@
 	       		return false;
 	    	}
 		</script>
+
+
+	</head>
+
+	<body>
 			
 		<div style="width: 100%">
 			<form class="form-signin" onsubmit="return loginCheck();" method="POST">
 				<h2 class="form-signin-heading" style="text-align: center">로그인 정보 입력</h2>
-                <div style="display: flex; height: 100%; ">
+                <div style="display: flex; height: 100%; margin-left:80px">
                     <p>
                         <label class="form-control" style="border: 1; background: transparent; margin-bottom: -1px">USER ID</label>
                         <label class="form-control" style="border: 1; background: transparent">PASSWORD</label>
@@ -63,7 +67,7 @@
                     </p>
                 </div>
 			</form>
-			<button class="btn btn-lg btn-primary btn-block" style="width: 20%; margin:auto" onclick="location.href='/assetmanager/register'">회원가입</button>
+			<button class="btn btn-lg btn-primary btn-block" style="width: 15%; margin:auto" onclick="location.href='/assetmanager/register'">회원가입</button>
 			
 		</div> <!-- /container -->	
 	</body>

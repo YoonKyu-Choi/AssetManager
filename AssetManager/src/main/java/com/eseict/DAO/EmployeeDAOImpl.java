@@ -47,7 +47,6 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 	
 	@Override
 	public int updateEmployee(EmployeeVO evo) {
-		System.out.println("dao까지 왔나요 ?");
 		return sqlSession.update(namespace+".updateEmployee",evo);
 	}
 
