@@ -24,7 +24,28 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
 		<script src="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.js"></script>
 		<link href="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.css" rel="stylesheet"/>
-				
+
+		<script>
+			function depSort(a, b){
+				if(a.dep < b.dep) return -1;
+				if(a.dep > b.dep) return 1;
+				return 0;
+			}
+
+			function rankSort(a, b){
+				if(a.rank < b.rank) return -1;
+				if(a.rank > b.rank) return 1;
+				return 0;
+			}
+		</script>
+
+		<script>
+			$(function(){
+				$(".table-responsive").on("click", ".table tbody tr", function(){
+					document.location.href='/assetmanager/userDetail?employeeSeq='+$(this).data("href");
+				});
+			});
+		</script>
 	</head>
 
 	<body>
@@ -48,30 +69,7 @@
 								</tr>
 							</thead>
 							<tbody>
-							
-							<script>
-								function depSort(a, b){
-									if(a.dep < b.dep) return -1;
-									if(a.dep > b.dep) return 1;
-									return 0;
-								}
-							</script>
-							<script>
-								function rankSort(a, b){
-									if(a.rank < b.rank) return -1;
-									if(a.rank > b.rank) return 1;
-									return 0;
-								}
-							</script>
-
-							<script>
-								$(function(){
-									$(".table-responsive").on("click", ".table tbody tr", function(){
-										document.location.href='/assetmanager/userDetail?employeeSeq='+$(this).data("href");
-									});
-								});
-							</script>
-							
+														
 							<c:forEach items="${employeeList}" var="employee">
 								<tr class="clickable-row" data-href="${employee.employeeSeq}">
 									<td>${employee.employeeSeq}</td>

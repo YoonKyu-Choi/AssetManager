@@ -26,8 +26,8 @@
 			<mvc:mapping path="/userList"/>
 			<mvc:mapping path="/userDetail"/>
 			<mvc:mapping path="/userDelete"/>
-			<mvc:mapping path="/userBeforeModify"/>
 			<mvc:mapping path="/userModify"/>
+			<mvc:mapping path="/userModifyConfirm"/>
 			<mvc:mapping path="/register"/>
 			<mvc:mapping path="/registerSend"/>
 			<beans:bean class="com.eseict.interceptor.AdminInterceptor"/>

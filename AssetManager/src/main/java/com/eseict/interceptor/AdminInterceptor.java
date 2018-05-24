@@ -10,8 +10,8 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 		try {
-			if(request.getSession().getAttribute("isAdmin") != "TRUE"){
-				System.out.println("Intercepted " + request.getRequestURI());
+			if(request.getSession().getAttribute("isUser") == "TRUE" && request.getSession().getAttribute("isAdmin") != "TRUE"){
+				System.out.println("Admin Intercepted " + request.getRequestURI());
 				response.sendRedirect("/assetmanager/loginGet");
 				return false;
 			}

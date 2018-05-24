@@ -58,8 +58,6 @@ public class UserController {
 
 	@RequestMapping(value = "/loginGet", method = RequestMethod.GET)
 	public String loginGet(HttpSession session) {
-//		if(session.getAttribute("isUser") != "TRUE")
-//			return "redirect:/";
 		return "loginGet";
 	}
 	
@@ -69,10 +67,8 @@ public class UserController {
 		int check = service.checkRegistered("admin", checkAdminPw);
 		if(check == 1) {
 			service.deleteEmployee(employeeSeq);
-			return "redirect:/userList";
-		} else {
-			return "redirect:/userList";
 		}
+		return "redirect:/userList";
 	}
 	
 	// 사용자 수정 페이지 이동

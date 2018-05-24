@@ -59,7 +59,7 @@
 
 		<div class="container-fluid">
 			<div class="row">
-	<form id="modifySend" method="POST" action="/assetmanager/userModifyConfirm">
+			<form id="modifySend" method="POST" action="/assetmanager/userModifyConfirm">
 				<div class="main">
 					<h1 class="page-header">${requestScope.employeeVO.employeeName}님의
 						정보 수정</h1>
@@ -102,23 +102,23 @@
 								<th><select class="form-control dropdown"
 									id="employeeDepartment" name="employeeDepartment">
 										<option value="0">소속을 선택하세요</option>
-										<option value="1">1. 이에스이</option>
-										<option value="2">1-1. 경영전략기획실</option>
-										<option value="3">└ 관리팀</option>
-										<option value="4">└ 경영전략팀</option>
-										<option value="5">└ 품질관리팀</option>
-										<option value="6">└ 리노기술연구소</option>
-										<option value="7">└ 연구개발1팀</option>
-										<option value="8">└ 연구개발2팀</option>
-										<option value="9">└ 스마트사업본부</option>
-										<option value="10">└ 전략사업TF</option>
-										<option value="11">└ 스마트시티팀</option>
-										<option value="12">└ 스마트타운팀</option>
-										<option value="13">└ 중국지사</option>
-										<option value="14">└ 스마트TS본부</option>
-										<option value="15">└ TS1팀</option>
-										<option value="16">└ TS2팀</option>
-										<option value="17">└ TS3팀</option>
+										<option value="1">이에스이</option>
+										<option value="2">　└ 경영전략기획실</option>
+										<option value="3">　　└ 관리팀</option>
+										<option value="4">　　└ 경영전략팀</option>
+										<option value="5">　└ 품질관리팀</option>
+										<option value="6">　└ 리노기술연구소</option>
+										<option value="7">　　└ 연구개발1팀</option>
+										<option value="8">　　└ 연구개발2팀</option>
+										<option value="9">　└ 스마트사업본부</option>
+										<option value="10">　　└ 전략사업TF</option>
+										<option value="11">　　└ 스마트시티팀</option>
+										<option value="12">　　└ 스마트타운팀</option>
+										<option value="13">　　└ 중국지사</option>
+										<option value="14">　└ 스마트TS본부</option>
+										<option value="15">　　└ TS1팀</option>
+										<option value="16">　　└ TS2팀</option>
+										<option value="17">　　└ TS3팀</option>
 								</select></th>
 							</tr>
 							<tr>

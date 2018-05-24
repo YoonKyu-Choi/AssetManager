@@ -11,7 +11,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 		try {
 			if(request.getSession().getAttribute("isUser") != "TRUE"){
-				System.out.println("Intercepted " + request.getRequestURI());
+				System.out.println("Login Intercepted " + request.getRequestURI());
 				response.sendRedirect("/assetmanager/");
 				return false;
 			}

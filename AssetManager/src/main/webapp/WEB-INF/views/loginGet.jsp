@@ -8,10 +8,7 @@
 
  		<link href="${pageContext.request.contextPath}/resources/css/authority.css" rel="stylesheet">
 		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-	</head>
 
-
-	<body>
 		<!-- 로그아웃 부분은 tiles에 삽입할 것 -->
 		<script type="text/javascript">
 			function logout(){
@@ -29,6 +26,9 @@
 			});
 		</script>
 
+	</head>
+
+	<body>
 		<div>
 			<button onclick="logout();">로그아웃</button>
 		</div>
@@ -45,6 +45,10 @@
 
 		<div class="admin">
 			이 부분은 관리자만 볼 수 있다
+		</div>
+		
+		<div>
+			<button onclick="location.href='/assetmanager/userList';">유저-리스트로 가는 버튼</button>
 		</div>
 	</body>
 </html>
