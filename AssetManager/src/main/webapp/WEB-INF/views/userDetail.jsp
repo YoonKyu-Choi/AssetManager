@@ -12,28 +12,35 @@
 <title>사용자 상세보기</title>
 
 <!-- Bootstrap core CSS -->
-<link
-	href="${pageContext.request.contextPath}/resources/css/bootstrap.css"
-	rel="stylesheet">
-
+<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
 <!-- Custom styles for this template -->
-<link
-	href="${pageContext.request.contextPath}/resources/css/dashboard.css"
-	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
+<script src="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.js"></script>
+<link href="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.css" rel="stylesheet" />
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
-<script
-	src="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.js"></script>
-<link
-	href="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.css"
-	rel="stylesheet" />
-
+<script>
+	function deleteConfirm() {
+		if (!confirm("삭제하겠습니까?")) {
+			return false;
+		} else {
+			var pw = prompt("비밀번호를 입력해주세요.");
+			$("input[name=checkAdminPw]").val(pw);
+			$("#idForm").submit();
+		}
+	}
+	function modifyConfirm() {
+		if (!confirm("수정하시겠습니까?")) {
+			return false;
+		} else {
+			$("#modifyForm").submit();
+		}
+	}
+</script>
 </head>
-<body>
 
+<body>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
@@ -80,37 +87,23 @@
 						<tr>
 					</table>
 				</div>
-				
-				<script>
-					function deleteConfirm(){
-						if(!confirm("삭제하겠습니까?")){
-							return false;
-						}else{
-							var pw = prompt("비밀번호를 입력해주세요.");
-							$("input[name=checkAdminPw]").val(pw);
-							$("#idForm").submit();
-						}
-					}
-					function modifyConfirm(){
-						if(!confirm("수정하시겠습니까?")){
-							return false;
-						}else{
-							$("#modifyForm").submit();
-						}
-					}
-				</script>
-				
+
 				<form id="idForm" action="userDelete" method="POST">
-					<input type="hidden" name="employeeSeq" value=${requestScope.employeeVO.employeeSeq} />
-					<input type="hidden" name="checkAdminPw"/>
+					<input type="hidden" name="employeeSeq"
+						value=${requestScope.employeeVO.employeeSeq } /> <input
+						type="hidden" name="checkAdminPw" />
 				</form>
 				<form id="modifyForm" action="userModify" method="POST">
-					<input type="hidden" name="employeeSeq" value=${requestScope.employeeVO.employeeSeq} />
+					<input type="hidden" name="employeeSeq"
+						value=${requestScope.employeeVO.employeeSeq } />
 				</form>
-				<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/userList'" value="목록"/>
-				<div style="display:flex; float:right">
-					<button class="btn btn-lg btn-primary" style="margin-right:10px" onclick="modifyConfirm();">회원 수정</button>
-					<button class="btn btn-lg btn-primary" onclick="deleteConfirm();">회원 삭제</button>
+				<input type="button" class="btn btn-lg btn-primary"
+					onclick="location.href='/assetmanager/userList'" value="목록" />
+				<div style="display: flex; float: right">
+					<button class="btn btn-lg btn-primary" style="margin-right: 10px"
+						onclick="modifyConfirm();">회원 수정</button>
+					<button class="btn btn-lg btn-primary" onclick="deleteConfirm();">회원
+						삭제</button>
 				</div>
 			</div>
 		</div>

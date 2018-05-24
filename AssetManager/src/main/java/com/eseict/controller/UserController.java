@@ -22,6 +22,7 @@ public class UserController {
 	@Autowired
 	private EmployeeService service;
 
+	// 회원가입 등록
 	@RequestMapping(value = "/registerSend")
 	public String registerSend(HttpSession session, @ModelAttribute EmployeeVO vo) {
 		service.newEmployee(vo);
@@ -49,9 +50,7 @@ public class UserController {
 	
 	@RequestMapping(value="/userDetail")
 	public ModelAndView userDetail(@RequestParam int employeeSeq) {
-		System.out.println("상세보기 오나요");
 		EmployeeVO evo = service.selectEmployeeByEmployeeSeq(employeeSeq);
-		System.out.println(evo);
 		return new ModelAndView("userDetail","employeeVO",evo);
 	}
 
@@ -75,16 +74,13 @@ public class UserController {
 	
 	@RequestMapping(value="/userModify")
 	public ModelAndView userModify(@RequestParam int employeeSeq) {
-		System.out.println("상세보기 오나요");
 		EmployeeVO evo = service.selectEmployeeByEmployeeSeq(employeeSeq);
-		System.out.println(evo);
 		return new ModelAndView("userModify","employeeVO",evo);
 	}
 	
 	@RequestMapping(value="/userModifyConfirm")
 	public String userModifyConfirm(@ModelAttribute EmployeeVO evo) {
 		int employeeSeq = evo.getEmployeeSeq();
-		System.out.println("컨트롤러 오지요 ?");
 		service.updateEmployee(evo);
 		return "redirect:/userDetail?employeeSeq="+employeeSeq;
 	}
