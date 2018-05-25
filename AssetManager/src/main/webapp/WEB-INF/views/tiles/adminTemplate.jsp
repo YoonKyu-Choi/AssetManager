@@ -28,6 +28,8 @@
 }
 
 footer {
+	bottom:0;
+	width:100%;
 	background-color: #555;
 	color: white;
 	padding: 15px;
@@ -56,7 +58,7 @@ footer {
 	</header>
 
 
-	<div class="container" style="height:672px">
+	<div class="container">
 		<tiles:insertAttribute name="content" />
 	</div>
 

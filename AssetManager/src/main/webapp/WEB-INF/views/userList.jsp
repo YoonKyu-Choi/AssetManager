@@ -1,77 +1,133 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page session = "false" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page session="false"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-		<meta name="description" content="">
-		<meta name="author" content="">
-		
-		<title>사용자 목록</title>
-		
-		<!-- Bootstrap core CSS -->
-		<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
-		
-		<!-- Custom styles for this template -->
-		<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
-		
-		<script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
-		<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
 
-		<script>
-					
-			function depSort(a, b){
-				if(a.dep < b.dep) return -1;
-				if(a.dep > b.dep) return 1;
-				return 0;
-			}
-			function rankSort(a, b){
-				if(a.rank < b.rank) return -1;
-				if(a.rank > b.rank) return 1;
-				return 0;
-			}
-		</script>
+<!-- Bootstrap core CSS -->
+<link
+	href="${pageContext.request.contextPath}/resources/css/bootstrap.css"
+	rel="stylesheet">
+<!-- Custom styles for this template -->
+<link
+	href="${pageContext.request.contextPath}/resources/css/dashboard.css"
+	rel="stylesheet">
+<script
+	src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
+<link
+	href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css"
+	rel="stylesheet" />
 
-		<script>
-			$(function(){
-				$(".table-responsive").on("click", ".table tbody tr", function(){
-					document.location.href='/assetmanager/userDetail?employeeSeq='+$(this).data("href");
-				});
-			});
-		</script>
-	</head>
+<script>
+	function depSort(a, b) {
+		if (a.dep < b.dep)
+			return -1;
+		if (a.dep > b.dep)
+			return 1;
+		return 0;
+	}
+	function rankSort(a, b) {
+		if (a.rank < b.rank)
+			return -1;
+		if (a.rank > b.rank)
+			return 1;
+		return 0;
+	}
+</script>
 
-	<body>
-		 <div class="container-fluid">
-			<div class="row">
-				<div class="main">
-					<h1 class="page-header">사용자 목록</h1>
-					<div class="table-responsive">
-						<table class="table table-striped" data-toggle="table">
-							<thead>
-								<tr>
-									<th data-sortable="true">상태</th>
-									<th data-sortable="true">이름</th>
-									<th data-sortable="true">아이디</th>
-									<th data-sortable="true" data-sorter="depSort" data-field="dep" data-sort-name="_dep_data">소속</th>
-									<th data-sortable="true" data-sorter="rankSort" data-field="rank" data-sort-name="_rank_data">직급</th>
-									<th data-sortable="true">위치</th>
-									<th data-sortable="true">이메일</th>
-									<th data-sortable="true">연락처</th>
-								</tr>
-							</thead>
-							<tbody>
-														
+<script>
+	$(function() {
+		$(".table-responsive")
+				.on(
+						"click",
+						".table tbody tr",
+						function() {
+							document.location.href = '/assetmanager/userDetail?employeeSeq='
+									+ $(this).data("href");
+						});
+	});
+	
+</script>
+<style>
+th {
+	background-color: darkgray;
+	color: white;
+}
+
+th, td {
+	text-align: center;
+}
+
+table.scroll {
+	border-spacing: 0;
+}
+
+table.scroll tbody, table.scroll thead {
+	display: list-item;
+}
+
+table.scroll tbody {
+	height: 400px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+thead tr th { 
+    height: 30px;
+    line-height: 30px;
+    /* text-align: left; */
+}
+
+tbody { border-top: 2px solid black; }
+
+tbody td, thead th {
+    border-right: 1px solid black;
+    /* white-space: nowrap; */
+}
+
+tbody td:last-child, thead th:last-child {
+    border-right: none;
+}
+</style>
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="main">
+				<h1 class="page-header">회원 목록</h1>
+				<div class="table-responsive">
+					<table class="table table-striped scroll" data-toggle="table">
+						<thead>
+							<tr>
+								<th data-sortable="true">상태</th>
+								<th data-sortable="true">이름</th>
+								<th data-sortable="true">아이디</th>
+								<th data-sortable="true" data-sorter="depSort" data-field="dep"
+									data-sort-name="_dep_data">소속</th>
+								<th data-sortable="true" data-sorter="rankSort"
+									data-field="rank" data-sort-name="_rank_data">직급</th>
+								<th data-sortable="true">위치</th>
+								<th data-sortable="true">이메일</th>
+								<th data-sortable="true">연락처</th>
+							</tr>
+						</thead>
+
+						<tbody>
 							<c:forEach items="${employeeList}" var="employee">
 								<tr class="clickable-row" data-href="${employee.employeeSeq}">
-									<input type="hidden" name="employeeSeq" value="${employee.employeeSeq}"/>
+									<input type="hidden" name="employeeSeq" value="${employee.employeeSeq}" />
 									<td>${employee.employeeStatus}</td>
 									<td>${employee.employeeName}</td>
 									<td>${employee.employeeId}</td>
@@ -82,14 +138,14 @@
 									<td>${employee.employeePhone}</td>
 								</tr>
 							</c:forEach>
-
-							</tbody>
-						</table>
-					</div>
-					<button class="btn btn-lg btn-primary" style="float:right" onclick="location.href='/assetmanager/register';">회원 추가</button>
+						</tbody>
+					</table>
 				</div>
+				<button class="btn btn-lg btn-primary" style="float: right"
+					onclick="location.href='/assetmanager/register';">회원 추가</button>
 			</div>
 		</div>
-		
-	</body>
+	</div>
+
+</body>
 </html>
