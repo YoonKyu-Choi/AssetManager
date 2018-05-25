@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eseict.VO.EmployeeVO;
 import com.eseict.service.EmployeeService;
@@ -24,9 +25,9 @@ public class UserController {
 
 	// 회원가입 등록
 	@RequestMapping(value = "/registerSend")
-	public String registerSend(HttpSession session, @ModelAttribute EmployeeVO vo) {
+	public String registerSend(HttpSession session, @ModelAttribute EmployeeVO vo, RedirectAttributes redirectAttributes) {
 		service.newEmployee(vo);
-		System.out.println(session.getAttribute("isAdmin"));
+		redirectAttributes.addFlashAttribute("msg", "회원가입되었습니다.");
 		if(session.getAttribute("isAdmin") == "TRUE")
 			return "redirect:/userList";
 		else
@@ -35,10 +36,7 @@ public class UserController {
 		
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String register(HttpSession session) {
-		if(session.getAttribute("isUser") == "TRUE" && session.getAttribute("isAdmin") != "TRUE")
-			return "redirect:/loginGet";
-		else
-			return "employeeRegister";
+		return "employeeRegister";
 	}
 	
 	// 사용자 목록
@@ -63,12 +61,16 @@ public class UserController {
 	
 	// 사용자 삭제
 	@RequestMapping(value="/userDelete", method=RequestMethod.POST)
-	public String userDelete(@RequestParam("employeeSeq") int employeeSeq, @RequestParam("checkAdminPw") String checkAdminPw) {
+	public String userDelete(@RequestParam("employeeSeq") int employeeSeq, @RequestParam("checkAdminPw") String checkAdminPw, RedirectAttributes redirectAttributes) {
 		int check = service.checkRegistered("admin", checkAdminPw);
 		if(check == 1) {
 			service.deleteEmployee(employeeSeq);
+			redirectAttributes.addFlashAttribute("msg", "삭제되었습니다.");
 		}
-		return "redirect:/userList.tiles";
+		else {
+			redirectAttributes.addFlashAttribute("msg", "비밀번호가 맞지 않아 삭제에 실패했습니다.");
+		}
+			return "redirect:/userList.tiles";
 	}
 	
 	// 사용자 수정 페이지 이동
@@ -80,10 +82,11 @@ public class UserController {
 	
 	// 사용자 수정 
 	@RequestMapping(value="/userModifyConfirm")
-	public String userModifyConfirm(@ModelAttribute EmployeeVO evo) {
-		int employeeSeq = evo.getEmployeeSeq();
+	public String userModifyConfirm(@ModelAttribute EmployeeVO evo, RedirectAttributes redirectAttributes) {
+//		int employeeSeq = evo.getEmployeeSeq();
 		service.updateEmployee(evo);
-		return "redirect:/userDetail.tiles?employeeSeq="+employeeSeq;
+		redirectAttributes.addFlashAttribute("msg", "수정되었습니다.");
+		return "redirect:/userList.tiles";
 	}
 	
 }

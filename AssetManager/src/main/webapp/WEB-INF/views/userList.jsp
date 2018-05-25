@@ -20,15 +20,10 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/dashboard.css"
 	rel="stylesheet">
-<script
-	src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
-<link
-	href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css"
-	rel="stylesheet" />
+<script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
+<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet" />
 
 <script>
 	function depSort(a, b) {
@@ -45,21 +40,20 @@
 			return 1;
 		return 0;
 	}
+	
+	$(function() {
+		$(".table-responsive").on("click",".table tbody tr",function() {
+			document.location.href = '/assetmanager/userDetail?employeeSeq='+ $(this).data("href");
+		});
+	});
+	$(function() {
+		var flashmsg = "<c:out value="${msg}"/>";
+
+		if (flashmsg != "")
+			alert(flashmsg);
+	});
 </script>
 
-<script>
-	$(function() {
-		$(".table-responsive")
-				.on(
-						"click",
-						".table tbody tr",
-						function() {
-							document.location.href = '/assetmanager/userDetail?employeeSeq='
-									+ $(this).data("href");
-						});
-	});
-	
-</script>
 <style>
 th {
 	background-color: darkgray;
@@ -83,21 +77,24 @@ table.scroll tbody {
 	overflow-y: auto;
 	overflow-x: hidden;
 }
-thead tr th { 
-    height: 30px;
-    line-height: 30px;
-    /* text-align: left; */
+
+thead tr th {
+	height: 30px;
+	line-height: 30px;
+	/* text-align: left; */
 }
 
-tbody { border-top: 2px solid black; }
+tbody {
+	border-top: 2px solid black;
+}
 
 tbody td, thead th {
-    border-right: 1px solid black;
-    /* white-space: nowrap; */
+	border-right: 1px solid black;
+	/* white-space: nowrap; */
 }
 
 tbody td:last-child, thead th:last-child {
-    border-right: none;
+	border-right: none;
 }
 </style>
 </head>
@@ -127,7 +124,8 @@ tbody td:last-child, thead th:last-child {
 						<tbody>
 							<c:forEach items="${employeeList}" var="employee">
 								<tr class="clickable-row" data-href="${employee.employeeSeq}">
-									<input type="hidden" name="employeeSeq" value="${employee.employeeSeq}" />
+									<input type="hidden" name="employeeSeq"
+										value="${employee.employeeSeq}" />
 									<td>${employee.employeeStatus}</td>
 									<td>${employee.employeeName}</td>
 									<td>${employee.employeeId}</td>

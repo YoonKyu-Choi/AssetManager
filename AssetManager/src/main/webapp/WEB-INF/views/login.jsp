@@ -46,6 +46,15 @@
 	       		return false;
 	    	}
 		</script>
+		
+		<script>
+			$(function(){
+				var flashmsg = "<c:out value="${msg}"/>";
+				
+				if(flashmsg != "")
+					alert(flashmsg);
+			});
+		</script>
 
 
 	</head>
