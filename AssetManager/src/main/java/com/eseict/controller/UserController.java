@@ -58,7 +58,7 @@ public class UserController {
 
 	@RequestMapping(value = "/loginGet", method = RequestMethod.GET)
 	public String loginGet(HttpSession session) {
-		return "loginGet";
+		return "loginGet.tiles";
 	}
 	
 	// 사용자 삭제

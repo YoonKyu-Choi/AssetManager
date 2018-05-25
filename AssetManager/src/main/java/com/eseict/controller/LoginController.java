@@ -19,8 +19,7 @@ public class LoginController {
 
 	@Autowired
 	private EmployeeService service;
-
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/")
 	public String login(HttpSession session) {
 		if (session.getAttribute("isUser") == "TRUE")
 			return "redirect:/loginGet";
