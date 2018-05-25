@@ -44,16 +44,26 @@
 				$(".table-responsive").on("click", ".table tbody tr", function(){
 					document.location.href='/assetmanager/userDetail?employeeSeq='+$(this).data("href");
 				});
-			});
-		</script>
-		
-		<script>
-			$(function(){
+
 				var flashmsg = "<c:out value="${msg}"/>";
 				
 				if(flashmsg != "")
 					alert(flashmsg);
 			});
+		</script>
+		
+		<script>
+			$(function(){
+				
+				var windowHeight = window.innerHeight;
+				$(".table-responsive").css("height", windowHeight-300);
+				$(window).resize(function(){
+					windowHeight = $(window).height();
+					$(".table-responsive").css("height", windowHeight-300);
+				})
+				
+			});
+
 		</script>
 	</head>
 
@@ -62,7 +72,7 @@
 			<div class="row">
 				<div class="main">
 					<h1 class="page-header">사용자 목록</h1>
-					<div class="table-responsive">
+					<div class="table-responsive" style="overflow: scroll; height: 400px">
 						<table class="table table-striped" data-toggle="table">
 							<thead>
 								<tr>
@@ -76,6 +86,7 @@
 									<th data-sortable="true">연락처</th>
 								</tr>
 							</thead>
+							
 							<tbody>
 														
 							<c:forEach items="${employeeList}" var="employee">
@@ -95,7 +106,7 @@
 							</tbody>
 						</table>
 					</div>
-					<button class="btn btn-lg btn-primary" style="float:right" onclick="location.href='/assetmanager/register';">회원 추가</button>
+					<button class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='/assetmanager/register';">회원 추가</button>
 				</div>
 			</div>
 		</div>
