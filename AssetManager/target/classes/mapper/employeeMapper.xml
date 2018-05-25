@@ -87,4 +87,10 @@
 			employee_seq = #{employeeSeq}
 	</delete>
 	
+	<select id="selectEmployeeStatusById" parameterType="String" resultType="String">
+	select employee_status
+	from employee
+	where employee_id=#{employeeId}
+	</select>
+	
 </mapper>

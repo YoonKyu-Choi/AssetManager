@@ -49,4 +49,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 		dao.deleteEmployee(employeeSeq);
 		
 	}
+
+	@Override
+	public String getUserStatusById(String inputId) {
+		return dao.getUserStatusById(inputId);
+	}
 }

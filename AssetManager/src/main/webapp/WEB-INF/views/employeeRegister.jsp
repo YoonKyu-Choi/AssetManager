@@ -60,7 +60,6 @@
 			return false;
 		} 
 		else if($("#employeeRank").val()=='0'){
-			alert($("#employeeRank").val());
 			alert("직급을 선택해주세요.");
 			return false;
 		} else if($("#employeeDepartment").val()=='0'){

@@ -26,4 +26,7 @@ public interface EmployeeService {
 	
 	// 사용자 삭제
 	public void deleteEmployee(int employeeSeq);
+
+	// 사용자 상태 확인
+	public String getUserStatusById(String inputId);
 }
