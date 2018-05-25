@@ -33,9 +33,7 @@ footer {
 	background-color: #555;
 	color: white;
 	padding: 15px;
-	bottom: 0;
-	position: absolute;
-	width: 100%;
+	position:absolute;
 }
 
 @media screen and (max-width: 767px) {
