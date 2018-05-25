@@ -20,10 +20,10 @@
 		<!-- Custom styles for this template -->
 		<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
 		
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
-		<script src="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.js"></script>
-		<link href="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.css" rel="stylesheet"/>
+		<script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
+		<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
 
 		<script>
 			function depSort(a, b){

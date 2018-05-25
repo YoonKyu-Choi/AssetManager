@@ -46,14 +46,13 @@ footer {
 </head>
 <body>
 	<header class="navbar navbar-inverse">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-			</button>
-			<a class="navbar-brand" href="#">ESE</a>
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar"></button>
+				<label class="navbar-brand">ESE</label>
+			</div>
+				<tiles:insertAttribute name="adminHeader" />
 		</div>
-			<tiles:insertAttribute name="adminHeader" />
-	</div>
 	</header>
 
 
