@@ -11,9 +11,7 @@
 		<!-- The above 3 meta tags must come first in the head; any other head content must come after these tags -->
 		<meta name="description" content="">
 		<meta name="author" content="">
-		
-		<title>사용자 목록</title>
-		
+				
 		<!-- Bootstrap core CSS -->
 		<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
 		
@@ -68,6 +66,17 @@
 	</head>
 
 	<body>
+	
+		<title>
+			사용자 목록
+		<select>
+			<option value="1">ASD</option>
+		</select>
+		<input type="text" />
+		<button>검색</button>
+		</title>
+	
+	
 		 <div class="container-fluid">
 			<div class="row">
 				<div class="main">
