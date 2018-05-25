@@ -56,10 +56,17 @@
 
 	function submitCheck() {
 		if ($("#idInputCheck").val() == 'false') {
-			alert("아이디 중복확인을 체크해주세요.");
+			alert("아이디 중복확인을 체크해주세요.");			
 			return false;
-		} 
-		else if($("#employeeRank").val()=='0'){
+		} else if($("#employeeName").val()==''){
+			alert("이름을 입력해주세요.");
+			$("#employeeName").focus();
+			return false;
+		} else if($("#employeePw").val()==''){
+			alert("비밀번호를 입력해주세요.");
+			$("#employeePw").focus();
+			return false;
+		} else if($("#employeeRank").val()=='0'){
 			alert("직급을 선택해주세요.");
 			return false;
 		} else if($("#employeeDepartment").val()=='0'){
@@ -67,6 +74,14 @@
 			return false;
 		} else if($("#employeeLocation").val()=='0'){
 			alert("위치를 선택해주세요.");
+			return false;
+		} else if($("#employeeEmail").val()==''){
+			alert("이메일을 입력해주세요.");
+			$("#employeeEmail").focus();
+			return false;
+		} else if($("#employeePhone").val()==''){
+			alert("연락처를 입력해주세요.");
+			$("#employeePhone").focus();
 			return false;
 		}
 		else {
@@ -127,7 +142,6 @@
 			location.href='/assetmanager/';
 	}
 </script>
-
 </head>
 
 <body>
@@ -148,9 +162,9 @@
 					<label class="form-control" style="background: transparent">연락처</label>
 				</p>
 				<p style="margin: 0; justify-content: center" id="inputs">
-					<input type="text" class="form-control" name="employeeName" maxlength="6" required autofocus> 
-					<input type="text" class="form-control" id="employeeId" name="employeeId" maxlength="10" required autofocus> 
-					<input type="password" class="form-control" name="employeePw" maxlength="10" required autofocus> 
+					<input type="text" class="form-control" id="employeeName" name="employeeName" maxlength="6"> 
+					<input type="text" class="form-control" id="employeeId" name="employeeId" maxlength="10"> 
+					<input type="password" class="form-control" id="employeePw" name="employeePw" maxlength="10"> 
 					<select	class="form-control dropdown" id="employeeRank" name="employeeRank">
 						<option value="0">직급을 선택하세요</option>
 						<option value="1">대표이사</option>
@@ -190,13 +204,13 @@
 						<option value="4층">4층</option>
 						<option value="5층">5층</option>
 					</select>
-					<input type="email" class="form-control" name="employeeEmail" maxlength="100" required autofocus>
+					<input type="email" class="form-control" id="employeeEmail" name="employeeEmail" maxlength="100" required autofocus>
 					<select class="form-control dropdown admin" style="display:none" id="employeeStatus" name="employeeStatus">
 						<option value="재직" selected>재직</option>
 						<option value="휴직">휴직</option>
 						<option value="퇴사">퇴사</option>
 					</select>
-					<input type="text" class="form-control" name="employeePhone" maxlength="20" required autofocus>
+					<input type="text" class="form-control" id="employeePhone" name="employeePhone" maxlength="20">
 				</p>
 
 				<p style="margin-left: 10px">
