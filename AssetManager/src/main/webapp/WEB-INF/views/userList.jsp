@@ -35,9 +35,6 @@
 				if(a.rank > b.rank) return 1;
 				return 0;
 			}
-		</script>
-
-		<script>
 			$(function(){
 				$(".table-responsive").on("click", ".table tbody tr", function(){
 					document.location.href='/assetmanager/userDetail?employeeSeq='+$(this).data("href");
@@ -48,9 +45,6 @@
 				if(flashmsg != "")
 					alert(flashmsg);
 			});
-		</script>
-		
-		<script>
 			$(function(){
 				
 				var windowHeight = window.innerHeight;
@@ -63,6 +57,18 @@
 			});
 
 		</script>
+		
+		<style>
+		th, td {
+		text-align: center;
+		}
+		th{
+		background-color:darkgray;
+		color:white;
+		}
+		
+		</style>
+		
 	</head>
 
 	<body>
@@ -97,7 +103,6 @@
 							</thead>
 							
 							<tbody>
-														
 							<c:forEach items="${employeeList}" var="employee">
 								<tr class="clickable-row" data-href="${employee.employeeSeq}">
 									<input type="hidden" name="employeeSeq" value="${employee.employeeSeq}"/>
@@ -111,7 +116,6 @@
 									<td>${employee.employeePhone}</td>
 								</tr>
 							</c:forEach>
-
 							</tbody>
 						</table>
 					</div>
