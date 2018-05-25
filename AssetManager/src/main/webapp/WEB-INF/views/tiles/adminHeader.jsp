@@ -21,7 +21,7 @@
 		<li style="margin-left: 40px"><a href="#">폐기 관리</a></li>
 	</ul>
 	<ul class="nav navbar-nav navbar-right">
-		<li><a href="logout();"><span class="glyphicon glyphicon-log-in"/>　Logout</a></li>
+		<li><a onclick="logout();"><span class="glyphicon glyphicon-log-in"/>　Logout</a></li>
 	</ul>
 </div>
 
