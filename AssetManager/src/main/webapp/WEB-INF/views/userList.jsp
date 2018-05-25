@@ -26,12 +26,12 @@
 		<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
 
 		<script>
+					
 			function depSort(a, b){
 				if(a.dep < b.dep) return -1;
 				if(a.dep > b.dep) return 1;
 				return 0;
 			}
-
 			function rankSort(a, b){
 				if(a.rank < b.rank) return -1;
 				if(a.rank > b.rank) return 1;
@@ -66,22 +66,21 @@
 						<table class="table table-striped" data-toggle="table">
 							<thead>
 								<tr>
-									<th data-sortable="true">번호</th>
 									<th data-sortable="true">상태</th>
 									<th data-sortable="true">이름</th>
-									<th>아이디</th>
+									<th data-sortable="true">아이디</th>
 									<th data-sortable="true" data-sorter="depSort" data-field="dep" data-sort-name="_dep_data">소속</th>
 									<th data-sortable="true" data-sorter="rankSort" data-field="rank" data-sort-name="_rank_data">직급</th>
 									<th data-sortable="true">위치</th>
-									<th>이메일</th>
-									<th>연락처</th>
+									<th data-sortable="true">이메일</th>
+									<th data-sortable="true">연락처</th>
 								</tr>
 							</thead>
 							<tbody>
 														
 							<c:forEach items="${employeeList}" var="employee">
 								<tr class="clickable-row" data-href="${employee.employeeSeq}">
-									<td>${employee.employeeSeq}</td>
+									<input type="hidden" name="employeeSeq" value="${employee.employeeSeq}"/>
 									<td>${employee.employeeStatus}</td>
 									<td>${employee.employeeName}</td>
 									<td>${employee.employeeId}</td>

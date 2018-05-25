@@ -116,10 +116,6 @@
 				<div class="table-responsive">
 					<table class="table table-striped">
 						<tr>
-							<th>번호</th>
-							<th>${requestScope.employeeVO.employeeSeq}</th>
-						</tr>
-						<tr>
 							<th>이름</th>
 							<th>${requestScope.employeeVO.employeeName}</th>
 						</tr>
