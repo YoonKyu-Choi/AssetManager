@@ -13,11 +13,11 @@
 		<li class="active"><a>관리자</a></li>
 	</ul>
 	<ul class="nav navbar-nav" style="position:absolute; right:50%; ">
-		<li style="margin-right: 20px"><a href="/assetmanager/loginGet">자산 관리</a></li>
+		<li style="margin-right: 40px"><a href="/assetmanager/loginGet">자산 관리</a></li>
 		<li style="margin-left: 20px"><a href="/assetmanager/userList">회원 관리</a></li>
 	</ul>
 	<ul class="nav navbar-nav" style="position:absolute; left:50%; ">
-		<li style="margin-left: 40px"><a href="#">폐기 관리</a></li>
+		<li style="margin-left: 20px"><a href="#">폐기 관리</a></li>
 		<li style="margin-right: 40px"><a href="#">분류 관리</a></li>
 	</ul>
 	<ul class="nav navbar-nav navbar-right">
