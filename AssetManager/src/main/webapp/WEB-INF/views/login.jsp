@@ -31,6 +31,8 @@
 	       			success	: function(result){
 	       				if(result == "1"){
 	       					alert("로그인되었습니다.");
+	       				} else if(result=="2"){
+	       					alert("퇴사된 상태라 로그인 할 수 없습니다. 관리자에게 문의하세요");
 	       				} else{
 	       					alert("아이디와 비밀번호를 확인해주세요.");
 	       				}

@@ -56,4 +56,9 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 		
 	}
 
+	@Override
+	public String getUserStatusById(String inputId) {
+		return sqlSession.selectOne(namespace+".selectEmployeeStatusById",inputId);
+	}
+
 }

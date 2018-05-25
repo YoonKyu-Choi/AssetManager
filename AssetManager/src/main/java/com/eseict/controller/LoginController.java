@@ -16,41 +16,52 @@ import com.eseict.service.EmployeeService;
 
 @Controller
 public class LoginController {
-	
+
 	@Autowired
 	private EmployeeService service;
-	
 	@RequestMapping(value = "/")
 	public String login(HttpSession session) {
-		if(session.getAttribute("isUser") == "TRUE")
+		if (session.getAttribute("isUser") == "TRUE")
 			return "redirect:/loginGet";
 		else
 			return "login";
 	}
-	
+
 	@RequestMapping(value = "/loginSubmit", method = RequestMethod.POST)
 	@ResponseBody
-	public String loginSubmit(HttpSession session, HttpServletResponse response, @RequestParam("inputId") String inputId, @RequestParam("inputPw") String inputPw) throws IOException {
+	public String loginSubmit(HttpSession session, HttpServletResponse response,
+			@RequestParam("inputId") String inputId, @RequestParam("inputPw") String inputPw) throws IOException {
 		int check = service.checkRegistered(inputId, inputPw);
-		if(check == 1) {
-			if(inputId.equals("admin")) {
-				session.setAttribute("isAdmin", "TRUE");
+		String userStatus = service.getUserStatusById(inputId);
+		if (check == 1) {
+			if (userStatus.equals("퇴사")) {
+				check = 2;
+			} else {
+				if (inputId.equals("admin")) {
+					session.setAttribute("isAdmin", "TRUE");
+				}
+					session.setAttribute("isUser", "TRUE");
 			}
-			session.setAttribute("isUser", "TRUE");
+
 		}
 		return Integer.toString(check);
 	}
-	
+
 	@RequestMapping(value = "/checkId")
 	@ResponseBody
-	public String checkId(@RequestParam(value="id", required=false) String inputId, HttpServletResponse response) throws IOException{
-		if(!inputId.isEmpty()) {
-			if(service.checkIdDuplication(inputId)==null) {
+	public String checkId(@RequestParam(value = "id", required = false) String inputId, HttpServletResponse response)
+			throws IOException {
+		if (!inputId.isEmpty()) {
+			if (service.checkIdDuplication(inputId) == null) {
 				return "new";
-			} else { return "deplicated";}
-		}else {	return "empty"; }
+			} else {
+				return "deplicated";
+			}
+		} else {
+			return "empty";
+		}
 	}
-	
+
 	@RequestMapping(value = "/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
