@@ -61,16 +61,13 @@
 				alert($("#searchByName").val());
 				$.ajax({
 				"type" : "GET",
-				"cashe":"false",
 				"url":"userList",
 				"dataType":"text",
 				"data" : {
 					employeeName : $("#searchByName").val()
 				},
-				"success" : function(){
-					alert("검색 완료");
-//					$("#employeeTable").load("userList #employeeTable");
-					
+				"success" : function(list){
+					alert("검색 완료 ");
 				},
 				"error" : function(e){
 					alert("오류 발생 : "+e.responseText);
@@ -98,16 +95,14 @@
 		 <div class="container-fluid">
 			<div class="row">
 				<div class="main">
-					<div class="page-header" style="display:flex">
-							<font size="6px" bold>회원 목록</font>&nbsp;&nbsp;&nbsp;&nbsp;
-							<font size="4px">회원 수 : </font>
-							<span class="badge">${userCount}</span>
-							<input type="text" id="searchCategory" name="searchCategory" value="회원 이름으로 검색" readonly>
-						<form>
-							<input type="text" name="employeeName">
-							<input type="submit" onclick="searchFunc();">
-						</form>
-					</div>
+					<form class="page-header" id="listRefresh">
+						<font size="6px" bold>회원 목록</font>&nbsp;&nbsp;&nbsp;&nbsp;
+						<font size="4px">회원 수 : </font>
+						<span class="badge">${userCount}</span>
+						<input type="text" id="searchCategory" name="searchCategory" value="회원 이름으로 검색" readonly>
+						<input type="text" id="searchByName" name="employeeName">
+						<input type="submit" value="검색" onclick="searchFunc();">
+					</form>
 					<div class="table-responsive" style="overflow: scroll; height: 400px">
 						<table class="table table-striped" data-toggle="table">
 							<thead>

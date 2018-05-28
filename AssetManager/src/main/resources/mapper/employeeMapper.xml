@@ -121,7 +121,7 @@
 		WHERE
 			employee.employee_rank = rank.employee_rank
 			AND employee.employee_department=department.employee_department
-			AND employee_name = #{employeeName} 
+			AND employee_name like '%'||#{employeeName}||'%' 
 	
 	</select>
 	

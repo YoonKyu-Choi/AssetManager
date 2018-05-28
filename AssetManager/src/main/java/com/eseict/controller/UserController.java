@@ -26,99 +26,81 @@ public class UserController {
 
 	// 회원가입 등록
 	@RequestMapping(value = "/registerSend")
-	public String registerSend(HttpSession session, @ModelAttribute EmployeeVO vo, RedirectAttributes redirectAttributes) {
+	public String registerSend(HttpSession session, @ModelAttribute EmployeeVO vo,
+			RedirectAttributes redirectAttributes) {
 		service.newEmployee(vo);
 		redirectAttributes.addFlashAttribute("msg", "회원가입되었습니다.");
-		if(session.getAttribute("isAdmin") == "TRUE")
+		if (session.getAttribute("isAdmin") == "TRUE")
 			return "redirect:/userList";
 		else
 			return "redirect:/";
 	}
-		
+
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String register(HttpSession session) {
 		return "employeeRegister";
 	}
-	
+
 	// 사용자 목록
 	@RequestMapping(value = "/userList", method = RequestMethod.GET)
-	public ModelAndView userList(Model model,  @RequestParam(required=false) String employeeName) {
+	public ModelAndView userList(Model model, @RequestParam(required = false) String employeeName) {
 		int userCount = service.getUserCount();
-		if(employeeName==null) {
+		if (employeeName == null) {
 			System.out.println("정상 전체 출력");
 			List<EmployeeVO> list = service.getEmployeeList();
 			model.addAttribute("employeeList", list);
-			model.addAttribute("userCount",userCount);
-			return new ModelAndView("userList.tiles","list",model);
-		}else {
+			model.addAttribute("userCount", userCount);
+			return new ModelAndView("userList.tiles", "list", model);
+		} else {
 			System.out.println("검색!");
 			List<EmployeeVO> list = service.getEmployeeListByName(employeeName);
 			System.out.println(service.getEmployeeListByName(employeeName));
 			model.addAttribute("employeeList", list);
-			model.addAttribute("userCount",userCount);
-			return new ModelAndView("userList.tiles","list",model);
+			model.addAttribute("userCount", userCount);
+			return new ModelAndView("userList.tiles", "list", model);
 		}
-		
 	}
-	
-	/*
-	// 이름으로 검색
-		@RequestMapping(value="/userSearch")
-		public String userSearch(Model model, @RequestParam String employeeName) {
-			System.out.println(employeeName);
-			List<EmployeeVO> list = service.getEmployeeListByName(employeeName);
-			System.out.println(list);
-			int userCount = service.getUserCount();
-			model.addAttribute("employeeList", list);
-			model.addAttribute("userCount",userCount);
-			return "userList.tiles";
-			
-		}
-	*/
-	
+
 	// 사용자 상세보기
-	@RequestMapping(value="/userDetail")
+	@RequestMapping(value = "/userDetail")
 	public ModelAndView userDetail(@RequestParam int employeeSeq) {
 		EmployeeVO evo = service.selectEmployeeByEmployeeSeq(employeeSeq);
-		return new ModelAndView("userDetail.tiles","employeeVO",evo);
+		return new ModelAndView("userDetail.tiles", "employeeVO", evo);
 	}
 
 	@RequestMapping(value = "/loginGet", method = RequestMethod.GET)
 	public String loginGet(HttpSession session) {
 		return "loginGet.tiles";
 	}
-	
+
 	// 사용자 삭제
-	@RequestMapping(value="/userDelete", method=RequestMethod.POST)
-	public String userDelete(@RequestParam("employeeSeq") int employeeSeq, @RequestParam("checkAdminPw") String checkAdminPw, RedirectAttributes redirectAttributes) {
+	@RequestMapping(value = "/userDelete", method = RequestMethod.POST)
+	public String userDelete(@RequestParam("employeeSeq") int employeeSeq,
+			@RequestParam("checkAdminPw") String checkAdminPw, RedirectAttributes redirectAttributes) {
 		int check = service.checkRegistered("admin", checkAdminPw);
-		if(check == 1) {
+		if (check == 1) {
 			service.deleteEmployee(employeeSeq);
 			redirectAttributes.addFlashAttribute("msg", "삭제되었습니다.");
-		}
-		else {
+		} else {
 			redirectAttributes.addFlashAttribute("msg", "비밀번호가 맞지 않아 삭제에 실패했습니다.");
 		}
-			return "redirect:/userList.tiles";
+		return "redirect:/userList.tiles";
 	}
-	
+
 	// 사용자 수정 페이지 이동
-	@RequestMapping(value="/userModify")
+	@RequestMapping(value = "/userModify")
 	public ModelAndView userModify(@RequestParam int employeeSeq) {
 		EmployeeVO evo = service.selectEmployeeByEmployeeSeq(employeeSeq);
-		return new ModelAndView("userModify.tiles","employeeVO",evo);
+		return new ModelAndView("userModify.tiles", "employeeVO", evo);
 	}
-	
-	// 사용자 수정 
-	@RequestMapping(value="/userModifyConfirm")
+
+	// 사용자 수정
+	@RequestMapping(value = "/userModifyConfirm")
 	public String userModifyConfirm(@ModelAttribute EmployeeVO evo, RedirectAttributes redirectAttributes) {
-//		int employeeSeq = evo.getEmployeeSeq();
+		// int employeeSeq = evo.getEmployeeSeq();
 		service.updateEmployee(evo);
 		redirectAttributes.addFlashAttribute("msg", "수정되었습니다.");
 		return "redirect:/userList.tiles";
 	}
-	
-	
-	
-	
+
 }
