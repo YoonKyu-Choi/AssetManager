@@ -93,4 +93,18 @@
 	where employee_id=#{employeeId}
 	</select>
 	
+	<select id="getUserCount" resultType="integer">
+	select count(*)
+	from employee
+	</select>
+	
+	<select id="getEmployeeListByName" parameterType="string" resultMap="EmployeeVO-result">
+	SELECT employee.*, rank.employee_rank_string, department.employee_department_string
+		FROM employee, rank, department
+		WHERE employee.employee_rank = rank.employee_rank and employee.employee_department=department.employee_department
+			  and employee_name = #{employeeName} 
+	
+	</select>
+	
+	
 </mapper>

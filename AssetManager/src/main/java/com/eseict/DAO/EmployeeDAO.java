@@ -29,4 +29,10 @@ public interface EmployeeDAO {
 
 	// 사용자 상태 확인
 	public String getUserStatusById(String inputId);
+	
+	// 사용자 수 출력
+	public int getUserCount();
+	
+	// 사용자 이름으로 검색
+	public List<EmployeeVO> getEmployeeListByName(String employeeName);
 }

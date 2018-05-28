@@ -53,4 +53,14 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public String getUserStatusById(String inputId) {
 		return dao.getUserStatusById(inputId);
 	}
+
+	@Override
+	public int getUserCount() {
+		return dao.getUserCount();
+	}
+
+	@Override
+	public List<EmployeeVO> getEmployeeListByName(String employeeName) {
+		return dao.getEmployeeListByName(employeeName);
+	}
 }
