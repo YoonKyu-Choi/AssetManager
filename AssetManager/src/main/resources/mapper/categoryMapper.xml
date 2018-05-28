@@ -3,6 +3,12 @@
 
 <mapper namespace="com.eseict.mapper.CategoryMapper">
 
+<resultMap type="com.eseict.VO.CategoryVO" id="CategoryVO">
+	<result column="asset_category" property="assetCategory"/>
+	<result column="asset_item" property="assetItem"/>
+</resultMap>
+
+
 <select id="getCategoryList" resultMap="CategoryVO">
 	SELECT
 		*

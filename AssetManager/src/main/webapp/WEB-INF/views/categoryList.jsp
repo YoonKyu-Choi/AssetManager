@@ -38,7 +38,7 @@
 			}
 			$(function(){
 				$(".table-responsive").on("click", ".table tbody tr", function(){
-					document.location.href='/assetmanager/userDetail?employeeSeq='+$(this).data("href");
+					document.location.href='/assetmanager/categoryDetail?categoryName='+$(this).data("href");
 				});
 
 				var flashmsg = "<c:out value="${msg}"/>";
@@ -112,19 +112,19 @@
 							<thead>
 								<tr>
 									<th data-sortable="true">분류 이름</th>
-									<th></th>
-									<th></th>
-									<th></th>
-									<th></th>
-									<th></th>
+									<th colspan="<%=(Integer)request.getAttribute("columnSize")%>">세부사항</th>
 								</tr>
 							</thead>
 							
 							<tbody>
-							<c:forEach items="${employeeList}" var="employee">
-								<tr class="clickable-row" data-href="${employee.employeeSeq}">
+								<c:forEach items="${categoryItemList}" var="categoryItem">
+								<tr data-href="${categoryItem.key}">
+									<td>${categoryItem.key}</td>
+									<c:forEach items="${categoryItem.value}" var="item">
+									<td>${item}</td>
+									</c:forEach>
 								</tr>
-							</c:forEach>
+								</c:forEach>
 							</tbody>
 						</table>
 					</div>
