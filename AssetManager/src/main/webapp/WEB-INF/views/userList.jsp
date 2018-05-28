@@ -11,7 +11,9 @@
 		<!-- The above 3 meta tags must come first in the head; any other head content must come after these tags -->
 		<meta name="description" content="">
 		<meta name="author" content="">
-				
+		
+		<title>사용자 목록</title>
+		
 		<!-- Bootstrap core CSS -->
 		<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
 		
