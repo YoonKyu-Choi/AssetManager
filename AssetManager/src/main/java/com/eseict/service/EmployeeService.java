@@ -29,4 +29,10 @@ public interface EmployeeService {
 
 	// 사용자 상태 확인
 	public String getUserStatusById(String inputId);
+	
+	// 회원 수 조회
+	public int getUserCount();
+
+	// 사용자 이름으로 검색
+	public List<EmployeeVO> getEmployeeListByName(String employeeName);
 }

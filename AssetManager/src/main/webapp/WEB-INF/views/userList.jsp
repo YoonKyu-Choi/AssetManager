@@ -22,7 +22,6 @@
 		<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
 		<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
-
 		<script>
 					
 			function depSort(a, b){
@@ -55,7 +54,26 @@
 				})
 				
 			});
-
+			
+			function searchFunc(){
+				alert($("#searchByName").val());
+				$.ajax({
+				"type" : "GET",
+				"cashe":"false",
+				"url":"userList",
+				"dataType":"text",
+				"data" : {
+					employeeName : $("#searchByName").val()
+				},
+				"success" : function(){
+					alert("검색 완료");
+					
+				},
+				"error" : function(e){
+					alert("오류 발생 : "+e.responseText);
+				}
+				});
+			}
 		</script>
 		
 		<style>
@@ -66,27 +84,20 @@
 		background-color:darkgray;
 		color:white;
 		}
-		
+		p{
+			font-size:25px;
+		}
 		</style>
 		
 	</head>
 
 	<body>
-	
-		<title>
-			사용자 목록
-		<select>
-			<option value="1">ASD</option>
-		</select>
-		<input type="text" />
-		<button>검색</button>
-		</title>
-	
-	
 		 <div class="container-fluid">
 			<div class="row">
 				<div class="main">
-					<h1 class="page-header">사용자 목록</h1>
+					<div class="page-header"><font size="6px" bold>회원 목록</font>&nbsp;&nbsp;&nbsp;&nbsp;<font size="4px">회원 수 : </font><span class="badge">${userCount}</span>
+					<input type="text" id="searchCategory" name="searchCategory" value="회원 이름으로 검색" readonly><input type="text" id="searchByName" name="searchByName"><input type="submit" value="검색" onclick="searchFunc();">
+					</div>
 					<div class="table-responsive" style="overflow: scroll; height: 400px">
 						<table class="table table-striped" data-toggle="table">
 							<thead>

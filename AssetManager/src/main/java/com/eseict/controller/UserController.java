@@ -1,6 +1,7 @@
 package com.eseict.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -41,11 +42,39 @@ public class UserController {
 	
 	// 사용자 목록
 	@RequestMapping(value = "/userList", method = RequestMethod.GET)
-	public String userList(Model model) {
+	public ModelAndView userList(Model model,  @RequestParam(required=false) String employeeName) {
+		int userCount = service.getUserCount();
+		if(employeeName==null) {
+		System.out.println("정상 전체 출력");
 		List<EmployeeVO> list = service.getEmployeeList();
 		model.addAttribute("employeeList", list);
-		return "userList.tiles";
+		model.addAttribute("userCount",userCount);
+		return new ModelAndView("userList.tiles","list",model);
+		}else {
+			System.out.println("검색!");
+			List<EmployeeVO> list = service.getEmployeeListByName(employeeName);
+			System.out.println(service.getEmployeeListByName(employeeName));
+			model.addAttribute("employeeList", list);
+			model.addAttribute("userCount",userCount);
+			return new ModelAndView("userList.tiles","list",model);
+		}
+		
 	}
+	
+	/*
+	// 이름으로 검색
+		@RequestMapping(value="/userSearch")
+		public String userSearch(Model model, @RequestParam String employeeName) {
+			System.out.println(employeeName);
+			List<EmployeeVO> list = service.getEmployeeListByName(employeeName);
+			System.out.println(list);
+			int userCount = service.getUserCount();
+			model.addAttribute("employeeList", list);
+			model.addAttribute("userCount",userCount);
+			return "userList.tiles";
+			
+		}
+	*/
 	
 	// 사용자 상세보기
 	@RequestMapping(value="/userDetail")
@@ -88,5 +117,8 @@ public class UserController {
 		redirectAttributes.addFlashAttribute("msg", "수정되었습니다.");
 		return "redirect:/userList.tiles";
 	}
+	
+	
+	
 	
 }

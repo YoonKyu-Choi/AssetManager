@@ -61,4 +61,14 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 		return sqlSession.selectOne(namespace+".selectEmployeeStatusById",inputId);
 	}
 
+	@Override
+	public int getUserCount() {
+		return sqlSession.selectOne(namespace+".getUserCount");
+	}
+
+	@Override
+	public List<EmployeeVO> getEmployeeListByName(String employeeName) {
+		return sqlSession.selectList(namespace+".getEmployeeListByName",employeeName);
+	}
+
 }
