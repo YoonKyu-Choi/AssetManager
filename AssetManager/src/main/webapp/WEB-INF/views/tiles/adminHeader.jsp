@@ -18,7 +18,7 @@
 	</ul>
 	<ul class="nav navbar-nav" style="position:absolute; left:50%; ">
 		<li style="margin-left: 20px"><a href="#">폐기 관리</a></li>
-		<li style="margin-left: 40px"><a href="#">분류 관리</a></li>
+		<li style="margin-left: 40px"><a href="/assetmanager/categoryList">분류 관리</a></li>
 	</ul>
 	<ul class="nav navbar-nav navbar-right">
 		<li><a onclick="logout();"><span class="glyphicon glyphicon-log-in"/>　Logout</a></li>

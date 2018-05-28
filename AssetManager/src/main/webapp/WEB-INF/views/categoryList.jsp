@@ -61,7 +61,6 @@
 				alert($("#searchByName").val());
 				$.ajax({
 				"type" : "GET",
-				"cashe":"false",
 				"url":"userList",
 				"dataType":"text",
 				"data" : {
@@ -69,7 +68,7 @@
 				},
 				"success" : function(){
 					alert("검색 완료");
-//					$("#employeeTable").load("userList #employeeTable");
+					$("#employeeTable").load("userList #employeeTable");
 					
 				},
 				"error" : function(e){
@@ -99,48 +98,37 @@
 			<div class="row">
 				<div class="main">
 					<div class="page-header" style="display:flex">
-							<font size="6px" bold>회원 목록</font>&nbsp;&nbsp;&nbsp;&nbsp;
-							<font size="4px">회원 수 : </font>
-							<span class="badge">${userCount}</span>
-							<input type="text" id="searchCategory" name="searchCategory" value="회원 이름으로 검색" readonly>
 						<form>
-							<input type="text" name="employeeName">
-							<input type="submit" onclick="searchFunc();">
+							<font size="6px" bold>분류 목록</font>&nbsp;&nbsp;&nbsp;&nbsp;
+							<font size="4px">분류 수 : </font>
+							<span class="badge">${userCount}</span>
+							<input type="text" name="searchCategory" value="분류 이름으로 검색" readonly>
+							<input type="text" name="assetCategory">
+							<input type="submit" onclick="categoryList">
 						</form>
 					</div>
 					<div class="table-responsive" style="overflow: scroll; height: 400px">
 						<table class="table table-striped" data-toggle="table">
 							<thead>
 								<tr>
-									<th data-sortable="true">상태</th>
-									<th data-sortable="true">이름</th>
-									<th data-sortable="true">아이디</th>
-									<th data-sortable="true" data-sorter="depSort" data-field="dep" data-sort-name="_dep_data">소속</th>
-									<th data-sortable="true" data-sorter="rankSort" data-field="rank" data-sort-name="_rank_data">직급</th>
-									<th data-sortable="true">위치</th>
-									<th data-sortable="true">이메일</th>
-									<th data-sortable="true">연락처</th>
+									<th data-sortable="true">분류 이름</th>
+									<th></th>
+									<th></th>
+									<th></th>
+									<th></th>
+									<th></th>
 								</tr>
 							</thead>
 							
 							<tbody>
 							<c:forEach items="${employeeList}" var="employee">
 								<tr class="clickable-row" data-href="${employee.employeeSeq}">
-									<input type="hidden" name="employeeSeq" value="${employee.employeeSeq}"/>
-									<td>${employee.employeeStatus}</td>
-									<td>${employee.employeeName}</td>
-									<td>${employee.employeeId}</td>
-									<td data-dep="${employee.departmentVO.employeeDepartment}">${employee.departmentVO.employeeDepartmentString}</td>
-									<td data-rank="${employee.rankVO.employeeRank}">${employee.rankVO.employeeRankString}</td>
-									<td>${employee.employeeLocation}</td>
-									<td>${employee.employeeEmail}</td>
-									<td>${employee.employeePhone}</td>
 								</tr>
 							</c:forEach>
 							</tbody>
 						</table>
 					</div>
-					<button class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='/assetmanager/register';">회원 추가</button>
+					<button class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='/assetmanager/categoryRegister';">분류 추가</button>
 				</div>
 			</div>
 		</div>

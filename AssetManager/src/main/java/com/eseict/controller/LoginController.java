@@ -20,6 +20,7 @@ public class LoginController {
 
 	@Autowired
 	private EmployeeService service;
+	
 	@RequestMapping(value = "/")
 	public String login(HttpSession session) {
 		if (session.getAttribute("isUser") == "TRUE")
