@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
 encoding//src/main/java/com/eseict/service/AssetService.java=UTF-8
 encoding//src/main/java/com/eseict/service/EmployeeService.java=UTF-8
+encoding//src/main/webapp/WEB-INF/views/categoryList.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/tiles/adminHeader.jsp=UTF-8

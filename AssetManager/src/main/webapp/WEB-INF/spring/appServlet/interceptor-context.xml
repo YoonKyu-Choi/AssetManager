@@ -30,6 +30,7 @@
 			<mvc:mapping path="/userModifyConfirm"/>
 			<mvc:mapping path="/register"/>
 			<mvc:mapping path="/registerSend"/>
+			<mvc:mapping path="/categoryList"/>
 			<beans:bean class="com.eseict.interceptor.AdminInterceptor"/>
 		</mvc:interceptor>
 		

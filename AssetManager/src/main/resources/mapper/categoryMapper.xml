@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.eseict.mapper.CategoryMapper">
+
+<resultMap type="com.eseict.VO.CategoryVO" id="CategoryVO">
+	<result column="asset_category" property="assetCategory"/>
+	<result column="asset_item" property="assetItem"/>
+</resultMap>
+
+
+<select id="getCategoryList" resultMap="CategoryVO">
+	SELECT
+		*
+	FROM
+		category_item
+</select>
+
+<select id="getCategoryCount" resultType="integer">
+	SELECT
+		COUNT(DISTINCT asset_category)
+	FROM
+		category_item;
+</select>
+
+<select id="getCategoryByName" resultType="String">
+	SELECT
+		asset_item
+	FROM
+		category_item
+	WHERE
+		asset_category=#{categoryName}
+</select>
+
+<insert id="newCategory" parameterType="String">
+	INSERT INTO
+		category_item
+	VALUES
+		(#{assetCategory}, #{assetItem})
+</insert>
+
+</mapper>
