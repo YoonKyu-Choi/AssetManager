@@ -14,11 +14,27 @@ public class CategoryDAOImpl implements CategoryDAO{
 	@Autowired
 	private SqlSession sqlSession;
 	
-	private static final String namespace = "com.eseict.mapper.CategoryMapper";
+	private static final String namespace = "com.eseict.mapper.CategoryMapper.";
 
 	@Override
 	public List<CategoryVO> getCategoryList() {
-		return sqlSession.selectList(namespace+".getCategoryList");
+		return sqlSession.selectList(namespace+"getCategoryList");
+	}
+
+	@Override
+	public int getCategoryCount() {
+		return sqlSession.selectOne(namespace+"getCategoryCount");
+	}
+
+	@Override
+	public List<String> getCategoryByName(String categoryName) {
+		return sqlSession.selectList(namespace+"getCategoryByName", categoryName);
+	}
+
+	@Override
+	public void newCategory(CategoryVO vo) {
+		sqlSession.insert(namespace+"newCategory", vo);
+		
 	}
 
 }

@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.eseict.VO.CategoryVO;
+import com.eseict.VO.EmployeeVO;
 import com.eseict.service.CategoryService;
 
 @Controller
@@ -40,12 +43,39 @@ public class CategoryController {
 		}
 		model.addAttribute("categoryItemList", categoryItemList);
 		model.addAttribute("columnSize", columnSize);
+		model.addAttribute("categoryCount", service.getCategoryCount());
 		return "categoryList.tiles";
 	}
 
 	
+	@RequestMapping(value="/categoryDetail")
+	public ModelAndView categoryDetail(@RequestParam String categoryName) {
+		List<String> cvo = service.getCategoryByName(categoryName);
+		HashMap<String, Object> categoryData = new HashMap<String, Object>();
+		categoryData.put("name", categoryName);
+		categoryData.put("items", cvo);
+		return new ModelAndView("categoryDetail.tiles", "categoryData", categoryData);
+	}
+	
+	
 	@RequestMapping(value="/categoryRegister")
 	public String categoryRegister() {
 		return "categoryRegister.tiles";
+	}
+	
+	@RequestMapping(value="/categoryRegisterSend")
+	public String categoryRegisterSend(@RequestParam String categoryName, @RequestParam String[] items) {
+		System.out.println(categoryName);
+		System.out.println(items.length);
+		for(String i: items) {
+			if(i != "") {
+				System.out.println(i);
+				CategoryVO vo = new CategoryVO();
+				vo.setAssetCategory(categoryName);
+				vo.setAssetItem(i);
+				service.newCategory(vo);
+			}
+		}
+		return "redirect:/categoryList";
 	}
 }

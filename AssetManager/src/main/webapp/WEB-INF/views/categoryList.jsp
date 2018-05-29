@@ -97,38 +97,50 @@
 		 <div class="container-fluid">
 			<div class="row">
 				<div class="main">
-					<div class="page-header" style="display:flex">
-						<form>
-							<font size="6px" bold>분류 목록</font>&nbsp;&nbsp;&nbsp;&nbsp;
-							<font size="4px">분류 수 : </font>
-							<span class="badge">${userCount}</span>
+					<form class="page-header" >
+						<font size="6px" bold>분류 목록</font>&nbsp;&nbsp;&nbsp;&nbsp;
+						<font size="4px">분류 수 : </font>
+						<span class="badge">${categoryCount}</span>
+						<label style="float:right">
 							<input type="text" name="searchCategory" value="분류 이름으로 검색" readonly>
 							<input type="text" name="assetCategory">
 							<input type="submit" onclick="categoryList">
-						</form>
-					</div>
+						</label>
+					</form>
+					<%int columnSize = (Integer)request.getAttribute("columnSize");%>
 					<div class="table-responsive" style="overflow: scroll; height: 400px">
 						<table class="table table-striped" data-toggle="table">
 							<thead>
 								<tr>
 									<th data-sortable="true">분류 이름</th>
-									<th colspan="<%=(Integer)request.getAttribute("columnSize")%>">세부사항</th>
+									<%for(int i=0; i<columnSize; i++){%>
+									<th></th>
+									<%}%>
 								</tr>
 							</thead>
 							
 							<tbody>
-								<c:forEach items="${categoryItemList}" var="categoryItem">
-								<tr data-href="${categoryItem.key}">
+							<c:forEach items="${categoryItemList}" var="categoryItem">
+								<tr class="clickable-row" data-href="${categoryItem.key}">
 									<td>${categoryItem.key}</td>
+									<%int i=0; %>
 									<c:forEach items="${categoryItem.value}" var="item">
 									<td>${item}</td>
+									<%i += 1; %>
 									</c:forEach>
+									<%while(i<columnSize){
+										i += 1;%>
+									<td></td>
+									<%}%>
 								</tr>
-								</c:forEach>
+							</c:forEach>
 							</tbody>
 						</table>
 					</div>
-					<button class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='/assetmanager/categoryRegister';">분류 추가</button>
+					<div style="display:flex; float: right; margin-top: 10px">
+						<button class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/categoryRegister';">등록</button>
+						<button class="btn btn-lg btn-primary" style="margin-left: 10px" onclick="location.href='/assetmanager/categoryDelete';">삭제</button>
+					</div>
 				</div>
 			</div>
 		</div>

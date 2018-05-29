@@ -19,4 +19,19 @@ public class CategoryServiceImpl implements CategoryService {
 		return dao.getCategoryList();
 	}
 
+	@Override
+	public int getCategoryCount() {
+		return dao.getCategoryCount();
+	}
+
+	@Override
+	public List<String> getCategoryByName(String categoryName) {
+		return dao.getCategoryByName(categoryName);
+	}
+
+	@Override
+	public void newCategory(CategoryVO vo) {
+		dao.newCategory(vo);		
+	}
+
 }

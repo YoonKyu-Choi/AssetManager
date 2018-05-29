@@ -16,4 +16,27 @@
 		category_item
 </select>
 
+<select id="getCategoryCount" resultType="integer">
+	SELECT
+		COUNT(DISTINCT asset_category)
+	FROM
+		category_item;
+</select>
+
+<select id="getCategoryByName" resultType="String">
+	SELECT
+		asset_item
+	FROM
+		category_item
+	WHERE
+		asset_category=#{categoryName}
+</select>
+
+<insert id="newCategory" parameterType="String">
+	INSERT INTO
+		category_item
+	VALUES
+		(#{assetCategory}, #{assetItem})
+</insert>
+
 </mapper>
