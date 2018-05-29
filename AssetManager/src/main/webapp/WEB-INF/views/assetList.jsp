@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page session = "false" %>
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,14 +22,13 @@
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
 
 <script type="text/javascript">
-<%--
+
 	$(function(){
 		var isAdmin = "<%=session.getAttribute("isAdmin") %>";
 		if(isAdmin == "TRUE"){
 			$("div.admin").show();
 		}
 	});
---%>
 	function depSort(a, b){
 		if(a.dep < b.dep) return -1;
 		if(a.dep > b.dep) return 1;
