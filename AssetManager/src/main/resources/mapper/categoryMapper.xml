@@ -39,4 +39,11 @@
 		(#{assetCategory}, #{assetItem})
 </insert>
 
+<delete id="deleteCategory" parameterType="String">
+	DELETE FROM
+		category_item
+	WHERE
+		asset_category=#{categoryName}
+</delete>
+
 </mapper>

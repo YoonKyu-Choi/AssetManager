@@ -37,4 +37,9 @@ public class CategoryDAOImpl implements CategoryDAO{
 		
 	}
 
+	@Override
+	public void deleteCategory(String categoryName) {
+		sqlSession.delete(namespace+"deleteCategory", categoryName);
+	}
+
 }

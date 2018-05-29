@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eseict.VO.CategoryVO;
 import com.eseict.VO.EmployeeVO;
@@ -64,18 +65,33 @@ public class CategoryController {
 	}
 	
 	@RequestMapping(value="/categoryRegisterSend")
-	public String categoryRegisterSend(@RequestParam String categoryName, @RequestParam String[] items) {
-		System.out.println(categoryName);
-		System.out.println(items.length);
+	public String categoryRegisterSend(RedirectAttributes redirectAttributes, @RequestParam String categoryName, @RequestParam String[] items) {
 		for(String i: items) {
 			if(i != "") {
-				System.out.println(i);
 				CategoryVO vo = new CategoryVO();
 				vo.setAssetCategory(categoryName);
 				vo.setAssetItem(i);
 				service.newCategory(vo);
 			}
 		}
+		redirectAttributes.addFlashAttribute("msg", "등록되었습니다.");
 		return "redirect:/categoryList";
+	}
+	
+	@RequestMapping(value="/categoryDelete")
+	public String categoryDelete(RedirectAttributes redirectAttributes, @RequestParam String categoryName) {
+		service.deleteCategory(categoryName);
+		redirectAttributes.addFlashAttribute("msg", "삭제되었습니다.");
+		return "redirect:/categoryList";
+	}
+	
+	@RequestMapping(value="/categoryModify")
+	public ModelAndView categoryModify(@RequestParam String categoryName) {
+		List<String> cvo = service.getCategoryByName(categoryName);
+		HashMap<String, Object> categoryData = new HashMap<String, Object>();
+		categoryData.put("name", categoryName);
+		categoryData.put("items", cvo);
+		categoryData.put("itemSize", cvo.size());
+		return new ModelAndView("categoryModify.tiles", "categoryData", categoryData);
 	}
 }

@@ -139,7 +139,6 @@
 					</div>
 					<div style="display:flex; float: right; margin-top: 10px">
 						<button class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/categoryRegister';">등록</button>
-						<button class="btn btn-lg btn-primary" style="margin-left: 10px" onclick="location.href='/assetmanager/categoryDelete';">삭제</button>
 					</div>
 				</div>
 			</div>

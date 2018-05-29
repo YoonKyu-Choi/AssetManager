@@ -25,7 +25,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 <script>
-	var plusCount = 0;
+	var plusCount = Number("<c:out value="${categoryData.itemSize}"/>");
 	$(function(){
 		$(document).on("click", "#addItem", function(){
 			plusCount += 1;
@@ -79,17 +79,26 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<h1 class="page-header">새로운 분류 등록</h1>
+				<h1 class="page-header">${categoryData["name"]} 분류 수정</h1>
 				<form id="category" action="categoryRegisterSend" method="post">
-					분류 이름: <input type="text" name="categoryName" />
+					분류 이름: <input type="text" name="categoryName" value=${categoryData["name"]} disabled />
 					<input type="hidden" id="items" name="items"/>
 				</form>
 				<table class="table table-striped" style="text-align: left; margin-top: 10px" id="itemTable" border="1">
+				
+					<c:forEach items="${categoryData.items}" var="categoryItem" varStatus="i" step="2">
 					<tr>
 						<td style="width: 50%">
 							<input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;
-							<input type="text" style="width: 80%"/>
+							<input type="text" style="width: 80%" value="${categoryData.items[i.index]}"/>
 						</td>
+						<td style="width: 50%">
+							<input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="text" style="width: 80%" value="${categoryData.items[i.index+1]}"/>
+						</td>
+					</tr>
+					</c:forEach>
+					<tr>
 						<td style="width: 50%"><input type="button" id="addItem" value="+"/></td>
 					</tr>
 				</table>
