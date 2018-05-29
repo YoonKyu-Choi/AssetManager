@@ -54,6 +54,18 @@
 		}
 	}
 </script>
+<style>
+.form-controlmin {
+  display: block;  width: 12%;  height: 34px;  padding: 6px 12px;  font-size: 14px;  line-height: 1.42857143;  color: #555;  background-color: #fff;  background-image: none;  border: 1px solid #ccc;  border-radius: 4px;  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;}.form-controlmin {  display: block;
+  width: 12%;  height: 34px;  padding: 6px 12px;  font-size: 14px;  line-height: 1.42857143;  color: #555;  background-color: #fff;  background-image: none;  border: 1px solid #ccc;  border-radius: 4px;  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+.form-controlmin2 {
+  display: block;  width: 25%;  height: 34px;  padding: 6px 12px;  font-size: 14px;  line-height: 1.42857143;  color: #555;  background-color: #fff;  background-image: none;  border: 1px solid #ccc;  border-radius: 4px;  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;}.form-controlmin {  display: block;
+  width: 12%;  height: 34px;  padding: 6px 12px;  font-size: 14px;  line-height: 1.42857143;  color: #555;  background-color: #fff;  background-image: none;  border: 1px solid #ccc;  border-radius: 4px;  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+</style>
 </head>
 <body>
 
@@ -81,7 +93,7 @@
 							</tr>
 							<tr>
 								<th>직급</th>
-								<th><select class="form-control dropdown" id="employeeRank"
+								<th><select class="form-controlmin dropdown" id="employeeRank"
 									name="employeeRank">
 										<option value="0">직급을 선택하세요</option>
 										<option value="1">대표이사</option>
@@ -99,7 +111,7 @@
 							</tr>
 							<tr>
 								<th>소속</th>
-								<th><select class="form-control dropdown"
+								<th><select class="form-controlmin2 dropdown"
 									id="employeeDepartment" name="employeeDepartment">
 										<option value="0">소속을 선택하세요</option>
 										<option value="1">이에스이</option>
@@ -123,7 +135,7 @@
 							</tr>
 							<tr>
 								<th>위치</th>
-								<th><select class="form-control dropdown"
+								<th><select class="form-controlmin dropdown"
 									id="employeeLocation" name="employeeLocation">
 										<option value="0">위치를 선택하세요</option>
 										<option value="4층">4층</option>
@@ -142,7 +154,7 @@
 							</tr>
 							<tr>
 								<th>상태</th>
-								<th><select class="form-control dropdown admin"
+								<th><select class="form-controlmin dropdown admin"
 									id="employeeStatus" name="employeeStatus">
 										<option value="재직" selected>재직</option>
 										<option value="휴직">휴직</option>

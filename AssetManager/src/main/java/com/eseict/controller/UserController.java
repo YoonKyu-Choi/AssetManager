@@ -49,16 +49,13 @@ public class UserController {
 			System.out.println("정상 전체 출력");
 			List<EmployeeVO> list = service.getEmployeeList();
 			model.addAttribute("employeeList", list);
-			model.addAttribute("userCount", userCount);
-			return new ModelAndView("userList.tiles", "list", model);
 		} else {
 			System.out.println("검색!");
 			List<EmployeeVO> list = service.getEmployeeListByName(employeeName);
-			System.out.println(service.getEmployeeListByName(employeeName));
 			model.addAttribute("employeeList", list);
-			model.addAttribute("userCount", userCount);
-			return new ModelAndView("userList.tiles", "list", model);
 		}
+		model.addAttribute("userCount", userCount);
+		return new ModelAndView("userList.tiles", "list", model);
 	}
 
 	// 사용자 상세보기

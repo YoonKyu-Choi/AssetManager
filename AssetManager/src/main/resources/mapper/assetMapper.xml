@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.eseict.mapper.AssetMapper">
+
+	<resultMap type="com.eseict.VO.AssetVO" id="AssetVO-result">
+		<id column="ASSET_ID" property="assetId"/>
+		<result column="ASSET_CATEGORY" property="assetCategory"/>
+		<result column="EMPLOYEE_SEQ" property="employeeSeq"/>
+		<result column="ASSET_USER" property="assetUser"/>
+		<result column="ASSET_STATUS" property="assetStatus"/>
+		<result column="ASSET_OUT_STATUS" property="assetOutStatus"/>
+		<result column="ASSET_SERIAL" property="assetSerial"/>
+		<result column="ASSET_PURCHASE_DATE" property="assetPurchaseDate"/>
+		<result column="ASSET_PURCHASE_PRICE" property="assetPurchasePrice"/>
+		<result column="ASSET_PURCHASE_SHOP" property="assetPurchaseShop"/>
+		<result column="ASSET_MAKER" property="assetMaker"/>
+		<result column="ASSET_MODEL" property="assetModel"/>
+		<result column="ASSET_USAGE" property="assetUsage"/>
+		<result column="ASSET_MANAGER" property="assetManager"/>
+		<result column="ASSET_LOCATION" property="assetLocation"/>
+		<result column="ASSET_RECEIPT_URL" property="assetReceiptUrl"/>
+		<result column="ASSET_COMMENT" property="assetComment"/>
+	</resultMap>
+	
+ 	 <select id="getAssetList" resultMap="AssetVO-result" >
+		SELECT *
+		FROM asset_common_item
+	</select>
+
+	
+	<select id="getAssetCount" resultType="integer">
+	select count(*)
+	from asset_common_item
+	</select>
+	
+	<select id="getAssetCountByUse" resultType="integer">
+	select count(*)
+	from asset_common_item
+	where asset_status = '사용'
+	</select>
+	
+	<select id="getAssetCountByNotUse" resultType="integer">
+	select count(*)
+	from asset_common_item
+	where asset_status = '사용 불가'
+	</select>
+	
+	<select id="getAssetCountByOut" resultType="integer">
+	select count(*)
+	from asset_common_item
+	where asset_status = '반출'
+	</select>
+	
+	<select id="getAssetCountByDispReady" resultType="integer">
+	select count(*)
+	from asset_common_item
+	where asset_status = '폐기 대기'
+	</select>
+	
+	<select id="getAssetCountByDisposal" resultType="integer">
+	select count(*)
+	from asset_common_item
+	where asset_status = '폐기'
+	</select>
+	
+	<select id="getAssetByAssetId" parameterType="String" resultMap="AssetVO-result">
+	select *
+	from asset_common_item
+	where asset_id=#{assetId}
+	</select>
+	
+	<select id="getAssetCountByCategory" parameterType="String" resultType="integer">
+	select count(*)
+	from asset_common_item
+	where asset_category = #{assetCategory} 
+	</select>
+	
+	
+	<insert id="insertAsset">
+	insert into asset_common_item values(#{assetId},#{assetCategory},#{employeeSeq},#{assetUser}
+	,#{assetStatus},#{assetOutStats},#{assetSerial},#{assetPurchaseDate},#{assetPurchasePrice}
+	,#{assetPurchaseShop},#{assetMaker},#{assetModel},#{assetUsage},#{assetManager}
+	,#{assetLocation},#{assetReceiptUrl},#{assetComment}
+	);
+	</insert>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

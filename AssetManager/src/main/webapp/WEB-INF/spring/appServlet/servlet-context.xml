@@ -28,9 +28,7 @@
 			value="text/html; charset=UTF-8" />
 	</beans:bean>
 
-	<context:component-scan
-		base-package="com.eseict.controller" />
-
+	<context:component-scan base-package="com.eseict.controller" />
 
 	<beans:bean id="tilesViewResolver" class="org.springframework.web.servlet.view.tiles3.TilesViewResolver" />
 	<beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
