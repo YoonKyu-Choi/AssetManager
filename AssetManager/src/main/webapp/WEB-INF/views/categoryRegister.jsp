@@ -30,12 +30,11 @@
 		$(document).on("click", "#addItem", function(){
 			plusCount += 1;
 			if(plusCount % 2 == 1){
+				$("#itemTable tr:last td:last").before('<td style="width: 50%"><input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="width: 80%" value=""/></td>');
 				$("#itemTable tr:last td:last").remove();
-				$("#itemTable tr:last td:last").after('<td style="width: 50%"><input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="width: 80%" value=""/></td>');
-				$("#itemTable tr:last").after('<tr><td style="width: 50%"><input type="button" id="addItem" value="+"/></td></tr>');
+				$("#itemTable tr:last").after('<tr><td><input type="button" id="addItem" value="+"/></td></tr>');
 			} else{
-				$("#itemTable tr:last").remove();
-				$("#itemTable tr:last").after('<tr><td style="width: 50%"><input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="width: 80%" value=""/></td><td style="width: 50%"><input type="button" id="addItem" value="+"/></td>');
+				$("#itemTable tr:last td:last").before('<td style="width: 50%"><input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="width: 80%" value=""/></td>');
 			}
 		});
 		
@@ -55,13 +54,16 @@
 
 <script>
 	function categoryRegister(){
-//		$("td input[type='text']").css('background', 'red');
-		var items = [];
-		for(var i=0; i<plusCount+1; i++){
-			items.push($("td input[type='text']:eq("+i+")").val());
+		if(!confirm('등록하겠습니까?')){
+			return false;				
+		}else{
+			var items = [];
+			for(var i=0; i<plusCount+1; i++){
+				items.push($("td input[type='text']:eq("+i+")").val());
+			}
+			$("#items").val(items);
+			$("#category").submit();
 		}
-		$("#items").val(items);
-		$("#category").submit();
 	}
 	
 	function cancelConfirm(){

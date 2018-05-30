@@ -39,4 +39,24 @@ public class CategoryServiceImpl implements CategoryService {
 		dao.deleteCategory(categoryName);
 	}
 
+	@Override
+	public void deleteItem(String categoryName, String itemName) {
+		dao.deleteItem(categoryName, itemName);
+	}
+
+	@Override
+	public int checkCategoryItem(CategoryVO vo) {
+		return dao.checkCategoryItem(vo);
+	}
+
+	@Override
+	public void updateCategoryName(String categoryOriName, String categoryName) {
+		dao.updateCategoryName(categoryOriName, categoryName);
+	}
+
+	@Override
+	public void updateItemName(String itemOriName, String itemName, String categoryName) {
+		dao.updateItemName(itemOriName, itemName, categoryName);
+	}
+
 }

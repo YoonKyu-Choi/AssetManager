@@ -11,7 +11,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>사용자 상세보기</title>
+<title>분류 수정</title>
 
 <!-- Bootstrap core CSS -->
 <link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
@@ -25,22 +25,41 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 <script>
-	var plusCount = Number("<c:out value="${categoryData.itemSize}"/>");
+	var itemSize = Number("<c:out value="${categoryData.itemSize}"/>");
+	var plusCount = itemSize;
+	var deleteItems = [];
 	$(function(){
+		if(itemSize % 2 == 1){
+			var index = Math.floor(itemSize/2);
+			$("tr:eq("+index+") td:last").remove();
+			$("tr:gt("+index+") td:nth-child(2n+1)").each(function(){
+				$(this).closest("tr").prev().find("td:last").after($(this));
+			});
+			$("tr:last").remove();
+		}
+		
 		$(document).on("click", "#addItem", function(){
-			plusCount += 1;
-			if(plusCount % 2 == 1){
+			if(plusCount % 2 == 0){
+				$("#itemTable tr:last td:last").before('<td style="width: 50%"><input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="width: 80%" value=""/></td>');
+			} else if(plusCount % 2 == 1){
+				$("#itemTable tr:last td:last").before('<td style="width: 50%"><input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="width: 80%" value=""/></td>');
 				$("#itemTable tr:last td:last").remove();
-				$("#itemTable tr:last td:last").after('<td style="width: 50%"><input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="width: 80%" value=""/></td>');
-				$("#itemTable tr:last").after('<tr><td style="width: 50%"><input type="button" id="addItem" value="+"/></td></tr>');
-			} else{
-				$("#itemTable tr:last").remove();
-				$("#itemTable tr:last").after('<tr><td style="width: 50%"><input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="width: 80%" value=""/></td><td style="width: 50%"><input type="button" id="addItem" value="+"/></td>');
+				$("#itemTable tr:last").after('<tr><td><input type="button" id="addItem" value="+"/></td></tr>');
 			}
+			plusCount += 1;
 		});
 		
+		$(document).on("click", ".deleteItem", function(event){
+			if(!$(event.target).hasClass("deleteItemCancel")){
+				$(event.target).closest("td").find("input:last").prop("readonly", true).css('background', 'gray');
+				$(event.target).addClass("deleteItemCancel");
+			} else{
+				$(event.target).closest("td").find("input:last").prop("readonly", false).css('background', 'white');
+				$(event.target).removeClass("deleteItemCancel");
+			}
+		});
+	
 		$(document).on("click", ".removeItem", function(event){
-			plusCount -= 1;
 			var index = $("tr").index($(event.target).closest("tr"));
 			$(event.target).closest("td").remove();
 			$("tr:gt("+index+") td:nth-child(2n+1)").each(function(){
@@ -49,18 +68,26 @@
 			if(plusCount % 2 == 0){
 				$("tr:last").remove();
 			}
-		})
+			plusCount -= 1;
+		});
 	});
 </script>
 
 <script>
-	function categoryRegister(){
+	function categoryModify(){
 //		$("td input[type='text']").css('background', 'red');
 		var items = [];
-		for(var i=0; i<plusCount+1; i++){
+		for(var i=0; i<plusCount; i++){
 			items.push($("td input[type='text']:eq("+i+")").val());
 		}
 		$("#items").val(items);
+		
+		for(var i=0; i<itemSize; i++){
+			if($("td:eq("+i+")").find("input:last").prop("readonly")){
+				deleteItems.push(i);
+			}
+		}
+		$("#deleteItems").val(deleteItems);
 		$("#category").submit();
 	}
 	
@@ -80,20 +107,22 @@
 		<div class="row">
 			<div class="main">
 				<h1 class="page-header">${categoryData["name"]} 분류 수정</h1>
-				<form id="category" action="categoryRegisterSend" method="post">
-					분류 이름: <input type="text" name="categoryName" value=${categoryData["name"]} disabled />
+				<form id="category" action="categoryModifySend" method="post">
+					<input type="hidden" name="categoryOriName" value="${categoryData['name']}" />
+					분류 이름: <input type="text" name="categoryName" value="${categoryData['name']}" />
 					<input type="hidden" id="items" name="items"/>
+					<input type="hidden" id="deleteItems" name="deleteItems"/>
 				</form>
 				<table class="table table-striped" style="text-align: left; margin-top: 10px" id="itemTable" border="1">
 				
 					<c:forEach items="${categoryData.items}" var="categoryItem" varStatus="i" step="2">
 					<tr>
-						<td style="width: 50%">
-							<input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;
+						<td style="width: 50%; background: lightgray">
+							<input type="button" class="deleteItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="text" style="width: 80%" value="${categoryData.items[i.index]}"/>
 						</td>
-						<td style="width: 50%">
-							<input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;
+						<td style="width: 50%; background: lightgray">
+							<input type="button" class="deleteItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="text" style="width: 80%" value="${categoryData.items[i.index+1]}"/>
 						</td>
 					</tr>
@@ -103,7 +132,7 @@
 					</tr>
 				</table>
 				<div style="display: flex; float: right">
-					<input type="button" class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="categoryRegister();" value="등록"/>
+					<input type="button" class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="categoryModify();" value="수정"/>
 					<input type="button" class="btn btn-lg btn-primary" onclick="cancelConfirm();" value="취소"/>
 				</div>
 			</div>

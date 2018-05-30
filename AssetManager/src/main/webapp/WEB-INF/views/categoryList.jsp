@@ -12,7 +12,7 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 		
-		<title>사용자 목록</title>
+		<title>분류 목록</title>
 		
 		<!-- Bootstrap core CSS -->
 		<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
@@ -45,8 +45,6 @@
 				
 				if(flashmsg != "")
 					alert(flashmsg);
-			});
-			$(function(){
 				
 				var windowHeight = window.innerHeight;
 				$(".table-responsive").css("height", windowHeight-300);
@@ -57,24 +55,49 @@
 				
 			});
 			
-			function searchFunc(){
-				alert($("#searchByName").val());
-				$.ajax({
-				"type" : "GET",
-				"url":"userList",
-				"dataType":"text",
-				"data" : {
-					employeeName : $("#searchByName").val()
-				},
-				"success" : function(){
-					alert("검색 완료");
-					$("#employeeTable").load("userList #employeeTable");
-					
-				},
-				"error" : function(e){
-					alert("오류 발생 : "+e.responseText);
+			function search(){
+				var keyword = $("#searchKeyword").val();
+				var mode = $("#searchMode").val();
+				var result = [];
+				if(mode == "1"){
+					var count = "${categoryCount}";
+					$("tr:gt(0) td:nth-child("+"${columnSize}"+1+"n+1)").each(function(){
+						$(this).closest("tr").show();
+						var name = $(this).text();
+						var match = name.match(new RegExp(keyword, 'g'));
+						if(match == null){
+							$(this).closest("tr").hide();
+							count -= 1;
+						}
+					});
+					alert(count+"개의 분류 검색됨.");
 				}
-				});
+				else if(mode == "2"){
+					var count = "${categoryCount}";
+					var checkary = [];
+					for(var i=0; i<count; i++){
+						checkary.push(false)
+					}
+					$("tr:gt(0) td:not(:nth-child("+"${columnSize}"+1+"n+1))").each(function(){
+						$(this).closest("tr").show();
+						var name = $(this).text();
+						var match = name.match(new RegExp(keyword, 'g'));
+						if(match != null){
+							var index = $("tr").index($(this).closest("tr"));
+							checkary[index-1] = true;
+							alert(name+" "+index);
+						}
+					});
+					var count2 = count;
+					for(var i=0; i<count; i++){
+						if(checkary[i] == false){
+//							alert("false: "+i);
+							$("tr:eq("+(i+1)+")").hide();
+							count2 -= 1;
+						}
+					}
+					alert(count2+"개의 분류 검색됨.");
+				}
 			}
 		</script>
 		
@@ -97,14 +120,17 @@
 		 <div class="container-fluid">
 			<div class="row">
 				<div class="main">
-					<form class="page-header" >
+					<form class="page-header" action=#>
 						<font size="6px" bold>분류 목록</font>&nbsp;&nbsp;&nbsp;&nbsp;
 						<font size="4px">분류 수 : </font>
 						<span class="badge">${categoryCount}</span>
 						<label style="float:right">
-							<input type="text" name="searchCategory" value="분류 이름으로 검색" readonly>
-							<input type="text" name="assetCategory">
-							<input type="submit" onclick="categoryList">
+							<select id="searchMode" name="searchMode">
+								<option value="1">분류 이름</option>
+								<option value="2">세부 항목</option>
+							</select>
+							<input type="text" id="searchKeyword" name="searchKeyword">
+							<input type="button" onclick="search();" value="검색">
 						</label>
 					</form>
 					<%int columnSize = (Integer)request.getAttribute("columnSize");%>

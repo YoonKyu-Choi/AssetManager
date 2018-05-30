@@ -67,7 +67,7 @@ public class CategoryController {
 	@RequestMapping(value="/categoryRegisterSend")
 	public String categoryRegisterSend(RedirectAttributes redirectAttributes, @RequestParam String categoryName, @RequestParam String[] items) {
 		for(String i: items) {
-			if(i != "") {
+			if(!i.equals("")) {
 				CategoryVO vo = new CategoryVO();
 				vo.setAssetCategory(categoryName);
 				vo.setAssetItem(i);
@@ -93,5 +93,41 @@ public class CategoryController {
 		categoryData.put("items", cvo);
 		categoryData.put("itemSize", cvo.size());
 		return new ModelAndView("categoryModify.tiles", "categoryData", categoryData);
+	}
+	
+	@RequestMapping(value="/categoryModifySend")
+	public String categoryModifySend(RedirectAttributes redirectAttributes, @RequestParam String categoryOriName, @RequestParam String categoryName, @RequestParam String[] items, @RequestParam String[] deleteItems) {
+		List<String> cvolist = service.getCategoryByName(categoryOriName);
+		String[] cvo = new String[cvolist.size()];
+		cvo = cvolist.toArray(cvo);
+
+		if(!categoryOriName.equals(categoryName)) {
+			System.out.println("asd");
+			service.updateCategoryName(categoryOriName, categoryName);
+		}
+		
+		ArrayList<Integer> deleteItemsList = new ArrayList<Integer>();
+		for(String s: deleteItems) {
+			deleteItemsList.add(Integer.parseInt(s));
+			service.deleteItem(categoryName, cvo[Integer.parseInt(s)]);
+		}
+		
+		for(int i=0; i<cvo.length; i++) {
+			if(!cvo[i].equals(items[i]) && !items[i].equals("")) {
+				if(!deleteItemsList.contains(i)) {
+					service.updateItemName(cvo[i], items[i], categoryName);
+				}
+			}
+		}
+		
+			
+		for(int j=cvo.length; j<items.length; j++){
+			CategoryVO vo = new CategoryVO();
+			vo.setAssetCategory(categoryName);
+			vo.setAssetItem(items[j]);
+			service.newCategory(vo);
+		}
+		redirectAttributes.addFlashAttribute("msg", "수정되었습니다.");
+		return "redirect:/categoryList";
 	}
 }
