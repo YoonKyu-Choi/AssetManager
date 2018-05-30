@@ -45,6 +45,7 @@ public class LoginController {
 					session.setAttribute("isUser", "TRUE");
 			}
 		}
+		session.setAttribute("Id", inputId);
 		return Integer.toString(check);
 	}
 

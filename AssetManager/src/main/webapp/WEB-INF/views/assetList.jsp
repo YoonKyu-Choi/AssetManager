@@ -91,13 +91,11 @@
 	<style>
 		th, td {
 	text-align: center;
+		nowrap;
 	}
 	th{
 	background-color:darkgray;
 	color:white;
-	}
-	p{
-			font-size:25px;
 	}
 	.form-controlmin {
 	  display: block;
@@ -144,12 +142,12 @@
 				<input type="submit" value="검색" onclick="searchFunc();"/>
 				</div>
 				</div>
-				<div class="table-responsive" style="overflow-x:auto; overflow-y: scroll; height: 400px">
+				<div class="table-responsive" style="overflow: scroll; height: 400px">
 					<table class="table table-striped" data-toggle="table">
 						<thead>
 							<tr>
 								<th>선택</th>
-								<th data-sortable="true">관리번호</th>
+								<th data-sortable="true">관리 번호</th>
 								<th data-sortable="true">자산 분류</th>
 								<th data-sortable="true">사용자</th>
 								<th data-sortable="true">상태</th>
@@ -186,7 +184,7 @@
 						</tbody>
 					</table>
 				</div>
-				<button class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='/assetmanager/register';">자산 등록</button>
+				<button class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='assetRegister';">자산 등록</button>
 				<div class="admin"> 
 				<button class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='/assetmanager/register';">폐기 신청</button>
 				</div>

@@ -111,7 +111,7 @@ public class AssetVO {
 	public void setAssetPurchaseDate(Date assetPurchaseDate) {
 		this.assetPurchaseDate = assetPurchaseDate;
 	}
-
+	
 	public String getAssetPurchasePrice() {
 		return assetPurchasePrice;
 	}

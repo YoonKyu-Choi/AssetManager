@@ -1,12 +1,17 @@
 package com.eseict.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -51,43 +56,45 @@ public class AssetController {
 		return new ModelAndView("assetDetail.tiles", "assetVO", avo);
 	}
 	
-	@RequestMapping(value="/assetRegister")
+	@RequestMapping(value = "/assetRegister", method = RequestMethod.GET)
+	public String register(HttpSession session) {
+		return "assetRegister.tiles";
+	}
+	
+	@RequestMapping(value="/assetRegister2")
 	public String assetRegister(@ModelAttribute AssetVO avo) {
-		
 		// 관리 번호 생성
 		String categoryKeyword = null;
-		if(avo.getAssetCategory()=="노트북") {
-			categoryKeyword = "NT";
-		}else if(avo.getAssetCategory()=="데스크탑") {
-			categoryKeyword = "DT";
-		}else if(avo.getAssetCategory()=="모니터") {
-			categoryKeyword = "MT";
-		}else if(avo.getAssetCategory()=="서버") {
-			categoryKeyword = "SV";
-		}else if(avo.getAssetCategory()=="SW") {
-			categoryKeyword = "SW";
-		}else if(avo.getAssetCategory()=="IP WALL") {
-			categoryKeyword = "IW";
-		}else if(avo.getAssetCategory()=="프린터") {
-			categoryKeyword = "PR";
-		}else if(avo.getAssetCategory()=="책상") {
-			categoryKeyword = "TA";
-		}else if(avo.getAssetCategory()=="의자") {
-			categoryKeyword = "CH";
-		}else if(avo.getAssetCategory()=="책") {
-			categoryKeyword = "BO";
-		}else if(avo.getAssetCategory()=="기타") {
-			categoryKeyword = "ET";
+		int year = 0;
+		String month = null;
+		String ac = avo.getAssetCategory();
+		
+		if(ac.equals("노트북")) { categoryKeyword = "NT";
+		}else if(ac.equals("데스크탑")) {	categoryKeyword = "DT";
+		}else if(ac.equals("모니터")) { categoryKeyword = "MT";
+		}else if(ac.equals("서버")) { categoryKeyword = "SV";
+		}else if(ac.equals("SoftWare")) { categoryKeyword = "SW";
+		}else if(ac.equals("IP WALL")) { categoryKeyword = "IW";
+		}else if(ac.equals("프린터")) { categoryKeyword = "PR";
+		}else if(ac.equals("책상")) { categoryKeyword = "TA";
+		}else if(ac.equals("의자")) { categoryKeyword = "CH";
+		}else if(ac.equals("책")) { categoryKeyword = "BO";
+		}else if(ac.equals("기타")) { categoryKeyword = "ET";
 		}
 		
-		int month = avo.getAssetPurchaseDate().getMonth();
-		int day = avo.getAssetPurchaseDate().getDay();
-		System.out.println("구입 날짜 : "+month+day);
-		int itemCount = service.getAssetCountByCategory(avo.getAssetCategory());
+		year = avo.getAssetPurchaseDate().getYear()%100;
+		if(avo.getAssetPurchaseDate().getMonth()+1 <10) {
+			month = "0"+Integer.toString(avo.getAssetPurchaseDate().getMonth()+1); 
+		} else {
+			month = Integer.toString(avo.getAssetPurchaseDate().getMonth()+1);
+		}
 		
-		avo.setAssetId(month+day+"-"+categoryKeyword+"-"+(itemCount+=1));
+		String itemSequence = "0"+"0"+(service.getAssetCountByCategory(avo.getAssetCategory())+1);
+		avo.setAssetId(year+month+"-"+categoryKeyword+"-"+(itemSequence));
+		System.out.println("관리번호 생성 : "+year+month+"-"+categoryKeyword+"-"+(itemSequence));
 		service.insertAsset(avo);
-		return "assetList.tiles";
+		
+		return "redirect:/assetList.tiles";
 	}
 
 }

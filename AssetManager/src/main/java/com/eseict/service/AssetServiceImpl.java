@@ -61,6 +61,7 @@ public class AssetServiceImpl implements AssetService{
 
 	@Override
 	public int getAssetCountByCategory(String assetCategory) {
+		System.out.println("서비스 카테고리명 : "+assetCategory);
 		return dao.getAssetCountByCategory(assetCategory);
 	}
 
