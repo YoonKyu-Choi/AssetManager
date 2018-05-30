@@ -139,8 +139,8 @@
 				    <div class="window">
 				    	<p>비밀번호를 입력해주세요.</p>
 
-						<form id="idForm" action="userDelete" method="POST">
-							<input type="hidden" name="employeeSeq" value=${requestScope.employeeVO.employeeSeq } />
+						<form id="idForm" action="categoryDelete" method="POST">
+							<input type="hidden" name="categoryName" value=${categoryData["name"]} />
 							<input type="password" name="checkAdminPw" autofocus/>
 				        	<div style="margin-top: 20px">
 					        	<button class="btn btn-lg btn-primary" type="submit">제출</button>

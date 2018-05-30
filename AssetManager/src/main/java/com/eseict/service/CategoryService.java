@@ -13,4 +13,6 @@ public interface CategoryService {
 	public List<String> getCategoryByName(String categoryName);
 	
 	public void newCategory(CategoryVO vo);
+	
+	public void deleteCategory(String categoryName);
 }

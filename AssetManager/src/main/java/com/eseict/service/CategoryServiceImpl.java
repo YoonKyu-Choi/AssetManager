@@ -34,4 +34,9 @@ public class CategoryServiceImpl implements CategoryService {
 		dao.newCategory(vo);		
 	}
 
+	@Override
+	public void deleteCategory(String categoryName) {
+		dao.deleteCategory(categoryName);
+	}
+
 }
