@@ -63,4 +63,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public List<EmployeeVO> getEmployeeListByName(String employeeName) {
 		return dao.getEmployeeListByName(employeeName);
 	}
+
+	@Override
+	public List<String> getEmployeeNameList() {
+		return dao.getEmployeeNameList();
+	}
 }

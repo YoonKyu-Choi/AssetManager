@@ -1,7 +1,7 @@
 package com.eseict.controller;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -99,5 +100,33 @@ public class UserController {
 		redirectAttributes.addFlashAttribute("msg", "수정되었습니다.");
 		return "redirect:/userList.tiles";
 	}
+	
+	// 사용자 이름만 전체 출력
+	@ResponseBody
+	@RequestMapping(value="/nameList")
+//	public HashMap<String,List<String>> nameList(Model model) {
+	public ArrayList<List<String>> nameList(Model model) {
+		int i=0;
+		
+		List<String> list = service.getEmployeeNameList();
+		System.out.println(list);
+		
+//		HashMap<String,List<String>> map = new HashMap<String,List<String>>();
+//		map.put("employeeName", list);
+		ArrayList<List<String>> aList = new ArrayList<List<String>>();
+		aList.add(list);
+		
+		model.addAttribute("employeeNameList", aList);
+//		return map;
+		return aList;
+	}
+	
+	@RequestMapping(value="/nameList2")
+	public ModelAndView nameList2(Model model) {
+		List<String> list =service.getEmployeeNameList();
+		model.addAttribute("employeeNameList",list);
+		return new ModelAndView("assetRegister.tiles","list",model); 
+	}
+	
 
 }

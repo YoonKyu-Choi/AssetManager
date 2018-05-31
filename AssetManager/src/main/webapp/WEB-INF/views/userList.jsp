@@ -59,7 +59,7 @@
 			alert($("#searchByName").val());
 			$.ajax({
 			"type" : "GET",
-				"url":"userList",
+			"url":"userList",
 			"dataType":"text",
 			"data" : {
 				employeeName : $("#searchByName").val()

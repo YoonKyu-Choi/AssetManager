@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.eseict.VO.AssetVO;
+import com.eseict.VO.EmployeeVO;
 import com.eseict.service.AssetService;
 
 @Controller
@@ -96,7 +97,6 @@ public class AssetController {
 		
 		return "redirect:/assetList.tiles";
 	}
-
 }
 
 

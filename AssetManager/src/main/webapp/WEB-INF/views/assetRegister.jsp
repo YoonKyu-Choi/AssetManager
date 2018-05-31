@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,13 +16,70 @@
 	href="${pageContext.request.contextPath}/resources/css/bootstrap.css"
 	rel="stylesheet">
 <!-- Custom styles for this template -->
-<link href="${pageContext.request.contextPath}/resources/css/signin.css"
-	rel="stylesheet">
-<script
-	src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
+<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
+<script	src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
 
 <script type="text/javascript">
+/*
+	$(document).ready(function(){
+		$.ajax({
+			"type":"POST",
+			"url":"nameList",
+			"dataType":"text",
+			"success" : function( _data ){
+				console.log(_data);
+				alert("최신화 확인2");
+				request.
+				/*
+				$.each(_data,function(){
+					$("#assetManager").append("<option>a</option>");
+				});
+				var list = new Map();
+				
+				
 
+			},
+			"error":function(){
+				alert("에러");
+			},
+			"complete" : function() {
+				
+			}
+		});
+	});
+	function getList(){
+			$.ajax({
+				"type":"POST",
+				"url":"nameList",
+				"dataType":"text",
+				"success" : function( _data ){
+					$("body").html();
+					console.log(_data);
+//					$("#assetManager").append('<option value="_data">_data</option>');
+				},
+				"error":function(){
+					alert("에러");
+				},
+				"complete" : function() {
+					
+				}
+			});
+	}
+*/
+	function getCategoryDetailItem(){
+		$.ajax({
+			"type":"POST",
+			"url":"getCategoryDetailItem",
+			"dataType":"text",
+			"success" : function(a){
+				alert("완료 :");
+			},
+			"error":function(){
+				alert("에러");
+			}					
+		});
+	}
+	
 	function submitCheck() {
 		if ($("#assetCategory").val() == '0') {
 			alert("분류를 선택해주세요.");			
@@ -39,8 +98,8 @@
 		} else if($("#assetUsage").val()=='0'){
 			alert("용도를 선택해주세요.");
 			return false;
-		} else if($("#assetManager").val()==''){
-			alert("책임자를 입력해주세요.");
+		} else if($("#assetManager").val()=='0'){
+			alert("책임자를 선택해주세요.");
 			return false;
 		} else if($("#assetLocation").val()=='0'){
 			alert("사용 위치를 선택해주세요.");
@@ -92,7 +151,7 @@
 			<h2 style="text-align: center">자산 정보 입력</h2>
 			자산 공통사항
 			<div style="display: flex; margin-left: 90px">
-				<table class="table table-striped">
+				<table class="table table-striped" id="assetTable">
 					<tr>
 						<th>분류</th>
 						<th><select class="form-controlmin dropdown" id="assetCategory" name="assetCategory">
@@ -151,7 +210,13 @@
 								<option value="업무용">업무용</option>
 						</select></th>
 						<th>책임자</th>
-						<th><input type="text" id="assetManager" name="assetManager"></th>
+						<th>
+						<select class="form-controlmin dropdown" name="assetManager" id="assetManager">
+							<option value="0">책임자를 선택하세요.</option>
+							<c:forEach items="${employeeNameList}" var="employee">
+								<option value="${employee}">${employee}</option>
+							</c:forEach>
+						</select></th>
 					</tr>
 					<tr>
 						<th>사용 위치</th>

@@ -35,4 +35,7 @@ public interface EmployeeDAO {
 	
 	// 사용자 이름으로 검색
 	public List<EmployeeVO> getEmployeeListByName(String employeeName);
+
+	// 사용자 이름 목록 조회
+	public List<String> getEmployeeNameList();
 }

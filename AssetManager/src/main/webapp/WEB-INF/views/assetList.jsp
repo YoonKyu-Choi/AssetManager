@@ -119,7 +119,6 @@
 		        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 	}
 	</style>
-	
 </head>
 	<body>
 	 <div class="container-fluid">
@@ -187,7 +186,7 @@
 						</tbody>
 					</table>
 				</div>
-				<button class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='assetRegister';">자산 등록</button>
+				<button class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='/assetmanager/nameList2';">자산 등록</button>
 				<div class="admin"> 
 				<button class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='/assetmanager/register';">폐기 신청</button>
 				</div>

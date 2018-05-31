@@ -62,6 +62,11 @@
 			employee.employee_rank = rank.employee_rank
 			AND employee.employee_department=department.employee_department
 	</select>
+	
+	<select id="getEmployeeNameList" resultType="String">
+		select employee_name
+		from employee
+	</select>
  	 
 	<select id="selectEmployeeByEmployeeSeq" parameterType="integer" resultMap="EmployeeVO-result">
 		SELECT
