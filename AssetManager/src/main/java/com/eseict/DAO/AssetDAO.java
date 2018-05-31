@@ -3,6 +3,7 @@ package com.eseict.DAO;
 import java.util.List;
 
 import com.eseict.VO.AssetVO;
+import com.eseict.VO.CategoryVO;
 
 public interface AssetDAO {
 
@@ -26,5 +27,7 @@ public interface AssetDAO {
 	public void insertAsset(AssetVO avo);
 	// 카테고리별 자산 수 
 	public int getAssetCountByCategory(String assetCategory);
+	// 카테고리 이름으로 항목 조회
+	public List<CategoryVO> getCategoryDetailItem(String assetCategory);
 	
 }

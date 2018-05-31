@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.eseict.VO.AssetVO;
+import com.eseict.VO.CategoryVO;
 
 @Repository
 public class AssetDAOImpl implements AssetDAO{
@@ -65,6 +66,11 @@ public class AssetDAOImpl implements AssetDAO{
 	public int getAssetCountByCategory(String assetCategory) {
 		System.out.println("dao 카테고리명 : "+assetCategory);
 		return sqlSession.selectOne(namespace+"getAssetCountByCategory",assetCategory);
+	}
+
+	@Override
+	public List<CategoryVO> getCategoryDetailItem(String assetCategory) {
+		return sqlSession.selectList(namespace+"getCategoryDetailItem",assetCategory);
 	}
 
 }

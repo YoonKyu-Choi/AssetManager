@@ -98,27 +98,7 @@ public class UserController {
 		redirectAttributes.addFlashAttribute("msg", "수정되었습니다.");
 		return "redirect:/userList.tiles";
 	}
-	
-	// 사용자 이름만 전체 출력
-	@ResponseBody
-	@RequestMapping(value="/nameList")
-//	public HashMap<String,List<String>> nameList(Model model) {
-	public ArrayList<List<String>> nameList(Model model) {
-		int i=0;
-		
-		List<String> list = service.getEmployeeNameList();
-		System.out.println(list);
-		
-//		HashMap<String,List<String>> map = new HashMap<String,List<String>>();
-//		map.put("employeeName", list);
-		ArrayList<List<String>> aList = new ArrayList<List<String>>();
-		aList.add(list);
-		
-		model.addAttribute("employeeNameList", aList);
-//		return map;
-		return aList;
-	}
-	
+
 	@RequestMapping(value="/nameList2")
 	public ModelAndView nameList2(Model model) {
 		List<String> list =service.getEmployeeNameList();

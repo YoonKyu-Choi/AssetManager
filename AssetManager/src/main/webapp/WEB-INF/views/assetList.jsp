@@ -50,17 +50,12 @@
 		$(document).on('click', '.checkBtn', function(){
 			console.log('checkbox clicked');
 		});
-		
+
 		$(".tdNonClick").unbind('click');
 		
-		var flashmsg = "<c:out value="${msg}"/>";
-		if(flashmsg != ""){
-			alert(flashmsg);
-		}
 	});
 	
 	$(function(){
-		
 		var windowHeight = window.innerHeight;
 		$(".table-responsive").css("height", windowHeight-300);
 		$(window).resize(function(){

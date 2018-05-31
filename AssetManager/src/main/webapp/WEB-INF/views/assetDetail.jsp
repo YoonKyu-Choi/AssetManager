@@ -61,12 +61,6 @@
 			$("#modifyForm").submit();
 		}
 	}
-	
-	$(function(){
-		var flashmsg = "<c:out value="${msg}"/>";
-//		if(flashmsg != "")
-			alert(flashmsg);
-	});
 
 	function wrapWindowByMask(){
 	    // 화면의 높이와 너비를 변수로 만듭니다.

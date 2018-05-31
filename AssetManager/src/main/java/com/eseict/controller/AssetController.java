@@ -1,7 +1,5 @@
 package com.eseict.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -13,10 +11,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.eseict.VO.AssetVO;
-import com.eseict.VO.EmployeeVO;
+import com.eseict.VO.CategoryVO;
 import com.eseict.service.AssetService;
 
 @Controller
@@ -97,6 +96,26 @@ public class AssetController {
 		
 		return "redirect:/assetList.tiles";
 	}
+	
+//	@RequestMapping(value="/getCategoryDetailItem")
+//	public List<CategoryVO> getCategoryDetailItem(@RequestParam String assetCategory) {
+//		System.out.println(assetCategory);
+//		List<CategoryVO> list = service.getCategoryDetailItem(assetCategory);
+//		System.out.println(list);
+//		return list;
+//	}
+	
+	@RequestMapping(value="/getCategoryDetailItem")
+	@ResponseBody
+	public List<CategoryVO> getCategoryDetailItem(@RequestParam String assetCategory) {
+		System.out.println(assetCategory);
+		List<CategoryVO> list = service.getCategoryDetailItem(assetCategory);
+		
+		System.out.println(list);
+//		model.addAttribute("list",list);
+		return list;
+	}
+	
 }
 
 

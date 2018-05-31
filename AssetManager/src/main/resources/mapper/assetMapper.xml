@@ -6,7 +6,6 @@
 	<resultMap type="com.eseict.VO.AssetVO" id="AssetVO-result">
 		<id column="ASSET_ID" property="assetId"/>
 		<result column="ASSET_CATEGORY" property="assetCategory"/>
-		<result column="EMPLOYEE_SEQ" property="employeeSeq"/>
 		<result column="ASSET_USER" property="assetUser"/>
 		<result column="ASSET_STATUS" property="assetStatus"/>
 		<result column="ASSET_OUT_STATUS" property="assetOutStatus"/>
@@ -21,6 +20,11 @@
 		<result column="ASSET_LOCATION" property="assetLocation"/>
 		<result column="ASSET_RECEIPT_URL" property="assetReceiptUrl"/>
 		<result column="ASSET_COMMENT" property="assetComment"/>
+	</resultMap>
+	
+	<resultMap type="com.eseict.VO.CategoryVO" id="CategoryVO-result">
+		<id column="asset_category" property="assetCategory"/>
+		<result column="asset_item" property="assetItem"/>
 	</resultMap>
 	
  	 <select id="getAssetList" resultMap="AssetVO-result" >
@@ -84,6 +88,12 @@
 	,#{assetLocation},#{assetReceiptUrl},#{assetComment}
 	);
 	</insert>
+	
+	<select id="getCategoryDetailItem" parameterType="String" resultMap="CategoryVO-result">
+	select asset_item 
+	from category_item
+	where asset_category =#{assetCategory}
+	</select>
 	
 </mapper>
 

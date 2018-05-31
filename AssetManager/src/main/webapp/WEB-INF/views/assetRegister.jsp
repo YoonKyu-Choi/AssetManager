@@ -20,59 +20,33 @@
 <script	src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
 
 <script type="text/javascript">
-/*
-	$(document).ready(function(){
-		$.ajax({
-			"type":"POST",
-			"url":"nameList",
-			"dataType":"text",
-			"success" : function( _data ){
-				console.log(_data);
-				alert("최신화 확인2");
-				request.
-				/*
-				$.each(_data,function(){
-					$("#assetManager").append("<option>a</option>");
-				});
-				var list = new Map();
-				
-				
 
-			},
-			"error":function(){
-				alert("에러");
-			},
-			"complete" : function() {
-				
-			}
-		});
-	});
-	function getList(){
-			$.ajax({
-				"type":"POST",
-				"url":"nameList",
-				"dataType":"text",
-				"success" : function( _data ){
-					$("body").html();
-					console.log(_data);
-//					$("#assetManager").append('<option value="_data">_data</option>');
-				},
-				"error":function(){
-					alert("에러");
-				},
-				"complete" : function() {
-					
-				}
-			});
-	}
-*/
 	function getCategoryDetailItem(){
 		$.ajax({
 			"type":"POST",
 			"url":"getCategoryDetailItem",
 			"dataType":"text",
+			"data":{
+				assetCategory : $("#assetCategory option:selected").val()
+			},
+			"beforeSend" : function(b){
+				$("#assetTable2 tr:gt(0)").remove();
+			},
 			"success" : function(a){
-				alert("완료 :");
+				a = a.split("\"},{\"assetCategory\":null,\"assetItem\":\"");
+				a[0] = a[0].split("{\"assetCategory\":null,\"assetItem\":\"")[1];
+				a[a.length-1] = a[a.length-1].split("\"}]")[0];
+				var plusCount = 1;
+				for(var i=0;i<a.length;i++){
+					if(plusCount % 2 == 1){
+						$("#assetTable2 tr:last").after('<tr><th>'+a[i]+'</th><th><input type="text" id="'+a[i]+'" name="'+a[i]+'"></th></tr>');
+						plusCount += 1;
+					} else{
+						$("#assetTable2 tr:last th:last").after('<th>'+a[i]+'</th><th><input type="text" id="'+a[i]+'" name="'+a[i]+'"></th>');
+						plusCount += 1;
+					}
+				}
+				console.log(a);
 			},
 			"error":function(){
 				alert("에러");
@@ -154,8 +128,9 @@
 				<table class="table table-striped" id="assetTable">
 					<tr>
 						<th>분류</th>
-						<th><select class="form-controlmin dropdown" id="assetCategory" name="assetCategory">
-								<option value="0">분류를 선택하세요.</option>
+						<th>
+							<select class="form-controlmin dropdown" id="assetCategory" name="assetCategory" onchange="getCategoryDetailItem();">
+								<option value="0" selected>분류를 선택하세요.</option>
 								<option value="모니터">모니터</option>
 								<option value="데스크탑">데스크탑</option>
 								<option value="노트북">노트북</option>
@@ -167,7 +142,8 @@
 								<option value="의자">의자</option>
 								<option value="책">책</option>
 								<option value="기타">기타</option>
-						</select></th>
+							</select>
+						</th>
 						<th>이름</th>
 						<input type="hidden" value="<%=session.getAttribute("Id") %>" name="assetUser" id="assetUser">
 						<th><%=session.getAttribute("Id") %></th>
@@ -229,7 +205,13 @@
 				</table>
 			</div>
 			
-
+			자산 세부 사항
+			<div style="display: flex; margin-left: 90px">
+				<table class="table table-striped" id="assetTable2">
+				<tr><th>항목</th><th>내용</th><th>항목</th><th>내용</th></tr>
+				</table>
+			</div>
+			
 			<div style="display: flex; width: 300px; margin-left: 90px">
 				<input type="button" class="btn btn-lg btn-primary btn-block"
 					id="registerBtn" onclick="submitCheck();" value="회원가입" /> <label

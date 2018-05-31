@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.eseict.DAO.AssetDAO;
 import com.eseict.VO.AssetVO;
+import com.eseict.VO.CategoryVO;
 
 @Service
 public class AssetServiceImpl implements AssetService{
@@ -63,6 +64,12 @@ public class AssetServiceImpl implements AssetService{
 	public int getAssetCountByCategory(String assetCategory) {
 		System.out.println("서비스 카테고리명 : "+assetCategory);
 		return dao.getAssetCountByCategory(assetCategory);
+	}
+
+	@Override
+	public List<CategoryVO> getCategoryDetailItem(String assetCategory) {
+		System.out.println("서비수 :"+dao.getCategoryDetailItem(assetCategory));
+		return dao.getCategoryDetailItem(assetCategory);
 	}
 
 	
