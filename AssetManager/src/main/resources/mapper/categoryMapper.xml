@@ -32,7 +32,7 @@
 		asset_category=#{categoryName}
 </select>
 
-<insert id="newCategory" parameterType="String">
+<insert id="newCategory">
 	INSERT INTO
 		category_item
 	VALUES
@@ -45,5 +45,44 @@
 	WHERE
 		asset_category=#{categoryName}
 </delete>
+
+<delete id="deleteItem" parameterType="HashMap">
+	DELETE FROM
+		category_item
+	WHERE
+		asset_item=#{itemName}
+		AND asset_category=#{categoryName}
+</delete>
+
+<select id="checkCategoryItem" resultType="integer">
+	SELECT
+		count(*)
+	FROM
+		category_item
+	WHERE
+		asset_category=#{assetCategory}
+		AND asset_item=#{assetItem}
+</select>
+
+<update id="updateCategoryName" parameterType="HashMap">
+	UPDATE
+		category_item
+	SET
+		asset_category=#{categoryName}
+	WHERE
+		asset_category=#{categoryOriName}
+</update>
+
+<update id="updateItemName" parameterType="HashMap">
+	UPDATE
+		category_item
+	SET
+		asset_item=#{itemName}
+	WHERE
+		asset_item=#{itemOriName}
+		AND asset_category=#{categoryName}
+</update>
+
+
 
 </mapper>

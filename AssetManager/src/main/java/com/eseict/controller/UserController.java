@@ -47,11 +47,9 @@ public class UserController {
 	public ModelAndView userList(Model model, @RequestParam(required = false) String employeeName) {
 		int userCount = service.getUserCount();
 		if (employeeName == null) {
-			System.out.println("정상 전체 출력");
 			List<EmployeeVO> list = service.getEmployeeList();
 			model.addAttribute("employeeList", list);
 		} else {
-			System.out.println("검색!");
 			List<EmployeeVO> list = service.getEmployeeListByName(employeeName);
 			model.addAttribute("employeeList", list);
 		}
