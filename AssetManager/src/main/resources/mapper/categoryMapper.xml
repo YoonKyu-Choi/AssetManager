@@ -34,9 +34,18 @@
 
 <insert id="newCategory">
 	INSERT INTO
-		category_item
-	VALUES
-		(#{assetCategory}, #{assetItem})
+		category_item ("asset_category", "asset_item")
+	SELECT
+		#{assetCategory}, #{assetItem}
+	WHERE NOT EXISTS(
+		SELECT
+			"asset_category", "asset_item"
+		FROM
+			category_item
+		WHERE
+			asset_category=#{assetCategory}
+			AND asset_item=#{assetItem}
+	)
 </insert>
 
 <delete id="deleteCategory" parameterType="String">

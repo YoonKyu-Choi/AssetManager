@@ -65,5 +65,15 @@ public class AssetServiceImpl implements AssetService{
 		return dao.getAssetCountByCategory(assetCategory);
 	}
 
+	@Override
+	public List<AssetVO> getDisposalAssetList() {
+		return dao.getDisposalAssetList();
+	}
+
+	@Override
+	public void disposeAsset(String assetId) {
+		dao.disposeAsset(assetId);
+	}
+
 	
 }

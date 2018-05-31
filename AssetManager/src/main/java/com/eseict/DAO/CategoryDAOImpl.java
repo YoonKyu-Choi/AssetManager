@@ -35,7 +35,6 @@ public class CategoryDAOImpl implements CategoryDAO{
 	@Override
 	public void newCategory(CategoryVO vo) {
 		sqlSession.insert(namespace+"newCategory", vo);
-		
 	}
 
 	@Override

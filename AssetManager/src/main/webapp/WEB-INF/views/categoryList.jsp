@@ -36,7 +36,7 @@
 				if(a.rank > b.rank) return 1;
 				return 0;
 			}
-			$(function(){
+			$(function(){				
 				$(".table-responsive").on("click", ".table tbody tr", function(){
 					document.location.href='/assetmanager/categoryDetail?categoryName='+$(this).data("href");
 				});
@@ -55,48 +55,51 @@
 				
 			});
 			
-			function search(){
-				var keyword = $("#searchKeyword").val();
-				var mode = $("#searchMode").val();
-				var result = [];
-				if(mode == "1"){
-					var count = "${categoryCount}";
-					$("tr:gt(0) td:nth-child("+"${columnSize}"+1+"n+1)").each(function(){
-						$(this).closest("tr").show();
-						var name = $(this).text();
-						var match = name.match(new RegExp(keyword, 'g'));
-						if(match == null){
-							$(this).closest("tr").hide();
-							count -= 1;
-						}
-					});
-					alert(count+"개의 분류 검색됨.");
-				}
-				else if(mode == "2"){
-					var count = "${categoryCount}";
-					var checkary = [];
-					for(var i=0; i<count; i++){
-						checkary.push(false)
+			$(function(){
+				var isSearch = "${search}";
+				if(isSearch == "1"){
+					var keyword = "${searchKeyword}";
+					var mode = "${searchMode}";
+					var result = [];
+					if(mode == "1"){
+						var count = "${categoryCount}";
+						$("tr:gt(0) td:nth-child("+"${columnSize}"+1+"n+1)").each(function(){
+							$(this).closest("tr").show();
+							var name = $(this).text();
+							var match = name.match(new RegExp(keyword, 'g'));
+							if(match == null){
+								$(this).closest("tr").hide();
+								count -= 1;
+							}
+						});
+						alert(count+"개의 분류 검색됨.");
 					}
-					$("tr:gt(0) td:not(:nth-child("+"${columnSize}"+1+"n+1))").each(function(){
-						$(this).closest("tr").show();
-						var name = $(this).text();
-						var match = name.match(new RegExp(keyword, 'g'));
-						if(match != null){
-							var index = $("tr").index($(this).closest("tr"));
-							checkary[index-1] = true;
+					else if(mode == "2"){
+						var count = "${categoryCount}";
+						var checkary = [];
+						for(var i=0; i<count; i++){
+							checkary.push(false)
 						}
-					});
-					var count2 = count;
-					for(var i=0; i<count; i++){
-						if(checkary[i] == false){
-							$("tr:eq("+(i+1)+")").hide();
-							count2 -= 1;
+						$("tr:gt(0) td:not(:nth-child("+"${columnSize}"+1+"n+1))").each(function(){
+							$(this).closest("tr").show();
+							var name = $(this).text();
+							var match = name.match(new RegExp(keyword, 'g'));
+							if(match != null){
+								var index = $("tr").index($(this).closest("tr"));
+								checkary[index-1] = true;
+							}
+						});
+						var count2 = count;
+						for(var i=0; i<count; i++){
+							if(checkary[i] == false){
+								$("tr:eq("+(i+1)+")").hide();
+								count2 -= 1;
+							}
 						}
+						alert(count2+"개의 분류 검색됨.");
 					}
-					alert(count2+"개의 분류 검색됨.");
 				}
-			}
+			});
 		</script>
 		
 		<style>
@@ -118,7 +121,7 @@
 		 <div class="container-fluid">
 			<div class="row">
 				<div class="main">
-					<form class="page-header" action=#>
+					<form class="page-header" id="searchForm" action="categoryList">
 						<font size="6px" bold>분류 목록</font>&nbsp;&nbsp;&nbsp;&nbsp;
 						<font size="4px">분류 수 : </font>
 						<span class="badge">${categoryCount}</span>
@@ -128,7 +131,7 @@
 								<option value="2">세부 항목</option>
 							</select>
 							<input type="text" id="searchKeyword" name="searchKeyword">
-							<input type="button" onclick="search();" value="검색">
+							<input type="button" value="검색">
 						</label>
 					</form>
 					<%int columnSize = (Integer)request.getAttribute("columnSize");%>

@@ -67,4 +67,14 @@ public class AssetDAOImpl implements AssetDAO{
 		return sqlSession.selectOne(namespace+"getAssetCountByCategory",assetCategory);
 	}
 
+	@Override
+	public List<AssetVO> getDisposalAssetList() {
+		return sqlSession.selectList(namespace+"getDisposalAssetList");
+	}
+
+	@Override
+	public void disposeAsset(String assetId) {
+		sqlSession.update(namespace+"disposeAsset", assetId);
+	}
+
 }

@@ -3,7 +3,6 @@ package com.eseict.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eseict.VO.CategoryVO;
-import com.eseict.VO.EmployeeVO;
 import com.eseict.service.CategoryService;
 
 @Controller
@@ -24,7 +22,7 @@ public class CategoryController {
 	private CategoryService service;
 
 	@RequestMapping(value="/categoryList")
-	public String categoryList(Model model) {
+	public String categoryList(Model model, @RequestParam(required = false) String searchMode, @RequestParam(required = false) String searchKeyword) {
 		List<CategoryVO> volist = service.getCategoryList();
 		HashMap<String,List<String>> categoryItemList = new HashMap<String,List<String>>();
 		int columnSize = 0;
@@ -45,6 +43,14 @@ public class CategoryController {
 		model.addAttribute("categoryItemList", categoryItemList);
 		model.addAttribute("columnSize", columnSize);
 		model.addAttribute("categoryCount", service.getCategoryCount());
+		
+		if(searchKeyword != null) {
+			model.addAttribute("searchMode", searchMode);
+			model.addAttribute("searchKeyword", searchKeyword);
+			model.addAttribute("search", "1");
+		} else {
+			model.addAttribute("search", "0");
+		}
 		return "categoryList.tiles";
 	}
 
