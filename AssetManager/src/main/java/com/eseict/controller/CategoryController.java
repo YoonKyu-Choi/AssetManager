@@ -122,10 +122,12 @@ public class CategoryController {
 		
 			
 		for(int j=cvo.length; j<items.length; j++){
-			CategoryVO vo = new CategoryVO();
-			vo.setAssetCategory(categoryName);
-			vo.setAssetItem(items[j]);
-			service.newCategory(vo);
+			if(!items[j].equals("")) {
+				CategoryVO vo = new CategoryVO();
+				vo.setAssetCategory(categoryName);
+				vo.setAssetItem(items[j]);
+				service.newCategory(vo);
+			}
 		}
 		redirectAttributes.addFlashAttribute("msg", "수정되었습니다.");
 		return "redirect:/categoryList";

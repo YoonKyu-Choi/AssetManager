@@ -85,13 +85,11 @@
 						if(match != null){
 							var index = $("tr").index($(this).closest("tr"));
 							checkary[index-1] = true;
-							alert(name+" "+index);
 						}
 					});
 					var count2 = count;
 					for(var i=0; i<count; i++){
 						if(checkary[i] == false){
-//							alert("false: "+i);
 							$("tr:eq("+(i+1)+")").hide();
 							count2 -= 1;
 						}
