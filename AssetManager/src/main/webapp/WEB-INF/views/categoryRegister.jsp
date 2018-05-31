@@ -54,15 +54,26 @@
 
 <script>
 	function categoryRegister(){
-		if(!confirm('등록하겠습니까?')){
-			return false;				
-		}else{
-			var items = [];
-			for(var i=0; i<plusCount+1; i++){
-				items.push($("td input[type='text']:eq("+i+")").val());
+		var items = [];
+		for(var i=0; i<plusCount+1; i++){
+			items.push($("td input[type='text']:eq("+i+")").val());
+		}
+		$("#items").val(items);
+
+		if($("#categoryName").val() == ""){
+			alert("분류 이름을 입력해주세요.");
+			return false;
+		}
+		else if($("#items").val() == ""){
+			alert("세부사항을 입력해주세요.");
+			return false;
+		}
+		else{
+			if(!confirm('등록하겠습니까?')){
+				return false;				
+			}else{
+				$("#category").submit();
 			}
-			$("#items").val(items);
-			$("#category").submit();
 		}
 	}
 	
@@ -83,7 +94,7 @@
 			<div class="main">
 				<h1 class="page-header">새로운 분류 등록</h1>
 				<form id="category" action="categoryRegisterSend" method="post">
-					분류 이름: <input type="text" name="categoryName" />
+					분류 이름: <input type="text" id="categoryName" name="categoryName" />
 					<input type="hidden" id="items" name="items"/>
 				</form>
 				<table class="table table-striped" style="text-align: left; margin-top: 10px" id="itemTable" border="1">

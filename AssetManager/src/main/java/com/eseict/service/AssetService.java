@@ -29,4 +29,8 @@ public interface AssetService {
 	public int getAssetCountByCategory(String assetCategory);
 	// 카테고리 이름으로 항목 조회
 	public List<CategoryVO> getCategoryDetailItem(String assetCategory);
+	// 폐기 자산 목록 조회
+	public List<AssetVO> getDisposalAssetList();
+	// 폐기 처리
+	public void disposeAsset(String assetId);
 }

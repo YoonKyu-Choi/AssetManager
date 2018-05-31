@@ -24,7 +24,7 @@ public class LoginController {
 	@RequestMapping(value = "/")
 	public String login(HttpSession session) {
 		if (session.getAttribute("isUser") == "TRUE")
-			return "redirect:/loginGet";
+			return "redirect:/assetList";
 		else
 			return "login";
 	}

@@ -94,6 +94,25 @@
 	from category_item
 	where asset_category =#{assetCategory}
 	</select>
+	<select id="getDisposalAssetList" resultMap="AssetVO-result">
+		SELECT
+			*
+		FROM
+			asset_common_item
+		WHERE
+			asset_status='폐기'
+			OR asset_status='폐기 대기';
+	</select>
+	
+	<update id="disposeAsset" parameterType="String">
+		UPDATE
+			asset_common_item
+		SET
+			asset_status='폐기'
+		WHERE
+			asset_id=#{assetId}
+		
+	</update>
 	
 </mapper>
 

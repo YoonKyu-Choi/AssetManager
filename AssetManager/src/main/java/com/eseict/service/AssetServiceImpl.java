@@ -10,16 +10,16 @@ import com.eseict.VO.AssetVO;
 import com.eseict.VO.CategoryVO;
 
 @Service
-public class AssetServiceImpl implements AssetService{
+public class AssetServiceImpl implements AssetService {
 
 	@Autowired
 	private AssetDAO dao;
-	
+
 	@Override
 	public List<AssetVO> getAssetList() {
 		return dao.getAssetList();
 	}
-	
+
 	@Override
 	public int getAssetCount() {
 		return dao.getAssetCount();
@@ -62,7 +62,7 @@ public class AssetServiceImpl implements AssetService{
 
 	@Override
 	public int getAssetCountByCategory(String assetCategory) {
-		System.out.println("서비스 카테고리명 : "+assetCategory);
+		System.out.println("서비스 카테고리명 : " + assetCategory);
 		return dao.getAssetCountByCategory(assetCategory);
 	}
 
@@ -72,5 +72,14 @@ public class AssetServiceImpl implements AssetService{
 		return dao.getCategoryDetailItem(assetCategory);
 	}
 
-	
+	@Override
+	public List<AssetVO> getDisposalAssetList() {
+		return dao.getDisposalAssetList();
+	}
+
+	@Override
+	public void disposeAsset(String assetId) {
+		dao.disposeAsset(assetId);
+	}
+
 }

@@ -10,67 +10,76 @@ import com.eseict.VO.AssetVO;
 import com.eseict.VO.CategoryVO;
 
 @Repository
-public class AssetDAOImpl implements AssetDAO{
+public class AssetDAOImpl implements AssetDAO {
 
 	@Autowired
 	private SqlSession sqlSession;
-	
+
 	private static final String namespace = "com.eseict.mapper.AssetMapper.";
 
 	@Override
 	public List<AssetVO> getAssetList() {
-		return sqlSession.selectList(namespace+"getAssetList");
+		return sqlSession.selectList(namespace + "getAssetList");
 	}
 
 	@Override
 	public int getAssetCount() {
-		return sqlSession.selectOne(namespace+"getAssetCount");
+		return sqlSession.selectOne(namespace + "getAssetCount");
 	}
 
 	@Override
 	public int getAssetCountByUse() {
-		return sqlSession.selectOne(namespace+"getAssetCountByUse");
+		return sqlSession.selectOne(namespace + "getAssetCountByUse");
 	}
 
 	@Override
 	public int getAssetCountbyNotUse() {
-		return sqlSession.selectOne(namespace+"getAssetCountByNotUse");
+		return sqlSession.selectOne(namespace + "getAssetCountByNotUse");
 	}
 
 	@Override
 	public int getAssetCountByOut() {
-		return sqlSession.selectOne(namespace+"getAssetCountByOut");
+		return sqlSession.selectOne(namespace + "getAssetCountByOut");
 	}
 
 	@Override
 	public int getAssetCountByDispReady() {
-		return sqlSession.selectOne(namespace+"getAssetCountByDispReady");
+		return sqlSession.selectOne(namespace + "getAssetCountByDispReady");
 	}
 
 	@Override
 	public int getAssetCountByDisposal() {
-		return sqlSession.selectOne(namespace+"getAssetCountByDisposal");
+		return sqlSession.selectOne(namespace + "getAssetCountByDisposal");
 	}
 
 	@Override
 	public AssetVO getAssetByAssetId(String assetId) {
-		return sqlSession.selectOne(namespace+"getAssetByAssetId",assetId);
+		return sqlSession.selectOne(namespace + "getAssetByAssetId", assetId);
 	}
 
 	@Override
 	public void insertAsset(AssetVO avo) {
-		sqlSession.selectOne(namespace+"insertAsset",avo);
+		sqlSession.selectOne(namespace + "insertAsset", avo);
 	}
 
 	@Override
 	public int getAssetCountByCategory(String assetCategory) {
-		System.out.println("dao 카테고리명 : "+assetCategory);
-		return sqlSession.selectOne(namespace+"getAssetCountByCategory",assetCategory);
+		System.out.println("dao 카테고리명 : " + assetCategory);
+		return sqlSession.selectOne(namespace + "getAssetCountByCategory", assetCategory);
 	}
 
 	@Override
 	public List<CategoryVO> getCategoryDetailItem(String assetCategory) {
-		return sqlSession.selectList(namespace+"getCategoryDetailItem",assetCategory);
+		return sqlSession.selectList(namespace + "getCategoryDetailItem", assetCategory);
+	}
+
+	public List<AssetVO> getDisposalAssetList() {
+		return sqlSession.selectList(namespace + "getDisposalAssetList");
+	}
+
+	@Override
+	public void disposeAsset(String assetId) {
+		sqlSession.update(namespace + "disposeAsset", assetId);
 	}
 
 }
