@@ -75,20 +75,37 @@
 
 <script>
 	function categoryModify(){
-//		$("td input[type='text']").css('background', 'red');
-		var items = [];
-		for(var i=0; i<plusCount; i++){
-			items.push($("td input[type='text']:eq("+i+")").val());
-		}
-		$("#items").val(items);
-		
-		for(var i=0; i<itemSize; i++){
-			if($("td:eq("+i+")").find("input:last").prop("readonly")){
-				deleteItems.push(i);
+		if (!confirm("이대로 수정하겠습니까?")) {
+			return false;
+		} else {
+			var items = [];
+			var isEmpty = false;
+			for(var i=0; i<plusCount; i++){
+				var item = $("td input[type='text']:eq("+i+")").val();
+				items.push(item);
+				if(item == ""){
+					isEmpty = true;
+				}
 			}
+			$("#items").val(items);
+			
+			for(var i=0; i<itemSize; i++){
+				if($("td:eq("+i+")").find("input:last").prop("readonly")){
+					deleteItems.push(i);
+				}
+			}
+
+			if(plusCount == itemSize && deleteItems.length == itemSize){
+				if(!confirm("모든 세부사항이 사라지므로 해당 분류가 삭제됩니다. 계속할까요?")){
+					return false;
+				}
+			}
+			if(isEmpty){
+				alert("빈 칸은 자동으로 제외하고 등록됩니다.");
+			}
+			$("#deleteItems").val(deleteItems);
+			$("#category").submit();
 		}
-		$("#deleteItems").val(deleteItems);
-		$("#category").submit();
 	}
 	
 	function cancelConfirm(){

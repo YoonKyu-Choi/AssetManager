@@ -92,6 +92,13 @@
 		AND asset_category=#{categoryName}
 </update>
 
-
+<select id="isCategory" parameterType="String" resultType="Integer">
+	SELECT
+		count(*)
+	FROM
+		category_item
+	WHERE
+		asset_category=#{categoryName}
+</select>
 
 </mapper>

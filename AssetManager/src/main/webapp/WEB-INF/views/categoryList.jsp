@@ -36,10 +36,12 @@
 				if(a.rank > b.rank) return 1;
 				return 0;
 			}
-			$(function(){				
-				$(".table-responsive").on("click", ".table tbody tr", function(){
-					document.location.href='/assetmanager/categoryDetail?categoryName='+$(this).data("href");
-				});
+			$(function(){
+				if(${categoryCount} > 0){
+					$(".table-responsive").on("click", ".table tbody tr", function(){
+						document.location.href='/assetmanager/categoryDetail?categoryName='+$(this).data("href");
+					});
+				}
 
 				var flashmsg = "<c:out value="${msg}"/>";
 				
@@ -51,7 +53,7 @@
 				$(window).resize(function(){
 					windowHeight = $(window).height();
 					$(".table-responsive").css("height", windowHeight-300);
-				})
+				});
 				
 			});
 			
@@ -131,7 +133,7 @@
 								<option value="2">세부 항목</option>
 							</select>
 							<input type="text" id="searchKeyword" name="searchKeyword">
-							<input type="button" value="검색">
+							<input type="submit" value="검색">
 						</label>
 					</form>
 					<%int columnSize = (Integer)request.getAttribute("columnSize");%>
@@ -141,7 +143,7 @@
 								<tr>
 									<th data-sortable="true">분류 이름</th>
 									<%for(int i=0; i<columnSize; i++){%>
-									<th></th>
+									<th>세부사항 <%=i+1 %></th>
 									<%}%>
 								</tr>
 							</thead>

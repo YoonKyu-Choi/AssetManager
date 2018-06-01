@@ -55,8 +55,13 @@
 <script>
 	function categoryRegister(){
 		var items = [];
+		var isEmpty = false;
 		for(var i=0; i<plusCount+1; i++){
-			items.push($("td input[type='text']:eq("+i+")").val());
+			var item = $("td input[type='text']:eq("+i+")").val();
+			items.push(item);
+			if(item == ""){
+				isEmpty = true;
+			}
 		}
 		$("#items").val(items);
 
@@ -72,6 +77,9 @@
 			if(!confirm('등록하겠습니까?')){
 				return false;				
 			}else{
+				if(isEmpty){
+					alert("빈 칸은 자동으로 제외하고 등록됩니다.");
+				}
 				$("#category").submit();
 			}
 		}

@@ -72,4 +72,9 @@ public class CategoryDAOImpl implements CategoryDAO{
 		sqlSession.update(namespace+"updateItemName", hsm);
 	}
 
+	@Override
+	public int isCategory(String categoryName) {
+		return sqlSession.selectOne(namespace+"isCategory", categoryName);
+	}
+
 }
