@@ -26,6 +26,7 @@
 		<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
 		<script>
 			var disableCount = 0;
+			var checkCount = 0;
 		
 			function depSort(a, b){
 				if(a.dep < b.dep) return -1;
@@ -44,21 +45,33 @@
 	                if(chkbox.checked == true){
                         $("#disposalButton").prop("disabled", true);
 	                    disableCount += 1;
+	                    checkCount += 1;
 	                }
 	                else{
 	                    disableCount -= 1;
+	                    checkCount -= 1;
 	                    if(disableCount == 0){
 	                        $("#disposalButton").prop("disabled", false);
 	                    }
 	                }
 				}
+				else if(status =="폐기 대기"){
+					if(chkbox.checked == true){
+						checkCount += 1;
+					}
+					else{
+						checkCount -= 1;
+					}
+				}
 			}
 			
 			$(function(){
 			
-				$(".table-responsive").on("click", ".table tbody tr", function(){
-//					document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
-				});
+				if(${assetCountByDispReady} + ${assetCountByDisposal} > 0){
+					$(".table-responsive").on("click", ".table tbody tr", function(){
+	//					document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
+					});
+				}
 
 				var flashmsg = "<c:out value="${msg}"/>";
 				
@@ -134,20 +147,49 @@
 			});
 			
 			function disposeAsset(){
-				if(!confirm('선택한 자산을 폐기하겠습니까?')){
+				if(checkCount == 0){
+					alert("자산을 선택해주세요.");
 					return false;
-				}else{
-					var disposeList = [];
-					$(".chkbox").each(function(){
-						if($(this).prop("checked")){
-							var id = $(this).closest("tr").find("td:eq(2)").text()
-							disposeList.push(id);
-						}
-					});
-					
-					$("#disposeArray").val(disposeList);
-//					alert($("#disposeArray").val());
-					$("#disposeForm").submit();
+				}
+				else{
+					if(!confirm('선택한 자산을 폐기하겠습니까?')){
+						return false;
+					}else{
+						var disposeList = [];
+						$(".chkbox").each(function(){
+							if($(this).prop("checked")){
+								var id = $(this).closest("tr").find("td:eq(2)").text()
+								disposeList.push(id);
+							}
+						});
+						$("#disposeArray").val(disposeList);
+						$("#disposeForm").submit();
+					}
+				}
+			}
+			
+			function printList(){
+				if(checkCount == 0){
+					alert("자산을 선택해주세요.");
+					return false;
+				}
+				else{
+					if(!confirm('선택한 자산의 목록을 출력하겠습니까?')){
+						return false;
+					}else{
+						var printList = [];
+						$(".chkbox").each(function(){
+							if($(this).prop("checked")){
+								var id = $(this).closest("tr").find("td:eq(2)").text()
+								printList.push(id);
+							}
+						});
+						
+						$("#printArray").val(printList);
+	//					alert($("#disposeArray").val());
+						$("#printForm").submit();
+						
+					}
 				}
 			}
 			
@@ -186,7 +228,7 @@
 								<option value="4">관리번호</option>
 							</select>
 							<input type="text" id="searchKeyword" name="searchKeyword">
-							<input type="button" value="검색">
+							<input type="submit" value="검색">
 						</label>
 					</form>
 					<div class="table-responsive" style="overflow: scroll; height: 400px">
@@ -236,10 +278,16 @@
 							</tbody>
 						</table>
 					</div>
+					<form id="printForm" action="printList" method="post">
+						<input type="hidden" id="printArray" name="assetIdList"/>
+					</form>
+					<div style="display:flex; float: left; margin-top: 10px">
+						<button class="btn btn-lg btn-primary" onclick="printList();" >목록 출력</button>
+					</div>
+					<form id="disposeForm" action="disposeAsset" method="post">
+						<input type="hidden" id="disposeArray" name="disposeArray"/>
+					</form>
 					<div style="display:flex; float: right; margin-top: 10px">
-						<form id="disposeForm" action="disposeAsset" method="post">
-							<input type="hidden" id="disposeArray" name="disposeArray"/>
-						</form>
 						<button class="btn btn-lg btn-primary" id="disposalButton" onclick="disposeAsset();" >폐기</button>
 					</div>
 				</div>

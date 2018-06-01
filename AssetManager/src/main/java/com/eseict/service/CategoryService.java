@@ -23,4 +23,6 @@ public interface CategoryService {
 	public void updateCategoryName(String categoryOriName, String categoryName);
 
 	public void updateItemName(String itemOriName, String itemName, String categoryName);
+	
+	public int isCategory(String categoryName);
 }

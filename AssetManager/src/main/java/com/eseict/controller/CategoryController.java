@@ -14,12 +14,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eseict.VO.CategoryVO;
 import com.eseict.service.CategoryService;
+import com.eseict.service.EmployeeService;
 
 @Controller
 public class CategoryController {
 	
 	@Autowired
 	private CategoryService service;
+	
+	@Autowired
+	private EmployeeService eservice;
 
 	@RequestMapping(value="/categoryList")
 	public String categoryList(Model model, @RequestParam(required = false) String searchMode, @RequestParam(required = false) String searchKeyword) {
@@ -72,6 +76,12 @@ public class CategoryController {
 	
 	@RequestMapping(value="/categoryRegisterSend")
 	public String categoryRegisterSend(RedirectAttributes redirectAttributes, @RequestParam String categoryName, @RequestParam String[] items) {
+		boolean dup = false;
+		if(service.isCategory(categoryName) > 0) {
+			dup = true;
+		} else {
+			dup = false;
+		}
 		for(String i: items) {
 			if(!i.equals("")) {
 				CategoryVO vo = new CategoryVO();
@@ -80,14 +90,24 @@ public class CategoryController {
 				service.newCategory(vo);
 			}
 		}
-		redirectAttributes.addFlashAttribute("msg", "등록되었습니다.");
+		if(dup) {
+			redirectAttributes.addFlashAttribute("msg", "이미 존재하는 분류이므로 해당 분류에 추가되었습니다.");
+		} else {
+			redirectAttributes.addFlashAttribute("msg", "등록되었습니다.");
+		}
 		return "redirect:/categoryList";
 	}
 	
 	@RequestMapping(value="/categoryDelete")
-	public String categoryDelete(RedirectAttributes redirectAttributes, @RequestParam String categoryName) {
-		service.deleteCategory(categoryName);
-		redirectAttributes.addFlashAttribute("msg", "삭제되었습니다.");
+	public String categoryDelete(RedirectAttributes redirectAttributes, @RequestParam String categoryName, @RequestParam("checkAdminPw") String checkAdminPw) {
+		int check = eservice.checkRegistered("admin", checkAdminPw);
+//		System.out.println(checkAdminPw);
+		if (check == 1) {
+			service.deleteCategory(categoryName);
+			redirectAttributes.addFlashAttribute("msg", "삭제되었습니다.");
+		} else {
+			redirectAttributes.addFlashAttribute("msg", "비밀번호가 맞지 않아 삭제에 실패했습니다.");
+		}
 		return "redirect:/categoryList";
 	}
 	

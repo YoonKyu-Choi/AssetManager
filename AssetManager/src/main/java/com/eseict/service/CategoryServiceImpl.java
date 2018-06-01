@@ -59,4 +59,9 @@ public class CategoryServiceImpl implements CategoryService {
 		dao.updateItemName(itemOriName, itemName, categoryName);
 	}
 
+	@Override
+	public int isCategory(String categoryName) {
+		return dao.isCategory(categoryName);
+	}
+
 }

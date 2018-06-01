@@ -36,13 +36,21 @@
 		}
 		
 		$(function(){
-			$(".table-responsive").on("click", ".table tbody tr", function(){
-				document.location.href='/assetmanager/userDetail?employeeSeq='+$(this).data("href");
-			});
-				var flashmsg = "<c:out value="${msg}"/>";
+			var refreshCount = 1;
 			
-			if(flashmsg != "")
-				alert(flashmsg);
+			if(${userCount} > 0){
+				$(".table-responsive").on("click", ".table tbody tr", function(){
+					document.location.href='/assetmanager/userDetail?employeeSeq='+$(this).data("href");
+				});
+			}
+			var flashmsg = "<c:out value="${msg}"/>";
+			
+			if(refreshCount > 0){
+				if(flashmsg != ""){
+					alert(flashmsg);
+				}
+				refresgCount -= 1;
+			}
 		});
 		
 		$(function(){
@@ -52,7 +60,7 @@
 			$(window).resize(function(){
 				windowHeight = $(window).height();
 				$(".table-responsive").css("height", windowHeight-300);
-				})
+			});
 		});
 		
 		function searchFunc(){
