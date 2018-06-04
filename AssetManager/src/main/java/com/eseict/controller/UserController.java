@@ -99,12 +99,4 @@ public class UserController {
 		return "redirect:/userList.tiles";
 	}
 
-	@RequestMapping(value="/nameList2")
-	public ModelAndView nameList2(Model model) {
-		List<String> list =service.getEmployeeNameList();
-		model.addAttribute("employeeNameList",list);
-		return new ModelAndView("assetRegister.tiles","list",model); 
-	}
-	
-
 }

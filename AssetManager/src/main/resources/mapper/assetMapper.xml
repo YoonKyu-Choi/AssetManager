@@ -27,6 +27,12 @@
 		<result column="asset_item" property="assetItem"/>
 	</resultMap>
 	
+	<resultMap type="com.eseict.VO.AssetDetailVO" id="AssetDetailVO-result">
+		<id column="asset_id" property="assetId"/>
+		<result column="asset_item" property="assetItem"/>
+		<result column="asset_item_detail" property="assetItemDetail"/>
+	</resultMap>
+	
  	 <select id="getAssetList" resultMap="AssetVO-result" >
 		SELECT *
 		FROM asset_common_item
@@ -89,6 +95,10 @@
 	);
 	</insert>
 	
+	<insert id="insertAssetDetail">
+	insert into asset_category_item values(#{assetId},#{assetItem},#{assetItemDetail});
+	</insert>
+	
 	<select id="getCategoryDetailItem" parameterType="String" resultMap="CategoryVO-result">
 	select asset_item 
 	from category_item
@@ -111,8 +121,18 @@
 			asset_status='폐기'
 		WHERE
 			asset_id=#{assetId}
-		
 	</update>
+	
+	<select id="getAssetCategoryList" resultType="String">
+		select DISTINCT asset_category
+		from category_item
+	</select>
+	
+	<select id="getAssetDetailByAssetId" parameterType="String" resultMap="AssetDetailVO-result">
+		select asset_item, asset_item_detail
+		from asset_category_item
+		where asset_id=#{assetId}
+	</select>
 	
 </mapper>
 

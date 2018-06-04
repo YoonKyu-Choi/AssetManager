@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.eseict.VO.AssetDetailVO;
 import com.eseict.VO.AssetVO;
 import com.eseict.VO.CategoryVO;
 
@@ -81,5 +82,21 @@ public class AssetDAOImpl implements AssetDAO {
 	public void disposeAsset(String assetId) {
 		sqlSession.update(namespace + "disposeAsset", assetId);
 	}
+
+	@Override
+	public List<String> getAssetCategoryList() {
+		return sqlSession.selectList(namespace+"getAssetCategoryList");
+	}
+
+	@Override
+	public void insertAssetDetail(AssetDetailVO dvo) {
+		sqlSession.insert(namespace+"insertAssetDetail",dvo);
+	}
+
+	@Override
+	public List<AssetDetailVO> getAssetDetailByAssetId(String assetId) {
+		return sqlSession.selectList(namespace+"getAssetDetailByAssetId",assetId);
+	}
+
 
 }

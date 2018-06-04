@@ -22,7 +22,6 @@
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
 
 <script type="text/javascript">
-
 	$(function(){
 		var isAdmin = "<%=session.getAttribute("isAdmin") %>";
 		if(isAdmin == "TRUE"){
@@ -42,16 +41,22 @@
 	}
 	
 	$(function(){
+<<<<<<< HEAD
 		if(${assetCount} > 0){
 			$(".table tbody tr").click(function(){
 				document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
 			});
 		}
+=======
+		//$(document).on("click", ".table tbody td", function(){
+		$(".table tbody tr").click(function(){
+			document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
+		});
+>>>>>>> branch 'master' of https://github.com/YoonKyu-Choi/AssetManager.git
 		
 		$(document).on('click', '.checkBtn', function(){
 			console.log('checkbox clicked');
 		});
-
 		$(".tdNonClick").unbind('click');
 		
 	});
@@ -190,4 +195,3 @@
 		</div>
 	</div>
 </body>
-
