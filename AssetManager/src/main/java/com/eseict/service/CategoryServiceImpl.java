@@ -64,4 +64,19 @@ public class CategoryServiceImpl implements CategoryService {
 		return dao.isCategory(categoryName);
 	}
 
+	@Override
+	public int existsCode(String code) {
+		return dao.existsCode(code);
+	}
+
+	@Override
+	public void newCode(String categoryName, String codeName) {
+		dao.newCode(categoryName, codeName);
+	}
+
+	@Override
+	public String getCode(String categoryName) {
+		return dao.getCode(categoryName);
+	}
+
 }

@@ -43,7 +43,7 @@
 					});
 				}
 
-				var flashmsg = "<c:out value="${msg}"/>";
+				var flashmsg = "<c:out value='${msg}'/>";
 				
 				if(flashmsg != "")
 					alert(flashmsg);

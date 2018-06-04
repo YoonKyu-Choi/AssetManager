@@ -42,7 +42,7 @@
 	}
 	
 	$(function(){
-		if(${categoryCount} > 0){
+		if(${assetCount} > 0){
 			$(".table tbody tr").click(function(){
 				document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
 			});

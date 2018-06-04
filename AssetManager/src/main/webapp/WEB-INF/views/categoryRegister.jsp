@@ -49,10 +49,14 @@
 				$("tr:last").remove();
 			}
 		})
+		
+
 	});
 </script>
 
 <script>
+	var codeChecked = false;
+	
 	function categoryRegister(){
 		var items = [];
 		var isEmpty = false;
@@ -64,12 +68,15 @@
 			}
 		}
 		$("#items").val(items);
+		$("#code").val($("#categoryCodeName").val());
 
 		if($("#categoryName").val() == ""){
 			alert("분류 이름을 입력해주세요.");
 			return false;
-		}
-		else if($("#items").val() == ""){
+		} else if(!codeChecked){
+			alert("분류 코드 중복 확인을 체크해주세요.");
+			return false;
+		} else if($("#items").val() == ""){
 			alert("세부사항을 입력해주세요.");
 			return false;
 		}
@@ -92,6 +99,100 @@
 			location.href='/assetmanager/categoryList';
 		}
 	}
+	
+	function codeGen(){
+		var name = $("#categoryName").val();
+		var code;
+		if(name.charCodeAt(0) >= 4352){
+			code = toKorCho(name.charAt(0));
+		} else{
+			code = name.charAt(0);
+		}
+		if(name.length == 1){
+			code += 'A';
+		} else if(name.length > 1){
+			if(name.charCodeAt(1) >= 0x3131){
+				code += toKorCho(name.charAt(1));
+			} else{
+				code += name.charAt(1);
+			}
+		}
+		if(name.length == 0){
+			$("#categoryCodeName").prop("placeholder", "");
+		}else{
+			$("#categoryCodeName").prop("placeholder", code);
+		}
+	}
+		
+	function toKorCho(str) {
+	    var cCho = ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
+	    var eCho = ['K', 'K', 'N', 'D', 'D', 'L', 'M', 'B', 'B', 'S', 'S', 'A', 'J', 'J', 'C', 'K', 'T', 'P', 'H'];
+	    var hCho = {0x3131:'K', 0x3132:'K', 0x3134:'N', 0x3137:'D', 0x3138:'D', 0x3139:'L', 0x3141:'M', 0x3142:'B', 0x3143:'B', 0x3145:'S', 0x3146:'S', 0x3147:'A', 0x3148:'J', 0x3149:'J', 0x314a:'C', 0x314b:'K', 0x314c:'T', 0x314d:'P', 0x314e:'H'};
+	    var cCode = str.charCodeAt(0) - 0xAC00; 
+	    var jong = cCode % 28;
+	    var jung = ((cCode - jong) / 28) % 21;
+	    var cho = (((cCode - jong) / 28 ) - jung ) / 21;
+	    if(cho == 11){
+	    	if([0,1].includes(jung))
+	    		eCho[11] = 'A';
+	    	else if([2, 3, 6, 7, 12, 17].includes(jung))
+	    		eCho[11] = 'Y';
+	    	else if([4, 13, 18, 19].includes(jung))
+	    		eCho[11] = 'U';
+	    	else if(jung == 5)
+	    		eCho[11] = 'E';
+	    	else if(jung == 8)
+	    		eCho[11] = 'O';
+	    	else if([9, 10, 11, 14, 15, 16].includes(jung))
+	    		eCho[11] = 'W';
+	    	else if(jung == 20)
+	    		eCho[11] = 'I';
+	    }
+	    if(cCode < 0)
+	    	return hCho[str.charCodeAt(0)];
+	    else
+	    	return eCho[cho]; 
+	}
+
+	function codeCheck() {
+		var code = $('#categoryCodeName').val();
+		if(code == ""){
+			code = $('#categoryCodeName').prop("placeholder");
+			$("#categoryCodeName").val(code);
+		}
+		$.ajax({
+			"type" : "POST",
+			"url" : "checkCode",
+			"dataType" : "text",
+			"data" : {
+				code : code
+			},
+//			"beforeSend" : function() {
+//				var flag = idInputCheck();
+//				if (flag == false)
+//					return false;
+//			},
+			"success" : function(message) {
+				if (message == 'empty') {
+					alert("사용할 아이디를 입력해주세요.");
+					$("#idInputCheck").val("false");
+				} else if (message == '0'){
+					alert("사용 가능한 코드입니다.");
+					codeChecked = true;
+					$("#categoryName").css("background", "lightgray").prop("readonly", true);
+					$("#categoryCodeName").css("background", "lightgray").prop("readonly", true);
+				} else if (message == '1') {
+					alert("중복된 코드입니다.");
+				}
+			},
+			"error" : function(request, status, error) {
+				alert("code:" + request.status + "\nmessage:"
+						+ request.responseText + "\nerror:" + error);
+			}
+		});
+
+	}
+
 </script>
 
 
@@ -101,10 +202,21 @@
 		<div class="row">
 			<div class="main">
 				<h1 class="page-header">새로운 분류 등록</h1>
-				<form id="category" action="categoryRegisterSend" method="post">
-					분류 이름: <input type="text" id="categoryName" name="categoryName" />
-					<input type="hidden" id="items" name="items"/>
-				</form>
+				<div style="margin-bottom: 10px">
+					<div style="float: left; display:inline-block;">
+						<form id="category" action="categoryRegisterSend" method="post">
+							분류 이름: <input type="text" id="categoryName" name="categoryName" onkeyup="codeGen()"/>
+							<input type="hidden" id="items" name="items"/>
+							<input type="hidden" id="code" name="code"/>
+						</form>
+					</div>
+					<div style="float: right; display:inline-block;">
+						<form id="categoryCode">
+							분류 식별 코드: <input type="text" id="categoryCodeName" name="categoryCodeName" />
+							<input type="button" class="btn" onclick="codeCheck();" value="중복 검사"/>
+						</form>
+					</div>
+				</div>
 				<table class="table table-striped" style="text-align: left; margin-top: 10px" id="itemTable" border="1">
 					<tr>
 						<td style="width: 50%">

@@ -77,4 +77,22 @@ public class CategoryDAOImpl implements CategoryDAO{
 		return sqlSession.selectOne(namespace+"isCategory", categoryName);
 	}
 
+	@Override
+	public int existsCode(String code) {
+		return sqlSession.selectOne(namespace+"existsCode", code);
+	}
+
+	@Override
+	public void newCode(String categoryName, String codeName) {
+		HashMap<String, String> hsm = new HashMap<String, String>();
+		hsm.put("categoryName", categoryName);
+		hsm.put("codeName", codeName);
+		sqlSession.insert(namespace+"newCode", hsm);
+	}
+
+	@Override
+	public String getCode(String categoryName) {
+		return sqlSession.selectOne(namespace+"getCode", categoryName);
+	}
+
 }
