@@ -157,6 +157,15 @@
 							<th>${requestScope.assetDetailVO.assetItemDetail}</th>
 						</tr>
 					</table>
+					<div>
+					<h3>파일 업로드</h3>
+					<table class="table table-striped">
+						<tr>
+							<th>${requestScope.assetVO.assetReceiptUrl}</th>
+						</tr>
+					</table>	
+					</div>
+					
 				</div>
 
 				<form id="modifyForm" action="userModify" method="POST">

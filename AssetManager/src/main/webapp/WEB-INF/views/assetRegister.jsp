@@ -39,7 +39,6 @@
 				a[a.length-1] = a[a.length-1].split("\"}]")[0];
 				
 				counts = a.length;
-				alert("최신화!");
 				for(var i=0;i<a.length;i++){
 					if(plusCount % 2 == 1){
 						$("#assetTable2 tr:last").after('<tr><th><input type="text" id="assetItem" name="assetItem" value='+a[i]+' readonly></th><th><input type="text" id="assetItemDetail" name="assetItemDetail"></th></tr>');
@@ -108,6 +107,8 @@
 		var right = $('.dropdown').height();
 		$('.dropdown').height(left);
 	});
+	
+	
 </script>
 <style>
 .form-controlmin {
@@ -134,7 +135,7 @@
 
 <body>
 	<div style="text-align: center;" id="main">
-		<form class="form" id="registerSend" method="POST" action="/assetmanager/assetRegister2">
+		<form class="form" action="/assetmanager/assetRegister2" id="registerSend" method="POST" enctype="multipart/form-data">
 			<h2 style="text-align: center">자산 정보 입력</h2>
 			자산 공통사항
 			<div style="display: flex; margin-left: 90px">
@@ -227,13 +228,17 @@
 				<input type="hidden" id="items" name="items">
 				<input type="hidden" id="itemsDetail" name="itemsDetail">
 			</div>
-			<div>
-				파일 업로드	<input type="file" id="myFile">
-			
+			<div style="display: flex; margin-left: 90px">
+				<h4>파일 업로드</h4>
+				<input type="file" id="uploadImage" name="uploadImage">
+				<div style="text-align:center;">
+				<img id="imgView" src="#" alt="img" style="height:300px;"/>
+				</div>
 			</div>
 			
-			<div><textArea></textArea></div>
+			<div><textArea name="assetComment" id="assetComment" rows="5" cols="50"></textArea></div>
 			
+			</form>
 			<div style="display: flex; width: 300px; margin-left: 90px">
 				<input type="button" class="btn btn-lg btn-primary btn-block"
 					id="registerBtn" onclick="submitCheck();" value="자산 등록" /> <label
@@ -241,6 +246,5 @@
 					class="btn btn-lg btn-primary btn-block"
 					onclick="location.href='/assetmanager/assetList'" value="취소" />
 			</div>
-		</form>
 	</div>
 </body>

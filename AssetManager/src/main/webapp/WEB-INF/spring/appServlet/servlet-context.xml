@@ -29,6 +29,7 @@
 	</beans:bean>
 
 	<context:component-scan base-package="com.eseict.controller" />
+	
 
 	<beans:bean id="tilesViewResolver" class="org.springframework.web.servlet.view.tiles3.TilesViewResolver" />
 	<beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
@@ -38,7 +39,12 @@
 			</beans:list>
 		</beans:property>
 	</beans:bean>
-
+	
+	<!-- MultipartResolver -->
+    <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <beans:property name="maxUploadSize" value="100000000"/>
+        <beans:property name="maxInMemorySize" value="100000000"/>
+    </beans:bean>
 
 
 </beans:beans>

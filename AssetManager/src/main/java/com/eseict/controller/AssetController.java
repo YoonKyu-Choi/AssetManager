@@ -1,7 +1,12 @@
 package com.eseict.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.eseict.VO.AssetDetailVO;
@@ -27,6 +33,13 @@ public class AssetController {
 	private AssetService service;
 	@Autowired
 	private EmployeeService service2;
+	
+	/*
+	@Resource(name="imageView") ImageView imageView;
+	
+	@Autowired
+	private ImageService service3;
+	*/
 	
 	@RequestMapping(value="/assetList")
 	public ModelAndView assetList(Model model) {
@@ -70,7 +83,9 @@ public class AssetController {
 	
 	@RequestMapping(value="/assetRegister2")
 	public String assetRegister(@ModelAttribute AssetVO avo, @RequestParam String[] items
-								, @RequestParam String[] itemsDetail) {
+								, @RequestParam String[] itemsDetail
+								, @RequestParam MultipartFile uploadImage
+								, HttpServletRequest request) throws IllegalStateException, IOException {
 		// 관리 번호 생성
 		String categoryKeyword = null;
 		int year = 0;
@@ -89,7 +104,7 @@ public class AssetController {
 		}else if(ac.equals("의자")) { categoryKeyword = "CH";
 		}else if(ac.equals("책")) { categoryKeyword = "BO";
 		}else if(ac.equals("기타")) { categoryKeyword = "ET";
-		} else{ categoryKeyword="NW";
+		}else{ categoryKeyword="NW";
 		}
 		
 		year = avo.getAssetPurchaseDate().getYear()%100;
@@ -106,6 +121,17 @@ public class AssetController {
 		}
 		avo.setAssetId(year+month+"-"+categoryKeyword+"-"+(itemSequence));
 		System.out.println("관리번호 생성 : "+year+month+"-"+categoryKeyword+"-"+(itemSequence));
+		
+		// 파일 업로드
+		// MultipartFile assetReceiptUrl = avo.getMultiImage();
+		if(uploadImage != null && !uploadImage.isEmpty()) {
+			String uploadDir = request.getServletContext().getRealPath("/uploadImages");
+			String fileName = UUID.randomUUID().toString();
+			uploadImage.transferTo(new File(uploadDir,fileName+".jpg"));
+			avo.setAssetReceiptUrl(fileName+".jpg");
+			System.out.println("업로드 출력 되나"+fileName);
+		}
+		
 		service.insertAsset(avo);
 		
 		AssetDetailVO dvo = new AssetDetailVO();
@@ -121,6 +147,7 @@ public class AssetController {
 		
 		return "redirect:/assetList.tiles";
 	}
+	
 	
 	@RequestMapping(value="/getCategoryDetailItem")
 	@ResponseBody
@@ -138,6 +165,14 @@ public class AssetController {
 		model.addAttribute("employeeNameList",list);
 		model.addAttribute("categoryList",list2);
 		return new ModelAndView("assetRegister.tiles","list",model); 
+	}
+	
+	@RequestMapping(value="uploadImage")
+	@ResponseBody
+	public String upliadImage(@RequestParam MultipartFile assetReceiptUrl, HttpServletRequest request, Model model) throws IllegalStateException, IOException {
+		// 이미지 업로드
+				
+		return "assetRegister.tiles";
 	}
 	
 }

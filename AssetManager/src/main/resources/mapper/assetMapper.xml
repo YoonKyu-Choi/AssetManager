@@ -99,7 +99,6 @@
 	insert into asset_category_item values(#{assetId},#{assetItem},#{assetItemDetail});
 	</insert>
 	
-	
 	<select id="getCategoryDetailItem" parameterType="String" resultMap="CategoryVO-result">
 	select asset_item 
 	from category_item

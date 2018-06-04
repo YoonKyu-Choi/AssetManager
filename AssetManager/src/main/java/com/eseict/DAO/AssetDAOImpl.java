@@ -98,4 +98,5 @@ public class AssetDAOImpl implements AssetDAO {
 		return sqlSession.selectList(namespace+"getAssetDetailByAssetId",assetId);
 	}
 
+
 }
