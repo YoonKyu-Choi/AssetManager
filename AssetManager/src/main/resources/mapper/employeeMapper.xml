@@ -29,9 +29,11 @@
 	</resultMap>
 	
 	<insert id="newEmployee">
-		INSERT INTO employee VALUES
-		(nextval('employee_sequence'), #{employeeName}, #{employeeId}, #{employeePw}, #{employeeRank},
-		#{employeeDepartment}, #{employeeLocation}, #{employeeEmail}, #{employeePhone}, #{employeeStatus})
+		INSERT INTO
+			employee
+		VALUES
+			(nextval('employee_sequence'), #{employeeName}, #{employeeId}, #{employeePw}, #{employeeRank},
+			#{employeeDepartment}, #{employeeLocation}, #{employeeEmail}, #{employeePhone}, #{employeeStatus})
 	</insert>
 
 	<select id="checkIdDuplication" resultType="String">
@@ -64,8 +66,10 @@
 	</select>
 	
 	<select id="getEmployeeNameList" resultType="String">
-		select employee_name
-		from employee
+		SELECT
+			employee_name
+		FROM
+			employee
 	</select>
  	 
 	<select id="selectEmployeeByEmployeeSeq" parameterType="integer" resultMap="EmployeeVO-result">

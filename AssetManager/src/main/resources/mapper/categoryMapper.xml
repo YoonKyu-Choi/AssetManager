@@ -3,102 +3,132 @@
 
 <mapper namespace="com.eseict.mapper.CategoryMapper">
 
-<resultMap type="com.eseict.VO.CategoryVO" id="CategoryVO">
-	<result column="asset_category" property="assetCategory"/>
-	<result column="asset_item" property="assetItem"/>
-</resultMap>
-
-
-<select id="getCategoryList" resultMap="CategoryVO">
-	SELECT
-		*
-	FROM
-		category_item
-</select>
-
-<select id="getCategoryCount" resultType="integer">
-	SELECT
-		COUNT(DISTINCT asset_category)
-	FROM
-		category_item;
-</select>
-
-<select id="getCategoryByName" resultType="String">
-	SELECT
-		asset_item
-	FROM
-		category_item
-	WHERE
-		asset_category=#{categoryName}
-</select>
-
-<insert id="newCategory">
-	INSERT INTO
-		category_item ("asset_category", "asset_item")
-	SELECT
-		#{assetCategory}, #{assetItem}
-	WHERE NOT EXISTS(
+	<resultMap type="com.eseict.VO.CategoryVO" id="CategoryVO">
+		<result column="asset_category" property="assetCategory"/>
+		<result column="asset_item" property="assetItem"/>
+	</resultMap>
+	
+	
+	<select id="getCategoryList" resultMap="CategoryVO">
 		SELECT
-			"asset_category", "asset_item"
+			*
+		FROM
+			category_item
+	</select>
+	
+	<select id="getCategoryCount" resultType="integer">
+		SELECT
+			COUNT(DISTINCT asset_category)
+		FROM
+			category_item;
+	</select>
+	
+	<select id="getCategoryByName" resultType="String">
+		SELECT
+			asset_item
+		FROM
+			category_item
+		WHERE
+			asset_category=#{categoryName}
+	</select>
+	
+	<insert id="newCategory">
+		INSERT INTO
+			category_item ("asset_category", "asset_item")
+		SELECT
+			#{assetCategory}, #{assetItem}
+		WHERE NOT EXISTS(
+			SELECT
+				"asset_category", "asset_item"
+			FROM
+				category_item
+			WHERE
+				asset_category=#{assetCategory}
+				AND asset_item=#{assetItem}
+		)
+	</insert>
+	
+	<delete id="deleteCategory" parameterType="String">
+		DELETE FROM
+			category_item
+		WHERE
+			asset_category=#{categoryName};
+		
+		DELETE FROM
+			category_code
+		WHERE
+			asset_category=#{categoryName}
+	</delete>
+	
+	<delete id="deleteItem" parameterType="HashMap">
+		DELETE FROM
+			category_item
+		WHERE
+			asset_item=#{itemName}
+			AND asset_category=#{categoryName}
+	</delete>
+	
+	<select id="checkCategoryItem" resultType="integer">
+		SELECT
+			count(*)
 		FROM
 			category_item
 		WHERE
 			asset_category=#{assetCategory}
 			AND asset_item=#{assetItem}
-	)
-</insert>
-
-<delete id="deleteCategory" parameterType="String">
-	DELETE FROM
-		category_item
-	WHERE
-		asset_category=#{categoryName}
-</delete>
-
-<delete id="deleteItem" parameterType="HashMap">
-	DELETE FROM
-		category_item
-	WHERE
-		asset_item=#{itemName}
-		AND asset_category=#{categoryName}
-</delete>
-
-<select id="checkCategoryItem" resultType="integer">
-	SELECT
-		count(*)
-	FROM
-		category_item
-	WHERE
-		asset_category=#{assetCategory}
-		AND asset_item=#{assetItem}
-</select>
-
-<update id="updateCategoryName" parameterType="HashMap">
-	UPDATE
-		category_item
-	SET
-		asset_category=#{categoryName}
-	WHERE
-		asset_category=#{categoryOriName}
-</update>
-
-<update id="updateItemName" parameterType="HashMap">
-	UPDATE
-		category_item
-	SET
-		asset_item=#{itemName}
-	WHERE
-		asset_item=#{itemOriName}
-		AND asset_category=#{categoryName}
-</update>
-
-<select id="isCategory" parameterType="String" resultType="Integer">
-	SELECT
-		count(*)
-	FROM
-		category_item
-	WHERE
-		asset_category=#{categoryName}
-</select>
+	</select>
+	
+	<update id="updateCategoryName" parameterType="HashMap">
+		UPDATE
+			category_item
+		SET
+			asset_category=#{categoryName}
+		WHERE
+			asset_category=#{categoryOriName}
+	</update>
+	
+	<update id="updateItemName" parameterType="HashMap">
+		UPDATE
+			category_item
+		SET
+			asset_item=#{itemName}
+		WHERE
+			asset_item=#{itemOriName}
+			AND asset_category=#{categoryName}
+	</update>
+	
+	<select id="isCategory" parameterType="String" resultType="Integer">
+		SELECT
+			count(*)
+		FROM
+			category_item
+		WHERE
+			asset_category=#{categoryName}
+	</select>
+	
+	<select id="existsCode" parameterType="String" resultType="Integer">
+		SELECT
+			count(*)
+		FROM
+			category_code
+		WHERE
+			category_code=#{code}
+	</select>
+	
+	<insert id="newCode" parameterType="HashMap">
+		INSERT INTO
+			CATEGORY_CODE
+		VALUES
+			(#{categoryName}, #{codeName})
+	</insert>
+	
+	<select id="getCode" parameterType="String" resultType="String">
+		SELECT
+			CATEGORY_CODE
+		FROM
+			CATEGORY_CODE
+		where
+			ASSET_CATEGORY=#{categoryName}
+	</select>
 
 </mapper>
