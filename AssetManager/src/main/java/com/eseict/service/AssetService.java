@@ -24,7 +24,6 @@ public interface AssetService {
 	public int getAssetCountByDisposal();
 	// 관리번호로 상세보기
 	public AssetVO getAssetByAssetId(String assetId);
-	
 	// 자산 등록
 	public void insertAsset(AssetVO avo);
 	// 카테고리 별 자산 수 

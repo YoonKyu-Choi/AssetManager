@@ -57,7 +57,7 @@ public class AssetVO {
 	public void setImageFile(MultipartFile imageFile) {
 		this.imageFile = imageFile;
 	}
-
+	
 	public String getAssetId() {
 		return assetId;
 	}

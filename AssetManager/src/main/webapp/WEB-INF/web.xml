@@ -13,7 +13,7 @@
 		<param-name>rootPath</param-name>
 		<param-value>/AssetManager</param-value>
 	</context-param>
-	
+
 	<!-- tiles 설정
 	<context-param>
 		<param-name>org.apache.tiles.imple.BasicTilesContainer.DEFINITIONS_CONFIG</param-name>

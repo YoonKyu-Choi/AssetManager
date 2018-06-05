@@ -30,49 +30,49 @@ import com.eseict.service.EmployeeService;
 public class AssetController {
 	
 	@Autowired
-	private AssetService service;
+	private AssetService aService;
 	@Autowired
 	private EmployeeService eService;
-
-	@RequestMapping(value = "/assetList")
+	
+	@RequestMapping(value="/assetList")
 	public ModelAndView assetList(Model model) {
-
-		List<AssetVO> list = service.getAssetList();
-		model.addAttribute("assetList", list);
-
+		
+		List<AssetVO> list = aService.getAssetList();
+		model.addAttribute("assetList",list);
+		
 		// 자산 상태 조회
-		int assetCount = service.getAssetCount();
-		int assetCountByUse = service.getAssetCountByUse();
-		int assetCountByNotUse = service.getAssetCountByNotUse();
-		int assetCountByOut = service.getAssetCountByOut();
-		int assetCountByDispReady = service.getAssetCountByDispReady();
-		int assetCountByDisposal = service.getAssetCountByDisposal();
-
-		model.addAttribute("assetCount", assetCount);
-		model.addAttribute("assetCountByUse", assetCountByUse);
-		model.addAttribute("assetCountByNotUse", assetCountByNotUse);
-		model.addAttribute("assetCountByOut", assetCountByOut);
-		model.addAttribute("assetCountByDispReady", assetCountByDispReady);
-		model.addAttribute("assetCountByDisposal", assetCountByDisposal);
-
+		int assetCount = aService.getAssetCount();
+		int assetCountByUse =aService.getAssetCountByUse();
+		int assetCountByNotUse =aService.getAssetCountByNotUse();
+		int assetCountByOut =aService.getAssetCountByOut();
+		int assetCountByDispReady =aService.getAssetCountByDispReady();
+		int assetCountByDisposal =aService.getAssetCountByDisposal();
+		
+		model.addAttribute("assetCount",assetCount);
+		model.addAttribute("assetCountByUse",assetCountByUse);
+		model.addAttribute("assetCountByNotUse",assetCountByNotUse);
+		model.addAttribute("assetCountByOut",assetCountByOut);
+		model.addAttribute("assetCountByDispReady",assetCountByDispReady);
+		model.addAttribute("assetCountByDisposal",assetCountByDisposal);
+		
 		return new ModelAndView("assetList.tiles");
 	}
-
+	
 	@RequestMapping(value = "/assetDetail")
 	public ModelAndView assetDetail(Model model, @RequestParam String assetId) {
 		System.out.println(assetId);
-		AssetVO avo = service.getAssetByAssetId(assetId);
-		List<AssetDetailVO> dlist = service.getAssetDetailByAssetId(assetId);
-		model.addAttribute("assetVO", avo);
-		model.addAttribute("assetDetailList", dlist);
+		AssetVO avo = aService.getAssetByAssetId(assetId);
+		List<AssetDetailVO> dlist = aService.getAssetDetailByAssetId(assetId);
+		model.addAttribute("assetVO",avo);
+		model.addAttribute("assetDetailList",dlist);
 		return new ModelAndView("assetDetail.tiles", "model", model);
 	}
-
+	
 	@RequestMapping(value = "/assetRegister", method = RequestMethod.GET)
 	public String register(HttpSession session) {
 		return "assetRegister.tiles";
 	}
-
+	
 	@RequestMapping(value = "/assetRegister2")
 	public String assetRegister(@ModelAttribute AssetVO avo, @RequestParam String[] items,
 			@RequestParam String[] itemsDetail, @RequestParam MultipartFile uploadImage, HttpServletRequest request)
@@ -83,102 +83,98 @@ public class AssetController {
 		String month = null;
 		String ac = avo.getAssetCategory();
 		String itemSequence = null;
-
-		if (ac.equals("노트북")) {
+		
+		if(ac.equals("노트북")) {
 			categoryKeyword = "NT";
-		} else if (ac.equals("데스크탑")) {
+		} else if(ac.equals("데스크탑")) {	
 			categoryKeyword = "DT";
-		} else if (ac.equals("모니터")) {
+		} else if(ac.equals("모니터")) {
 			categoryKeyword = "MT";
-		} else if (ac.equals("서버")) {
+		} else if(ac.equals("서버")) {
 			categoryKeyword = "SV";
-		} else if (ac.equals("SoftWare")) {
+		} else if(ac.equals("SoftWare")) {
 			categoryKeyword = "SW";
-		} else if (ac.equals("IP WALL")) {
+		} else if(ac.equals("IP WALL")) {
 			categoryKeyword = "IW";
-		} else if (ac.equals("프린터")) {
+		} else if(ac.equals("프린터")) {
 			categoryKeyword = "PR";
-		} else if (ac.equals("책상")) {
+		} else if(ac.equals("책상")) {
 			categoryKeyword = "TA";
-		} else if (ac.equals("의자")) {
+		} else if(ac.equals("의자")) {
 			categoryKeyword = "CH";
-		} else if (ac.equals("책")) {
+		} else if(ac.equals("책")) {
 			categoryKeyword = "BO";
-		} else if (ac.equals("기타")) {
+		} else if(ac.equals("기타")) {
 			categoryKeyword = "ET";
-		} else {
-			categoryKeyword = "NW";
+		} else{
+			categoryKeyword="NW";
 		}
-
+		
 		year = avo.getAssetPurchaseDate().getYear() % 100;
-		if (avo.getAssetPurchaseDate().getMonth() + 1 < 10) {
-			month = "0" + Integer.toString(avo.getAssetPurchaseDate().getMonth() + 1);
+		if(avo.getAssetPurchaseDate().getMonth() + 1 <10) {
+			month = "0" + Integer.toString(avo.getAssetPurchaseDate().getMonth() + 1); 
 		} else {
 			month = Integer.toString(avo.getAssetPurchaseDate().getMonth() + 1);
 		}
-
-		int i = service.getAssetCountByCategory(avo.getAssetCategory()) + 1;
-		if (i < 10) {
+		
+		int i = aService.getAssetCountByCategory(avo.getAssetCategory())+1;
+		if(i<10) {
 			itemSequence = "0" + "0" + i;
-		} else if (i >= 10 && i < 100) {
+		} else if(i>=10 && i<100) {
 			itemSequence = "0" + i;
 		} else {
-			itemSequence = Integer.toString(i);
+			itemSequence = Integer.toString(i);	
 		}
 		avo.setAssetId(year + month + "-" + categoryKeyword + "-" + (itemSequence));
-
+		
 		// 파일 업로드
 		ServletContext ctx = request.getServletContext();
 		String uploadDir = ctx.getRealPath("/resources/");
-		if (uploadImage != null && !uploadImage.isEmpty()) {
+		if(uploadImage != null && !uploadImage.isEmpty()) {
 			String fileName = UUID.randomUUID().toString();
 			File dir = new File(uploadDir+fileName+".jpg");
 			uploadImage.transferTo(dir);
 			avo.setAssetReceiptUrl(fileName+".jpg");
 		}
-
-		service.insertAsset(avo);
-
+		
+		aService.insertAsset(avo);
+		
 		AssetDetailVO dvo = new AssetDetailVO();
 		dvo.setAssetId(year + month + "-" + categoryKeyword + "-" + (itemSequence));
-		for (int a = 0; a < items.length; a++) {
+		for(int a = 0; a < items.length; a++) {
 			String s = items[a];
 			String s2 = itemsDetail[a];
 			dvo.setAssetItem(s);
 			dvo.setAssetItemDetail(s2);
-			service.insertAssetDetail(dvo);
+			aService.insertAssetDetail(dvo);
 		}
-
+		
 		return "redirect:/assetList.tiles";
 	}
-
+	
+	
 	@RequestMapping(value = "/getCategoryDetailItem")
 	@ResponseBody
 	public List<CategoryVO> getCategoryDetailItem(@RequestParam String assetCategory) {
-		System.out.println(assetCategory);
-		List<CategoryVO> list = service.getCategoryDetailItem(assetCategory);
-		System.out.println(list);
+		List<CategoryVO> list = aService.getCategoryDetailItem(assetCategory);
 		return list;
 	}
-
+	
 	@RequestMapping(value = "/nameList2")
 	public ModelAndView nameList2(Model model) {
 		List<String> list = eService.getEmployeeNameList();
-		List<String> list2 = service.getAssetCategoryList();
+		List<String> list2 = aService.getAssetCategoryList();
 		model.addAttribute("employeeNameList", list);
 		model.addAttribute("categoryList", list2);
-		return new ModelAndView("assetRegister.tiles", "list", model);
+		return new ModelAndView("assetRegister.tiles", "list", model); 
 	}
-
+	
 	@RequestMapping(value="assetModify")
 	public ModelAndView assetModify(@RequestParam String assetId, Model model) {
-		AssetVO avo = service.getAssetByAssetId(assetId);
-		List<AssetDetailVO> dlist = service.getAssetDetailByAssetId(assetId);
+		AssetVO avo = aService.getAssetByAssetId(assetId);
+		List<AssetDetailVO> dlist = aService.getAssetDetailByAssetId(assetId);
 		model.addAttribute("assetVO",avo);
 		model.addAttribute("assetDetailList",dlist);
-		return new ModelAndView("assetModify.tiles","model",model);
+		return new ModelAndView("assetModify.tiles","model",model);	
 	}
-	
-	
-
 }

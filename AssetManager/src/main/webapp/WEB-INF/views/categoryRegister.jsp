@@ -30,11 +30,11 @@
 		$(document).on("click", "#addItem", function(){
 			plusCount += 1;
 			if(plusCount % 2 == 1){
-				$("#itemTable tr:last td:last").before('<td style="width: 50%"><input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="width: 80%" value="" maxlength="33"/></td>');
+				$("#itemTable tr:last td:last").before('<td style="width: 50%"><input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="width: 80%" value=""/></td>');
 				$("#itemTable tr:last td:last").remove();
 				$("#itemTable tr:last").after('<tr><td><input type="button" id="addItem" value="+"/></td></tr>');
 			} else{
-				$("#itemTable tr:last td:last").before('<td style="width: 50%"><input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="width: 80%" value="" maxlength="33"/></td>');
+				$("#itemTable tr:last td:last").before('<td style="width: 50%"><input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="width: 80%" value=""/></td>');
 			}
 		});
 		
@@ -153,14 +153,6 @@
 	    else
 	    	return eCho[cho]; 
 	}
-	
-	function alphabetOnly(){
-		var val = $("#categoryCodeName").val()
-		var ch = val.slice(-1);
-		if(ch.charCodeAt(0) < 65 || ch.charCodeAt(0) > 90){
-			$("#categoryCodeName").val(val.slice(0,-1));
-		}
-	}
 
 	function codeCheck() {
 		var code = $('#categoryCodeName').val();
@@ -213,14 +205,14 @@
 				<div style="margin-bottom: 10px">
 					<div style="float: left; display:inline-block;">
 						<form id="category" action="categoryRegisterSend" method="post">
-							분류 이름: <input type="text" id="categoryName" name="categoryName" maxlength="33" onkeyup="codeGen()"/>
+							분류 이름: <input type="text" id="categoryName" name="categoryName" onkeyup="codeGen()"/>
 							<input type="hidden" id="items" name="items"/>
 							<input type="hidden" id="code" name="code"/>
 						</form>
 					</div>
 					<div style="float: right; display:inline-block;">
 						<form id="categoryCode">
-							분류 식별 코드: <input type="text" id="categoryCodeName" name="categoryCodeName" maxlength="2" onkeyup="alphabetOnly();"/>
+							분류 식별 코드: <input type="text" id="categoryCodeName" name="categoryCodeName" />
 							<input type="button" class="btn" onclick="codeCheck();" value="중복 검사"/>
 						</form>
 					</div>
@@ -229,7 +221,7 @@
 					<tr>
 						<td style="width: 50%">
 							<input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;
-							<input type="text" style="width: 80%" maxlength="33"/>
+							<input type="text" style="width: 80%"/>
 						</td>
 						<td style="width: 50%"><input type="button" id="addItem" value="+"/></td>
 					</tr>

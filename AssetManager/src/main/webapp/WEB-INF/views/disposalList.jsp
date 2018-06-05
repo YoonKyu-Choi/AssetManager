@@ -66,13 +66,12 @@
 			}
 			
 			$(function(){
-				if(<c:out value="${assetCountByDispReady}"/> + <c:out value="${assetCountByDisposal}"/> > 0){
+			
+				if(${assetCountByDispReady} + ${assetCountByDisposal} > 0){
 					$(".table-responsive").on("click", ".table tbody tr", function(){
-						document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
+	//					document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
 					});
 				}
-
-				$(".tdNonClick").unbind('click');
 
 				var flashmsg = "<c:out value="${msg}"/>";
 				
@@ -80,10 +79,10 @@
 					alert(flashmsg);
 				
 				var windowHeight = window.innerHeight;
-				$(".table-responsive").css("height", windowHeight-350);
+				$(".table-responsive").css("height", windowHeight-300);
 				$(window).resize(function(){
 					windowHeight = $(window).height();
-					$(".table-responsive").css("height", windowHeight-350);
+					$(".table-responsive").css("height", windowHeight-300);
 				})
 				
 			});
@@ -187,6 +186,7 @@
 						});
 						
 						$("#printArray").val(printList);
+	//					alert($("#disposeArray").val());
 						$("#printForm").submit();
 						
 					}
@@ -196,17 +196,17 @@
 		</script>
 		
 		<style>
-			th, td {
-			text-align: center;
-			white-space: nowrap;
-			}
-			th{
-			background-color:darkgray;
-			color:white;
-			}
-			p{
-				font-size:25px;
-			}
+		th, td {
+		text-align: center;
+		white-space: nowrap;
+		}
+		th{
+		background-color:darkgray;
+		color:white;
+		}
+		p{
+			font-size:25px;
+		}
 		</style>
 		
 	</head>
@@ -216,8 +216,11 @@
 			<div class="row">
 				<div class="main">
 					<form class="page-header" id="searchForm" action="disposalList">
-						<font size="6px"><b>폐기 자산 목록</b></font>
-						<label style="float:right; margin-top: 20px ">
+						<font size="6px" bold>폐기 자산 목록</font>&nbsp;&nbsp;&nbsp;&nbsp;
+						<font size="4px">폐기 대기 : </font><span class="badge">${assetCountByDispReady}</span>
+						<font size="4px">폐기 : </font><span class="badge">${assetCountByDisposal}</span>
+						<span class="badge">${categoryCount}</span>
+						<label style="float:right">
 							<select id="searchMode" name="searchMode">
 								<option value="1">자산 분류</option>
 								<option value="2">SID</option>
@@ -228,11 +231,6 @@
 							<input type="submit" value="검색">
 						</label>
 					</form>
-					<div style="margin-bottom: 10px">
-						<span class="badge">${categoryCount}</span>
-						<font size="4px">&nbsp;&nbsp;폐기 대기 : </font><span class="badge">${assetCountByDispReady}</span>
-						<font size="4px">&nbsp;&nbsp;폐기 : </font><span class="badge">${assetCountByDisposal}</span>
-					</div>
 					<div class="table-responsive" style="overflow: scroll; height: 400px">
 						<table class="table table-striped" data-toggle="table" data-sort-name="status" data-sort-order="desc">
 							<thead>

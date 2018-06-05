@@ -21,125 +21,122 @@
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
 
-	<script type="text/javascript">
+<script type="text/javascript">
+	$(function(){
+		var isAdmin = "<%=session.getAttribute("isAdmin") %>";
+		if(isAdmin == "TRUE"){
+			$("div.admin").show();
+		}
+	});
+	function depSort(a, b){
+		if(a.dep < b.dep) return -1;
+		if(a.dep > b.dep) return 1;
+		return 0;
+	}
 	
-		$(function(){
-			var isAdmin = "<%=session.getAttribute("isAdmin") %>";
-			if(isAdmin == "TRUE"){
-				$("div.admin").show();
+	function rankSort(a, b){
+		if(a.rank < b.rank) return -1;
+		if(a.rank > b.rank) return 1;
+		return 0;
+	}
+	
+	$(function(){
+		if(<c:out value="${assetCount}"/> 0){
+			$(".table tbody tr").click(function(){
+				document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
+			});
+		}
+		
+		$(document).on('click', '.checkBtn', function(){
+			console.log('checkbox clicked');
+		});
+		$(".tdNonClick").unbind('click');
+		
+	});
+	
+	$(function(){
+		var windowHeight = window.innerHeight;
+		$(".table-responsive").css("height", windowHeight-300);
+		$(window).resize(function(){
+			windowHeight = $(window).height();
+			$(".table-responsive").css("height", windowHeight-300);
+		});
+	});
+	
+	function searchFunc(){
+		alert($("#searchByName").val());
+		$.ajax({
+			"type" : "GET",
+			"url":"userList",
+			"dataType":"text",
+			"data" : {
+				employeeName : $("#searchByName").val()
+			},
+			"success" : function(list){
+				alert("검색 완료 ");
+			},
+				"error" : function(e){
+				alert("오류 발생 : "+e.responseText);
 			}
 		});
-		function depSort(a, b){
-			if(a.dep < b.dep) return -1;
-			if(a.dep > b.dep) return 1;
-			return 0;
-		}
-		
-		function rankSort(a, b){
-			if(a.rank < b.rank) return -1;
-			if(a.rank > b.rank) return 1;
-			return 0;
-		}
-		
-		$(function(){
-			if(<c:out value="${assetCount}"/> > 0){
-				$(".table tbody tr").click(function(){
-					document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
-				});
-			}
-			
-			$(document).on('click', '.checkBtn', function(){
-				console.log('checkbox clicked');
-			});
+	}
+</script>
 	
-			$(".tdNonClick").unbind('click');
-			
-		});
-		
-		$(function(){
-			var windowHeight = window.innerHeight;
-			$(".table-responsive").css("height", windowHeight-350);
-			$(window).resize(function(){
-				windowHeight = $(window).height();
-				$(".table-responsive").css("height", windowHeight-350);
-			});
-		});
-		
-		function searchFunc(){
-			alert($("#searchByName").val());
-			$.ajax({
-				"type" : "GET",
-				"url":"userList",
-				"dataType":"text",
-				"data" : {
-					employeeName : $("#searchByName").val()
-				},
-				"success" : function(list){
-					alert("검색 완료 ");
-				},
-					"error" : function(e){
-					alert("오류 발생 : "+e.responseText);
-				}
-			});
-		}
-	</script>
-		
-	<style>
-		th, td {
-			text-align: center;
-			white-space: nowrap;
-		}
-		th{
-			background-color:darkgray;
-			color:white;
-		}
-		p{
-			font-size:25px;
-		}
-		.form-controlmin {
-			display: block;
-			width: 12%;
-			height: 34px;
-			padding: 6px 12px;
-			font-size: 14px;
-			line-height: 1.42857143;
-			color: #555;
-			background-color: #fff;
-			background-image: none;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-			-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-			        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-			-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-			     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-			        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-		}
+<style>
+	th, td {
+		text-align: center;
+		white-space: nowrap;
+	}
+	th{
+		background-color:darkgray;
+		color:white;
+	}
+	p{
+		font-size:25px;
+	}
+	.form-controlmin {
+		display: block;
+		width: 12%;
+		height: 34px;
+		padding: 6px 12px;
+		font-size: 14px;
+		line-height: 1.42857143;
+		color: #555;
+		background-color: #fff;
+		background-image: none;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+		        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+		-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+		     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+		        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	}
 	</style>
 </head>
-<body>
-	<div class="container-fluid">
+	<body>
+	 <div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<form class="page-header">
-					<font size="6px"><b>자산 목록</b></font>
-					<label style="float: right">
-						<select id="assetSearch" name="searchCategory">
-							<option value="0">자산 분류</option>
-							<option value="1">시리얼 번호</option>
-							<option value="2">구입년도</option>
-							<option value="3">관리 번호</option>
-						</select>
-						<input type="text" size="20" id="searchKeyword" name="employeeName"/>
-						<input type="submit" value="검색" onclick="searchFunc();"/>
-					</label>
-				</form>
-				<div style="margin-bottom: 10px">
-					<font size="4px">&nbsp;&nbsp;총 자산 수 : </font><span class="badge">${assetCount}</span>
-					<font size="4px">&nbsp;&nbsp;사용 : </font><span class="badge">${assetCountByUse}</span>
-					<font size="4px">&nbsp;&nbsp;사용불가 : </font><span class="badge">${assetCountByNotUse}</span>
-					<font size="4px">&nbsp;&nbsp;반출 : </font><span class="badge">${assetCountByOut}</span>
-					<font size="4px">&nbsp;&nbsp;폐기 대기 : </font><span class="badge">${assetCountByDispReady}</span>
-					<font size="4px">&nbsp;&nbsp;폐기 : </font><span class="badge">${assetCountByDisposal}</span>
+				<div class="page-header">
+				<font size="6px" bold>자산 목록</font>
+				<font size="4px">총 자산 수 : </font><span class="badge">${assetCount}</span>
+				<font size="4px">사용 : </font><span class="badge">${assetCountByUse}</span>
+				<font size="4px">사용불가 : </font><span class="badge">${assetCountByNotUse}</span>
+				<font size="4px">반출 : </font><span class="badge">${assetCountByOut}</span>
+				<font size="4px">폐기 대기 : </font><span class="badge">${assetCountByDispReady}</span>
+				<font size="4px">폐기 : </font><span class="badge">${assetCountByDisposal}</span>
+				<br>
+				<div style="display:flex;">
+				<select	class="form-controlmin" id="assetSearch" name="searchCategory">
+						<option value="0">자산 분류</option>
+						<option value="1">시리얼 번호</option>
+						<option value="2">구입년도</option>
+						<option value="3">관리 번호</option>
+				</select>
+				<input type="text" size="20" id="searchKeyword" name="employeeName"/>
+				<input type="submit" value="검색" onclick="searchFunc();"/>
+				</div>
 				</div>
 				<div class="table-responsive" style="overflow: scroll; height: 400px">
 					<table class="table table-striped" data-toggle="table">
@@ -185,10 +182,9 @@
 				</div>
 				<button class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='/assetmanager/nameList2';">자산 등록</button>
 				<div class="admin"> 
-					<button class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='/assetmanager/register';">폐기 신청</button>
+				<button class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='/assetmanager/register';">폐기 신청</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </body>
-
