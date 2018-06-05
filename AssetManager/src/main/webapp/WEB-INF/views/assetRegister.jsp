@@ -41,9 +41,9 @@
 				counts = a.length;
 				for(var i=0;i<a.length;i++){
 					if(plusCount % 2 == 1){
-						$("#assetDetailTable tr:last").after('<tr><th><input type="text" id="assetItem" name="assetItem" value='+a[i]+' readonly></th><th><input type="text" id="assetItemDetail" name="assetItemDetail"></th></tr>');
+						$("#assetDetailTable tr:last").after('<tr><th><input type="text" id="assetItem" name="assetItem" value="'+a[i]+'" readonly></th><th><input type="text" id="assetItemDetail" name="assetItemDetail"></th></tr>');
 					} else{
-						$("#assetDetailTable tr:last th:last").after('<th><input type="text" id="assetItem" name="assetItem" value='+a[i]+' readonly></th><th><input type="text" id="assetItemDetail" name="assetItemDetail"></th>');
+						$("#assetDetailTable tr:last th:last").after('<th><input type="text" id="assetItem" name="assetItem" value="'+a[i]+'" readonly></th><th><input type="text" id="assetItemDetail" name="assetItemDetail"></th>');
 					}
 						
 						plusCount += 1;
@@ -63,7 +63,6 @@
 			items.push($("th input[id='assetItem']:eq("+i+")").val());
 			itemsDetail.push($("th input[id='assetItemDetail']:eq("+i+")").val());			
 		}
-		console.log(items);
 		$("#items").val(items);
 		$("#itemsDetail").val(itemsDetail);
 		
@@ -141,7 +140,7 @@
 
 <body>
 	<div style="text-align: center;" id="main">
-		<form class="form" action="/assetmanager/assetRegister2" id="registerSend" method="POST" enctype="multipart/form-data">
+		<form class="form" action="/assetmanager/assetRegisterSend" id="registerSend" method="POST" enctype="multipart/form-data">
 			<h2 style="text-align: center"><b>자산 관리 > 자산 정보 입력</b></h2>
 			자산 공통사항
 			<div style="display: flex; margin-left: 90px">
@@ -225,7 +224,6 @@
 					</tr>
 				</table>
 			</div>
-			
 			자산 세부 사항
 			<div style="display: flex; margin-left: 90px">
 				<table class="table table-striped" id="assetDetailTable">

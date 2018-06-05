@@ -158,10 +158,12 @@
 					</table>
 					<h3>자산 세부사항</h3>
 					<table class="table table-striped">
-					<c:forEach items="${assetDetailList}" var="assetDetail">
+					<c:forEach items="${assetDetailList}" varStatus="i" step="2">
 						<tr>
-							<th>${assetDetail.assetItem}</th>
-							<th>${assetDetail.assetItemDetail}</th>
+							<th>${assetDetailList[i.index].assetItem}</th>
+							<th>${assetDetailList[i.index].assetItemDetail}</th>
+							<th>${assetDetailList[i.index+1].assetItem}</th>
+							<th>${assetDetailList[i.index+1].assetItemDetail}</th>
 						</tr>
 					</c:forEach>
 					</table>

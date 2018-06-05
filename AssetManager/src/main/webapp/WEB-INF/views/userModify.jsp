@@ -25,18 +25,10 @@
 <script type="text/javascript">
 	$(document).ready(
 			function() {
-				$("#employeeRank").val(
-						"${requestScope.employeeVO.employeeRank}").prop(
-						"selected", true);
-				$("#employeeDepartment").val(
-						"${requestScope.employeeVO.employeeDepartment}").prop(
-						"selected", true);
-				$("#employeeLocation").val(
-						"${requestScope.employeeVO.employeeLocation}").prop(
-						"selected", true);
-				$("#employeeStatus").val(
-						"${requestScope.employeeVO.employeeStatus}").attr(
-						"selected", "selected");
+				$("#employeeRank").val("${requestScope.employeeVO.employeeRank}").prop("selected", true);
+				$("#employeeDepartment").val("${requestScope.employeeVO.employeeDepartment}").prop("selected", true);
+				$("#employeeLocation").val("${requestScope.employeeVO.employeeLocation}").prop("selected", true);
+				$("#employeeStatus").val("${requestScope.employeeVO.employeeStatus}").attr("selected", "selected");
 			})
 
 	function cancelConfirm() {

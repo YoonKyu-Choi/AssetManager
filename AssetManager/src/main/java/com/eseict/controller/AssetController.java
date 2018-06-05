@@ -77,7 +77,7 @@ public class AssetController {
 		return "assetRegister.tiles";
 	}
 	
-	@RequestMapping(value = "/assetRegister2")
+	@RequestMapping(value = "/assetRegisterSend")
 	public String assetRegister(@ModelAttribute AssetVO avo, @RequestParam String[] items,
 			@RequestParam String[] itemsDetail, @RequestParam MultipartFile uploadImage, HttpServletRequest request)
 			throws IllegalStateException, IOException {
@@ -105,7 +105,6 @@ public class AssetController {
 		} else {
 			itemSequence = Integer.toString(i);	
 		}
-		System.out.println(year + month + "-" + categoryKeyword + "-" + (itemSequence));
 		avo.setAssetId(year + month + "-" + categoryKeyword + "-" + (itemSequence));
 		
 		// 파일 업로드
