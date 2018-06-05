@@ -30,23 +30,23 @@ import com.eseict.service.EmployeeService;
 public class AssetController {
 	
 	@Autowired
-	private AssetService service;
+	private AssetService aService;
 	@Autowired
 	private EmployeeService eService;
 
 	@RequestMapping(value = "/assetList")
 	public ModelAndView assetList(Model model) {
 
-		List<AssetVO> list = service.getAssetList();
+		List<AssetVO> list = aService.getAssetList();
 		model.addAttribute("assetList", list);
 
 		// 자산 상태 조회
-		int assetCount = service.getAssetCount();
-		int assetCountByUse = service.getAssetCountByUse();
-		int assetCountByNotUse = service.getAssetCountByNotUse();
-		int assetCountByOut = service.getAssetCountByOut();
-		int assetCountByDispReady = service.getAssetCountByDispReady();
-		int assetCountByDisposal = service.getAssetCountByDisposal();
+		int assetCount = aService.getAssetCount();
+		int assetCountByUse = aService.getAssetCountByUse();
+		int assetCountByNotUse = aService.getAssetCountByNotUse();
+		int assetCountByOut = aService.getAssetCountByOut();
+		int assetCountByDispReady = aService.getAssetCountByDispReady();
+		int assetCountByDisposal = aService.getAssetCountByDisposal();
 
 		model.addAttribute("assetCount", assetCount);
 		model.addAttribute("assetCountByUse", assetCountByUse);
@@ -60,9 +60,8 @@ public class AssetController {
 
 	@RequestMapping(value = "/assetDetail")
 	public ModelAndView assetDetail(Model model, @RequestParam String assetId) {
-		System.out.println(assetId);
-		AssetVO avo = service.getAssetByAssetId(assetId);
-		List<AssetDetailVO> dlist = service.getAssetDetailByAssetId(assetId);
+		AssetVO avo = aService.getAssetByAssetId(assetId);
+		List<AssetDetailVO> dlist = aService.getAssetDetailByAssetId(assetId);
 		model.addAttribute("assetVO", avo);
 		model.addAttribute("assetDetailList", dlist);
 		return new ModelAndView("assetDetail.tiles", "model", model);
@@ -117,7 +116,7 @@ public class AssetController {
 			month = Integer.toString(avo.getAssetPurchaseDate().getMonth() + 1);
 		}
 
-		int i = service.getAssetCountByCategory(avo.getAssetCategory()) + 1;
+		int i = aService.getAssetCountByCategory(avo.getAssetCategory()) + 1;
 		if (i < 10) {
 			itemSequence = "0" + "0" + i;
 		} else if (i >= 10 && i < 100) {
@@ -137,7 +136,7 @@ public class AssetController {
 			avo.setAssetReceiptUrl(fileName+".jpg");
 		}
 
-		service.insertAsset(avo);
+		aService.insertAsset(avo);
 
 		AssetDetailVO dvo = new AssetDetailVO();
 		dvo.setAssetId(year + month + "-" + categoryKeyword + "-" + (itemSequence));
@@ -146,7 +145,7 @@ public class AssetController {
 			String s2 = itemsDetail[a];
 			dvo.setAssetItem(s);
 			dvo.setAssetItemDetail(s2);
-			service.insertAssetDetail(dvo);
+			aService.insertAssetDetail(dvo);
 		}
 
 		return "redirect:/assetList.tiles";
@@ -155,16 +154,14 @@ public class AssetController {
 	@RequestMapping(value = "/getCategoryDetailItem")
 	@ResponseBody
 	public List<CategoryVO> getCategoryDetailItem(@RequestParam String assetCategory) {
-		System.out.println(assetCategory);
-		List<CategoryVO> list = service.getCategoryDetailItem(assetCategory);
-		System.out.println(list);
+		List<CategoryVO> list = aService.getCategoryDetailItem(assetCategory);
 		return list;
 	}
 
 	@RequestMapping(value = "/nameList2")
 	public ModelAndView nameList2(Model model) {
 		List<String> list = eService.getEmployeeNameList();
-		List<String> list2 = service.getAssetCategoryList();
+		List<String> list2 = aService.getAssetCategoryList();
 		model.addAttribute("employeeNameList", list);
 		model.addAttribute("categoryList", list2);
 		return new ModelAndView("assetRegister.tiles", "list", model);
@@ -172,8 +169,8 @@ public class AssetController {
 
 	@RequestMapping(value="assetModify")
 	public ModelAndView assetModify(@RequestParam String assetId, Model model) {
-		AssetVO avo = service.getAssetByAssetId(assetId);
-		List<AssetDetailVO> dlist = service.getAssetDetailByAssetId(assetId);
+		AssetVO avo = aService.getAssetByAssetId(assetId);
+		List<AssetDetailVO> dlist = aService.getAssetDetailByAssetId(assetId);
 		model.addAttribute("assetVO",avo);
 		model.addAttribute("assetDetailList",dlist);
 		return new ModelAndView("assetModify.tiles","model",model);

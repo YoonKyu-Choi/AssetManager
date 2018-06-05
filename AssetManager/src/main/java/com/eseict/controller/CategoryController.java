@@ -1,18 +1,14 @@
 package com.eseict.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -20,10 +16,6 @@ import com.eseict.VO.CategoryVO;
 import com.eseict.service.CategoryService;
 import com.eseict.service.EmployeeService;
 
-/**
- * @author ESE
- *
- */
 @Controller
 public class CategoryController {
 	
@@ -73,7 +65,6 @@ public class CategoryController {
 		HashMap<String, Object> categoryData = new HashMap<String, Object>();
 		categoryData.put("name", categoryName);
 		categoryData.put("items", cvo);
-		categoryData.put("code", service.getCode(categoryName));
 		return new ModelAndView("categoryDetail.tiles", "categoryData", categoryData);
 	}
 	
@@ -84,7 +75,7 @@ public class CategoryController {
 	}
 	
 	@RequestMapping(value="/categoryRegisterSend")
-	public String categoryRegisterSend(RedirectAttributes redirectAttributes, @RequestParam String categoryName, @RequestParam String[] items, @RequestParam String code) {
+	public String categoryRegisterSend(RedirectAttributes redirectAttributes, @RequestParam String categoryName, @RequestParam String[] items) {
 		boolean dup = false;
 		if(service.isCategory(categoryName) > 0) {
 			dup = true;
@@ -102,7 +93,6 @@ public class CategoryController {
 		if(dup) {
 			redirectAttributes.addFlashAttribute("msg", "이미 존재하는 분류이므로 해당 분류에 추가되었습니다.");
 		} else {
-			service.newCode(categoryName, code);
 			redirectAttributes.addFlashAttribute("msg", "등록되었습니다.");
 		}
 		return "redirect:/categoryList";
@@ -128,7 +118,6 @@ public class CategoryController {
 		categoryData.put("name", categoryName);
 		categoryData.put("items", cvo);
 		categoryData.put("itemSize", cvo.size());
-		categoryData.put("code", service.getCode(categoryName));
 		return new ModelAndView("categoryModify.tiles", "categoryData", categoryData);
 	}
 	
@@ -139,7 +128,6 @@ public class CategoryController {
 		cvo = cvolist.toArray(cvo);
 
 		if(!categoryOriName.equals(categoryName)) {
-			System.out.println("asd");
 			service.updateCategoryName(categoryOriName, categoryName);
 		}
 		
@@ -168,15 +156,5 @@ public class CategoryController {
 		}
 		redirectAttributes.addFlashAttribute("msg", "수정되었습니다.");
 		return "redirect:/categoryList";
-	}
-	
-	@RequestMapping(value = "/checkCode")
-	@ResponseBody
-	public String checkId(@RequestParam(value = "code", required = false) String inputCode, HttpServletResponse response) throws IOException {
-		if (!inputCode.isEmpty()) {
-			return String.valueOf(service.existsCode(inputCode));
-		} else {
-			return "empty";
-		}
 	}
 }

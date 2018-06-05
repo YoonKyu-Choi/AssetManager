@@ -24,10 +24,4 @@ public interface CategoryDAO {
 	public void updateItemName(String itemOriName, String itemName, String categoryName);
 	
 	public int isCategory(String categoryName);
-	
-	public int existsCode(String code);
-	
-	public void newCode(String categoryName, String codeName);
-	
-	public String getCode(String categoryName);
 }

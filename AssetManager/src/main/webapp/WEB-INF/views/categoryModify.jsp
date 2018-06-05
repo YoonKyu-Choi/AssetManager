@@ -124,19 +124,12 @@
 		<div class="row">
 			<div class="main">
 				<h1 class="page-header">${categoryData["name"]} 분류 수정</h1>
-				<div>
-					<div style="float: left; display:inline-block;">
-						<form id="category" action="categoryModifySend" method="post">
-							<input type="hidden" name="categoryOriName" value="${categoryData['name']}" />
-							분류 이름: <input type="text" name="categoryName" value="${categoryData['name']}" />
-							<input type="hidden" id="items" name="items"/>
-							<input type="hidden" id="deleteItems" name="deleteItems"/>
-						</form>
-					</div>
-					<div style="float: right; display:inline-block;">
-						분류 식별 코드: <input type="text" value="${categoryData[\"code\"]}" readonly/>
-					</div>
-				</div>
+				<form id="category" action="categoryModifySend" method="post">
+					<input type="hidden" name="categoryOriName" value="${categoryData['name']}" />
+					분류 이름: <input type="text" name="categoryName" value="${categoryData['name']}" />
+					<input type="hidden" id="items" name="items"/>
+					<input type="hidden" id="deleteItems" name="deleteItems"/>
+				</form>
 				<table class="table table-striped" style="text-align: left; margin-top: 10px" id="itemTable" border="1">
 				
 					<c:forEach items="${categoryData.items}" var="categoryItem" varStatus="i" step="2">

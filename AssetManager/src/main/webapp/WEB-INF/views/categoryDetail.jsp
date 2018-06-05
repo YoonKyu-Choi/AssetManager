@@ -114,7 +114,7 @@
 		<div class="row">
 			<div class="main">
 				<h1 class="page-header">${categoryData["name"]} 정보</h1>
-				<h3>분류 코드: ${categoryData["code"]}</h3>
+				
 				<div class="table-responsive">
 					<table class="table table-striped" style="text-align: center;">
 					<c:forEach items="${categoryData.items}" var="categoryItem" varStatus="i" step="2">
