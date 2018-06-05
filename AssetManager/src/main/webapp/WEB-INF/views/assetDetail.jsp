@@ -158,30 +158,16 @@
 					</table>
 					<h3>자산 세부사항</h3>
 					<table class="table table-striped">
-					<%int i= 0; %>
 					<c:forEach items="${assetDetailList}" var="assetDetail">
-						<%if(i%2==0){ %>
 						<tr>
 							<th>${assetDetail.assetItem}</th>
 							<th>${assetDetail.assetItemDetail}</th>
 						</tr>
-						<% i+=1; }else{ %>
-							<th>${assetDetail.assetItem}</th>
-							<th>${assetDetail.assetItemDetail}</th>
-						<% i+=1; 
-						} %>
 					</c:forEach>
 					</table>
 					<div>
-					<c:choose>
-						<c:when test="${requestScope.assetVO.assetReceiptUrl}==null">
-							<h4>영수증 사진은 없습니다.</h4>
-						</c:when>
-						<c:otherwise>
 							<h3>영수증 사진</h3>
 							<img style="width:400px;height:400px;" src="${pageContext.request.contextPath}/resources/${requestScope.assetVO.assetReceiptUrl}">
-						</c:otherwise>
-					</c:choose>
 						<h3>자산 코멘트</h3>
 						<text border="0" readonly>${requestScope.assetVO.assetComment}</text>					
  					</div>

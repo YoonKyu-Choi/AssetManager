@@ -31,4 +31,5 @@ public interface CategoryService {
 	public void newCode(String categoryName, String codeName);
 
 	public String getCode(String categoryName);
+
 }

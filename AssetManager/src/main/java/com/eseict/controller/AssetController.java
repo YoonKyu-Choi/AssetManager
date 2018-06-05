@@ -24,6 +24,7 @@ import com.eseict.VO.AssetDetailVO;
 import com.eseict.VO.AssetVO;
 import com.eseict.VO.CategoryVO;
 import com.eseict.service.AssetService;
+import com.eseict.service.CategoryService;
 import com.eseict.service.EmployeeService;
 
 @Controller
@@ -33,6 +34,9 @@ public class AssetController {
 	private AssetService aService;
 	@Autowired
 	private EmployeeService eService;
+	@Autowired
+	private CategoryService cService;
+	
 	
 	@RequestMapping(value="/assetList")
 	public ModelAndView assetList(Model model) {
@@ -79,34 +83,10 @@ public class AssetController {
 		String categoryKeyword = null;
 		int year = 0;
 		String month = null;
-		String ac = avo.getAssetCategory();
+		String categoryName = avo.getAssetCategory();
 		String itemSequence = null;
 		
-		if(ac.equals("노트북")) {
-			categoryKeyword = "NT";
-		} else if(ac.equals("데스크탑")) {	
-			categoryKeyword = "DT";
-		} else if(ac.equals("모니터")) {
-			categoryKeyword = "MT";
-		} else if(ac.equals("서버")) {
-			categoryKeyword = "SV";
-		} else if(ac.equals("SoftWare")) {
-			categoryKeyword = "SW";
-		} else if(ac.equals("IP WALL")) {
-			categoryKeyword = "IW";
-		} else if(ac.equals("프린터")) {
-			categoryKeyword = "PR";
-		} else if(ac.equals("책상")) {
-			categoryKeyword = "TA";
-		} else if(ac.equals("의자")) {
-			categoryKeyword = "CH";
-		} else if(ac.equals("책")) {
-			categoryKeyword = "BO";
-		} else if(ac.equals("기타")) {
-			categoryKeyword = "ET";
-		} else{
-			categoryKeyword="NW";
-		}
+		categoryKeyword = cService.getCode(categoryName);
 		
 		year = avo.getAssetPurchaseDate().getYear() % 100;
 		if(avo.getAssetPurchaseDate().getMonth() + 1 <10) {
@@ -123,6 +103,7 @@ public class AssetController {
 		} else {
 			itemSequence = Integer.toString(i);	
 		}
+		System.out.println(year + month + "-" + categoryKeyword + "-" + (itemSequence));
 		avo.setAssetId(year + month + "-" + categoryKeyword + "-" + (itemSequence));
 		
 		// 파일 업로드
