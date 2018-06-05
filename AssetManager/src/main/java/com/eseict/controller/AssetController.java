@@ -36,35 +36,33 @@ public class AssetController {
 	
 	@RequestMapping(value="/assetList")
 	public ModelAndView assetList(Model model) {
-		
 		List<AssetVO> list = aService.getAssetList();
 		model.addAttribute("assetList",list);
-		
 		// 자산 상태 조회
 		int assetCount = aService.getAssetCount();
-		int assetCountByUse =aService.getAssetCountByUse();
-		int assetCountByNotUse =aService.getAssetCountByNotUse();
-		int assetCountByOut =aService.getAssetCountByOut();
-		int assetCountByDispReady =aService.getAssetCountByDispReady();
-		int assetCountByDisposal =aService.getAssetCountByDisposal();
-		
-		model.addAttribute("assetCount",assetCount);
-		model.addAttribute("assetCountByUse",assetCountByUse);
-		model.addAttribute("assetCountByNotUse",assetCountByNotUse);
-		model.addAttribute("assetCountByOut",assetCountByOut);
-		model.addAttribute("assetCountByDispReady",assetCountByDispReady);
-		model.addAttribute("assetCountByDisposal",assetCountByDisposal);
-		
+		int assetCountByUse = aService.getAssetCountByUse();
+		int assetCountByNotUse = aService.getAssetCountByNotUse();
+		int assetCountByOut = aService.getAssetCountByOut();
+		int assetCountByDispReady = aService.getAssetCountByDispReady();
+		int assetCountByDisposal = aService.getAssetCountByDisposal();
+
+		model.addAttribute("assetCount", assetCount);
+		model.addAttribute("assetCountByUse", assetCountByUse);
+		model.addAttribute("assetCountByNotUse", assetCountByNotUse);
+		model.addAttribute("assetCountByOut", assetCountByOut);
+		model.addAttribute("assetCountByDispReady", assetCountByDispReady);
+		model.addAttribute("assetCountByDisposal", assetCountByDisposal);
+
 		return new ModelAndView("assetList.tiles");
 	}
 	
 	@RequestMapping(value = "/assetDetail")
 	public ModelAndView assetDetail(Model model, @RequestParam String assetId) {
-		System.out.println(assetId);
 		AssetVO avo = aService.getAssetByAssetId(assetId);
 		List<AssetDetailVO> dlist = aService.getAssetDetailByAssetId(assetId);
-		model.addAttribute("assetVO",avo);
-		model.addAttribute("assetDetailList",dlist);
+		model.addAttribute("assetVO", avo);
+		model.addAttribute("assetDetailList", dlist);
+
 		return new ModelAndView("assetDetail.tiles", "model", model);
 	}
 	
@@ -116,9 +114,9 @@ public class AssetController {
 		} else {
 			month = Integer.toString(avo.getAssetPurchaseDate().getMonth() + 1);
 		}
-		
-		int i = aService.getAssetCountByCategory(avo.getAssetCategory())+1;
-		if(i<10) {
+		int i = aService.getAssetCountByCategory(avo.getAssetCategory()) + 1;
+		if (i < 10) {
+
 			itemSequence = "0" + "0" + i;
 		} else if(i>=10 && i<100) {
 			itemSequence = "0" + i;
@@ -136,9 +134,7 @@ public class AssetController {
 			uploadImage.transferTo(dir);
 			avo.setAssetReceiptUrl(fileName+".jpg");
 		}
-		
 		aService.insertAsset(avo);
-		
 		AssetDetailVO dvo = new AssetDetailVO();
 		dvo.setAssetId(year + month + "-" + categoryKeyword + "-" + (itemSequence));
 		for(int a = 0; a < items.length; a++) {

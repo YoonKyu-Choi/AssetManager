@@ -49,10 +49,10 @@
 					alert(flashmsg);
 				
 				var windowHeight = window.innerHeight;
-				$(".table-responsive").css("height", windowHeight-300);
+				$(".table-responsive").css("height", windowHeight-350);
 				$(window).resize(function(){
 					windowHeight = $(window).height();
-					$(".table-responsive").css("height", windowHeight-300);
+					$(".table-responsive").css("height", windowHeight-350);
 				});
 				
 			});
@@ -124,10 +124,8 @@
 			<div class="row">
 				<div class="main">
 					<form class="page-header" id="searchForm" action="categoryList">
-						<font size="6px" bold>분류 목록</font>&nbsp;&nbsp;&nbsp;&nbsp;
-						<font size="4px">분류 수 : </font>
-						<span class="badge">${categoryCount}</span>
-						<label style="float:right">
+						<font size="6px"><b>분류 관리 > 분류 목록</b></font>&nbsp;&nbsp;&nbsp;&nbsp;
+						<label style="float:right; margin-top: 20px">
 							<select id="searchMode" name="searchMode">
 								<option value="1">분류 이름</option>
 								<option value="2">세부 항목</option>
@@ -136,6 +134,10 @@
 							<input type="submit" value="검색">
 						</label>
 					</form>
+					<div style="margin-bottom: 10px">
+						<font size="4px">&nbsp;&nbsp;분류 수 : </font>
+						<span class="badge">${categoryCount}</span>
+					</div>
 					<%int columnSize = (Integer)request.getAttribute("columnSize");%>
 					<div class="table-responsive" style="overflow: scroll; height: 400px">
 						<table class="table table-striped" data-toggle="table">

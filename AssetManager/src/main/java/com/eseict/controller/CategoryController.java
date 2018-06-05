@@ -20,10 +20,6 @@ import com.eseict.VO.CategoryVO;
 import com.eseict.service.CategoryService;
 import com.eseict.service.EmployeeService;
 
-/**
- * @author ESE
- *
- */
 @Controller
 public class CategoryController {
 	
@@ -139,7 +135,6 @@ public class CategoryController {
 		cvo = cvolist.toArray(cvo);
 
 		if(!categoryOriName.equals(categoryName)) {
-			System.out.println("asd");
 			service.updateCategoryName(categoryOriName, categoryName);
 		}
 		
@@ -169,7 +164,7 @@ public class CategoryController {
 		redirectAttributes.addFlashAttribute("msg", "수정되었습니다.");
 		return "redirect:/categoryList";
 	}
-	
+
 	@RequestMapping(value = "/checkCode")
 	@ResponseBody
 	public String checkId(@RequestParam(value = "code", required = false) String inputCode, HttpServletResponse response) throws IOException {

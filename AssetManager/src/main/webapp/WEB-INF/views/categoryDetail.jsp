@@ -113,8 +113,11 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<h1 class="page-header">${categoryData["name"]} 정보</h1>
+				<h1 class="page-header"><b>분류 관리 > ${categoryData["name"]} 분류 정보</b></h1>
+				
 				<h3>분류 코드: ${categoryData["code"]}</h3>
+				<br>
+				<h5>세부 사항</h5>
 				<div class="table-responsive">
 					<table class="table table-striped" style="text-align: center;">
 					<c:forEach items="${categoryData.items}" var="categoryItem" varStatus="i" step="2">

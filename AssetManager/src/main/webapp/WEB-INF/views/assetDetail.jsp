@@ -8,7 +8,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>사용자 상세보기</title>
+<title>자산 상세보기</title>
 
 <!-- Bootstrap core CSS -->
 <link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
@@ -95,6 +95,14 @@
             $(this).hide();
             $('.window').hide();
         });	
+	    
+		var windowHeight = window.innerHeight;
+		$(".table-responsive").css("height", windowHeight-350);
+		$(window).resize(function(){
+			windowHeight = $(window).height();
+			$(".table-responsive").css("height", windowHeight-350);
+		})
+
 	});
 </script>
 </head>
@@ -103,7 +111,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<h1 class="page-header">${requestScope.assetVO.assetId}의 자산 정보</h1>
+				<h1 class="page-header"><b>자산 관리 > ${requestScope.assetVO.assetId}의 자산 정보</b></h1>
 				<div class="table-responsive" id="inputDiv" style="overflow: scroll;height: 500px;">
 				<h3>자산 공통사항</h3>
 					<table class="table table-striped">

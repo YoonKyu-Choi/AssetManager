@@ -93,6 +93,5 @@ public class CategoryDAOImpl implements CategoryDAO{
 	@Override
 	public String getCode(String categoryName) {
 		return sqlSession.selectOne(namespace+"getCode", categoryName);
-	}
-
+	}	
 }

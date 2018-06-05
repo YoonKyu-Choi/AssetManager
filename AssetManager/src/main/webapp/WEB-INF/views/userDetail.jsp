@@ -111,7 +111,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<h1 class="page-header">${requestScope.employeeVO.employeeName}님 정보</h1>
+				<h1 class="page-header"><b>회원 관리 > ${requestScope.employeeVO.employeeName}님 정보</b></h1>
 
 				<div class="table-responsive">
 					<table class="table table-striped">

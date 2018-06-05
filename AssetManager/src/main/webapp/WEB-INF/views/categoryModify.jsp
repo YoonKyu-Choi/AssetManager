@@ -123,7 +123,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<h1 class="page-header">${categoryData["name"]} 분류 수정</h1>
+				<h1 class="page-header"><b>분류 관리 > ${categoryData["name"]} 분류 수정</b></h1>
 				<div>
 					<div style="float: left; display:inline-block;">
 						<form id="category" action="categoryModifySend" method="post">
@@ -134,9 +134,10 @@
 						</form>
 					</div>
 					<div style="float: right; display:inline-block;">
-						분류 식별 코드: <input type="text" value="${categoryData[\"code\"]}" readonly/>
+						분류 식별 코드: <input type="text" value="${categoryData['code']}" readonly/>
 					</div>
 				</div>
+				<br><br>
 				<table class="table table-striped" style="text-align: left; margin-top: 10px" id="itemTable" border="1">
 				
 					<c:forEach items="${categoryData.items}" var="categoryItem" varStatus="i" step="2">

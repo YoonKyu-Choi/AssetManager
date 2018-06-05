@@ -52,11 +52,6 @@
 		DELETE FROM
 			category_item
 		WHERE
-			asset_category=#{categoryName};
-		
-		DELETE FROM
-			category_code
-		WHERE
 			asset_category=#{categoryName}
 	</delete>
 	
@@ -105,7 +100,7 @@
 		WHERE
 			asset_category=#{categoryName}
 	</select>
-	
+
 	<select id="existsCode" parameterType="String" resultType="Integer">
 		SELECT
 			count(*)

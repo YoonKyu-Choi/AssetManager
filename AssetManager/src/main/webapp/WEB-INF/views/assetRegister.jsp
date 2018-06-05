@@ -142,7 +142,7 @@
 <body>
 	<div style="text-align: center;" id="main">
 		<form class="form" action="/assetmanager/assetRegister2" id="registerSend" method="POST" enctype="multipart/form-data">
-			<h2 style="text-align: center">자산 정보 입력</h2>
+			<h2 style="text-align: center"><b>자산 관리 > 자산 정보 입력</b></h2>
 			자산 공통사항
 			<div style="display: flex; margin-left: 90px">
 				<table class="table table-striped" id="assetTable">

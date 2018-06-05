@@ -73,11 +73,10 @@
 			<div class="row">
 			<form id="modifySend" method="POST" action="/assetmanager/userModifyConfirm">
 				<div class="main">
-					<h1 class="page-header">${requestScope.employeeVO.employeeName}님의
-						정보 수정</h1>
+					<h1 class="page-header"><b>회원 관리 > ${requestScope.employeeVO.employeeName}님의 정보 수정</b></h1>
 					<div class="table-responsive">
+						<input type="hidden" name="employeeSeq" value="${requestScope.employeeVO.employeeSeq}"/>
 						<table class="table table-striped" id="">
-							<input type="hidden" name="employeeSeq" value="${requestScope.employeeVO.employeeSeq}"/>
 							<tr>
 								<th>이름</th>
 								<th>${requestScope.employeeVO.employeeName}</th>

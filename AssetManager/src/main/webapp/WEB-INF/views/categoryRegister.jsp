@@ -2,8 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,11 +28,11 @@
 		$(document).on("click", "#addItem", function(){
 			plusCount += 1;
 			if(plusCount % 2 == 1){
-				$("#itemTable tr:last td:last").before('<td style="width: 50%"><input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="width: 80%" value=""/></td>');
+				$("#itemTable tr:last td:last").before('<td style="width: 50%"><input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="width: 80%" value="" maxlength="33"/></td>');
 				$("#itemTable tr:last td:last").remove();
 				$("#itemTable tr:last").after('<tr><td><input type="button" id="addItem" value="+"/></td></tr>');
 			} else{
-				$("#itemTable tr:last td:last").before('<td style="width: 50%"><input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="width: 80%" value=""/></td>');
+				$("#itemTable tr:last td:last").before('<td style="width: 50%"><input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="width: 80%" value="" maxlength="33"/></td>');
 			}
 		});
 		
@@ -49,8 +47,6 @@
 				$("tr:last").remove();
 			}
 		})
-		
-
 	});
 </script>
 
@@ -69,7 +65,7 @@
 		}
 		$("#items").val(items);
 		$("#code").val($("#categoryCodeName").val());
-
+		
 		if($("#categoryName").val() == ""){
 			alert("분류 이름을 입력해주세요.");
 			return false;
@@ -153,7 +149,15 @@
 	    else
 	    	return eCho[cho]; 
 	}
-
+	
+	function alphabetOnly(){
+		var val = $("#categoryCodeName").val()
+		var ch = val.slice(-1);
+		if(ch.charCodeAt(0) < 65 || ch.charCodeAt(0) > 90){
+			$("#categoryCodeName").val(val.slice(0,-1));
+		}
+	}
+	
 	function codeCheck() {
 		var code = $('#categoryCodeName').val();
 		if(code == ""){
@@ -192,36 +196,35 @@
 		});
 
 	}
-
 </script>
-
 
 </head>
 <body>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<h1 class="page-header">새로운 분류 등록</h1>
+				<h1 class="page-header"><b>분류 관리 > 새로운 분류 등록</b></h1>
 				<div style="margin-bottom: 10px">
 					<div style="float: left; display:inline-block;">
 						<form id="category" action="categoryRegisterSend" method="post">
-							분류 이름: <input type="text" id="categoryName" name="categoryName" onkeyup="codeGen()"/>
+							분류 이름: <input type="text" id="categoryName" name="categoryName" maxlength="33" onkeyup="codeGen()"/>
 							<input type="hidden" id="items" name="items"/>
 							<input type="hidden" id="code" name="code"/>
 						</form>
 					</div>
 					<div style="float: right; display:inline-block;">
 						<form id="categoryCode">
-							분류 식별 코드: <input type="text" id="categoryCodeName" name="categoryCodeName" />
+							분류 식별 코드: <input type="text" id="categoryCodeName" name="categoryCodeName" maxlength="2" onkeyup="alphabetOnly();"/>
 							<input type="button" class="btn" onclick="codeCheck();" value="중복 검사"/>
 						</form>
 					</div>
 				</div>
+				<br><br>
 				<table class="table table-striped" style="text-align: left; margin-top: 10px" id="itemTable" border="1">
 					<tr>
 						<td style="width: 50%">
 							<input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;
-							<input type="text" style="width: 80%"/>
+							<input type="text" style="width: 80%" maxlength="33"/>
 						</td>
 						<td style="width: 50%"><input type="button" id="addItem" value="+"/></td>
 					</tr>
@@ -233,7 +236,4 @@
 			</div>
 		</div>
 	</div>
-
-
 </body>
-</html>

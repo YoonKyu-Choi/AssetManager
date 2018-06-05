@@ -49,17 +49,17 @@
 				if(flashmsg != ""){
 					alert(flashmsg);
 				}
-				refresgCount -= 1;
+				refreshCount -= 1;
 			}
 		});
 		
 		$(function(){
 			
 			var windowHeight = window.innerHeight;
-			$(".table-responsive").css("height", windowHeight-300);
+			$(".table-responsive").css("height", windowHeight-350);
 			$(window).resize(function(){
 				windowHeight = $(window).height();
-				$(".table-responsive").css("height", windowHeight-300);
+				$(".table-responsive").css("height", windowHeight-350);
 			});
 		});
 		
@@ -100,11 +100,20 @@
 	 <div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<form class="page-header" id="listRefresh"><font size="6px" bold>회원 목록</font>&nbsp;&nbsp;&nbsp;&nbsp;<font size="4px">회원 수 : </font><span class="badge">${userCount}</span>
-				<input type="text" id="searchCategory" name="searchCategory" value="회원 이름으로 검색" readonly>
-				<input type="text" id="searchByName" name="employeeName">
-				<input type="submit" value="검색" onclick="searchFunc();">
+				<form class="page-header" id="listRefresh">
+					<font size="6px"><b>회원 관리 > 회원 목록</b></font>
+					<label style="float: right; margin-top: 20px">
+						<select id="searchCategory" name="searchCategory">
+							<option value="0">회원 이름</option>
+						</select>
+						<input type="text" id="searchByName" name="employeeName">
+						<input type="submit" value="검색" onclick="searchFunc();">
+					</label>
 				</form>
+				<div style="margin-bottom: 10px">
+					<font size="4px">&nbsp;&nbsp;회원 수 : </font>
+					<span class="badge">${userCount}</span>
+				</div>
 				<div class="table-responsive" style="overflow: scroll; height: 400px">
 					<table class="table table-striped" data-toggle="table">
 						<thead>

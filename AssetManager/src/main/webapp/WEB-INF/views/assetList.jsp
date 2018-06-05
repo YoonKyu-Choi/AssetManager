@@ -41,12 +41,10 @@
 	}
 	
 	$(function(){
-//		if(${assetCount} 0){
-			$(".table tbody tr").click(function(){
-				document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
-			});
-//		}
-		
+//		$(document).on("click", ".table tbody td", function(){
+		$(".table tbody tr").click(function(){
+			document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
+		});
 		$(document).on('click', '.checkBtn', function(){
 			console.log('checkbox clicked');
 		});
@@ -56,10 +54,10 @@
 	
 	$(function(){
 		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-300);
+		$(".table-responsive").css("height", windowHeight-350);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-300);
+			$(".table-responsive").css("height", windowHeight-350);
 		});
 	});
 	
@@ -119,24 +117,25 @@
 		<div class="row">
 			<div class="main">
 				<div class="page-header">
-				<font size="6px" bold>자산 목록</font>
-				<font size="4px">총 자산 수 : </font><span class="badge">${assetCount}</span>
-				<font size="4px">사용 : </font><span class="badge">${assetCountByUse}</span>
-				<font size="4px">사용불가 : </font><span class="badge">${assetCountByNotUse}</span>
-				<font size="4px">반출 : </font><span class="badge">${assetCountByOut}</span>
-				<font size="4px">폐기 대기 : </font><span class="badge">${assetCountByDispReady}</span>
-				<font size="4px">폐기 : </font><span class="badge">${assetCountByDisposal}</span>
-				<br>
-				<div style="display:flex;">
-				<select	class="form-controlmin" id="assetSearch" name="searchCategory">
-						<option value="0">자산 분류</option>
-						<option value="1">시리얼 번호</option>
-						<option value="2">구입년도</option>
-						<option value="3">관리 번호</option>
-				</select>
-				<input type="text" size="20" id="searchKeyword" name="employeeName"/>
-				<input type="submit" value="검색" onclick="searchFunc();"/>
+					<font size="6px"><b>자산 관리 > 자산 목록</b></font>
+					<label style="float:right; margin-top: 20px">
+						<select id="assetSearch" name="searchCategory">
+								<option value="0">자산 분류</option>
+								<option value="1">시리얼 번호</option>
+								<option value="2">구입년도</option>
+								<option value="3">관리 번호</option>
+						</select>
+						<input type="text" id="searchKeyword" name="employeeName"/>
+						<input type="submit" value="검색" onclick="searchFunc();"/>
+					</label>
 				</div>
+				<div style="margin-bottom: 10px">
+					<font size="4px">&nbsp;&nbsp;총 자산 수 : </font><span class="badge">${assetCount}</span>
+					<font size="4px">&nbsp;&nbsp;사용 : </font><span class="badge">${assetCountByUse}</span>
+					<font size="4px">&nbsp;&nbsp;사용불가 : </font><span class="badge">${assetCountByNotUse}</span>
+					<font size="4px">&nbsp;&nbsp;반출 : </font><span class="badge">${assetCountByOut}</span>
+					<font size="4px">&nbsp;&nbsp;폐기 대기 : </font><span class="badge">${assetCountByDispReady}</span>
+					<font size="4px">&nbsp;&nbsp;폐기 : </font><span class="badge">${assetCountByDisposal}</span>
 				</div>
 				<div class="table-responsive" style="overflow: scroll; height: 400px">
 					<table class="table table-striped" data-toggle="table">
