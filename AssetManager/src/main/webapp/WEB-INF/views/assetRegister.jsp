@@ -20,8 +20,7 @@
 <script	src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
 
 <script type="text/javascript">
-	var plusCount = 1;
-	var counts = 0;
+
 	function getCategoryDetailItem(){
 		$.ajax({
 			"type":"POST",
@@ -37,18 +36,17 @@
 				a = a.split("\"},{\"assetCategory\":null,\"assetItem\":\"");
 				a[0] = a[0].split("{\"assetCategory\":null,\"assetItem\":\"")[1];
 				a[a.length-1] = a[a.length-1].split("\"}]")[0];
-				
-				counts = a.length;
+				var plusCount = 1;
 				for(var i=0;i<a.length;i++){
 					if(plusCount % 2 == 1){
-						$("#assetTable2 tr:last").after('<tr><th><input type="text" id="assetItem" name="assetItem" value='+a[i]+' readonly></th><th><input type="text" id="assetItemDetail" name="assetItemDetail"></th></tr>');
-					} else{
-						$("#assetTable2 tr:last th:last").after('<th><input type="text" id="assetItem" name="assetItem" value='+a[i]+' readonly></th><th><input type="text" id="assetItemDetail" name="assetItemDetail"></th>');
-					}
-						
+						$("#assetTable2 tr:last").after('<tr><th>'+a[i]+'</th><th><input type="text" id="'+a[i]+'" name="'+a[i]+'"></th></tr>');
 						plusCount += 1;
+					} else{
+						$("#assetTable2 tr:last th:last").after('<th>'+a[i]+'</th><th><input type="text" id="'+a[i]+'" name="'+a[i]+'"></th>');
+						plusCount += 1;
+					}
 				}
-				console.log(items);
+				console.log(a);
 			},
 			"error":function(){
 				alert("에러");
@@ -57,16 +55,6 @@
 	}
 	
 	function submitCheck() {
-		var items = [];
-		var itemsDetail=[];
-		for(var i=0;i<counts;i++){
-			items.push($("th input[id='assetItem']:eq("+i+")").val());
-			itemsDetail.push($("th input[id='assetItemDetail']:eq("+i+")").val());			
-		}
-		console.log(items);
-		$("#items").val(items);
-		$("#itemsDetail").val(itemsDetail);
-		
 		if ($("#assetCategory").val() == '0') {
 			alert("분류를 선택해주세요.");			
 			return false;
@@ -107,8 +95,6 @@
 		var right = $('.dropdown').height();
 		$('.dropdown').height(left);
 	});
-	
-	
 </script>
 <style>
 .form-controlmin {
@@ -135,7 +121,7 @@
 
 <body>
 	<div style="text-align: center;" id="main">
-		<form class="form" action="/assetmanager/assetRegister2" id="registerSend" method="POST" enctype="multipart/form-data">
+		<form class="form" id="registerSend" method="POST" action="/assetmanager/assetRegister2">
 			<h2 style="text-align: center">자산 정보 입력</h2>
 			자산 공통사항
 			<div style="display: flex; margin-left: 90px">
@@ -145,9 +131,17 @@
 						<th>
 							<select class="form-controlmin dropdown" id="assetCategory" name="assetCategory" onchange="getCategoryDetailItem();">
 								<option value="0" selected>분류를 선택하세요.</option>
-								<c:forEach items="${categoryList}" var="category">
-								<option value="${category}">${category}</option>
-							</c:forEach>
+								<option value="모니터">모니터</option>
+								<option value="데스크탑">데스크탑</option>
+								<option value="노트북">노트북</option>
+								<option value="서버">서버</option>
+								<option value="SoftWare">SoftWare</option>
+								<option value="IP Wall">IP Wall</option>
+								<option value="프린터">프린터</option>
+								<option value="책상">책상</option>
+								<option value="의자">의자</option>
+								<option value="책">책</option>
+								<option value="기타">기타</option>
 							</select>
 						</th>
 						<th>이름</th>
@@ -157,51 +151,40 @@
 					<tr>
 						<th>관리 번호</th>
 						<th>※ 자동 생성됩니다.</th>
-						<th>시리얼 번호</th>
-						<th><input type="text" id="assetSerial" name="assetSerial"></th>
-					</tr>
-					<tr>
 						<th>자산 상태</th>
 						<th><select class="form-controlmin dropdown" id="assetStatus" name="assetStatus">
 								<option value="0">상태를 선택하세요.</option>
 								<option value="사용 중">사용 중</option>
 								<option value="사용 가능">사용 가능</option>
 								<option value="사용 불가">사용 불가</option>
-								<option value="폐기 대기">폐기 대기</option>
 								<option value="폐기">폐기</option>
 						</select></th>
-						<th>자산 반출 상태</th>
-						<th><select class="form-controlmin dropdown" id="assetOutStatus" name="assetOutStatus">
-								<option value="0">반출 상태를 선택하세요.</option>
-								<option value="없음">반출 X</option>
-								<option value="반출 중">반출 중</option>
-								<option value="수리 중">수리 중</option>
-								<option value="고장">고장</option>
-						</select></th>
 					</tr>
 					<tr>
+						<th>시리얼 번호</th>
+						<th><input type="text" id="assetSerial" name="assetSerial"></th>
 						<th>구입일</th>
 						<th><input type="text" id="assetPurchaseDate" name="assetPurchaseDate"></th>
+					</tr>
+					<tr>
 						<th>제조사</th>
 						<th><input type="text" id="assetMaker" name="assetMaker"></th>
-					</tr>
-					<tr>
 						<th>구입가</th>
 						<th><input type="text" id="assetPurchasePrice" name="assetPurchasePrice"></th>
-						<th>모델명</th>
-						<th><input type="text" id="assetModel" name="assetModel"></th>
 					</tr>
 					<tr>
+						<th>모델명</th>
+						<th><input type="text" id="assetModel" name="assetModel"></th>
 						<th>구입처</th>
 						<th><input type="text" id="assetPurchaseShop" name="assetPurchaseShop"></th>
+					</tr>
+					<tr>
 						<th>용도</th>
 						<th><select class="form-controlmin dropdown" id="assetUsage" name="assetUsage">
 								<option value="0">용도를 선택하세요.</option>
 								<option value="개발용">개발용</option>
 								<option value="업무용">업무용</option>
 						</select></th>
-					</tr>
-					<tr>
 						<th>책임자</th>
 						<th>
 						<select class="form-controlmin dropdown" name="assetManager" id="assetManager">
@@ -210,6 +193,8 @@
 								<option value="${employee}">${employee}</option>
 							</c:forEach>
 						</select></th>
+					</tr>
+					<tr>
 						<th>사용 위치</th>
 						<th><select class="form-controlmin dropdown" id="assetLocation" name="assetLocation">
 								<option value="0">위치를 선택하세요.</option>
@@ -225,26 +210,15 @@
 				<table class="table table-striped" id="assetTable2">
 				<tr><th>항목</th><th>내용</th><th>항목</th><th>내용</th></tr>
 				</table>
-				<input type="hidden" id="items" name="items">
-				<input type="hidden" id="itemsDetail" name="itemsDetail">
-			</div>
-			<div style="display: flex; margin-left: 90px">
-				<h4>파일 업로드</h4>
-				<input type="file" id="uploadImage" name="uploadImage">
-				<div style="text-align:center;">
-				<img id="imgView" src="#" alt="img" style="height:300px;"/>
-				</div>
 			</div>
 			
-			<div><textArea name="assetComment" id="assetComment" rows="5" cols="50"></textArea></div>
-			
-			</form>
 			<div style="display: flex; width: 300px; margin-left: 90px">
 				<input type="button" class="btn btn-lg btn-primary btn-block"
-					id="registerBtn" onclick="submitCheck();" value="자산 등록" /> <label
+					id="registerBtn" onclick="submitCheck();" value="회원가입" /> <label
 					style="opacity: 0; margin: 10px"></label> <input type="button"
 					class="btn btn-lg btn-primary btn-block"
 					onclick="location.href='/assetmanager/assetList'" value="취소" />
 			</div>
+		</form>
 	</div>
 </body>

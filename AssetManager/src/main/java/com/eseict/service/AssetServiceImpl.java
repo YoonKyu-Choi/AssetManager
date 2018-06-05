@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.eseict.DAO.AssetDAO;
-import com.eseict.VO.AssetDetailVO;
 import com.eseict.VO.AssetVO;
 import com.eseict.VO.CategoryVO;
 
@@ -81,21 +80,6 @@ public class AssetServiceImpl implements AssetService {
 	@Override
 	public void disposeAsset(String assetId) {
 		dao.disposeAsset(assetId);
-	}
-
-	@Override
-	public List<String> getAssetCategoryList() {
-		return dao.getAssetCategoryList();
-	}
-
-	@Override
-	public void insertAssetDetail(AssetDetailVO dvo) {
-		dao.insertAssetDetail(dvo);
-	}
-
-	@Override
-	public List<AssetDetailVO> getAssetDetailByAssetId(String assetId) {
-		return dao.getAssetDetailByAssetId(assetId);
 	}
 
 }

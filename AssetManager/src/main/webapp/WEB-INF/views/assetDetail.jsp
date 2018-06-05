@@ -69,6 +69,7 @@
 	
 	    // 마스크의 높이와 너비를 화면의 높이와 너비 변수로 설정합니다.
 	    $('.mask').css({'width':maskWidth,'height':maskHeight});
+	
 	    // fade 애니메이션 : 1초 동안 검게 됐다가 80%의 불투명으로 변합니다.
 	    $('.mask').fadeTo("slow",0.8);
 	
@@ -150,22 +151,6 @@
 							<th>${requestScope.assetVO.assetLocation}</th>
 						</tr>
 					</table>
-					<h3>자산 세부사항</h3>
-					<table class="table table-striped">
-						<tr>
-							<th>${requestScope.assetDetailVO.assetItem}</th>
-							<th>${requestScope.assetDetailVO.assetItemDetail}</th>
-						</tr>
-					</table>
-					<div>
-					<h3>파일 업로드</h3>
-					<table class="table table-striped">
-						<tr>
-							<th>${requestScope.assetVO.assetReceiptUrl}</th>
-						</tr>
-					</table>	
-					</div>
-					
 				</div>
 
 				<form id="modifyForm" action="userModify" method="POST">

@@ -2,7 +2,6 @@ package com.eseict.DAO;
 
 import java.util.List;
 
-import com.eseict.VO.AssetDetailVO;
 import com.eseict.VO.AssetVO;
 import com.eseict.VO.CategoryVO;
 
@@ -30,14 +29,9 @@ public interface AssetDAO {
 	public int getAssetCountByCategory(String assetCategory);
 	// 카테고리 이름으로 항목 조회
 	public List<CategoryVO> getCategoryDetailItem(String assetCategory);
+	
 	// 폐기 자산 목록 조회
 	public List<AssetVO> getDisposalAssetList();
 	// 폐기 처리
 	public void disposeAsset(String assetId);
-	// 카테고리 리스트 조회
-	public List<String> getAssetCategoryList();
-	// 자산 세부사항 등록
-	public void insertAssetDetail(AssetDetailVO dvo);
-	// 자산 세부사항 상세보기
-	public List<AssetDetailVO> getAssetDetailByAssetId(String assetId);
 }
