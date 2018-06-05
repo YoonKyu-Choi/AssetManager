@@ -34,6 +34,11 @@ public class AssetDAOImpl implements AssetDAO {
 	}
 
 	@Override
+	public int getAssetCountCanUse() {
+		return sqlSession.selectOne(namespace + "getAssetCountCanUse");
+	}
+
+	@Override
 	public int getAssetCountbyNotUse() {
 		return sqlSession.selectOne(namespace + "getAssetCountByNotUse");
 	}

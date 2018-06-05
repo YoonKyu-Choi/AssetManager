@@ -70,10 +70,11 @@
 	}
 
 	$(function(){
-//		$(document).on("click", ".table tbody td", function(){
-		$(".table tbody tr").click(function(){
-//			document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
-		});
+		if(${assetCount} > 0){
+			$(".table tbody tr").click(function(){
+				document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
+			});
+		}
 		$(document).on('click', '.checkBtn', function(){
 			console.log('checkbox clicked');
 		});
@@ -186,7 +187,8 @@
 				</div>
 				<div style="margin-bottom: 10px">
 					<font size="4px">&nbsp;&nbsp;총 자산 수 : </font><span class="badge">${assetCount}</span>
-					<font size="4px">&nbsp;&nbsp;사용 : </font><span class="badge">${assetCountByUse}</span>
+					<font size="4px">&nbsp;&nbsp;사용 중: </font><span class="badge">${assetCountByUse}</span>
+					<font size="4px">&nbsp;&nbsp;사용 가능: </font><span class="badge">${assetCountCanUse}</span>
 					<font size="4px">&nbsp;&nbsp;사용불가 : </font><span class="badge">${assetCountByNotUse}</span>
 					<font size="4px">&nbsp;&nbsp;반출 : </font><span class="badge">${assetCountByOut}</span>
 					<font size="4px">&nbsp;&nbsp;폐기 대기 : </font><span class="badge">${assetCountByDispReady}</span>
@@ -240,11 +242,11 @@
 				<div style="display:flex; float: left; margin-top: 10px">
 					<button class="btn btn-lg btn-primary" onclick="printList();" >목록 출력</button>
 				</div>
-				<div>
-					<button class="btn btn-lg btn-primary" style="display:flex; float:right; margin-top: 10px" onclick="location.href='/assetmanager/nameList2';">자산 등록</button>
-				</div>
-				<div class="admin"> 
-					<button class="btn btn-lg btn-primary" id="disposalButton" style="display:flex; float:right; margin-top: 10px" onclick="location.href='/assetmanager/register';">폐기 신청</button>
+				<div style="display:flex; float:right; margin-top: 10px">
+					<button class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/nameList2';">자산 등록</button>
+					<div class="admin"> 
+						<button class="btn btn-lg btn-primary" id="disposalButton"onclick="location.href='/assetmanager/register';">폐기 신청</button>
+					</div>
 				</div>
 			</div>
 		</div>

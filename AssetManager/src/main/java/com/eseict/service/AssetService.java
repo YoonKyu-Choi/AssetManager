@@ -14,6 +14,8 @@ public interface AssetService {
 	public int getAssetCount();
 	// 사용 자산 수
 	public int getAssetCountByUse();
+	// 사용 가능 자산 수
+	public int getAssetCountCanUse();
 	// 사용 불가 자산 수
 	public int getAssetCountByNotUse();
 	// 반출 자산 수

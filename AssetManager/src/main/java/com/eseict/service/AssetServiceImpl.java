@@ -32,6 +32,11 @@ public class AssetServiceImpl implements AssetService {
 	}
 
 	@Override
+	public int getAssetCountCanUse() {
+		return dao.getAssetCountCanUse();
+	}
+
+	@Override
 	public int getAssetCountByNotUse() {
 		return dao.getAssetCountbyNotUse();
 	}

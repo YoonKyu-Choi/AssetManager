@@ -45,6 +45,7 @@ public class AssetController {
 		// 자산 상태 조회
 		int assetCount = aService.getAssetCount();
 		int assetCountByUse = aService.getAssetCountByUse();
+		int assetCountCanUse = aService.getAssetCountCanUse();
 		int assetCountByNotUse = aService.getAssetCountByNotUse();
 		int assetCountByOut = aService.getAssetCountByOut();
 		int assetCountByDispReady = aService.getAssetCountByDispReady();
@@ -52,6 +53,7 @@ public class AssetController {
 
 		model.addAttribute("assetCount", assetCount);
 		model.addAttribute("assetCountByUse", assetCountByUse);
+		model.addAttribute("assetCountCanUse", assetCountCanUse);
 		model.addAttribute("assetCountByNotUse", assetCountByNotUse);
 		model.addAttribute("assetCountByOut", assetCountByOut);
 		model.addAttribute("assetCountByDispReady", assetCountByDispReady);

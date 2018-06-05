@@ -12,8 +12,10 @@ public interface AssetDAO {
 	public List<AssetVO> getAssetList();
 	// 총 자산 수
 	public int getAssetCount();
-	// 사용 자산 수
+	// 사용 중인 자산 수
 	public int getAssetCountByUse();
+	// 사용 가능 자산 수
+	public int getAssetCountCanUse();
 	// 사용 불가 자산 수
 	public int getAssetCountbyNotUse();
 	// 반출 자산 수
