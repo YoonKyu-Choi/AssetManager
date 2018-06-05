@@ -96,7 +96,7 @@
 		} else if($("#assetItemDetail").val()==''){
 			alert("항목 내용을 입력해주세요.");
 			return false;
-		} else {
+		}else {
 			$("#registerSend").submit();
 		}
 	};

@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<head>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
@@ -46,7 +45,6 @@
 			$("#modifyForm").submit();
 		}
 	}
-	
 	function outConfirm() {
 		if (!confirm("반출/수리 하겠습니까?")) {
 			return false;
@@ -54,7 +52,6 @@
 	        wrapWindowByMask();
 		}
 	}
-	
 	function dispReqConfirm() {
 		if (!confirm("폐기 신청을 하시겠습니까?")) {
 			return false;
@@ -153,41 +150,49 @@
 					</table>
 					<h3>자산 세부사항</h3>
 					<table class="table table-striped">
-						<c:forEach items="${assetDetailList}" var="assetDetail">
+					<%int i= 0; %>
+					<c:forEach items="${assetDetailList}" var="assetDetail">
+						<%if(i%2==0){ %>
 						<tr>
-								<th>${assetDetail.assetItem}</th>
-								<th>${assetDetail.assetItemDetail}</th>
+							<th>${assetDetail.assetItem}</th>
+							<th>${assetDetail.assetItemDetail}</th>
 						</tr>
-						</c:forEach>
+						<% i+=1; }else{ %>
+							<th>${assetDetail.assetItem}</th>
+							<th>${assetDetail.assetItemDetail}</th>
+						<% i+=1; 
+						} %>
+					</c:forEach>
 					</table>
 					<div>
 					<c:choose>
-					<c:when test="${requestScope.assetVO.assetReceiptUrl}==null">
-					<h4>영수증 사진은 없습니다.</h4>
-					</c:when>
-					<c:otherwise>
-					<h3>영수증 사진</h3>
-					<img style="width:400px;height:400px;" src="${pageContext.request.contextPath}/resources/${requestScope.assetVO.assetReceiptUrl}">
-					</c:otherwise>
+						<c:when test="${requestScope.assetVO.assetReceiptUrl}==null">
+							<h4>영수증 사진은 없습니다.</h4>
+						</c:when>
+						<c:otherwise>
+							<h3>영수증 사진</h3>
+							<img style="width:400px;height:400px;" src="${pageContext.request.contextPath}/resources/${requestScope.assetVO.assetReceiptUrl}">
+						</c:otherwise>
 					</c:choose>
-					<h3>자산 코멘트</h3>
-					<text border="0" readonly>${requestScope.assetVO.assetComment}</text>					
-					</div>
+						<h3>자산 코멘트</h3>
+						<text border="0" readonly>${requestScope.assetVO.assetComment}</text>					
+ 					</div>
 				</div>
-
-				<form id="modifyForm" action="assetModify" method="POST">
-					<input type="hidden" name="assetId" value="${requestScope.assetVO.assetId}" />
-				</form>
-				<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
-				<div style="display: flex; float: right">
-					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">수정</button>
-					<button class="btn btn-lg btn-primary" id="delbtn" onclick="outConfirm();">반출/수리</button>
-					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="dispReqConfirm();">폐기 신청</button>
-					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="">자산 이력</button>
-					<div class="mask"></div>
-			    </div>
-				
+					
 			</div>
+
+			<form id="modifyForm" action="assetModify" method="POST">
+				<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
+			</form>
+			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
+			<div style="display: flex; float: right">
+				<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">수정</button>
+				<button class="btn btn-lg btn-primary" id="delbtn" onclick="outConfirm();">반출/수리</button>
+				<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="dispReqConfirm();">폐기 신청</button>
+				<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="">자산 이력</button>
+				<div class="mask"></div>
+		    </div>
+				
 		</div>
 	</div>
 
