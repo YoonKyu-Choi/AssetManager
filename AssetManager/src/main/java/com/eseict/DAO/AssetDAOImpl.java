@@ -65,7 +65,6 @@ public class AssetDAOImpl implements AssetDAO {
 
 	@Override
 	public int getAssetCountByCategory(String assetCategory) {
-		System.out.println("dao 카테고리명 : " + assetCategory);
 		return sqlSession.selectOne(namespace + "getAssetCountByCategory", assetCategory);
 	}
 

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,7 +38,6 @@
         }
     </style>
 
-
 <script>
 	function modifyConfirm() {
 		if (!confirm("수정하시겠습니까?")) {
@@ -47,6 +46,7 @@
 			$("#modifyForm").submit();
 		}
 	}
+	
 	function outConfirm() {
 		if (!confirm("반출/수리 하겠습니까?")) {
 			return false;
@@ -54,11 +54,12 @@
 	        wrapWindowByMask();
 		}
 	}
+	
 	function dispReqConfirm() {
 		if (!confirm("폐기 신청을 하시겠습니까?")) {
 			return false;
 		} else {
-			$("#modifyForm").submit();
+			wrapWindowByMask();
 		}
 	}
 
@@ -106,7 +107,7 @@
 		<div class="row">
 			<div class="main">
 				<h1 class="page-header">${requestScope.assetVO.assetId}의 자산 정보</h1>
-				<div class="table-responsive">
+				<div class="table-responsive" id="inputDiv" style="overflow: scroll;height: 500px;">
 				<h3>자산 공통사항</h3>
 					<table class="table table-striped">
 						<tr>
@@ -152,24 +153,36 @@
 					</table>
 					<h3>자산 세부사항</h3>
 					<table class="table table-striped">
+					<%int i =0; %>
+						<c:forEach items="${assetDetailList}" var="assetDetail">
+						<%if(i%2==0){ %>
 						<tr>
-							<th>${requestScope.assetDetailVO.assetItem}</th>
-							<th>${requestScope.assetDetailVO.assetItemDetail}</th>
+								<th>${assetDetail.assetItem}</th>
+								<th>${assetDetail.assetItemDetail}</th>
 						</tr>
+						<% i+=1; }else{ %>
+								<th>${assetDetail.assetItem}</th>
+								<th>${assetDetail.assetItemDetail}</th>
+						<% i+=1; } %>
+							</c:forEach>
 					</table>
 					<div>
-					<h3>파일 업로드</h3>
-					<table class="table table-striped">
-						<tr>
-							<th>${requestScope.assetVO.assetReceiptUrl}</th>
-						</tr>
-					</table>	
+					<c:choose>
+					<c:when test="${requestScope.assetVO.assetReceiptUrl}==null">
+					<h4>영수증 사진은 없습니다.</h4>
+					</c:when>
+					<c:otherwise>
+					<h3>영수증 사진</h3>
+					<img style="width:400px;height:400px;" src="${pageContext.request.contextPath}/resources/${requestScope.assetVO.assetReceiptUrl}">
+					</c:otherwise>
+					</c:choose>
+					<h3>자산 코멘트</h3>
+					<text border="0" readonly>${requestScope.assetVO.assetComment}</text>					
 					</div>
-					
 				</div>
 
-				<form id="modifyForm" action="userModify" method="POST">
-					<input type="hidden" name="employeeSeq" value=${requestScope.assetVO.employeeSeq } />
+				<form id="modifyForm" action="assetModify" method="POST">
+					<input type="hidden" name="assetId" value="${requestScope.assetVO.assetId}" />
 				</form>
 				<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
 				<div style="display: flex; float: right">
@@ -185,4 +198,3 @@
 	</div>
 
 </body>
-</html>

@@ -20,9 +20,9 @@
 <script	src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
 
 <script type="text/javascript">
-	var plusCount = 1;
 	var counts = 0;
 	function getCategoryDetailItem(){
+		var plusCount = 1;
 		$.ajax({
 			"type":"POST",
 			"url":"getCategoryDetailItem",
@@ -31,7 +31,7 @@
 				assetCategory : $("#assetCategory option:selected").val()
 			},
 			"beforeSend" : function(b){
-				$("#assetTable2 tr:gt(0)").remove();
+				$("#assetDetailTable tr:gt(0)").remove();
 			},
 			"success" : function(a){
 				a = a.split("\"},{\"assetCategory\":null,\"assetItem\":\"");
@@ -41,9 +41,9 @@
 				counts = a.length;
 				for(var i=0;i<a.length;i++){
 					if(plusCount % 2 == 1){
-						$("#assetTable2 tr:last").after('<tr><th><input type="text" id="assetItem" name="assetItem" value='+a[i]+' readonly></th><th><input type="text" id="assetItemDetail" name="assetItemDetail"></th></tr>');
+						$("#assetDetailTable tr:last").after('<tr><th><input type="text" id="assetItem" name="assetItem" value='+a[i]+' readonly></th><th><input type="text" id="assetItemDetail" name="assetItemDetail"></th></tr>');
 					} else{
-						$("#assetTable2 tr:last th:last").after('<th><input type="text" id="assetItem" name="assetItem" value='+a[i]+' readonly></th><th><input type="text" id="assetItemDetail" name="assetItemDetail"></th>');
+						$("#assetDetailTable tr:last th:last").after('<th><input type="text" id="assetItem" name="assetItem" value='+a[i]+' readonly></th><th><input type="text" id="assetItemDetail" name="assetItemDetail"></th>');
 					}
 						
 						plusCount += 1;
@@ -73,6 +73,9 @@
 		} else if($("#assetStatus").val()=='0'){
 			alert("자산 상태를 선택해주세요.");
 			return false;
+		} else if($("#assetOutStatus").val()=='0'){
+			alert("자산 반출 상태를 선택해주세요.");
+			return false;
 		} else if($("#assetMaker").val()==''){
 			alert("제조사를 입력해주세요.");
 			$("#assetMaker").focus();
@@ -89,6 +92,9 @@
 			return false;
 		} else if($("#assetLocation").val()=='0'){
 			alert("사용 위치를 선택해주세요.");
+			return false;
+		} else if($("#assetItemDetail").val()==''){
+			alert("항목 내용을 입력해주세요.");
 			return false;
 		} else {
 			$("#registerSend").submit();
@@ -222,7 +228,7 @@
 			
 			자산 세부 사항
 			<div style="display: flex; margin-left: 90px">
-				<table class="table table-striped" id="assetTable2">
+				<table class="table table-striped" id="assetDetailTable">
 				<tr><th>항목</th><th>내용</th><th>항목</th><th>내용</th></tr>
 				</table>
 				<input type="hidden" id="items" name="items">

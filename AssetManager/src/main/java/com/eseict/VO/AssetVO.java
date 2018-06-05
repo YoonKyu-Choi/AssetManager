@@ -2,6 +2,8 @@ package com.eseict.VO;
 
 import java.sql.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class AssetVO {
 	
 	private String assetId;
@@ -20,6 +22,7 @@ public class AssetVO {
 	private String assetManager;
 	private String assetLocation;
 	private String assetReceiptUrl;
+	private MultipartFile imageFile;
 	private String assetComment;
 	
 	public AssetVO() {}
@@ -46,6 +49,13 @@ public class AssetVO {
 		this.assetLocation = assetLocation;
 		this.assetReceiptUrl = assetReceiptUrl;
 		this.assetComment = assetComment;
+	}
+	public MultipartFile getImageFile() {
+		return imageFile;
+	}
+	
+	public void setImageFile(MultipartFile imageFile) {
+		this.imageFile = imageFile;
 	}
 
 	public String getAssetId() {

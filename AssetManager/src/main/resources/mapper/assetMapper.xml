@@ -88,11 +88,11 @@
 	
 	
 	<insert id="insertAsset">
-	insert into asset_common_item values(#{assetId},#{assetCategory},#{assetUser}
-	,#{assetStatus},#{assetOutStatus},#{assetSerial},#{assetPurchaseDate},#{assetPurchasePrice}
-	,#{assetPurchaseShop},#{assetMaker},#{assetModel},#{assetUsage},#{assetManager}
-	,#{assetLocation},#{assetReceiptUrl},#{assetComment}
-	);
+		insert into asset_common_item values(#{assetId},#{assetCategory},#{assetUser}
+		,#{assetStatus},#{assetOutStatus},#{assetSerial},#{assetPurchaseDate},#{assetPurchasePrice}
+		,#{assetPurchaseShop},#{assetMaker},#{assetModel},#{assetUsage},#{assetManager}
+		,#{assetLocation},#{assetReceiptUrl},#{assetComment}
+		);
 	</insert>
 	
 	<insert id="insertAssetDetail">
