@@ -41,11 +41,11 @@
 	}
 	
 	$(function(){
-		if(<c:out value="${assetCount}"/> 0){
+//		if(${assetCount} 0){
 			$(".table tbody tr").click(function(){
 				document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
 			});
-		}
+//		}
 		
 		$(document).on('click', '.checkBtn', function(){
 			console.log('checkbox clicked');
