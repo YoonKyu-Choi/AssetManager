@@ -22,6 +22,9 @@
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
 
 <script type="text/javascript">
+	var disableCount = 0;
+	var checkCount = 0;
+	
 	$(function(){
 		var isAdmin = "<%=session.getAttribute("isAdmin") %>";
 		if(isAdmin == "TRUE"){
@@ -40,10 +43,36 @@
 		return 0;
 	}
 	
+	function dis(chkbox){
+		var status = $(chkbox).closest("tr").find("td:eq(4)").text();
+		if(status == "폐기"){
+            if(chkbox.checked == true){
+                $("#disposalButton").prop("disabled", true);
+                disableCount += 1;
+                checkCount += 1;
+            }
+            else{
+                disableCount -= 1;
+                checkCount -= 1;
+                if(disableCount == 0){
+                    $("#disposalButton").prop("disabled", false);
+                }
+            }
+		}
+		else if(status =="폐기 대기"){
+			if(chkbox.checked == true){
+				checkCount += 1;
+			}
+			else{
+				checkCount -= 1;
+			}
+		}
+	}
+
 	$(function(){
 //		$(document).on("click", ".table tbody td", function(){
 		$(".table tbody tr").click(function(){
-			document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
+//			document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
 		});
 		$(document).on('click', '.checkBtn', function(){
 			console.log('checkbox clicked');
@@ -78,6 +107,32 @@
 			}
 		});
 	}
+	
+	function printList(){
+		if(checkCount == 0){
+			alert("자산을 선택해주세요.");
+			return false;
+		}
+		else{
+			if(!confirm('선택한 자산의 목록을 출력하겠습니까?')){
+				return false;
+			}else{
+				var printList = [];
+				$(".chkbox").each(function(){
+					if($(this).prop("checked")){
+						var id = $(this).closest("tr").find("td:eq(1)").text()
+						printList.push(id);
+					}
+				});
+				
+				$("#printArray").val(printList);
+//					alert($("#disposeArray").val());
+				$("#printForm").submit();
+				
+			}
+		}
+	}
+
 </script>
 	
 <style>
@@ -160,7 +215,7 @@
 						<tbody>
 						<c:forEach items="${assetList}" var="asset">
 							<tr class="clickable-row" data-href="${asset.assetId}">
-								<td class="tdNonClick"><input type="checkBox" class="checkBtn"/>
+								<td class="tdNonClick"><input type="checkBox" class="chkbox" onclick="dis(this);"/></td>
 								<td>${asset.assetId}</td>
 								<td>${asset.assetCategory}</td>
 								<td>${asset.assetUser}</td>
@@ -179,9 +234,17 @@
 						</tbody>
 					</table>
 				</div>
-				<button class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='/assetmanager/nameList2';">자산 등록</button>
+				<form id="printForm" action="printList" method="post">
+					<input type="hidden" id="printArray" name="assetIdList"/>
+				</form>
+				<div style="display:flex; float: left; margin-top: 10px">
+					<button class="btn btn-lg btn-primary" onclick="printList();" >목록 출력</button>
+				</div>
+				<div>
+					<button class="btn btn-lg btn-primary" style="display:flex; float:right; margin-top: 10px" onclick="location.href='/assetmanager/nameList2';">자산 등록</button>
+				</div>
 				<div class="admin"> 
-				<button class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='/assetmanager/register';">폐기 신청</button>
+					<button class="btn btn-lg btn-primary" id="disposalButton" style="display:flex; float:right; margin-top: 10px" onclick="location.href='/assetmanager/register';">폐기 신청</button>
 				</div>
 			</div>
 		</div>

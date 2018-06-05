@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 
 public interface PrintService {
 
-	public void printList(String[] assetIdList);
+	public String printFileName(String[] assetIdList);
+	
+	public byte[] printList(String[] assetIdList);
 
 }

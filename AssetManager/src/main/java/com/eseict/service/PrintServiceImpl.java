@@ -3,7 +3,9 @@ package com.eseict.service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -24,20 +26,19 @@ public class PrintServiceImpl implements PrintService {
 	private AssetDAO dao;
 
 	@Override
-	public void printList(String[] assetIdList) {
-		File directory = new File("C:\\ESE ASSETMANAGER\\");
-		if(!directory.exists()) {
-			directory.mkdir();
-		}
-		String filename = "C:\\ESE ASSETMANAGER\\";
+	public String printFileName(String[] assetIdList) {
+		String filename = "";
 		if(assetIdList.length == 1) {
-			filename += "자산 " + assetIdList[0] + ".xlsx";
+			filename += "Asset_" + assetIdList[0] + ".xlsx";
 		}
 		else {
-			filename += "자산 " + assetIdList[0] + " 외 " + assetIdList.length + "개" + ".xlsx";
+			filename += "Asset_" + assetIdList[0] + "_&_" + assetIdList.length + "_others" + ".xlsx";
 		}
-		System.out.println(filename);
+		return filename;
+	}
 
+	@Override
+	public byte[] printList(String[] assetIdList) {
 		Workbook wb = new XSSFWorkbook();
 		Sheet sheet = wb.createSheet();
 		for(int i=0; i<13; i++) {
@@ -98,12 +99,16 @@ public class PrintServiceImpl implements PrintService {
 			rowi.createCell(13).setCellValue(vo.getAssetComment());
 		}
 		
+		ByteArrayOutputStream fileOut = new ByteArrayOutputStream();
 		try{
-			OutputStream fileOut = new FileOutputStream(filename);
 			wb.write(fileOut);
 		} catch(Exception e) {
 			System.out.println(e);
 		}
+		
+		return fileOut.toByteArray();
+		
 	}
+
 
 }
