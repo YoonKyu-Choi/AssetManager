@@ -19,7 +19,6 @@
 				$("#assetLocation")
 						.val("${requestScope.assetVO.assetLocation}").prop(
 								"selected", true);
-
 			})
 	function cancelConfirm() {
 		if (!confirm("취소하겠습니까?")) {
@@ -35,10 +34,61 @@
 			$("#modifySend").submit();
 		}
 	}
+function byteCheck(obj,maxByte){
+		
+		var str = obj.value;
+		var strLength = str.length;
+		
+		var rbyte = 0;
+		var rlen = 0; 
+		var oneChar = "";
+		var str2="";
+		
+		for(var i=0;i<strLength;i++){
+			oneChar = str.charAt(i);
+			if(escape(oneChar).length >4){
+				rbyte += 3;
+			} else {
+				rbyte++;
+			}
+			if(rbyte <= maxByte){
+				rlen = i+1;
+			}
+		}
+		
+		if(rbyte>maxByte){
+			alert("글자를 초과했습니다.");
+			str2 = str.substr(0,rlen);
+			obj.value = str2;
+			byteCheck(obj,maxByte);
+		}else {
+			document.getElementById('byteInfo').innerText = rbyte;
+		}
+		
+		
+	}
 </script>
 <style>
-</style>
+.form-controlmin {
+	  display: block;
+	  width: 60%;
+	  height: 32px;
+	  padding: 6px 12px;
+	  font-size: 14px;
+	  line-height: 1.42857143;
+	  color: #555;
+	  background-color: #fff;
+	  background-image: none;
+	  border: 1px solid #ccc;
+	  border-radius: 4px;
+	  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+	       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	}
 
+</style>
 </head>
 <body>
 	<div class="container-fluid">
@@ -52,7 +102,7 @@
 					<div class="table-responsive" id="inputDiv"
 						style="overflow: scroll; height: 500px;">
 						<h3>자산 공통사항</h3>
-						<table class="table table-striped">
+						<table class="table table-striped" id="assetTable">
 							<tr>
 								<th>분류</th>
 								<th>${requestScope.assetVO.assetCategory}</th>
@@ -138,18 +188,23 @@
 						</table>
 						<h3>자산 세부사항</h3>
 						<table class="table table-striped">
-							<c:forEach items="${assetDetailList}" varStatus="i" step="2">
+							<c:forEach items="${assetDetailList}" varStatus="i" step="2" end="${dSize}">
+							<c:if test="${assetDetailList[i.index+1].assetItem !=null}">
 								<tr>
 									<th>${assetDetailList[i.index].assetItem}</th>
-									<th><input type="text" id="assetItemDetail"
-										name="assetItemDetail"
-										value="${assetDetailList[i.index].assetItemDetail}"></th>
+									<th><input type="text" id="assetItemDetail" name="assetItemDetail" value="${assetDetailList[i.index].assetItemDetail}"></th>
 									<th>${assetDetailList[i.index+1].assetItem}</th>
-									<th><input type="text" id="assetItemDetail"
-										name="assetItemDetail"
-										value="${assetDetailList[i.index+1].assetItemDetail}">
-									</th>
+									<th><input type="text" id="assetItemDetail" name="assetItemDetail" value="${assetDetailList[i.index+1].assetItemDetail}"></th>
 								</tr>
+							</c:if>
+							<c:if test="${assetDetailList[i.index+1].assetItem ==null }">
+							<tr>
+									<th>${assetDetailList[i.index].assetItem}</th>
+									<th><input type="text" id="assetItemDetail" name="assetItemDetail" value="${assetDetailList[i.index].assetItemDetail}"></th>
+									<th></th><th></th>
+							</tr>
+							</c:if>
+								
 							</c:forEach>
 						</table>
 						<div>
@@ -157,7 +212,8 @@
 							<img style="width: 400px; height: 400px;"
 								src="${pageContext.request.contextPath}/resources/${requestScope.assetVO.assetReceiptUrl}">
 							<h3>자산 코멘트</h3>
-							<text border="0" readonly>${requestScope.assetVO.assetComment}</text>
+							<textArea name="assetComment" id="assetComment" style="resize: none; width:600px; height:200px" rows="10" cols="40" onKeyUp="javascript:byteCheck(this,'999')">${requestScope.assetVO.assetComment}</textArea>
+							<span id="byteInfo">수정 시 측정</span> / 999 Byte
 						</div>
 					</div>
 					</form>

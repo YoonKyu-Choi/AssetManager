@@ -40,4 +40,7 @@ public interface AssetService {
 	public void insertAssetDetail(AssetDetailVO dvo);
 	// 자산 세부사항 상세보기
 	public List<AssetDetailVO> getAssetDetailByAssetId(String assetId);
+	// 자산 정보 수정
+	public int updateAsset(AssetVO avo);
+	public int updateAssetDetail(AssetDetailVO dvo);
 }

@@ -35,7 +35,7 @@
             background-color: #ffffff;
             z-index:99999;
         }
-    </style>
+</style>
 
 <script>
 	function modifyConfirm() {
@@ -168,10 +168,17 @@
 					</c:forEach>
 					</table>
 					<div>
-							<h3>영수증 사진</h3>
-							<img style="width:400px;height:400px;" src="${pageContext.request.contextPath}/resources/${requestScope.assetVO.assetReceiptUrl}">
+					<br>
+					<c:if test="${requestScope.assetVO.assetReceiptUrl !=null && requestScope.assetVO.assetReceiptUrl != ''}">
+						<h3>영수증 사진</h3>
+						<img style="width:400px;height:400px;" src="${pageContext.request.contextPath}/resources/${requestScope.assetVO.assetReceiptUrl}">
+					</c:if>
+					<c:if test="${requestScope.assetVO.assetReceiptUrl ==null || requestScope.assetVO.assetReceiptUrl == ''}">	
+						<h3>영수증 사진이 없습니다.</h3>
+					</c:if>
+					<br>					
 						<h3>자산 코멘트</h3>
-						<text border="0" readonly>${requestScope.assetVO.assetComment}</text>					
+						<textArea style="resize: none; width:600px; height:200px" readonly>${requestScope.assetVO.assetComment}</textArea>
  					</div>
 				</div>
 					

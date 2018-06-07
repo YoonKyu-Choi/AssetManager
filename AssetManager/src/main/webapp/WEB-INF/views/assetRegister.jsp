@@ -113,6 +113,48 @@
 		$('.dropdown').height(left);
 	});
 	
+	function byteCheck(obj,maxByte){
+		
+		var str = obj.value;
+		var strLength = str.length;
+		
+		var rbyte = 0;
+		var rlen = 0; 
+		var oneChar = "";
+		var str2="";
+		
+		for(var i=0;i<strLength;i++){
+			oneChar = str.charAt(i);
+			if(escape(oneChar).length >4){
+				rbyte += 3;
+			} else {
+				rbyte++;
+			}
+			if(rbyte <= maxByte){
+				rlen = i+1;
+			}
+		}
+		
+		if(rbyte>maxByte){
+			alert("글자를 초과했습니다.");
+			str2 = str.substr(0,rlen);
+			obj.value = str2;
+			byteCheck(obj,maxByte);
+		}else {
+			document.getElementById('byteInfo').innerText = rbyte;
+		}
+		
+		
+	}
+	
+	$(function(){
+		var windowHeight = window.innerHeight;
+		$(".table-responsive").css("height", windowHeight-250);
+		$(window).resize(function(){
+			windowHeight = $(window).height();
+			$(".table-responsive").css("height", windowHeight-250);
+		});
+	});
 	
 </script>
 <style>
@@ -142,6 +184,7 @@
 	<div style="text-align: center;" id="main">
 		<form class="form" action="/assetmanager/assetRegisterSend" id="registerSend" method="POST" enctype="multipart/form-data">
 			<h2 style="text-align: center"><b>자산 관리 > 자산 정보 입력</b></h2>
+			<div class="table-responsive" style="overflow:scroll;"> 
 			자산 공통사항
 			<div style="display: flex; margin-left: 90px">
 				<table class="table table-striped" id="assetTable">
@@ -235,13 +278,13 @@
 			<div style="display: flex; margin-left: 90px">
 				<h4>파일 업로드</h4>
 				<input type="file" id="uploadImage" name="uploadImage">
-				<div style="text-align:center;">
-				<img id="imgView" src="#" alt="img" style="height:300px;"/>
-				</div>
 			</div>
 			
-			<div><textArea name="assetComment" id="assetComment" rows="5" cols="50"></textArea></div>
-			
+			<div>
+				<textArea name="assetComment" id="assetComment" style="resize: none; width:600px; height:200px" rows="10" cols="40" onKeyUp="javascript:byteCheck(this,'999')"></textArea>
+				<span id="byteInfo">0</span> / 999 Byte
+			</div>
+			</div>
 			</form>
 			<div style="display: flex; width: 300px; margin-left: 90px">
 				<input type="button" class="btn btn-lg btn-primary btn-block"

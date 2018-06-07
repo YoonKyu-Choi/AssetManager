@@ -70,9 +70,9 @@
 	}
 
 	$(function(){
-//		$(document).on("click", ".table tbody td", function(){
-		$(".table tbody tr").click(function(){
-//			document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
+		$(document).on("click", ".table tbody tr", function(){
+//		$(".table tbody tr").click(function(){
+			document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
 		});
 		$(document).on('click', '.checkBtn', function(){
 			console.log('checkbox clicked');
@@ -241,7 +241,7 @@
 					<button class="btn btn-lg btn-primary" onclick="printList();" >목록 출력</button>
 				</div>
 				<div>
-					<button class="btn btn-lg btn-primary" style="display:flex; float:right; margin-top: 10px" onclick="location.href='/assetmanager/nameList2';">자산 등록</button>
+					<button class="btn btn-lg btn-primary" style="display:flex; float:right; margin-top: 10px" onclick="location.href='/assetmanager/assetRegister';">자산 등록</button>
 				</div>
 				<div class="admin"> 
 					<button class="btn btn-lg btn-primary" id="disposalButton" style="display:flex; float:right; margin-top: 10px" onclick="location.href='/assetmanager/register';">폐기 신청</button>
