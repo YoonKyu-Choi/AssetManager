@@ -100,17 +100,21 @@
 		} else if($("#assetLocation").val()=='0'){
 			alert("사용 위치를 선택해주세요.");
 			return false;
-		} else if($("#assetItemDetail").val()==''){
-			alert("항목 내용을 입력해주세요.");
-			return false;
-		}else {
+		} else {
+			/* 세부사항 유효성 체크 하다가 만거 이러면 체크는 하는데 submit 되는듯 ?
+			for(var i=0;i<counts-1;i++){
+				if($("th input[id='assetItemDetail']:eq("+i+")").val() ==''){
+					alert("세부사항 내용을 입력해주세요.");
+					return false;
+				}
+			*/
 			$("#registerSend").submit();
+			}
 		}
 	};
 
 	$(function(){
-		var isAdmin = "<%=session.getAttribute("isAdmin")%>
-	";
+		var isAdmin = "<%=session.getAttribute("isAdmin")%>";
 		if (isAdmin == "TRUE") {
 			$(".admin").show();
 		}
