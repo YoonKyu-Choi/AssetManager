@@ -37,11 +37,11 @@
 				return 0;
 			}
 			$(function(){
-				if(${categoryCount} > 0){
-					$(".table-responsive").on("click", ".table tbody tr", function(){
+				$(".table-responsive").on("click", ".table tbody tr", function(){
+					if(${categoryCount} > 0){
 						document.location.href='/assetmanager/categoryDetail?categoryName='+$(this).data("href");
-					});
-				}
+					}
+				});
 
 				var flashmsg = "<c:out value='${msg}'/>";
 				

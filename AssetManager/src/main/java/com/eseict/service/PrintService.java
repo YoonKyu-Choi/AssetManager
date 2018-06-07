@@ -5,7 +5,7 @@ import java.io.IOException;
 public interface PrintService {
 
 	/**
-	 * @param assetIdList
+	 * @param assetIdList, mode
 	 * @return filename
 	 */
 	public String printFileName(String[] assetIdList, int mode);
