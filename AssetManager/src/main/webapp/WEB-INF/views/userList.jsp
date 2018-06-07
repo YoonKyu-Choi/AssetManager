@@ -38,11 +38,11 @@
 		$(function(){
 			var refreshCount = 1;
 			
-			if(${userCount} > 0){
-				$(".table-responsive").on("click", ".table tbody tr", function(){
+			$(".table-responsive").on("click", ".table tbody tr", function(){
+				if(${userCount} > 0){
 					document.location.href='/assetmanager/userDetail?employeeSeq='+$(this).data("href");
-				});
-			}
+				}
+			});
 			var flashmsg = "<c:out value="${msg}"/>";
 			
 			if(refreshCount > 0){

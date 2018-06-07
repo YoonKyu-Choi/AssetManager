@@ -65,13 +65,22 @@
 				}
 			}
 			
+			function allClick(){
+				$(".chkbox").each(function(){
+					$(this).click();
+				});
+			}
+
 			$(function(){
 			
-				if(${assetCountByDispReady} + ${assetCountByDisposal} > 0){
-					$(".table-responsive").on("click", ".table tbody tr", function(){
-	//					document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
-					});
-				}
+				$(".table-responsive").on("click", ".table tbody tr", function(){
+					if(${assetCountByDispReady} + ${assetCountByDisposal} > 0){
+						if($(event.target).is(".chkbox")){
+							return;
+						}
+						document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
+					}
+				});
 
 				var flashmsg = "<c:out value="${msg}"/>";
 				
@@ -261,7 +270,7 @@
 						<table class="table table-striped" data-toggle="table" data-sort-name="status" data-sort-order="desc">
 							<thead>
 								<tr>
-									<th>선택</th>
+									<th><input type="checkbox" onclick="allClick();"/></th>
 									<th data-sortable="true" data-field="status">상태</th>
 									<th data-sortable="true">관리번호</th>
 									<th data-sortable="true">분류</th>
@@ -283,7 +292,7 @@
 							<tbody>
 							<c:forEach items="${assetList}" var="asset">
 								<tr class="clickable-row" data-href="${asset.assetId}">
-									<td class="tdNonClick"><input type="checkBox" class="chkbox" onclick="dis(this);"/></td>
+									<td><input type="checkBox" class="chkbox" onclick="dis(this);"/></td>
 									<td>${asset.assetStatus}</td>
 									<td>${asset.assetId}</td>
 									<td>${asset.assetCategory}</td>

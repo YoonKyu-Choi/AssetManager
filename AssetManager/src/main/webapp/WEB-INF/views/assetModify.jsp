@@ -85,7 +85,6 @@
 		if (!confirm("수정하겠습니까?")) {
 			return false;
 		} else {
-			alert(${dSize});
 			var counts = ${dSize};
 			var items = [];
 			var itemsDetail=[];
