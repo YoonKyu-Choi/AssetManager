@@ -103,5 +103,15 @@ public class AssetDAOImpl implements AssetDAO {
 		return sqlSession.selectList(namespace+"getAssetDetailByAssetId",assetId);
 	}
 
+	@Override
+	public int updateAsset(AssetVO avo) {
+		return sqlSession.update(namespace+"updateAsset",avo);
+	}
+
+	@Override
+	public int updateAssetDetail(AssetDetailVO dvo) {
+		return sqlSession.update(namespace+"updateAssetDetail",dvo);
+	}
+
 
 }

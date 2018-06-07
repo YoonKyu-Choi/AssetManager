@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eseict.VO.AssetDetailVO;
 import com.eseict.VO.AssetVO;
 import com.eseict.VO.CategoryVO;
+import com.eseict.VO.EmployeeVO;
 import com.eseict.service.AssetService;
 import com.eseict.service.CategoryService;
 import com.eseict.service.EmployeeService;
@@ -72,9 +74,14 @@ public class AssetController {
 		return new ModelAndView("assetDetail.tiles", "model", model);
 	}
 	
+
 	@RequestMapping(value = "/assetRegister", method = RequestMethod.GET)
-	public String register(HttpSession session) {
-		return "assetRegister.tiles";
+	public ModelAndView nameList2(Model model) {
+		List<String> elist = eService.getEmployeeNameList();
+		List<String> clist = aService.getAssetCategoryList();
+		model.addAttribute("employeeNameList", elist);
+		model.addAttribute("categoryList", clist);
+		return new ModelAndView("assetRegister.tiles", "list", model); 
 	}
 	
 	@RequestMapping(value = "/assetRegisterSend")
@@ -98,7 +105,6 @@ public class AssetController {
 		}
 		int i = aService.getAssetCountByCategory(avo.getAssetCategory()) + 1;
 		if (i < 10) {
-
 			itemSequence = "0" + "0" + i;
 		} else if(i>=10 && i<100) {
 			itemSequence = "0" + i;
@@ -126,10 +132,8 @@ public class AssetController {
 			dvo.setAssetItemDetail(s2);
 			aService.insertAssetDetail(dvo);
 		}
-		
 		return "redirect:/assetList.tiles";
 	}
-	
 	
 	@RequestMapping(value = "/getCategoryDetailItem")
 	@ResponseBody
@@ -138,21 +142,46 @@ public class AssetController {
 		return list;
 	}
 	
-	@RequestMapping(value = "/nameList2")
-	public ModelAndView nameList2(Model model) {
-		List<String> list = eService.getEmployeeNameList();
-		List<String> list2 = aService.getAssetCategoryList();
-		model.addAttribute("employeeNameList", list);
-		model.addAttribute("categoryList", list2);
-		return new ModelAndView("assetRegister.tiles", "list", model); 
-	}
 	
 	@RequestMapping(value="assetModify")
 	public ModelAndView assetModify(@RequestParam String assetId, Model model) {
 		AssetVO avo = aService.getAssetByAssetId(assetId);
 		List<AssetDetailVO> dlist = aService.getAssetDetailByAssetId(assetId);
+		List<String> elist = eService.getEmployeeNameList();
 		model.addAttribute("assetVO",avo);
 		model.addAttribute("assetDetailList",dlist);
+		model.addAttribute("employeeNameList", elist);
+		int detailSize = dlist.size();
+		model.addAttribute("dSize",detailSize);
 		return new ModelAndView("assetModify.tiles","model",model);	
 	}
+	
+	// 자산 수정 Send
+		@RequestMapping(value = "/assetModifySend")
+		public String userModifySend(@ModelAttribute AssetVO avo, 
+									 @ModelAttribute AssetDetailVO dvo,
+									 @RequestParam String[] items,
+									 @RequestParam String[] itemsDetail, 
+									 @RequestParam MultipartFile uploadImage
+									 ,HttpServletRequest request) throws IllegalStateException, IOException {
+			// 파일 업로드
+			ServletContext ctx = request.getServletContext();
+			String uploadDir = ctx.getRealPath("/resources/");
+			if(uploadImage != null && !uploadImage.isEmpty()) {
+				String fileName = UUID.randomUUID().toString();
+				File dir = new File(uploadDir+fileName+".jpg");
+				uploadImage.transferTo(dir);
+				avo.setAssetReceiptUrl(fileName+".jpg");
+			}
+			aService.updateAsset(avo);
+			dvo.setAssetId(avo.getAssetId());
+			for(int a = 0; a < items.length; a++) {
+				String s = items[a];
+				String s2 = itemsDetail[a];
+				dvo.setAssetItem(s);
+				dvo.setAssetItemDetail(s2);
+				aService.updateAssetDetail(dvo);
+			}
+			return "redirect:/userList.tiles";
+		}
 }

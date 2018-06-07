@@ -4,46 +4,55 @@
 <mapper namespace="com.eseict.mapper.AssetMapper">
 
 	<resultMap type="com.eseict.VO.AssetVO" id="AssetVO-result">
-		<id column="ASSET_ID" property="assetId"/>
-		<result column="ASSET_CATEGORY" property="assetCategory"/>
-		<result column="ASSET_USER" property="assetUser"/>
-		<result column="ASSET_STATUS" property="assetStatus"/>
-		<result column="ASSET_OUT_STATUS" property="assetOutStatus"/>
-		<result column="ASSET_SERIAL" property="assetSerial"/>
-		<result column="ASSET_PURCHASE_DATE" property="assetPurchaseDate"/>
-		<result column="ASSET_PURCHASE_PRICE" property="assetPurchasePrice"/>
-		<result column="ASSET_PURCHASE_SHOP" property="assetPurchaseShop"/>
-		<result column="ASSET_MAKER" property="assetMaker"/>
-		<result column="ASSET_MODEL" property="assetModel"/>
-		<result column="ASSET_USAGE" property="assetUsage"/>
-		<result column="ASSET_MANAGER" property="assetManager"/>
-		<result column="ASSET_LOCATION" property="assetLocation"/>
-		<result column="ASSET_RECEIPT_URL" property="assetReceiptUrl"/>
-		<result column="ASSET_COMMENT" property="assetComment"/>
+		<id column="ASSET_ID" property="assetId" />
+		<result column="ASSET_CATEGORY" property="assetCategory" />
+		<result column="ASSET_USER" property="assetUser" />
+		<result column="ASSET_STATUS" property="assetStatus" />
+		<result column="ASSET_OUT_STATUS" property="assetOutStatus" />
+		<result column="ASSET_SERIAL" property="assetSerial" />
+		<result column="ASSET_PURCHASE_DATE"
+			property="assetPurchaseDate" />
+		<result column="ASSET_PURCHASE_PRICE"
+			property="assetPurchasePrice" />
+		<result column="ASSET_PURCHASE_SHOP"
+			property="assetPurchaseShop" />
+		<result column="ASSET_MAKER" property="assetMaker" />
+		<result column="ASSET_MODEL" property="assetModel" />
+		<result column="ASSET_USAGE" property="assetUsage" />
+		<result column="ASSET_MANAGER" property="assetManager" />
+		<result column="ASSET_LOCATION" property="assetLocation" />
+		<result column="ASSET_RECEIPT_URL" property="assetReceiptUrl" />
+		<result column="ASSET_COMMENT" property="assetComment" />
 	</resultMap>
-	
-	<resultMap type="com.eseict.VO.CategoryVO" id="CategoryVO-result">
-		<id column="asset_category" property="assetCategory"/>
-		<result column="asset_item" property="assetItem"/>
+
+	<resultMap type="com.eseict.VO.CategoryVO"
+		id="CategoryVO-result">
+		<id column="asset_category" property="assetCategory" />
+		<result column="asset_item" property="assetItem" />
 	</resultMap>
-	
-	<resultMap type="com.eseict.VO.AssetDetailVO" id="AssetDetailVO-result">
-		<id column="asset_id" property="assetId"/>
-		<result column="asset_item" property="assetItem"/>
-		<result column="asset_item_detail" property="assetItemDetail"/>
+
+	<resultMap type="com.eseict.VO.AssetDetailVO"
+		id="AssetDetailVO-result">
+		<id column="asset_id" property="assetId" />
+		<result column="asset_item" property="assetItem" />
+		<result column="asset_item_detail" property="assetItemDetail" />
 	</resultMap>
-	
- 	 <select id="getAssetList" resultMap="AssetVO-result" >
-		SELECT *
-		FROM asset_common_item
+
+	<select id="getAssetList" resultMap="AssetVO-result">
+		SELECT 
+			*
+		FROM
+			ASSET_COMMON_ITEM
 	</select>
 
-	
+
 	<select id="getAssetCount" resultType="integer">
-	select count(*)
-	from asset_common_item
+		SELECT 
+			COUNT(*)
+		FROM 
+			ASSET_COMMON_ITEM
 	</select>
-	
+
 	<select id="getAssetCountByUse" resultType="integer">
 	select count(*)
 	from asset_common_item
@@ -57,89 +66,162 @@
 	</select>
 
 	<select id="getAssetCountByNotUse" resultType="integer">
-	select count(*)
-	from asset_common_item
-	where asset_status = '사용 불가'
+		SELECT 
+			COUNT(*)
+		FROM 
+			ASSET_COMMON_ITEM
+		WHERE 
+			ASSET_STATUS = '사용 불가'
 	</select>
-	
+
 	<select id="getAssetCountByOut" resultType="integer">
-	select count(*)
-	from asset_common_item
-	where asset_status = '반출'
+		SELECT 
+			COUNT(*)
+		FROM 
+			ASSET_COMMON_ITEM
+		WHERE 
+			ASSET_STATUS = '반출'
 	</select>
-	
+
 	<select id="getAssetCountByDispReady" resultType="integer">
-	select count(*)
-	from asset_common_item
-	where asset_status = '폐기 대기'
+		SELECT 
+			COUNT(*)
+		FROM 
+			ASSET_COMMON_ITEM
+		WHERE 
+			ASSET_STATUS = '폐기 대기'
 	</select>
-	
+
 	<select id="getAssetCountByDisposal" resultType="integer">
-	select count(*)
-	from asset_common_item
-	where asset_status = '폐기'
+		SELECT 
+			COUNT(*)
+		FROM 
+			ASSET_COMMON_ITEM
+		WHERE 
+			ASSET_STATUS = '폐기'
 	</select>
-	
-	<select id="getAssetByAssetId" parameterType="String" resultMap="AssetVO-result">
-	select *
-	from asset_common_item
-	where asset_id=#{assetId}
+
+	<select id="getAssetByAssetId" parameterType="String"
+		resultMap="AssetVO-result">
+		SELECT 
+			*
+		FROM 
+			ASSET_COMMON_ITEM
+		WHERE 
+			ASSET_ID=#{assetId}
 	</select>
-	
-	<select id="getAssetCountByCategory" parameterType="String" resultType="integer">
-	select count(*)
-	from asset_common_item
-	where asset_category = #{assetCategory} 
+
+	<select id="getAssetCountByCategory" parameterType="String"
+		resultType="integer">
+		SELECT 
+			COUNT(*)
+		FROM 
+			ASSET_COMMON_ITEM
+		WHERE 
+			ASSET_CATEGORY = #{assetCategory}
 	</select>
-	
-	
+
+
 	<insert id="insertAsset">
-		insert into asset_common_item values(#{assetId},#{assetCategory},#{assetUser}
-		,#{assetStatus},#{assetOutStatus},#{assetSerial},#{assetPurchaseDate},#{assetPurchasePrice}
-		,#{assetPurchaseShop},#{assetMaker},#{assetModel},#{assetUsage},#{assetManager}
-		,#{assetLocation},#{assetReceiptUrl},#{assetComment}
+		INSERT INTO 
+			ASSET_COMMON_ITEM
+		VALUES(
+			 #{assetId}
+			,#{assetCategory}
+			,#{assetUser}
+			,#{assetStatus}
+			,#{assetOutStatus}
+			,#{assetSerial}
+			,#{assetPurchaseDate}
+			,#{assetPurchasePrice}
+			,#{assetPurchaseShop}
+			,#{assetMaker}
+			,#{assetModel}
+			,#{assetUsage}
+			,#{assetManager}
+			,#{assetLocation}
+			,#{assetReceiptUrl}
+			,#{assetComment}
 		);
 	</insert>
-	
+
 	<insert id="insertAssetDetail">
-	insert into asset_category_item values(#{assetId},#{assetItem},#{assetItemDetail});
+		INSERT INTO 
+			ASSET_CATEGORY_ITEM
+		VALUES(
+			 #{assetId}
+			,#{assetItem}
+			,#{assetItemDetail}
+		);
 	</insert>
-	
-	<select id="getCategoryDetailItem" parameterType="String" resultMap="CategoryVO-result">
-	select asset_item 
-	from category_item
-	where asset_category =#{assetCategory}
+
+	<select id="getCategoryDetailItem" parameterType="String"
+		resultMap="CategoryVO-result">
+		SELECT 
+			ASSET_ITEM
+		FROM 
+			CATEGORY_ITEM
+		WHERE 
+			ASSET_CATEGORY = #{assetCategory}
 	</select>
 	<select id="getDisposalAssetList" resultMap="AssetVO-result">
 		SELECT
 			*
 		FROM
-			asset_common_item
+			ASSET_COMMON_ITEM
 		WHERE
-			asset_status='폐기'
-			OR asset_status='폐기 대기';
+		   ASSET_STATUS='폐기'
+		OR ASSET_STATUS='폐기 대기';
 	</select>
-	
+
 	<update id="disposeAsset" parameterType="String">
 		UPDATE
-			asset_common_item
+			ASSET_COMMON_ITEM
 		SET
-			asset_status='폐기'
+			ASSET_STATUS='폐기'
 		WHERE
-			asset_id=#{assetId}
+			ASSET_ID=#{assetId}
 	</update>
-	
+
 	<select id="getAssetCategoryList" resultType="String">
-		select DISTINCT asset_category
-		from category_item
+		SELECT 
+			DISTINCT ASSET_CATEGORY
+		FROM 
+			CATEGORY_ITEM
 	</select>
-	
-	<select id="getAssetDetailByAssetId" parameterType="String" resultMap="AssetDetailVO-result">
-		select asset_item, asset_item_detail
-		from asset_category_item
-		where asset_id=#{assetId}
+
+	<select id="getAssetDetailByAssetId" parameterType="String"
+		resultMap="AssetDetailVO-result">
+		SELECT 
+			ASSET_ITEM, ASSET_ITEM_DETAIL
+		FROM 
+			ASSET_CATEGORY_ITEM
+		WHERE 
+			ASSET_ID=#{assetId}
 	</select>
-	
+
+	<update id="updateAsset" parameterType="com.eseict.VO.AssetVO">
+		UPDATE
+			AssetVO
+		<set>
+			<if test="assetUser != null">ASSET_USER = #{assetUser}</if>
+			<if test="assetSerial != null">ASSET_SERIAL = #{assetSerial}</if>
+			<if test="assetStatus != null">ASSET_STATUS = #{assetStatus}</if>
+			<if test="assetOutStatus != null">ASSET_OUT_STATUS = #{assetOutStatus}</if>
+			<if test="assetPurchaseDate != null">ASSET_PURCHASE_DATE = #{assetPurchaseDate}</if>
+			<if test="assetMaker != null">ASSET_MAKER = #{assetMaker}</if>
+			<if test="assetPurchasePrice != null">ASSET_PURCHASE_PRICE = #{assetPurchasePrice}</if>
+			<if test="assetModel != null">ASSET_MODEL = #{assetModel}</if>
+			<if test="assetPurchaseShop != null">ASSET_PURCHASE_SHOP = #{assetPurchaseShop}</if>
+			<if test="assetManager != null">ASSET_MANAGER = #{assetManager}</if>
+			<if test="assetLocation != null">ASSET_LOCATION = #{assetLocation}</if>
+			<if test="assetReceiptUrl != null">ASSET_RECEIPT_URL = #{assetReceiptUrl}</if>
+			<if test="assetComment != null">ASSET_COMMENT = #{assetComment}</if>
+		</set>
+		WHERE ASSET_ID = #{assetId}
+	</update>
+
+
 </mapper>
 
 

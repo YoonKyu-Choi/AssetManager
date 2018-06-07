@@ -101,4 +101,15 @@ public class AssetServiceImpl implements AssetService {
 		return dao.getAssetDetailByAssetId(assetId);
 	}
 
+	@Override
+	public int updateAsset(AssetVO avo) {
+		return dao.updateAsset(avo);
+		
+	}
+
+	@Override
+	public int updateAssetDetail(AssetDetailVO dvo) {
+		return dao.updateAssetDetail(dvo);
+	}
+
 }
