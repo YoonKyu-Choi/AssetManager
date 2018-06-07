@@ -113,5 +113,15 @@ public class AssetDAOImpl implements AssetDAO {
 		return sqlSession.update(namespace+"updateAssetDetail",dvo);
 	}
 
+	@Override
+	public int deleteAssetById(String assetId) {
+		return sqlSession.delete(namespace+"deleteAssetById", assetId);
+	}
+
+	@Override
+	public List<String> getAssetIdListByCategory(String assetCategory) {
+		return sqlSession.selectList(namespace+"getAssetIdListByCategory", assetCategory);
+	}
+
 
 }

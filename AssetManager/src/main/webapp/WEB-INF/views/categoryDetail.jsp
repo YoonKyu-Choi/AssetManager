@@ -43,7 +43,7 @@
 
 <script>
 	function deleteConfirm() {
-		if (!confirm("삭제하겠습니까?")) {
+		if (!confirm("해당 분류의 자산이 모두 삭제됩니다. 계속할까요?")) {
 			return false;
 		} else {
 	        wrapWindowByMask();

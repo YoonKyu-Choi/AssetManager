@@ -221,6 +221,21 @@
 		WHERE ASSET_ID = #{assetId}
 	</update>
 
+	<delete id="deleteAssetById" parameterType="String">
+		DELETE FROM
+			ASSET_COMMON_ITEM
+		WHERE
+			ASSET_ID=#{assetId}
+	</delete>
+
+	<select id="getAssetIdListByCategory" parameterType="String" resultType="String">
+		SELECT
+			ASSET_ID
+		FROM
+			ASSET_COMMON_ITEM
+		WHERE
+			ASSET_CATEGORY=#{assetCategory}
+	</select>
 
 </mapper>
 

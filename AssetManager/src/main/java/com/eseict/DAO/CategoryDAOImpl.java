@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.eseict.VO.CategoryCodeVO;
 import com.eseict.VO.CategoryVO;
 
 @Repository
@@ -93,5 +94,15 @@ public class CategoryDAOImpl implements CategoryDAO{
 	@Override
 	public String getCode(String categoryName) {
 		return sqlSession.selectOne(namespace+"getCode", categoryName);
+	}
+
+	@Override
+	public List<CategoryCodeVO> getCategoryCodeList() {
+		return sqlSession.selectList(namespace+"getCategoryCodeList");
+	}
+
+	@Override
+	public int deleteCode(String categoryName) {
+		return sqlSession.delete(namespace+"deleteCode", categoryName);
 	}	
 }

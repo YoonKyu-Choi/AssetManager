@@ -112,4 +112,14 @@ public class AssetServiceImpl implements AssetService {
 		return dao.updateAssetDetail(dvo);
 	}
 
+	@Override
+	public int deleteAssetById(String assetId) {
+		return dao.deleteAssetById(assetId);
+	}
+
+	@Override
+	public List<String> getAssetIdListByCategory(String assetCategory) {
+		return dao.getAssetIdListByCategory(assetCategory);
+	}
+
 }

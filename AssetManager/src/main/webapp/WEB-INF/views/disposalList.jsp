@@ -270,7 +270,7 @@
 						<table class="table table-striped" data-toggle="table" data-sort-name="status" data-sort-order="desc">
 							<thead>
 								<tr>
-									<th><input type="checkbox" onclick="allClick();"/></th>
+									<th><input type="checkbox" style="transform:scale(1.5)" onclick="allClick();"/></th>
 									<th data-sortable="true" data-field="status">상태</th>
 									<th data-sortable="true">관리번호</th>
 									<th data-sortable="true">분류</th>
@@ -292,7 +292,7 @@
 							<tbody>
 							<c:forEach items="${assetList}" var="asset">
 								<tr class="clickable-row" data-href="${asset.assetId}">
-									<td><input type="checkBox" class="chkbox" onclick="dis(this);"/></td>
+									<td><input type="checkBox" style="transform:scale(1.5)" class="chkbox" onclick="dis(this);"/></td>
 									<td>${asset.assetStatus}</td>
 									<td>${asset.assetId}</td>
 									<td>${asset.assetCategory}</td>

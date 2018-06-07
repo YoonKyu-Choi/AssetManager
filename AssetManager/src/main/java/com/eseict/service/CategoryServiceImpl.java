@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.eseict.DAO.CategoryDAO;
+import com.eseict.VO.CategoryCodeVO;
 import com.eseict.VO.CategoryVO;
 
 @Service
@@ -77,5 +78,15 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public String getCode(String categoryName) {
 		return dao.getCode(categoryName);
+	}
+
+	@Override
+	public List<CategoryCodeVO> getCategoryCodeList() {
+		return dao.getCategoryCodeList();
+	}
+
+	@Override
+	public int deleteCode(String categoryName) {
+		return dao.deleteCode(categoryName);
 	}
 }

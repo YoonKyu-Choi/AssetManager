@@ -89,22 +89,32 @@
 			}
 			$("#items").val(items);
 			
+			if($("#categoryName").val() != $("#categoryOriName").val()){
+				if(!confirm("분류 이름을 수정하면 해당 분류의 모든 자산 정보가 변경됩니다. 계속할까요?")){
+					return false;
+				}
+			}
 			for(var i=0; i<itemSize; i++){
 				if($("td:eq("+i+")").find("input:last").prop("readonly")){
 					deleteItems.push(i);
 				}
 			}
 
-			if(plusCount == itemSize && deleteItems.length == itemSize){
+			$("#deleteItems").val(deleteItems);
+
+/*			if(plusCount == itemSize && deleteItems.length == itemSize){
 				if(!confirm("모든 세부사항이 사라지므로 해당 분류가 삭제됩니다. 계속할까요?")){
+					deleteItems = [];
+					$("#deleteItems").val(deleteItems);
 					return false;
 				}
 			}
+*/			
 			if(isEmpty){
 				alert("빈 칸은 자동으로 제외하고 등록됩니다.");
 			}
-			$("#deleteItems").val(deleteItems);
 			$("#category").submit();
+
 		}
 	}
 	
@@ -127,14 +137,14 @@
 				<div>
 					<div style="float: left; display:inline-block;">
 						<form id="category" action="categoryModifySend" method="post">
-							<input type="hidden" name="categoryOriName" value="${categoryData['name']}" />
-							분류 이름: <input type="text" name="categoryName" value="${categoryData['name']}" />
+							<input type="hidden" id="categoryOriName" name="categoryOriName" value="${categoryData['name']}" />
+							분류 이름: <input type="text" id="categoryName" name="categoryName" value="${categoryData['name']}" />
 							<input type="hidden" id="items" name="items"/>
 							<input type="hidden" id="deleteItems" name="deleteItems"/>
 						</form>
 					</div>
 					<div style="float: right; display:inline-block;">
-						분류 식별 코드: <input type="text" value="${categoryData['code']}" readonly/>
+						분류 식별 코드: <input type="text" value="${categoryData['code']}" style="background:lightgray" readonly/>
 					</div>
 				</div>
 				<br><br>
