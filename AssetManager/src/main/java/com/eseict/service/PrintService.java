@@ -1,11 +1,25 @@
 package com.eseict.service;
 
-import org.springframework.stereotype.Service;
+import java.io.IOException;
 
 public interface PrintService {
 
-	public String printFileName(String[] assetIdList);
+	/**
+	 * @param assetIdList
+	 * @return filename
+	 */
+	public String printFileName(String[] assetIdList, int mode);
 	
-	public byte[] printList(String[] assetIdList);
+	/**
+	 * @param assetIdList
+	 * @return byte array of excel file of list
+	 * @throws IOException 
+	 */
+	public byte[] printList(String[] assetIdList) throws IOException;
 
+	/**
+	 * @param assetId
+	 * @return byte array of excel file of reports
+	 */
+	public byte[] printReport(String[] assetIdList) throws IOException;
 }

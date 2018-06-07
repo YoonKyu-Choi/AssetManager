@@ -54,12 +54,15 @@
 	</select>
 
 	<select id="getAssetCountByUse" resultType="integer">
-		SELECT 
-			COUNT(*)
-		FROM 
-			ASSET_COMMON_ITEM
-		WHERE 
-			ASSET_STATUS = '사용'
+	select count(*)
+	from asset_common_item
+	where asset_status = '사용 중'
+	</select>
+	
+	<select id="getAssetCountCanUse" resultType="integer">
+	select count(*)
+	from asset_common_item
+	where asset_status = '사용 가능'
 	</select>
 
 	<select id="getAssetCountByNotUse" resultType="integer">

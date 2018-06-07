@@ -59,7 +59,7 @@
                 }
             }
 		}
-		else if(status =="폐기 대기"){
+		else{
 			if(chkbox.checked == true){
 				checkCount += 1;
 			}
@@ -126,8 +126,31 @@
 				});
 				
 				$("#printArray").val(printList);
-//					alert($("#disposeArray").val());
 				$("#printForm").submit();
+				
+			}
+		}
+	}
+	
+	function printReport(){
+		if(checkCount == 0){
+			alert("자산을 선택해주세요.");
+			return false;
+		}
+		else{
+			if(!confirm('선택한 자산의 보고서를 출력하겠습니까?')){
+				return false;
+			}else{
+				var printList = [];
+				$(".chkbox").each(function(){
+					if($(this).prop("checked")){
+						var id = $(this).closest("tr").find("td:eq(1)").text()
+						printList.push(id);
+					}
+				});
+				
+				$("#printReportArray").val(printList);
+				$("#printReportForm").submit();
 				
 			}
 		}
@@ -186,7 +209,8 @@
 				</div>
 				<div style="margin-bottom: 10px">
 					<font size="4px">&nbsp;&nbsp;총 자산 수 : </font><span class="badge">${assetCount}</span>
-					<font size="4px">&nbsp;&nbsp;사용 : </font><span class="badge">${assetCountByUse}</span>
+					<font size="4px">&nbsp;&nbsp;사용 중: </font><span class="badge">${assetCountByUse}</span>
+					<font size="4px">&nbsp;&nbsp;사용 가능: </font><span class="badge">${assetCountCanUse}</span>
 					<font size="4px">&nbsp;&nbsp;사용불가 : </font><span class="badge">${assetCountByNotUse}</span>
 					<font size="4px">&nbsp;&nbsp;반출 : </font><span class="badge">${assetCountByOut}</span>
 					<font size="4px">&nbsp;&nbsp;폐기 대기 : </font><span class="badge">${assetCountByDispReady}</span>
@@ -234,17 +258,31 @@
 						</tbody>
 					</table>
 				</div>
+				
 				<form id="printForm" action="printList" method="post">
 					<input type="hidden" id="printArray" name="assetIdList"/>
 				</form>
 				<div style="display:flex; float: left; margin-top: 10px">
 					<button class="btn btn-lg btn-primary" onclick="printList();" >목록 출력</button>
 				</div>
+<<<<<<< HEAD
+
+				<form id="printReportForm" action="printReport" method="post">
+					<input type="hidden" id="printReportArray" name="assetIdList"/>
+				</form>
+				<div style="display:flex; float: left; margin-top: 10px">
+					<button class="btn btn-lg btn-primary" onclick="printReport();" >보고서 출력</button>
+=======
 				<div>
 					<button class="btn btn-lg btn-primary" style="display:flex; float:right; margin-top: 10px" onclick="location.href='/assetmanager/assetRegister';">자산 등록</button>
+>>>>>>> branch 'master' of https://github.com/YoonKyu-Choi/AssetManager.git
 				</div>
-				<div class="admin"> 
-					<button class="btn btn-lg btn-primary" id="disposalButton" style="display:flex; float:right; margin-top: 10px" onclick="location.href='/assetmanager/register';">폐기 신청</button>
+				
+				<div style="display:flex; float:right; margin-top: 10px">
+					<button class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/nameList2';">자산 등록</button>
+					<div class="admin"> 
+						<button class="btn btn-lg btn-primary" id="disposalButton"onclick="location.href='/assetmanager/register';">폐기 신청</button>
+					</div>
 				</div>
 			</div>
 		</div>
