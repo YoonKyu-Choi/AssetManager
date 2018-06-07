@@ -233,6 +233,7 @@
 			<div class="table-responsive" style="overflow: scroll;">
 				자산 공통사항
 				<div style="display: flex; margin-left: 90px">
+					<input type="hidden" value="<%=session.getAttribute("Id")%>" name="assetUser" id="assetUser"/>
 					<table class="table table-striped" id="assetTable">
 						<tr>
 							<th>분류</th>
@@ -245,8 +246,6 @@
 									</c:forEach>
 							</select></th>
 							<th>이름</th>
-							<input type="hidden" value="<%=session.getAttribute("Id")%>"
-								name="assetUser" id="assetUser">
 							<th><%=session.getAttribute("Id")%></th>
 						</tr>
 						<tr>

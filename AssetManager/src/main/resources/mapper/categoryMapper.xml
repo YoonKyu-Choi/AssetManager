@@ -8,6 +8,10 @@
 		<result column="asset_item" property="assetItem"/>
 	</resultMap>
 	
+	<resultMap type="com.eseict.VO.CategoryCodeVO" id="CategoryCodeVO">
+		<result column="asset_category" property="assetCategory"/>
+		<result column="category_code" property="assetCategoryCode"/>
+	</resultMap>
 	
 	<select id="getCategoryList" resultMap="CategoryVO">
 		SELECT
@@ -79,6 +83,13 @@
 		SET
 			asset_category=#{categoryName}
 		WHERE
+			asset_category=#{categoryOriName};
+			
+		UPDATE
+			asset_common_item
+		SET
+			asset_category=#{categoryName}
+		WHERE
 			asset_category=#{categoryOriName}
 	</update>
 	
@@ -125,5 +136,19 @@
 		where
 			ASSET_CATEGORY=#{categoryName}
 	</select>
+	
+	<select id="getCategoryCodeList" resultMap="CategoryCodeVO">
+		SELECT
+			*
+		FROM
+			CATEGORY_CODE
+	</select>
+
+	<delete id="deleteCode" parameterType="String">
+		DELETE FROM
+			CATEGORY_CODE
+		WHERE
+			ASSET_CATEGORY=#{categoryName}
+	</delete>
 
 </mapper>

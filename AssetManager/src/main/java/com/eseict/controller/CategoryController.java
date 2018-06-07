@@ -16,12 +16,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.eseict.VO.CategoryCodeVO;
 import com.eseict.VO.CategoryVO;
+import com.eseict.service.AssetService;
 import com.eseict.service.CategoryService;
 import com.eseict.service.EmployeeService;
 
 @Controller
 public class CategoryController {
+	
+	@Autowired
+	private AssetService aservice;
 	
 	@Autowired
 	private CategoryService service;
@@ -31,26 +36,23 @@ public class CategoryController {
 
 	@RequestMapping(value="/categoryList")
 	public String categoryList(Model model, @RequestParam(required = false) String searchMode, @RequestParam(required = false) String searchKeyword) {
-		List<CategoryVO> volist = service.getCategoryList();
-		HashMap<String,List<String>> categoryItemList = new HashMap<String,List<String>>();
+		List<CategoryCodeVO> codelist = service.getCategoryCodeList();
+		HashMap<CategoryCodeVO, List<String>> categoryItemList = new HashMap<CategoryCodeVO, List<String>>();
 		int columnSize = 0;
-		for(CategoryVO vo: volist) {
-			if(categoryItemList.containsKey(vo.getAssetCategory())) {
-				categoryItemList.get(vo.getAssetCategory()).add(vo.getAssetItem());
-			} else {
-				List<String> itemList = new ArrayList<String>();
-				itemList.add(vo.getAssetItem());
-				categoryItemList.put(vo.getAssetCategory(), itemList);
-			}
+		
+		for(CategoryCodeVO code: codelist) {
+			categoryItemList.put(code, service.getCategoryByName(code.getAssetCategory()));
 		}
-		for(String key: categoryItemList.keySet()) {
+
+		for(CategoryCodeVO key: categoryItemList.keySet()) {
 			int items = categoryItemList.get(key).size();
-			if(columnSize < items)
+			if(columnSize < items) {
 				columnSize = items;
+			}
 		}
 		model.addAttribute("categoryItemList", categoryItemList);
 		model.addAttribute("columnSize", columnSize);
-		model.addAttribute("categoryCount", service.getCategoryCount());
+		model.addAttribute("categoryCount", codelist.size());
 		
 		if(searchKeyword != null) {
 			model.addAttribute("searchMode", searchMode);
@@ -107,9 +109,12 @@ public class CategoryController {
 	@RequestMapping(value="/categoryDelete")
 	public String categoryDelete(RedirectAttributes redirectAttributes, @RequestParam String categoryName, @RequestParam("checkAdminPw") String checkAdminPw) {
 		int check = eservice.checkRegistered("admin", checkAdminPw);
-//		System.out.println(checkAdminPw);
 		if (check == 1) {
 			service.deleteCategory(categoryName);
+			for(String assetId: aservice.getAssetIdListByCategory(categoryName)) {
+				aservice.deleteAssetById(assetId);
+				service.deleteCode(categoryName);
+			}
 			redirectAttributes.addFlashAttribute("msg", "삭제되었습니다.");
 		} else {
 			redirectAttributes.addFlashAttribute("msg", "비밀번호가 맞지 않아 삭제에 실패했습니다.");

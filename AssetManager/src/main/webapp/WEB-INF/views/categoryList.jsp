@@ -143,6 +143,7 @@
 						<table class="table table-striped" data-toggle="table">
 							<thead>
 								<tr>
+									<th data-sortable="true">분류 코드</th>
 									<th data-sortable="true">분류 이름</th>
 									<%for(int i=0; i<columnSize; i++){%>
 									<th>세부사항 <%=i+1 %></th>
@@ -152,8 +153,9 @@
 							
 							<tbody>
 							<c:forEach items="${categoryItemList}" var="categoryItem">
-								<tr class="clickable-row" data-href="${categoryItem.key}">
-									<td>${categoryItem.key}</td>
+								<tr class="clickable-row" data-href="${categoryItem.key.assetCategory}">
+									<td>${categoryItem.key.assetCategoryCode}</td>
+									<td>${categoryItem.key.assetCategory}</td>
 									<%int i=0; %>
 									<c:forEach items="${categoryItem.value}" var="item">
 									<td>${item}</td>

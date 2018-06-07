@@ -2,6 +2,7 @@ package com.eseict.DAO;
 
 import java.util.List;
 
+import com.eseict.VO.CategoryCodeVO;
 import com.eseict.VO.CategoryVO;
 
 public interface CategoryDAO {
@@ -30,4 +31,8 @@ public interface CategoryDAO {
 	public void newCode(String categoryName, String codeName);
 	
 	public String getCode(String categoryName);	
+	
+	public List<CategoryCodeVO> getCategoryCodeList();
+	
+	public int deleteCode(String categoryName);
 }

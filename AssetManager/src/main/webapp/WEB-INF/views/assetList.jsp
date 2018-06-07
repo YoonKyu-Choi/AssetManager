@@ -227,7 +227,7 @@
 					<table class="table table-striped" data-toggle="table">
 						<thead>
 							<tr>
-								<th><input type="checkbox" onclick="allClick();"/></th>
+								<th><input type="checkbox" style="transform:scale(1.5)" onclick="allClick();"/></th>
 								<th data-sortable="true">관리 번호</th>
 								<th data-sortable="true">자산 분류</th>
 								<th data-sortable="true">사용자</th>
@@ -246,7 +246,7 @@
 						<tbody>
 						<c:forEach items="${assetList}" var="asset">
 							<tr class="clickable-row" data-href="${asset.assetId}">
-								<td><input type="checkBox" class="chkbox" onclick="dis(this);"/></td>
+								<td><input type="checkBox" style="transform:scale(1.5)" class="chkbox" onclick="dis(this);"/></td>
 								<td>${asset.assetId}</td>
 								<td>${asset.assetCategory}</td>
 								<td>${asset.assetUser}</td>

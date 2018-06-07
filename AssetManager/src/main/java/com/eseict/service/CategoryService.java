@@ -2,6 +2,7 @@ package com.eseict.service;
 
 import java.util.List;
 
+import com.eseict.VO.CategoryCodeVO;
 import com.eseict.VO.CategoryVO;
 
 public interface CategoryService {
@@ -32,4 +33,7 @@ public interface CategoryService {
 
 	public String getCode(String categoryName);
 
+	public List<CategoryCodeVO> getCategoryCodeList();
+	
+	public int deleteCode(String categoryName);
 }
