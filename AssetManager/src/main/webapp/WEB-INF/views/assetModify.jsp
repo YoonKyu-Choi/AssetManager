@@ -217,7 +217,7 @@ function byteCheck(obj,maxByte){
 						</div>
 					</div>
 					</form>
-					<form id="modifyForm" action="userModify" method="POST">
+					<form id="assetForm" action="assetDetail" method="POST">
 						<input type="hidden" name="assetId"
 							value="${requestScope.assetVO.assetId}" />
 					</form>
