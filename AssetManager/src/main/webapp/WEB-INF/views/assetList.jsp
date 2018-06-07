@@ -59,7 +59,7 @@
                 }
             }
 		}
-		else if(status =="폐기 대기"){
+		else{
 			if(chkbox.checked == true){
 				checkCount += 1;
 			}
@@ -70,11 +70,11 @@
 	}
 
 	$(function(){
-		if(${assetCount} > 0){
-			$(".table tbody tr").click(function(){
-				document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
-			});
-		}
+		$(".table tbody tr").click(function(){
+			if(${assetCount} > 0){
+//				document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
+			}
+		});
 		$(document).on('click', '.checkBtn', function(){
 			console.log('checkbox clicked');
 		});
@@ -127,8 +127,31 @@
 				});
 				
 				$("#printArray").val(printList);
-//					alert($("#disposeArray").val());
 				$("#printForm").submit();
+				
+			}
+		}
+	}
+	
+	function printReport(){
+		if(checkCount == 0){
+			alert("자산을 선택해주세요.");
+			return false;
+		}
+		else{
+			if(!confirm('선택한 자산의 보고서를 출력하겠습니까?')){
+				return false;
+			}else{
+				var printList = [];
+				$(".chkbox").each(function(){
+					if($(this).prop("checked")){
+						var id = $(this).closest("tr").find("td:eq(1)").text()
+						printList.push(id);
+					}
+				});
+				
+				$("#printReportArray").val(printList);
+				$("#printReportForm").submit();
 				
 			}
 		}
@@ -236,12 +259,21 @@
 						</tbody>
 					</table>
 				</div>
+				
 				<form id="printForm" action="printList" method="post">
 					<input type="hidden" id="printArray" name="assetIdList"/>
 				</form>
 				<div style="display:flex; float: left; margin-top: 10px">
 					<button class="btn btn-lg btn-primary" onclick="printList();" >목록 출력</button>
 				</div>
+
+				<form id="printReportForm" action="printReport" method="post">
+					<input type="hidden" id="printReportArray" name="assetIdList"/>
+				</form>
+				<div style="display:flex; float: left; margin-top: 10px">
+					<button class="btn btn-lg btn-primary" onclick="printReport();" >보고서 출력</button>
+				</div>
+				
 				<div style="display:flex; float:right; margin-top: 10px">
 					<button class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/nameList2';">자산 등록</button>
 					<div class="admin"> 

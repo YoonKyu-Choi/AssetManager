@@ -21,7 +21,7 @@ public class PrintController {
 	@RequestMapping(value="printList")
 	@ResponseBody
 	public byte[] printList(HttpServletResponse response, @RequestParam String[] assetIdList) throws IOException {
-		String filename = service.printFileName(assetIdList);
+		String filename = service.printFileName(assetIdList, 0);
 		
 		response.setContentType("application/vnd.ms-excel");
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + filename +"\""); 
@@ -29,4 +29,14 @@ public class PrintController {
 		return service.printList(assetIdList);
 	}
 
+	@RequestMapping(value="printReport")
+	@ResponseBody
+	public byte[] printReport(HttpServletResponse response, @RequestParam String[] assetIdList) throws IOException {
+		String filename = service.printFileName(assetIdList, 1);
+		
+		response.setContentType("application/vnd.ms-excel");
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + filename +"\""); 
+
+		return service.printReport(assetIdList);
+	}
 }

@@ -193,6 +193,30 @@
 				}
 			}
 			
+			function printReport(){
+				if(checkCount == 0){
+					alert("자산을 선택해주세요.");
+					return false;
+				}
+				else{
+					if(!confirm('선택한 자산의 보고서를 출력하겠습니까?')){
+						return false;
+					}else{
+						var printList = [];
+						$(".chkbox").each(function(){
+							if($(this).prop("checked")){
+								var id = $(this).closest("tr").find("td:eq(2)").text()
+								printList.push(id);
+							}
+						});
+						
+						$("#printReportArray").val(printList);
+						$("#printReportForm").submit();
+						
+					}
+				}
+			}
+
 		</script>
 		
 		<style>
@@ -280,12 +304,21 @@
 							</tbody>
 						</table>
 					</div>
+					
 					<form id="printForm" action="printList" method="post">
 						<input type="hidden" id="printArray" name="assetIdList"/>
 					</form>
 					<div style="display:flex; float: left; margin-top: 10px">
 						<button class="btn btn-lg btn-primary" onclick="printList();" >목록 출력</button>
 					</div>
+
+					<form id="printReportForm" action="printReport" method="post">
+						<input type="hidden" id="printReportArray" name="assetIdList"/>
+					</form>
+					<div style="display:flex; float: left; margin-top: 10px">
+						<button class="btn btn-lg btn-primary" onclick="printReport();" >보고서 출력</button>
+					</div>
+					
 					<form id="disposeForm" action="disposeAsset" method="post">
 						<input type="hidden" id="disposeArray" name="disposeArray"/>
 					</form>
