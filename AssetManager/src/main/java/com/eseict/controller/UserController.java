@@ -93,7 +93,6 @@ public class UserController {
 	// 사용자 수정
 	@RequestMapping(value = "/userModifyConfirm")
 	public String userModifyConfirm(@ModelAttribute EmployeeVO evo, RedirectAttributes redirectAttributes) {
-		// int employeeSeq = evo.getEmployeeSeq();
 		service.updateEmployee(evo);
 		redirectAttributes.addFlashAttribute("msg", "수정되었습니다.");
 		return "redirect:/userList.tiles";

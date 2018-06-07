@@ -272,7 +272,6 @@
 				<div style="display:flex; float: left; margin-top: 10px">
 					<button class="btn btn-lg btn-primary" onclick="printList();" >목록 출력</button>
 				</div>
-
 				<form id="printReportForm" action="printReport" method="post">
 					<input type="hidden" id="printReportArray" name="assetIdList"/>
 				</form>
