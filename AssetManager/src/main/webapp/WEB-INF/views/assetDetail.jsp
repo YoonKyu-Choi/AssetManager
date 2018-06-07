@@ -124,34 +124,36 @@
 						<tr>
 							<th>관리 번호</th>
 							<th>${requestScope.assetVO.assetId}</th>
-							<th>자산 상태</th>
-							<th>${requestScope.assetVO.assetStatus}</th>
-						</tr>
-						<tr>
 							<th>시리얼 번호</th>
 							<th>${requestScope.assetVO.assetSerial}</th>
+						</tr>
+						<tr>
+							<th>자산 상태</th>
+							<th>${requestScope.assetVO.assetStatus}</th>
+							<th>반출 상태</th>
+							<th>${requestScope.assetVO.assetOutStatus}</th>
+						</tr>
+						<tr>
 							<th>구입일</th>
 							<th>${requestScope.assetVO.assetPurchaseDate}</th>
-						</tr>
-						<tr>
 							<th>제조사</th>
 							<th>${requestScope.assetVO.assetMaker}</th>
+						</tr>
+						<tr>
 							<th>구입가</th>
 							<th>${requestScope.assetVO.assetPurchasePrice}</th>
-						</tr>
-						<tr>
 							<th>모델명</th>
 							<th>${requestScope.assetVO.assetModel}</th>
+						</tr>
+						<tr>
 							<th>구입처</th>
 							<th>${requestScope.assetVO.assetPurchaseShop}</th>
-						</tr>
-						<tr>
 							<th>용도</th>
 							<th>${requestScope.assetVO.assetUsage}</th>
-							<th>책임자</th>
-							<th>${requestScope.assetVO.assetManager}</th>
 						</tr>
 						<tr>
+							<th>책임자</th>
+							<th>${requestScope.assetVO.assetManager}</th>
 							<th>사용 위치</th>
 							<th>${requestScope.assetVO.assetLocation}</th>
 						</tr>

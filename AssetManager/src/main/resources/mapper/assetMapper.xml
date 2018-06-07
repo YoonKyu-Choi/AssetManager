@@ -202,26 +202,35 @@
 
 	<update id="updateAsset" parameterType="com.eseict.VO.AssetVO">
 		UPDATE
-			AssetVO
-		<set>
-			<if test="assetUser != null">ASSET_USER = #{assetUser}</if>
-			<if test="assetSerial != null">ASSET_SERIAL = #{assetSerial}</if>
-			<if test="assetStatus != null">ASSET_STATUS = #{assetStatus}</if>
-			<if test="assetOutStatus != null">ASSET_OUT_STATUS = #{assetOutStatus}</if>
-			<if test="assetPurchaseDate != null">ASSET_PURCHASE_DATE = #{assetPurchaseDate}</if>
-			<if test="assetMaker != null">ASSET_MAKER = #{assetMaker}</if>
-			<if test="assetPurchasePrice != null">ASSET_PURCHASE_PRICE = #{assetPurchasePrice}</if>
-			<if test="assetModel != null">ASSET_MODEL = #{assetModel}</if>
-			<if test="assetPurchaseShop != null">ASSET_PURCHASE_SHOP = #{assetPurchaseShop}</if>
-			<if test="assetManager != null">ASSET_MANAGER = #{assetManager}</if>
-			<if test="assetLocation != null">ASSET_LOCATION = #{assetLocation}</if>
-			<if test="assetReceiptUrl != null">ASSET_RECEIPT_URL = #{assetReceiptUrl}</if>
-			<if test="assetComment != null">ASSET_COMMENT = #{assetComment}</if>
-		</set>
+			ASSET_COMMON_ITEM
+		SET
+			ASSET_USER = #{assetUser},
+			ASSET_SERIAL = #{assetSerial},
+			ASSET_STATUS = #{assetStatus},
+			ASSET_OUT_STATUS = #{assetOutStatus},
+			ASSET_PURCHASE_DATE = #{assetPurchaseDate},
+			ASSET_MAKER = #{assetMaker},
+			ASSET_PURCHASE_PRICE = #{assetPurchasePrice},
+			ASSET_MODEL = #{assetModel},
+			ASSET_PURCHASE_SHOP = #{assetPurchaseShop},
+			ASSET_MANAGER = #{assetManager},
+			ASSET_LOCATION = #{assetLocation},
+			ASSET_RECEIPT_URL = #{assetReceiptUrl},
+			ASSET_COMMENT = #{assetComment}
 		WHERE ASSET_ID = #{assetId}
 	</update>
-
-
+	
+	<update id="updateAssetDetail" parameterType="com.eseict.VO.AssetDetailVO">
+		UPDATE
+			ASSET_CATEGORY_ITEM
+		SET 
+			ASSET_ITEM_DETAIL = #{assetItemDetail}
+		WHERE 
+			ASSET_ID = #{assetId}
+		AND
+			ASSET_ITEM = #{assetItem} 	
+	</update>
+	
 </mapper>
 
 

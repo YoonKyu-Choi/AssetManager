@@ -86,7 +86,7 @@ public class AssetController {
 	
 	@RequestMapping(value = "/assetRegisterSend")
 	public String assetRegister(@ModelAttribute AssetVO avo, @RequestParam String[] items,
-			@RequestParam String[] itemsDetail, @RequestParam MultipartFile uploadImage, HttpServletRequest request)
+			@RequestParam String[] itemsDetail, @RequestParam(required=false) MultipartFile uploadImage, HttpServletRequest request)
 			throws IllegalStateException, IOException {
 		// 관리 번호 생성
 		String categoryKeyword = null;
@@ -126,10 +126,8 @@ public class AssetController {
 		AssetDetailVO dvo = new AssetDetailVO();
 		dvo.setAssetId(year + month + "-" + categoryKeyword + "-" + (itemSequence));
 		for(int a = 0; a < items.length; a++) {
-			String s = items[a];
-			String s2 = itemsDetail[a];
-			dvo.setAssetItem(s);
-			dvo.setAssetItemDetail(s2);
+			dvo.setAssetItem(items[a]);
+			dvo.setAssetItemDetail(itemsDetail[a]);
 			aService.insertAssetDetail(dvo);
 		}
 		return "redirect:/assetList.tiles";
@@ -162,7 +160,7 @@ public class AssetController {
 									 @ModelAttribute AssetDetailVO dvo,
 									 @RequestParam String[] items,
 									 @RequestParam String[] itemsDetail, 
-									 @RequestParam MultipartFile uploadImage
+									 @RequestParam(required=false) MultipartFile uploadImage
 									 ,HttpServletRequest request) throws IllegalStateException, IOException {
 			// 파일 업로드
 			ServletContext ctx = request.getServletContext();
@@ -176,12 +174,10 @@ public class AssetController {
 			aService.updateAsset(avo);
 			dvo.setAssetId(avo.getAssetId());
 			for(int a = 0; a < items.length; a++) {
-				String s = items[a];
-				String s2 = itemsDetail[a];
-				dvo.setAssetItem(s);
-				dvo.setAssetItemDetail(s2);
+				dvo.setAssetItem(items[a]);
+				dvo.setAssetItemDetail(itemsDetail[a]);
 				aService.updateAssetDetail(dvo);
 			}
-			return "redirect:/userList.tiles";
+			return "redirect:/assetDetail?assetId="+avo.getAssetId();
 		}
 }

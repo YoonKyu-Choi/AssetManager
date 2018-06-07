@@ -265,21 +265,15 @@
 				<div style="display:flex; float: left; margin-top: 10px">
 					<button class="btn btn-lg btn-primary" onclick="printList();" >목록 출력</button>
 				</div>
-<<<<<<< HEAD
-
 				<form id="printReportForm" action="printReport" method="post">
 					<input type="hidden" id="printReportArray" name="assetIdList"/>
 				</form>
 				<div style="display:flex; float: left; margin-top: 10px">
 					<button class="btn btn-lg btn-primary" onclick="printReport();" >보고서 출력</button>
-=======
-				<div>
-					<button class="btn btn-lg btn-primary" style="display:flex; float:right; margin-top: 10px" onclick="location.href='/assetmanager/assetRegister';">자산 등록</button>
->>>>>>> branch 'master' of https://github.com/YoonKyu-Choi/AssetManager.git
 				</div>
 				
 				<div style="display:flex; float:right; margin-top: 10px">
-					<button class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/nameList2';">자산 등록</button>
+					<button class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetRegister';">자산 등록</button>
 					<div class="admin"> 
 						<button class="btn btn-lg btn-primary" id="disposalButton"onclick="location.href='/assetmanager/register';">폐기 신청</button>
 					</div>
