@@ -49,14 +49,14 @@
 		if (!confirm("반출/수리 하겠습니까?")) {
 			return false;
 		} else {
-	        wrapWindowByMask();
+			
 		}
 	}
 	function dispReqConfirm() {
 		if (!confirm("폐기 신청을 하시겠습니까?")) {
 			return false;
 		} else {
-			wrapWindowByMask();
+			$("#assetDispForm").submit();
 		}
 	}
 
@@ -187,6 +187,9 @@
 			</div>
 
 			<form id="modifyForm" action="assetModify" method="POST">
+				<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
+			</form>
+			<form id="assetDispForm" action="assetDisposal" method="post">
 				<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
 			</form>
 			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />

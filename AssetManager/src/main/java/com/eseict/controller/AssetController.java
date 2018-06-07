@@ -155,29 +155,64 @@ public class AssetController {
 	}
 	
 	// 자산 수정 Send
-		@RequestMapping(value = "/assetModifySend")
-		public String userModifySend(@ModelAttribute AssetVO avo, 
-									 @ModelAttribute AssetDetailVO dvo,
-									 @RequestParam String[] items,
-									 @RequestParam String[] itemsDetail, 
-									 @RequestParam(required=false) MultipartFile uploadImage
-									 ,HttpServletRequest request) throws IllegalStateException, IOException {
-			// 파일 업로드
-			ServletContext ctx = request.getServletContext();
-			String uploadDir = ctx.getRealPath("/resources/");
-			if(uploadImage != null && !uploadImage.isEmpty()) {
-				String fileName = UUID.randomUUID().toString();
-				File dir = new File(uploadDir+fileName+".jpg");
-				uploadImage.transferTo(dir);
-				avo.setAssetReceiptUrl(fileName+".jpg");
-			}
-			aService.updateAsset(avo);
-			dvo.setAssetId(avo.getAssetId());
-			for(int a = 0; a < items.length; a++) {
-				dvo.setAssetItem(items[a]);
-				dvo.setAssetItemDetail(itemsDetail[a]);
-				aService.updateAssetDetail(dvo);
-			}
-			return "redirect:/assetDetail?assetId="+avo.getAssetId();
+	@RequestMapping(value = "/assetModifySend")
+	public String userModifySend(@ModelAttribute AssetVO avo
+								 ,@ModelAttribute AssetDetailVO dvo
+								 ,@RequestParam String[] items
+								 ,@RequestParam String[] itemsDetail
+								 ,@RequestParam(required=false) MultipartFile uploadImage
+								 ,HttpServletRequest request) throws IllegalStateException, IOException {
+		// 파일 업로드
+		ServletContext ctx = request.getServletContext();
+		String uploadDir = ctx.getRealPath("/resources/");
+		if(uploadImage != null && !uploadImage.isEmpty()) {
+			String fileName = UUID.randomUUID().toString();
+			File dir = new File(uploadDir+fileName+".jpg");
+			uploadImage.transferTo(dir);
+			avo.setAssetReceiptUrl(fileName+".jpg");
 		}
+		aService.updateAsset(avo);
+		dvo.setAssetId(avo.getAssetId());
+		for(int a = 0; a < items.length; a++) {
+			dvo.setAssetItem(items[a]);
+			dvo.setAssetItemDetail(itemsDetail[a]);
+			aService.updateAssetDetail(dvo);
+		}
+		return "redirect:/assetDetail?assetId="+avo.getAssetId();
+	}
+		
+	@RequestMapping(value="/assetDisposal")	
+	public String assetDisposal(@RequestParam(required=false) String assetId,
+								@RequestParam(required=false) String[] assetIdList) {
+		if(assetId != null) {
+			aService.updateAssetDisposal(assetId);
+		}else {
+			for(int i=0;i<assetIdList.length;i++) {
+				aService.updateAssetDisposal(assetIdList[i]);
+			}
+		}
+		return "redirect:/assetList.tiles";
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

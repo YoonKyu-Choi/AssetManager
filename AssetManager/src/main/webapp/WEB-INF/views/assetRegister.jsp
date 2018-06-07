@@ -107,9 +107,9 @@
 					alert("세부사항 내용을 입력해주세요.");
 					return false;
 				}
+			}
 			*/
 			$("#registerSend").submit();
-			}
 		}
 	};
 

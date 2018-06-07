@@ -45,9 +45,10 @@ public interface AssetService {
 	// 자산 정보 수정
 	public int updateAsset(AssetVO avo);
 	public int updateAssetDetail(AssetDetailVO dvo);
-
 	// 해당 id의 자산 삭제
 	public int deleteAssetById(String assetId);
 	// 해당 분류의 자산 ID 리스트 조회
 	public List<String> getAssetIdListByCategory(String assetCategory);
+	// 자산 폐기 신청
+	public int updateAssetDisposal(String assetId);
 }

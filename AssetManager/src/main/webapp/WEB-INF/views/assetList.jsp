@@ -162,6 +162,30 @@
 			}
 		}
 	}
+	
+	function dispRequest(){
+		if(checkCount == 0){
+			alert("자산을 선택해주세요.");
+			return false;
+		}
+		else{
+			if(!confirm('선택한 자산들을 폐기 신청하겠습니까?')){
+				return false;
+			}else{
+				var printList = [];
+				$(".chkbox").each(function(){
+					if($(this).prop("checked")){
+						var id = $(this).closest("tr").find("td:eq(1)").text()
+						printList.push(id);
+					}
+				});
+				
+				$("#dispReqArray").val(printList);
+				$("#assetDispForm").submit();
+				
+			}
+		}
+	}
 
 </script>
 	
@@ -282,7 +306,10 @@
 				<div style="display:flex; float:right; margin-top: 10px">
 					<button class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetRegister';">자산 등록</button>
 					<div class="admin"> 
-						<button class="btn btn-lg btn-primary" id="disposalButton"onclick="location.href='/assetmanager/register';">폐기 신청</button>
+						<button class="btn btn-lg btn-primary" id="disposalButton"onclick="dispRequest();">폐기 신청</button>
+						<form id="assetDispForm" action="assetDisposal" method="post">
+							<input type="hidden" id="dispReqArray" name="assetIdList"/>
+						</form>
 					</div>
 				</div>
 			</div>

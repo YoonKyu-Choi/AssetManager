@@ -122,4 +122,9 @@ public class AssetServiceImpl implements AssetService {
 		return dao.getAssetIdListByCategory(assetCategory);
 	}
 
+	@Override
+	public int updateAssetDisposal(String assetId) {
+		return dao.updateAssetDisposal(assetId);
+	}
+
 }

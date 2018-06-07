@@ -247,6 +247,15 @@
 			ASSET_ITEM = #{assetItem} 	
 	</update>
 	
+	<update id="updateAssetDisposal" parameterType="string">
+		UPDATE
+			asset_common_item
+		SET 
+			asset_status = '폐기 대기'
+		WHERE 
+			asset_id = #{assetId} 
+	</update>
+	
 </mapper>
 
 
