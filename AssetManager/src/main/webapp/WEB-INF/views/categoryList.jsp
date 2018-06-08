@@ -65,7 +65,7 @@
 					var result = [];
 					if(mode == "1"){		// 분류 이름
 						var count = "${categoryCount}";
-						$("tr:gt(0) td:nth-child("+"${columnSize}"+1+"n+2)").each(function(){
+						$("tr:gt(0) td:nth-child("+"${columnSize}"+1+"n+1)").each(function(){
 							$(this).closest("tr").show();
 							var name = $(this).text();
 							var match = name.match(new RegExp(keyword, 'g'));
@@ -82,7 +82,7 @@
 						for(var i=0; i<count; i++){
 							checkary.push(false)
 						}
-						$("tr:gt(0) td:not(:nth-child("+"${columnSize}"+1+"n+2))").each(function(){
+						$("tr:gt(0) td:not(:nth-child("+"${columnSize}"+1+"n+1))").each(function(){
 							$(this).closest("tr").show();
 							var name = $(this).text();
 							var match = name.match(new RegExp(keyword, 'g'));
@@ -139,11 +139,10 @@
 						<span class="badge">${categoryCount}</span>
 					</div>
 					<%int columnSize = (Integer)request.getAttribute("columnSize");%>
-					<div class="table-responsive" style="overflow: scroll; height: 400px">
-						<table class="table table-striped" data-toggle="table">
+					<div class="table-responsive" style="overflow: auto; height: 400px">
+						<table class="table table-striped" style="overflow: scroll;" data-toggle="table">
 							<thead>
 								<tr>
-									<th data-sortable="true">분류 코드</th>
 									<th data-sortable="true">분류 이름</th>
 									<%for(int i=0; i<columnSize; i++){%>
 									<th>세부사항 <%=i+1 %></th>
@@ -154,7 +153,6 @@
 							<tbody>
 							<c:forEach items="${categoryItemList}" var="categoryItem">
 								<tr class="clickable-row" data-href="${categoryItem.key.assetCategory}">
-									<td>${categoryItem.key.assetCategoryCode}</td>
 									<td>${categoryItem.key.assetCategory}</td>
 									<%int i=0; %>
 									<c:forEach items="${categoryItem.value}" var="item">

@@ -131,6 +131,9 @@ public class PrintServiceImpl implements PrintService {
 		FontReportTitle.setFontHeight((short)(16*20));
 		FontReportTitle.setBold(true);
 		
+		Font FontReportItem = wb.createFont();
+		FontReportItem.setBold(true);
+		
 		// 스타일 지정
 		CellStyle BorderTopA = wb.createCellStyle();
 		BorderTopA.setBorderTop(BorderStyle.THICK);
@@ -148,6 +151,13 @@ public class PrintServiceImpl implements PrintService {
 		BorderTopBottomThin.setBorderTop(BorderStyle.THIN);
 		BorderTopBottomThin.setBorderBottom(BorderStyle.THIN);
 
+		CellStyle BorderThinBold = wb.createCellStyle();
+		BorderThinBold.setBorderTop(BorderStyle.THIN);
+		BorderThinBold.setBorderLeft(BorderStyle.THIN);
+		BorderThinBold.setBorderRight(BorderStyle.THIN);
+		BorderThinBold.setBorderBottom(BorderStyle.THIN);
+		BorderThinBold.setFont(FontReportItem);
+		
 		CellStyle BorderThin = wb.createCellStyle();
 		BorderThin.setBorderTop(BorderStyle.THIN);
 		BorderThin.setBorderLeft(BorderStyle.THIN);
@@ -156,11 +166,13 @@ public class PrintServiceImpl implements PrintService {
 		
 		CellStyle BorderLeftThick = wb.createCellStyle();
 		BorderLeftThick.setBorderLeft(BorderStyle.THICK);
+		BorderLeftThick.setFont(FontReportItem);
 		
 		CellStyle BorderLeftThickTopBottomThin = wb.createCellStyle();
 		BorderLeftThickTopBottomThin.setBorderLeft(BorderStyle.THICK);
 		BorderLeftThickTopBottomThin.setBorderTop(BorderStyle.THIN);
 		BorderLeftThickTopBottomThin.setBorderBottom(BorderStyle.THIN);
+		BorderLeftThickTopBottomThin.setFont(FontReportItem);
 		
 		CellStyle BorderRightThick = wb.createCellStyle();
 		BorderRightThick.setBorderRight(BorderStyle.THICK);
@@ -213,7 +225,7 @@ public class PrintServiceImpl implements PrintService {
 			rowi = sheet.createRow(cur); 
 			rowi.createCell(0).setCellStyle(BorderLeftThickTopBottomThin);
 			rowi.createCell(1).setCellStyle(BorderThin);
-			rowi.createCell(2).setCellStyle(BorderThin);
+			rowi.createCell(2).setCellStyle(BorderThinBold);
 			rowi.createCell(3).setCellStyle(BorderRightThickTopBottomThin);
 			CellUtil.createCell(rowi, 0, "분류");
 			CellUtil.createCell(rowi, 1, vo.getAssetCategory());
@@ -224,7 +236,7 @@ public class PrintServiceImpl implements PrintService {
 			rowi = sheet.createRow(cur);
 			rowi.createCell(0).setCellStyle(BorderLeftThickTopBottomThin);
 			rowi.createCell(1).setCellStyle(BorderThin);
-			rowi.createCell(2).setCellStyle(BorderThin);
+			rowi.createCell(2).setCellStyle(BorderThinBold);
 			rowi.createCell(3).setCellStyle(BorderRightThickTopBottomThin);
 			CellUtil.createCell(rowi, 0, "관리 번호");
 			CellUtil.createCell(rowi, 1, vo.getAssetId());
@@ -235,7 +247,7 @@ public class PrintServiceImpl implements PrintService {
 			rowi = sheet.createRow(cur);
 			rowi.createCell(0).setCellStyle(BorderLeftThickTopBottomThin);
 			rowi.createCell(1).setCellStyle(BorderThin);
-			rowi.createCell(2).setCellStyle(BorderThin);
+			rowi.createCell(2).setCellStyle(BorderThinBold);
 			rowi.createCell(3).setCellStyle(BorderRightThickTopBottomThin);
 			CellUtil.createCell(rowi, 0, "시리얼 번호");
 			CellUtil.createCell(rowi, 1, vo.getAssetSerial());
@@ -246,7 +258,7 @@ public class PrintServiceImpl implements PrintService {
 			rowi = sheet.createRow(cur);
 			rowi.createCell(0).setCellStyle(BorderLeftThickTopBottomThin);
 			rowi.createCell(1).setCellStyle(BorderThin);
-			rowi.createCell(2).setCellStyle(BorderThin);
+			rowi.createCell(2).setCellStyle(BorderThinBold);
 			CellStyle dateCellStyle = wb.createCellStyle();
 			dateCellStyle.setDataFormat(wb.createDataFormat().getFormat("yyyy-mm-dd"));
 			dateCellStyle.setAlignment(HorizontalAlignment.LEFT);
@@ -263,7 +275,7 @@ public class PrintServiceImpl implements PrintService {
 			rowi = sheet.createRow(cur);
 			rowi.createCell(0).setCellStyle(BorderLeftThickTopBottomThin);
 			rowi.createCell(1).setCellStyle(BorderThin);
-			rowi.createCell(2).setCellStyle(BorderThin);
+			rowi.createCell(2).setCellStyle(BorderThinBold);
 			rowi.createCell(3).setCellStyle(BorderRightThickTopBottomThin);
 			CellUtil.createCell(rowi, 0, "모델명");
 			CellUtil.createCell(rowi, 1, vo.getAssetModel());
@@ -274,7 +286,7 @@ public class PrintServiceImpl implements PrintService {
 			rowi = sheet.createRow(cur);
 			rowi.createCell(0).setCellStyle(BorderLeftThickTopBottomThin);
 			rowi.createCell(1).setCellStyle(BorderThin);
-			rowi.createCell(2).setCellStyle(BorderThin);
+			rowi.createCell(2).setCellStyle(BorderThinBold);
 			rowi.createCell(3).setCellStyle(BorderRightThickTopBottomThin);
 			CellUtil.createCell(rowi, 0, "용도");
 			CellUtil.createCell(rowi, 1, vo.getAssetUsage());
@@ -285,7 +297,7 @@ public class PrintServiceImpl implements PrintService {
 			rowi = sheet.createRow(cur);
 			rowi.createCell(0).setCellStyle(BorderLeftThickTopBottomThin);
 			rowi.createCell(1).setCellStyle(BorderThin);
-			rowi.createCell(2).setCellStyle(BorderThin);
+			rowi.createCell(2).setCellStyle(BorderThinBold);
 			rowi.createCell(3).setCellStyle(BorderRightThickTopBottomThin);
 			CellUtil.createCell(rowi, 0, "사용 위치");
 			CellUtil.createCell(rowi, 1, vo.getAssetLocation());
@@ -312,7 +324,7 @@ public class PrintServiceImpl implements PrintService {
 				rowi = sheet.createRow(cur);
 				rowi.createCell(0).setCellStyle(BorderLeftThickTopBottomThin);
 				rowi.createCell(1).setCellStyle(BorderThin);
-				rowi.createCell(2).setCellStyle(BorderThin);
+				rowi.createCell(2).setCellStyle(BorderThinBold);
 				rowi.createCell(3).setCellStyle(BorderRightThickTopBottomThin);
 				CellUtil.createCell(rowi, 0, advo.get(i).getAssetItem());
 				CellUtil.createCell(rowi, 1, advo.get(i).getAssetItemDetail());
@@ -324,7 +336,7 @@ public class PrintServiceImpl implements PrintService {
 				rowi = sheet.createRow(cur);
 				rowi.createCell(0).setCellStyle(BorderLeftThickTopBottomThin);
 				rowi.createCell(1).setCellStyle(BorderThin);
-				rowi.createCell(2).setCellStyle(BorderThin);
+				rowi.createCell(2).setCellStyle(BorderThinBold);
 				rowi.createCell(3).setCellStyle(BorderRightThickTopBottomThin);
 				CellUtil.createCell(rowi, 0, advo.get(i).getAssetItem());
 				CellUtil.createCell(rowi, 1, advo.get(i).getAssetItemDetail());

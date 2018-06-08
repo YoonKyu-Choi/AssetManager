@@ -101,6 +101,7 @@ public class AssetController {
 	public String assetRegister(@ModelAttribute AssetVO avo, @RequestParam String[] items,
 			@RequestParam String[] itemsDetail, @RequestParam(required=false) MultipartFile uploadImage, HttpServletRequest request)
 			throws IllegalStateException, IOException {
+		System.out.println("0000");
 		// 관리 번호 생성
 		String categoryKeyword = null;
 		int year = 0;
@@ -109,7 +110,7 @@ public class AssetController {
 		String itemSequence = null;
 		
 		categoryKeyword = cService.getCode(categoryName);
-		
+		System.out.println("1111");
 		year = avo.getAssetPurchaseDate().getYear() % 100;
 		if(avo.getAssetPurchaseDate().getMonth() + 1 <10) {
 			month = "0" + Integer.toString(avo.getAssetPurchaseDate().getMonth() + 1); 
@@ -117,6 +118,7 @@ public class AssetController {
 			month = Integer.toString(avo.getAssetPurchaseDate().getMonth() + 1);
 		}
 		int i = aService.getAssetCountByCategory(avo.getAssetCategory()) + 1;
+		System.out.println("2222");
 		if (i < 10) {
 			itemSequence = "0" + "0" + i;
 		} else if(i>=10 && i<100) {
@@ -126,6 +128,7 @@ public class AssetController {
 		}
 		avo.setAssetId(year + month + "-" + categoryKeyword + "-" + (itemSequence));
 		
+		System.out.println("3333");
 		// 파일 업로드
 		ServletContext ctx = request.getServletContext();
 		String uploadDir = ctx.getRealPath("/resources/");

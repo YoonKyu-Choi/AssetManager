@@ -218,8 +218,8 @@
 								<th>용도</th>
 								<th><select class="form-controlmin dropdown" id="assetUsage" name="assetUsage">
 										<option value="0">용도를 선택하세요.</option>
-										<option value="개발용">개발용</option>
-										<option value="업무용">업무용</option>
+										<option value="개발">개발</option>
+										<option value="업무">업무</option>
 								</select></th>
 							</tr>
 							<tr>
