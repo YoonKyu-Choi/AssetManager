@@ -63,9 +63,9 @@
 					var keyword = "${searchKeyword}";
 					var mode = "${searchMode}";
 					var result = [];
-					if(mode == "1"){
+					if(mode == "1"){		// 분류 이름
 						var count = "${categoryCount}";
-						$("tr:gt(0) td:nth-child("+"${columnSize}"+1+"n+1)").each(function(){
+						$("tr:gt(0) td:nth-child("+"${columnSize}"+1+"n+2)").each(function(){
 							$(this).closest("tr").show();
 							var name = $(this).text();
 							var match = name.match(new RegExp(keyword, 'g'));
@@ -76,13 +76,13 @@
 						});
 						alert(count+"개의 분류 검색됨.");
 					}
-					else if(mode == "2"){
+					else if(mode == "2"){	// 세부 항목
 						var count = "${categoryCount}";
 						var checkary = [];
 						for(var i=0; i<count; i++){
 							checkary.push(false)
 						}
-						$("tr:gt(0) td:not(:nth-child("+"${columnSize}"+1+"n+1))").each(function(){
+						$("tr:gt(0) td:not(:nth-child("+"${columnSize}"+1+"n+2))").each(function(){
 							$(this).closest("tr").show();
 							var name = $(this).text();
 							var match = name.match(new RegExp(keyword, 'g'));
