@@ -70,8 +70,11 @@
 	}
 
 	function allClick(){
+		var allChecked = $("#allCheck").prop("checked");
 		$(".chkbox").each(function(){
-			$(this).click();
+			if($(this).prop("checked") != allChecked){
+				$(this).click();
+			}
 		});
 	}
 	
@@ -79,7 +82,7 @@
 		
 		$(document).on("click", ".table tbody tr", function(event){
 			if(${assetCount} > 0){
-				if($(event.target).is(".chkbox")){
+				if($(event.target).is(".chkbox") || $(event.target).is(".tdNonClick")){
 					return;
 				}
 				document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
@@ -301,7 +304,7 @@
 					<table class="table table-striped" data-toggle="table">
 						<thead>
 							<tr>
-								<th><input type="checkbox" style="transform:scale(1.5)" onclick="allClick();"/></th>
+								<th class="tdNonClick"><input type="checkbox" style="transform:scale(1.5)" id="allCheck" onclick="allClick();"/></th>
 								<th data-sortable="true">관리 번호</th>
 								<th data-sortable="true">자산 분류</th>
 								<th data-sortable="true">사용자</th>
@@ -320,7 +323,7 @@
 						<tbody>
 						<c:forEach items="${assetList}" var="asset">
 							<tr class="clickable-row" data-href="${asset.assetId}">
-								<td><input type="checkBox" style="transform:scale(1.5)" class="chkbox" onclick="dis(this);"/></td>
+								<td class="tdNonClick"><input type="checkBox" style="transform:scale(1.5)" class="chkbox" onclick="dis(this);"/></td>
 								<td>${asset.assetId}</td>
 								<td>${asset.assetCategory}</td>
 								<td>${asset.assetUser}</td>
