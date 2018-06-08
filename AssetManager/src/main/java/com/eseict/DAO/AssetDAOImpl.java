@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.eseict.VO.AssetDetailVO;
+import com.eseict.VO.AssetFormerUserVO;
+import com.eseict.VO.AssetHistoryVO;
 import com.eseict.VO.AssetVO;
 import com.eseict.VO.CategoryVO;
 
@@ -126,6 +128,16 @@ public class AssetDAOImpl implements AssetDAO {
 	@Override
 	public int updateAssetDisposal(String assetId) {
 		return sqlSession.update(namespace+"updateAssetDisposal",assetId);
+	}
+
+	@Override
+	public AssetHistoryVO getAssetHistoryByAssetId(String assetId) {
+		return sqlSession.selectOne(namespace + "getAssetHistoryByAssetId", assetId);
+	}
+
+	@Override
+	public List<AssetFormerUserVO> getAssetFormerUserByAssetId(String assetId) {
+		return sqlSession.selectList(namespace+"getAssetFormerUserByAssetId", assetId);
 	}
 
 

@@ -3,6 +3,8 @@ package com.eseict.DAO;
 import java.util.List;
 
 import com.eseict.VO.AssetDetailVO;
+import com.eseict.VO.AssetFormerUserVO;
+import com.eseict.VO.AssetHistoryVO;
 import com.eseict.VO.AssetVO;
 import com.eseict.VO.CategoryVO;
 
@@ -51,4 +53,8 @@ public interface AssetDAO {
 	public List<String> getAssetIdListByCategory(String assetCategory);
 	// 자산 폐기 신청
 	public int updateAssetDisposal(String assetId);
+	// 자산 이력 조회
+	public AssetHistoryVO getAssetHistoryByAssetId(String assetId);
+	// 자산 이전 사용자 리스트 조회
+	public List<AssetFormerUserVO> getAssetFormerUserByAssetId(String assetId);
 }

@@ -7,24 +7,22 @@ import java.util.UUID;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eseict.VO.AssetDetailVO;
+import com.eseict.VO.AssetFormerUserVO;
+import com.eseict.VO.AssetHistoryVO;
 import com.eseict.VO.AssetVO;
 import com.eseict.VO.CategoryVO;
-import com.eseict.VO.EmployeeVO;
 import com.eseict.service.AssetService;
 import com.eseict.service.CategoryService;
 import com.eseict.service.EmployeeService;
@@ -98,20 +96,21 @@ public class AssetController {
 	}
 	
 	@RequestMapping(value = "/assetRegisterSend")
-	public String assetRegister(@ModelAttribute AssetVO avo, @RequestParam String[] items,
-			@RequestParam String[] itemsDetail, @RequestParam(required=false) MultipartFile uploadImage, HttpServletRequest request)
-			throws IllegalStateException, IOException {
-		System.out.println("0000");
+	public String assetRegister(@ModelAttribute AssetVO avo
+							 	,@RequestParam String[] items
+							 	,@RequestParam String[] itemsDetail
+							 	,@RequestParam(required=false) MultipartFile uploadImage
+							 	,HttpServletRequest request) throws IllegalStateException, IOException {
 		// 관리 번호 생성
 		String categoryKeyword = null;
-		int year = 0;
 		String month = null;
 		String categoryName = avo.getAssetCategory();
 		String itemSequence = null;
 		
 		categoryKeyword = cService.getCode(categoryName);
-		System.out.println("1111");
-		year = avo.getAssetPurchaseDate().getYear() % 100;
+		
+		int yearCut = avo.getAssetPurchaseDate().getYear() % 100;
+		
 		if(avo.getAssetPurchaseDate().getMonth() + 1 <10) {
 			month = "0" + Integer.toString(avo.getAssetPurchaseDate().getMonth() + 1); 
 		} else {
@@ -126,7 +125,11 @@ public class AssetController {
 		} else {
 			itemSequence = Integer.toString(i);	
 		}
-		avo.setAssetId(year + month + "-" + categoryKeyword + "-" + (itemSequence));
+		if(avo.getAssetPurchaseDate().getYear() == 8099) { // 9999 를 넘기면 8099 로 받아짐
+			avo.setAssetId("0000"+ "-" + categoryKeyword + "-" + (itemSequence));
+		}else {
+			avo.setAssetId(yearCut + month + "-" + categoryKeyword + "-" + (itemSequence));
+		}
 		
 		System.out.println("3333");
 		// 파일 업로드
@@ -140,12 +143,15 @@ public class AssetController {
 		}
 		aService.insertAsset(avo);
 		AssetDetailVO dvo = new AssetDetailVO();
-		dvo.setAssetId(year + month + "-" + categoryKeyword + "-" + (itemSequence));
+		dvo.setAssetId(avo.getAssetId());
 		for(int a = 0; a < items.length; a++) {
 			dvo.setAssetItem(items[a]);
 			dvo.setAssetItemDetail(itemsDetail[a]);
 			aService.insertAssetDetail(dvo);
 		}
+		
+		AssetHistoryVO ahvo = new AssetHistoryVO();
+		// 여기부터~~ 월요일
 		return "redirect:/assetList.tiles";
 	}
 	
@@ -209,6 +215,20 @@ public class AssetController {
 		}
 		return "redirect:/assetList.tiles";
 	}
+	
+	@RequestMapping(value="/assetHistory")
+	public ModelAndView assetHistory(Model model
+									,@RequestParam String assetId) {
+		AssetHistoryVO ahvo = aService.getAssetHistoryByAssetId(assetId);
+		
+		List<AssetFormerUserVO> afulist = aService.getAssetFormerUserByAssetId(assetId);
+		model.addAttribute("assetId",assetId);
+		model.addAttribute("AssetHistoryVO", ahvo);
+		model.addAttribute("AssetFormerUserList", afulist);
+		
+		return new ModelAndView("assetHistory.tiles", "model", model);
+	}
+	
 	
 }
 

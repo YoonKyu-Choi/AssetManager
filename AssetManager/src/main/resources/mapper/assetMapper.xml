@@ -37,6 +37,34 @@
 		<result column="asset_item" property="assetItem" />
 		<result column="asset_item_detail" property="assetItemDetail" />
 	</resultMap>
+	
+	<resultMap type="com.eseict.VO.AssetHistoryVO" id="AssetHistoryVO-result">
+		<id column="ASSET_ID" property="assetId" />
+		<result column="EMPLOYEE_SEQ" property="employeeSeq" />
+		<result column="EMPLOYEE_ID" property="employeeId" />
+		<result column="ASSET_USER_HISTORY" property="assetUserHistory" />
+		<result column="ASSET_OCCUPIED_DATE" property="assetOccupiedDate" />
+		<result column="ASSET_HISTORY_COMMENT" property="assetHistoryComment" />
+	</resultMap>
+
+	<resultMap type="com.eseict.VO.AssetFormerUserVO" id="AssetFormerUserVO-result">
+		<id column="ASSET_ID" property="assetId" />
+		<result column="EMPLOYEE_SEQ" property="employeeSeq" />
+		<result column="ASSET_USER" property="assetUser" />
+		<result column="ASSET_START_DATE" property="assetStartDate" />
+		<result column="ASSET_END_DATE" property="assetEndDate" />
+	</resultMap>
+
+	<resultMap type="com.eseict.VO.AssetTakeOutHistoryVO" id="AssetTakeOutHistoryVO-result">
+		<id column="ASSET_ID" property="assetId" />
+		<result column="EMPLOYEE_SEQ" property="employeeSeq" />
+		<result column="ASSET_OUT_STATUS" property="assetOutStatus" />
+		<result column="ASSET_OUT_OBJECTIVE" property="assetOutObjective" />
+		<result column="ASSET_OUT_PURPOSE" property="assetOutPurpose" />
+		<result column="ASSET_OUT_START_DATE" property="assetOutStartDate" />
+		<result column="ASSET_OUT_END_DATE" property="assetOutEndDate" />
+		<result column="ASSET_OUT_COST" property="assetOutCost" />
+	</resultMap>
 
 	<select id="getAssetList" resultMap="AssetVO-result">
 		SELECT 
@@ -203,20 +231,21 @@
 	<update id="updateAsset" parameterType="com.eseict.VO.AssetVO">
 		UPDATE
 			ASSET_COMMON_ITEM
-		SET
-			ASSET_USER = #{assetUser},
-			ASSET_SERIAL = #{assetSerial},
-			ASSET_STATUS = #{assetStatus},
-			ASSET_OUT_STATUS = #{assetOutStatus},
-			ASSET_PURCHASE_DATE = #{assetPurchaseDate},
-			ASSET_MAKER = #{assetMaker},
-			ASSET_PURCHASE_PRICE = #{assetPurchasePrice},
-			ASSET_MODEL = #{assetModel},
-			ASSET_PURCHASE_SHOP = #{assetPurchaseShop},
-			ASSET_MANAGER = #{assetManager},
-			ASSET_LOCATION = #{assetLocation},
-			ASSET_RECEIPT_URL = #{assetReceiptUrl},
-			ASSET_COMMENT = #{assetComment}
+		<set>
+			<if test="assetUser != null">ASSET_USER = #{assetUser},</if>
+			<if test="assetSerial != null">ASSET_SERIAL = #{assetSerial},</if>
+			<if test="assetStatus != null">ASSET_STATUS = #{assetStatus},</if>
+			<if test="assetOutStatus != null">ASSET_OUT_STATUS = #{assetOutStatus},</if>
+			<if test="assetPurchaseDate != null">ASSET_PURCHASE_DATE = #{assetPurchaseDate},</if>
+			<if test="assetMaker != null">ASSET_MAKER = #{assetMaker},</if>
+			<if test="assetPurchasePrice != null">ASSET_PURCHASE_PRICE = #{assetPurchasePrice},</if>
+			<if test="assetModel != null">ASSET_MODEL = #{assetModel},</if>
+			<if test="assetPurchaseShop != null">ASSET_PURCHASE_SHOP = #{assetPurchaseShop},</if>
+			<if test="assetManager != null">ASSET_MANAGER = #{assetManager},</if>
+			<if test="assetLocation != null">ASSET_LOCATION = #{assetLocation},</if>
+			<if test="assetReceiptUrl != null">ASSET_RECEIPT_URL = #{assetReceiptUrl},</if>
+			<if test="assetComment != null">ASSET_COMMENT = #{assetComment}</if>
+		</set>
 		WHERE ASSET_ID = #{assetId}
 	</update>
 
@@ -255,6 +284,24 @@
 		WHERE 
 			asset_id = #{assetId} 
 	</update>
+	
+		<select id="getAssetHistoryByAssetId" parameterType="String" resultMap="AssetHistoryVO-result">
+	SELECT 
+		*
+	FROM 
+		ASSET_HISTORY
+	WHERE 
+		ASSET_ID = #{assetId}
+	</select>
+	
+	<select id="getAssetFormerUserByAssetId" parameterType="String" resultMap="AssetFormerUserVO-result">
+	SELECT
+		*
+	FROM
+		ASSET_FORMER_USER
+	WHERE 
+		ASSET_ID = #{assetId}	
+	</select>
 	
 </mapper>
 

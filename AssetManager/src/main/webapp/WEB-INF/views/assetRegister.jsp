@@ -65,6 +65,9 @@
 	}
 	
 	function submitCheck() {
+		if (!confirm("등록하시겠습니까?")) {
+			return false;
+		} else {
 		var items = [];
 		var itemsDetail=[];
 		for(var i=0;i<counts;i++){
@@ -73,6 +76,16 @@
 		}
 		$("#items").val(items);
 		$("#itemsDetail").val(itemsDetail);
+		
+		if($("#assetPurchaseDate").val()==''){
+			$("#assetPurchaseDate").val("9999-01-01");
+		}
+		if($("#assetPurchasePrice").val()==''){
+			$("#assetPurchasePrice").val("미입력");
+		}
+		if($("#assetPurchaseShop").val()==''){
+			$("#assetPurchaseShop").val("미입력");
+		}
 		
 		if ($("#assetCategory").val() == '0') {
 			alert("분류를 선택해주세요.");			
@@ -109,7 +122,8 @@
 				}
 			}
 			*/
-			$("#registerSend").submit();
+				$("#registerSend").submit();
+			}
 		}
 	};
 
@@ -269,7 +283,7 @@
 							<th>
 								<select class="form-controlmin dropdown" id="assetOutStatus" name="assetOutStatus">
 									<option value="0">반출 상태를 선택하세요.</option>
-									<option value="없음">반출 X</option>
+									<option value="반출 X">반출 X</option>
 									<option value="반출 중">반출 중</option>
 									<option value="수리 중">수리 중</option>
 									<option value="고장">고장</option>
@@ -343,15 +357,13 @@
 				</div>
 
 				<div>
-					<textArea name="assetComment" id="assetComment"
-						style="resize: none; width: 600px; height: 200px; margin-top: 50px;"
-						rows="10" cols="40" onKeyUp="javascript:byteCheck(this,'999')"></textArea>
+					<textArea name="assetComment" id="assetComment" style="resize: none; width: 600px; height: 200px; margin-top: 50px;" rows="10" cols="40" onKeyUp="javascript:byteCheck(this,'999')"></textArea>
 					<span id="byteInfo">0</span> / 999 Byte
 				</div>
 			</div>
 		</form>
 		<div style="display: flex; width: 300px; margin-left: 90px;">
-			<input type="button" class="btn btn-lg btn-primary btn-block" id="registerBtn" onclick="submitCheck();" value="자산 등록" />
+			<input type="button" class="btn btn-lg btn-primary btn-block" id="registerBtn" onclick="submitCheck();" value="자산 등록" /> 
 			<label style="opacity: 0; margin: 10px"></label>
 			<input type="button" class="btn btn-lg btn-primary btn-block" onclick="location.href='/assetmanager/assetList'" value="취소" />
 		</div>
