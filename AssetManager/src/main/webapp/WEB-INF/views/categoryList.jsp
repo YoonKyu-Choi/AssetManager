@@ -65,7 +65,7 @@
 					var result = [];
 					if(mode == "1"){
 						var count = "${categoryCount}";
-						$("tr:gt(0) td:nth-child("+"${columnSize}"+1+"n+1)").each(function(){
+						$("tr:gt(0) td:nth-child("+"${columnSize}"+1+"n+2)").each(function(){
 							$(this).closest("tr").show();
 							var name = $(this).text();
 							var match = name.match(new RegExp(keyword, 'g'));
@@ -82,7 +82,7 @@
 						for(var i=0; i<count; i++){
 							checkary.push(false)
 						}
-						$("tr:gt(0) td:not(:nth-child("+"${columnSize}"+1+"n+1))").each(function(){
+						$("tr:gt(0) td:not(:nth-child("+"${columnSize}"+1+"n+2))").each(function(){
 							$(this).closest("tr").show();
 							var name = $(this).text();
 							var match = name.match(new RegExp(keyword, 'g'));

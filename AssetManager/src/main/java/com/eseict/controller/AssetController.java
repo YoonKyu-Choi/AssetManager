@@ -41,10 +41,14 @@ public class AssetController {
 	
 	
 	@RequestMapping(value="/assetList")
-	public ModelAndView assetList(Model model) {
+	public ModelAndView assetList(Model model
+								/* ,@RequestParam(required = false) int searchMode
+								 ,@RequestParam(required = false) String searchKeyword*/) {
 		List<AssetVO> list = aService.getAssetList();
 		model.addAttribute("assetList",list);
+		
 		// 자산 상태 조회
+		// 이 부분은 축소 할 수 있음 -> select로 다 뽑고 뽑은거에서 나눠
 		int assetCount = aService.getAssetCount();
 		int assetCountByUse = aService.getAssetCountByUse();
 		int assetCountCanUse = aService.getAssetCountCanUse();
@@ -60,6 +64,15 @@ public class AssetController {
 		model.addAttribute("assetCountByOut", assetCountByOut);
 		model.addAttribute("assetCountByDispReady", assetCountByDispReady);
 		model.addAttribute("assetCountByDisposal", assetCountByDisposal);
+		/*
+		if(searchKeyword != null) {
+			model.addAttribute("searchMode", searchMode);
+			model.addAttribute("searchKeyword", searchKeyword);
+				model.addAttribute("search", "1");
+		} else {
+			model.addAttribute("search", "0");
+		}
+		*/
 
 		return new ModelAndView("assetList.tiles");
 	}
@@ -75,7 +88,7 @@ public class AssetController {
 	}
 	
 
-	@RequestMapping(value = "/assetRegister", method = RequestMethod.GET)
+	@RequestMapping(value = "/assetRegister")
 	public ModelAndView nameList2(Model model) {
 		List<String> elist = eService.getEmployeeNameList();
 		List<String> clist = aService.getAssetCategoryList();

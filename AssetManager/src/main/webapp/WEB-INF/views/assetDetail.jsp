@@ -185,22 +185,26 @@
 				</div>
 					
 			</div>
-
-			<form id="modifyForm" action="assetModify" method="POST">
-				<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
-			</form>
-			<form id="assetDispForm" action="assetDisposal" method="post">
-				<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
-			</form>
 			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
-			<div style="display: flex; float: right">
-				<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">수정</button>
-				<button class="btn btn-lg btn-primary" id="delbtn" onclick="outConfirm();">반출/수리</button>
-				<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="dispReqConfirm();">폐기 신청</button>
-				<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="">자산 이력</button>
-				<div class="mask"></div>
-		    </div>
-				
+			<c:choose>
+				<c:when test="${requestScope.assetVO.assetStatus == '폐기 대기'}"></c:when>
+				<c:when test="${requestScope.assetVO.assetStatus == '폐기'}"></c:when>
+				<c:otherwise>	
+				<form id="modifyForm" action="assetModify" method="POST">
+					<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
+				</form>
+				<form id="assetDispForm" action="assetDisposal" method="post">
+					<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
+				</form>
+				<div style="display: flex; float: right">
+					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">수정</button>
+					<button class="btn btn-lg btn-primary" id="delbtn" onclick="outConfirm();">반출/수리</button>
+					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="dispReqConfirm();">폐기 신청</button>
+					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="">자산 이력</button>
+					<div class="mask"></div>
+			    </div>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 
