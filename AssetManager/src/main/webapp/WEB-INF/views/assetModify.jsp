@@ -194,7 +194,7 @@
 								<th>자산 반출 상태</th>
 								<th><select class="form-controlmin dropdown" id="assetOutStatus" name="assetOutStatus">
 										<option value="0">반출 상태를 선택하세요.</option>
-										<option value="없음">반출 X</option>
+										<option value="반출 X">반출 X</option>
 										<option value="반출 중">반출 중</option>
 										<option value="수리 중">수리 중</option>
 										<option value="고장">고장</option>

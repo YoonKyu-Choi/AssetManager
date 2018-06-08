@@ -64,6 +64,7 @@ public class AssetController {
 		model.addAttribute("assetCountByOut", assetCountByOut);
 		model.addAttribute("assetCountByDispReady", assetCountByDispReady);
 		model.addAttribute("assetCountByDisposal", assetCountByDisposal);
+		
 		/*
 		if(searchKeyword != null) {
 			model.addAttribute("searchMode", searchMode);
@@ -86,7 +87,6 @@ public class AssetController {
 
 		return new ModelAndView("assetDetail.tiles", "model", model);
 	}
-	
 
 	@RequestMapping(value = "/assetRegister")
 	public ModelAndView nameList2(Model model) {

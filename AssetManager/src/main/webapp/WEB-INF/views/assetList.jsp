@@ -186,53 +186,7 @@
 			}
 		}
 	}
-	/*
-	$(function(){
-		var isSearch = "${search}";
-		if(isSearch == "1"){
-			var keyword = "${searchKeyword}";
-			var mode = "${searchMode}";
-			var result = [];
-			if(mode == "1"){
-				var count = "${assetCount}";
-				$("tr:gt(0) td:nth-child("+"${columnSize}"+1+"n+1)").each(function(){
-					$(this).closest("tr").show();
-					var name = $(this).text();
-					var match = name.match(new RegExp(keyword, 'g'));
-					if(match == null){
-						$(this).closest("tr").hide();
-						count -= 1;
-					}
-				});
-				alert(count+"개의 분류 검색됨.");
-			}
-			else if(mode == "2"){
-				var count = "${assetCount}";
-				var checkary = [];
-				for(var i=0; i<count; i++){
-					checkary.push(false)
-				}
-				$("tr:gt(0) td:not(:nth-child("+"${columnSize}"+1+"n+1))").each(function(){
-					$(this).closest("tr").show();
-					var name = $(this).text();
-					var match = name.match(new RegExp(keyword, 'g'));
-					if(match != null){
-						var index = $("tr").index($(this).closest("tr"));
-						checkary[index-1] = true;
-					}
-				});
-				var count2 = count;
-				for(var i=0; i<count; i++){
-					if(checkary[i] == false){
-						$("tr:eq("+(i+1)+")").hide();
-						count2 -= 1;
-					}
-				}
-				alert(count2+"개의 분류 검색됨.");
-			}
-		}
-	});
-	*/
+
 </script>
 	
 <style>
@@ -274,7 +228,8 @@
 					<form class="page-header" id="searchForm" action="assetList">
 					<font size="6px"><b>자산 관리 > 자산 목록</b></font>
 					<label style="float:right; margin-top: 20px">
-					<!-- 	<select id="searchMode" name="searchMode">
+						<!-- 	
+						<select id="searchMode" name="searchMode">
 								<option value="0">자산 분류</option>
 								<option value="1">시리얼 번호</option>
 								<option value="2">구입년도</option>
@@ -282,8 +237,8 @@
 						</select>
 							<input type="text" id="searchKeyword" name="searchKeyword">
 							<input type="submit" value="검색">
+						 -->
 						</label>
-						 --> 	
 						</form>
 				<div style="margin-bottom: 10px">
 					<font size="4px">&nbsp;&nbsp;총 자산 수 : </font><span class="badge">${assetCount}</span>
