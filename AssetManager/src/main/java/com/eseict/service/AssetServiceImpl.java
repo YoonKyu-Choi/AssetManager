@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.eseict.DAO.AssetDAO;
 import com.eseict.VO.AssetDetailVO;
+import com.eseict.VO.AssetFormerUserVO;
+import com.eseict.VO.AssetHistoryVO;
 import com.eseict.VO.AssetVO;
 import com.eseict.VO.CategoryVO;
 
@@ -125,6 +127,16 @@ public class AssetServiceImpl implements AssetService {
 	@Override
 	public int updateAssetDisposal(String assetId) {
 		return dao.updateAssetDisposal(assetId);
+	}
+
+	@Override
+	public AssetHistoryVO getAssetHistoryByAssetId(String assetId) {
+		return dao.getAssetHistoryByAssetId(assetId);
+	}
+
+	@Override
+	public List<AssetFormerUserVO> getAssetFormerUserByAssetId(String assetId) {
+		return dao.getAssetFormerUserByAssetId(assetId);
 	}
 
 }

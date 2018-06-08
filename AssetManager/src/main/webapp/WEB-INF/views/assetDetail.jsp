@@ -1,14 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><head>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <meta name="description" content="">
 <meta name="author" content="">
-
-<title>자산 상세보기</title>
 
 <!-- Bootstrap core CSS -->
 <link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
@@ -57,6 +56,14 @@
 			return false;
 		} else {
 			$("#assetDispForm").submit();
+		}
+	}
+	
+	function historyConfirm() {
+		if (!confirm("이력을 확인하시겠습니까?")) {
+			return false;
+		} else {
+			$("#assetHistoryForm").submit();
 		}
 	}
 
@@ -187,8 +194,12 @@
 			</div>
 			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
 			<c:choose>
-				<c:when test="${requestScope.assetVO.assetStatus == '폐기 대기'}"></c:when>
-				<c:when test="${requestScope.assetVO.assetStatus == '폐기'}"></c:when>
+				<c:when test="${requestScope.assetVO.assetStatus == '폐기 대기'}">
+					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
+				</c:when>
+				<c:when test="${requestScope.assetVO.assetStatus == '폐기'}">
+					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
+				</c:when>
 				<c:otherwise>	
 				<form id="modifyForm" action="assetModify" method="POST">
 					<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
@@ -196,11 +207,14 @@
 				<form id="assetDispForm" action="assetDisposal" method="post">
 					<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
 				</form>
+				<form id="assetHistoryForm" action="assetHistory" method="post">
+					<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
+				</form>
 				<div style="display: flex; float: right">
 					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">수정</button>
 					<button class="btn btn-lg btn-primary" id="delbtn" onclick="outConfirm();">반출/수리</button>
 					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="dispReqConfirm();">폐기 신청</button>
-					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="">자산 이력</button>
+					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
 					<div class="mask"></div>
 			    </div>
 				</c:otherwise>
