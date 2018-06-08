@@ -350,11 +350,9 @@
 			</div>
 		</form>
 		<div style="display: flex; width: 300px; margin-left: 90px;">
-			<input type="button" class="btn btn-lg btn-primary btn-block"
-				id="registerBtn" onclick="submitCheck();" value="자산 등록" /> <label
-				style="opacity: 0; margin: 10px"></label> <input type="button"
-				class="btn btn-lg btn-primary btn-block"
-				onclick="location.href='/assetmanager/assetList'" value="취소" />
+			<input type="button" class="btn btn-lg btn-primary btn-block" id="registerBtn" onclick="submitCheck();" value="자산 등록" />
+				<label style="opacity: 0; margin: 10px"></label>
+				<input type="button" class="btn btn-lg btn-primary btn-block" onclick="location.href='/assetmanager/assetList'" value="취소" />
 		</div>
 	</div>
 </body>
