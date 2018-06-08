@@ -228,19 +228,21 @@
 	 <div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<div class="page-header">
+					<form class="page-header" id="searchForm" action="assetList">
 					<font size="6px"><b>자산 관리 > 자산 목록</b></font>
 					<label style="float:right; margin-top: 20px">
-						<select id="assetSearch" name="searchCategory">
+						<!-- 	
+						<select id="searchMode" name="searchMode">
 								<option value="0">자산 분류</option>
 								<option value="1">시리얼 번호</option>
 								<option value="2">구입년도</option>
 								<option value="3">관리 번호</option>
 						</select>
-						<input type="text" id="searchKeyword" name="employeeName"/>
-						<input type="submit" value="검색" onclick="searchFunc();"/>
-					</label>
-				</div>
+							<input type="text" id="searchKeyword" name="searchKeyword">
+							<input type="submit" value="검색">
+						 -->
+						</label>
+						</form>
 				<div style="margin-bottom: 10px">
 					<font size="4px">&nbsp;&nbsp;총 자산 수 : </font><span class="badge">${assetCount}</span>
 					<font size="4px">&nbsp;&nbsp;사용 중: </font><span class="badge">${assetCountByUse}</span>
