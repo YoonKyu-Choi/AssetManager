@@ -74,7 +74,7 @@
 			$(function(){
 			
 				$(".table-responsive").on("click", ".table tbody tr", function(){
-					if(${assetCountByDispReady} + ${assetCountByDisposal} > 0){
+					if(${disposalListData['assetCountByDispReady']} + ${disposalListData['assetCountByDisposal']} > 0){
 						if($(event.target).is(".chkbox")){
 							return;
 						}
@@ -97,12 +97,12 @@
 			});
 			
 			$(function(){
-				var isSearch = "${search}";
+				var isSearch = "${disposalListData['search']}";
 				if(isSearch == "1"){
-					var keyword = "${searchKeyword}";
-					var mode = "${searchMode}";
+					var keyword = "${disposalListData['searchKeyword']}";
+					var mode = "${disposalListData['searchMode']}";
 					var result = [];
-					var count = Number("${assetCountByDispReady}") + Number("${assetCountByDisposal}");
+					var count = Number("${disposalListData['assetCountByDispReady']}") + Number("${disposalListData['assetCountByDisposal']}");
 	
 					if(mode == "1"){
 						$("tr:gt(0) td:nth-child(16n+4)").each(function(){
@@ -250,7 +250,7 @@
 				<div class="main">
 					<form class="page-header" id="searchForm" action="disposalList">
 						<font size="6px"><b>폐기 관리 > 폐기 자산 목록</b></font>
-						<span class="badge">${categoryCount}</span>
+						<span class="badge">${disposalListData['categoryCount']}</span>
 						<label style="float:right; margin-top: 20px">
 							<select id="searchMode" name="searchMode">
 								<option value="1">자산 분류</option>
@@ -263,8 +263,8 @@
 						</label>
 					</form>
 					<div style="margin-bottom: 10px">
-						<font size="4px">&nbsp;&nbsp;폐기 대기 : </font><span class="badge">${assetCountByDispReady}</span>
-						<font size="4px">&nbsp;&nbsp;폐기 : </font><span class="badge">${assetCountByDisposal}</span>
+						<font size="4px">&nbsp;&nbsp;폐기 대기 : </font><span class="badge">${disposalListData['assetCountByDispReady']}</span>
+						<font size="4px">&nbsp;&nbsp;폐기 : </font><span class="badge">${disposalListData['assetCountByDisposal']}</span>
 					</div>
 					<div class="table-responsive" style="overflow: scroll; height: 400px">
 						<table class="table table-striped" data-toggle="table" data-sort-name="status" data-sort-order="desc">
@@ -290,7 +290,7 @@
 							</thead>
 							
 							<tbody>
-							<c:forEach items="${assetList}" var="asset">
+							<c:forEach items="${disposalListData['assetList']}" var="asset">
 								<tr class="clickable-row" data-href="${asset.assetId}">
 									<td><input type="checkBox" style="transform:scale(1.5)" class="chkbox" onclick="dis(this);"/></td>
 									<td>${asset.assetStatus}</td>

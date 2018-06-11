@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.util.*" %>
 <%@ page session = "false" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -38,15 +39,16 @@
 			}
 			$(function(){
 				$(".table-responsive").on("click", ".table tbody tr", function(){
-					if(${categoryCount} > 0){
+					if(${categoryListData['categoryCount']} > 0){
 						document.location.href='/assetmanager/categoryDetail?categoryName='+$(this).data("href");
 					}
 				});
 
 				var flashmsg = "<c:out value='${msg}'/>";
 				
-				if(flashmsg != "")
+				if(flashmsg != ""){
 					alert(flashmsg);
+				}
 				
 				var windowHeight = window.innerHeight;
 				$(".table-responsive").css("height", windowHeight-350);
@@ -58,14 +60,14 @@
 			});
 			
 			$(function(){
-				var isSearch = "${search}";
+				var isSearch = "${categoryListData['search']}";
 				if(isSearch == "1"){
-					var keyword = "${searchKeyword}";
-					var mode = "${searchMode}";
+					var keyword = "${categoryListData['searchKeyword']}";
+					var mode = "${categoryListData['searchMode']}";
 					var result = [];
 					if(mode == "1"){		// 분류 이름
-						var count = "${categoryCount}";
-						$("tr:gt(0) td:nth-child("+"${columnSize}"+1+"n+1)").each(function(){
+						var count = "${categoryListData['categoryCount']}";
+						$("tr:gt(0) td:nth-child("+"${categoryListData['columnSize']}"+1+"n+1)").each(function(){
 							$(this).closest("tr").show();
 							var name = $(this).text();
 							var match = name.match(new RegExp(keyword, 'g'));
@@ -77,12 +79,12 @@
 						alert(count+"개의 분류 검색됨.");
 					}
 					else if(mode == "2"){	// 세부 항목
-						var count = "${categoryCount}";
+						var count = "${categoryListData['categoryCount']}";
 						var checkary = [];
 						for(var i=0; i<count; i++){
 							checkary.push(false)
 						}
-						$("tr:gt(0) td:not(:nth-child("+"${columnSize}"+1+"n+1))").each(function(){
+						$("tr:gt(0) td:not(:nth-child("+"${categoryListData['columnSize']}"+1+"n+1))").each(function(){
 							$(this).closest("tr").show();
 							var name = $(this).text();
 							var match = name.match(new RegExp(keyword, 'g'));
@@ -136,10 +138,12 @@
 					</form>
 					<div style="margin-bottom: 10px">
 						<font size="4px">&nbsp;&nbsp;분류 수 : </font>
-						<span class="badge">${categoryCount}</span>
+						<span class="badge">${categoryListData['categoryCount']}</span>
 					</div>
-					<%int columnSize = (Integer)request.getAttribute("columnSize");%>
+					<% HashMap categoryListData = (HashMap)request.getAttribute("categoryListData");
+					int columnSize = (Integer)categoryListData.get("columnSize");%>
 					<div class="table-responsive" style="overflow: auto; height: 400px">
+					
 						<table class="table table-striped" style="overflow: scroll;" data-toggle="table">
 							<thead>
 								<tr>
@@ -151,7 +155,7 @@
 							</thead>
 							
 							<tbody>
-							<c:forEach items="${categoryItemList}" var="categoryItem">
+							<c:forEach items="${categoryListData['categoryItemList']}" var="categoryItem">
 								<tr class="clickable-row" data-href="${categoryItem.key.assetCategory}">
 									<td>${categoryItem.key.assetCategory}</td>
 									<%int i=0; %>

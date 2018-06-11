@@ -114,7 +114,7 @@
 		SELECT
 			count(*)
 		FROM
-			category_item
+			category_code
 		WHERE
 			asset_category=#{categoryName}
 	</select>

@@ -44,11 +44,11 @@ public class CategoryDAOImpl implements CategoryDAO{
 	}
 
 	@Override
-	public void deleteItem(String categoryName, String itemName) {
+	public int deleteItem(String categoryName, String itemName) {
 		HashMap<String, String> hsm = new HashMap<String, String>();
 		hsm.put("categoryName", categoryName);
 		hsm.put("itemName", itemName);
-		sqlSession.delete(namespace+"deleteItem", hsm);
+		return sqlSession.delete(namespace+"deleteItem", hsm);
 	}
 
 	@Override
@@ -57,11 +57,11 @@ public class CategoryDAOImpl implements CategoryDAO{
 	}
 
 	@Override
-	public void updateCategoryName(String categoryOriName, String categoryName) {
+	public int updateCategoryName(String categoryOriName, String categoryName) {
 		HashMap<String, String> hsm = new HashMap<String, String>();
 		hsm.put("categoryOriName", categoryOriName);
 		hsm.put("categoryName", categoryName);
-		sqlSession.update(namespace+"updateCategoryName", hsm);
+		return sqlSession.update(namespace+"updateCategoryName", hsm);
 	}
 
 	@Override
