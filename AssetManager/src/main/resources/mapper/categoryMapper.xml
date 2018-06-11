@@ -90,6 +90,13 @@
 		SET
 			asset_category=#{categoryName}
 		WHERE
+			asset_category=#{categoryOriName};
+			
+		UPDATE
+			category_code
+		SET
+			asset_category=#{categoryName}
+		WHERE
 			asset_category=#{categoryOriName}
 	</update>
 	
@@ -107,7 +114,7 @@
 		SELECT
 			count(*)
 		FROM
-			category_item
+			category_code
 		WHERE
 			asset_category=#{categoryName}
 	</select>

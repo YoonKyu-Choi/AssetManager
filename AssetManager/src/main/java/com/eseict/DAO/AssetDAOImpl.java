@@ -86,8 +86,8 @@ public class AssetDAOImpl implements AssetDAO {
 	}
 
 	@Override
-	public void disposeAsset(String assetId) {
-		sqlSession.update(namespace + "disposeAsset", assetId);
+	public int disposeAsset(String assetId) {
+		return sqlSession.update(namespace + "disposeAsset", assetId);
 	}
 
 	@Override

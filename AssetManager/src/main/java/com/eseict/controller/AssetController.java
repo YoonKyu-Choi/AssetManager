@@ -120,6 +120,7 @@ public class AssetController {
 			month = Integer.toString(avo.getAssetPurchaseDate().getMonth() + 1);
 		}
 		int i = aService.getAssetCountByCategory(avo.getAssetCategory()) + 1;
+		System.out.println("2222");
 		if (i < 10) {
 			itemSequence = "0" + "0" + i;
 		} else if(i>=10 && i<100) {
@@ -133,6 +134,7 @@ public class AssetController {
 			avo.setAssetId(yearCut + month + "-" + categoryKeyword + "-" + (itemSequence));
 		}
 		
+		System.out.println("3333");
 		// 파일 업로드
 		ServletContext ctx = request.getServletContext();
 		String uploadDir = ctx.getRealPath("/resources/");

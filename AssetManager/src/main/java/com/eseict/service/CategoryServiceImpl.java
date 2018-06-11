@@ -1,9 +1,13 @@
 package com.eseict.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.eseict.DAO.CategoryDAO;
 import com.eseict.VO.CategoryCodeVO;
@@ -16,53 +20,13 @@ public class CategoryServiceImpl implements CategoryService {
 	private CategoryDAO dao;
 	
 	@Override
-	public List<CategoryVO> getCategoryList() {
-		return dao.getCategoryList();
-	}
-
-	@Override
-	public int getCategoryCount() {
-		return dao.getCategoryCount();
-	}
-
-	@Override
-	public List<String> getCategoryByName(String categoryName) {
-		return dao.getCategoryByName(categoryName);
-	}
-
-	@Override
-	public void newCategory(CategoryVO vo) {
-		dao.newCategory(vo);		
+	public String getCode(String categoryName) {
+		return dao.getCode(categoryName);
 	}
 
 	@Override
 	public void deleteCategory(String categoryName) {
 		dao.deleteCategory(categoryName);
-	}
-
-	@Override
-	public void deleteItem(String categoryName, String itemName) {
-		dao.deleteItem(categoryName, itemName);
-	}
-
-	@Override
-	public int checkCategoryItem(CategoryVO vo) {
-		return dao.checkCategoryItem(vo);
-	}
-
-	@Override
-	public void updateCategoryName(String categoryOriName, String categoryName) {
-		dao.updateCategoryName(categoryOriName, categoryName);
-	}
-
-	@Override
-	public void updateItemName(String itemOriName, String itemName, String categoryName) {
-		dao.updateItemName(itemOriName, itemName, categoryName);
-	}
-
-	@Override
-	public int isCategory(String categoryName) {
-		return dao.isCategory(categoryName);
 	}
 
 	@Override
@@ -76,17 +40,135 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public String getCode(String categoryName) {
-		return dao.getCode(categoryName);
-	}
-
-	@Override
-	public List<CategoryCodeVO> getCategoryCodeList() {
-		return dao.getCategoryCodeList();
-	}
-
-	@Override
 	public int deleteCode(String categoryName) {
 		return dao.deleteCode(categoryName);
 	}
+
+	@Override
+	public ModelAndView categoryDetailMnV(String categoryName) {
+		List<String> cvo = dao.getCategoryByName(categoryName);
+		HashMap<String, Object> categoryData = new HashMap<String, Object>();
+		categoryData.put("name", categoryName);
+		categoryData.put("items", cvo);
+		categoryData.put("code", dao.getCode(categoryName));
+		return new ModelAndView("categoryDetail.tiles", "categoryData", categoryData);
+	}
+
+	@Override
+	public ModelAndView categoryListMnV(String searchMode, String searchKeyword) {
+		HashMap<String, Object> categoryListData = new HashMap<String, Object>();
+
+		List<CategoryCodeVO> codelist = dao.getCategoryCodeList();
+		HashMap<CategoryCodeVO, List<String>> categoryItemList = new HashMap<CategoryCodeVO, List<String>>();
+		int columnSize = 0;
+		
+		for(CategoryCodeVO code: codelist) {
+			categoryItemList.put(code, dao.getCategoryByName(code.getAssetCategory()));
+		}
+
+		for(CategoryCodeVO key: categoryItemList.keySet()) {
+			int items = categoryItemList.get(key).size();
+			if(columnSize < items) {
+				columnSize = items;
+			}
+		}
+		categoryListData.put("categoryItemList", categoryItemList);
+		categoryListData.put("columnSize", columnSize);
+		categoryListData.put("categoryCount", codelist.size());
+		
+		if(searchKeyword != null) {
+			categoryListData.put("searchMode", searchMode);
+			categoryListData.put("searchKeyword", searchKeyword);
+			categoryListData.put("search", "1");
+		} else {
+			categoryListData.put("search", "0");
+		}
+
+		return new ModelAndView("categoryList.tiles", "categoryListData", categoryListData);
+	}
+
+	@Override
+	public ModelAndView categoryModifyMnV(String categoryName) {
+		List<String> cvo = dao.getCategoryByName(categoryName);
+		HashMap<String, Object> categoryData = new HashMap<String, Object>();
+		categoryData.put("name", categoryName);
+		categoryData.put("items", cvo);
+		categoryData.put("itemSize", cvo.size());
+		categoryData.put("code", dao.getCode(categoryName));
+		return new ModelAndView("categoryModify.tiles", "categoryData", categoryData);
+	}
+	
+	@Override
+	public boolean categoryRegisterSend(String categoryName, String[] items) {
+		for(String i: items) {
+			if(!i.equals("")) {
+				CategoryVO vo = new CategoryVO();
+				vo.setAssetCategory(categoryName);
+				vo.setAssetItem(i);
+				dao.newCategory(vo);
+			}
+		}
+		if(dao.isCategory(categoryName) > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public int categoryModifyCheckName(String categoryOriName, String categoryName) {
+		List<String> cvolist = dao.getCategoryByName(categoryOriName);
+		String[] cvo = new String[cvolist.size()];
+		cvo = cvolist.toArray(cvo);
+
+		if(!categoryOriName.equals(categoryName)) {
+			return dao.updateCategoryName(categoryOriName, categoryName);
+		} else {
+			return 0;
+		}
+	}
+
+	@Override
+	public ArrayList<Integer> categoryModifyItemDelete(String categoryName, String[] deleteItems) {
+		List<String> cvolist = dao.getCategoryByName(categoryName);
+		String[] cvo = new String[cvolist.size()];
+		cvo = cvolist.toArray(cvo);
+
+		ArrayList<Integer> deleteItemsList = new ArrayList<Integer>();
+		for(String s: deleteItems) {
+			deleteItemsList.add(Integer.parseInt(s));
+			dao.deleteItem(categoryName, cvo[Integer.parseInt(s)]);
+		}
+		return deleteItemsList;
+	}
+
+	@Override
+	public int categoryModifyItemUpdate(String categoryName, String[] items, ArrayList<Integer> deleteItemsList) {
+		List<String> cvolist = dao.getCategoryByName(categoryName);
+		String[] cvo = new String[cvolist.size()];
+		cvo = cvolist.toArray(cvo);
+		List<String> itemsList = new ArrayList<String>(Arrays.asList(items));
+		for(int i=deleteItemsList.size()-1; i>=0; i--) {
+			itemsList.remove((int)deleteItemsList.get(i));
+		}
+		
+		for(int i=0; i<cvo.length; i++) {
+			if(!cvo[i].equals(itemsList.get(i)) && !itemsList.get(i).equals("")) {
+				dao.updateItemName(cvo[i], itemsList.get(i), categoryName);
+			}
+		}
+		
+			
+		for(int j=cvo.length; j<itemsList.size(); j++){
+			if(!items[j].equals("")) {
+				CategoryVO vo = new CategoryVO();
+				vo.setAssetCategory(categoryName);
+				vo.setAssetItem(itemsList.get(j));
+				dao.newCategory(vo);
+			}
+		}
+		return 0;
+	}
+
+	
 }

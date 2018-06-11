@@ -276,7 +276,7 @@
 	 <div class="container-fluid">
 		<div class="row">
 			<div class="main">
-					<form class="page-header" id="searchForm" action="assetList">
+				<form class="page-header" id="searchForm" action="assetList">
 					<font size="6px"><b>자산 관리 > 자산 목록</b></font>
 					<label style="float:right; margin-top: 20px">
 						<!-- 	
@@ -290,7 +290,7 @@
 							<input type="submit" value="검색">
 						 -->
 						</label>
-						</form>
+				</form>
 				<div style="margin-bottom: 10px">
 					<font size="4px">&nbsp;&nbsp;총 자산 수 : </font><span class="badge">${assetCount}</span>
 					<font size="4px">&nbsp;&nbsp;사용 중: </font><span class="badge">${assetCountByUse}</span>

@@ -111,6 +111,19 @@
 		})
 
 	});
+	
+	function printReport(){
+		if(!confirm('현재 자산의 보고서를 출력하겠습니까?')){
+			return false;
+		}else{
+			var printList = [];
+			printList.push("${requestScope.assetVO.assetId}");
+			
+			$("#printReportArray").val(printList);
+			$("#printReportForm").submit();
+			
+		}
+	}
 </script>
 </head>
 
@@ -147,7 +160,7 @@
 							<th>${requestScope.assetVO.assetMaker}</th>
 						</tr>
 						<tr>
-							<th>구입가</th>
+							<th>구입가(원)</th>
 							<th>${requestScope.assetVO.assetPurchasePrice}</th>
 							<th>모델명</th>
 							<th>${requestScope.assetVO.assetModel}</th>
@@ -192,33 +205,40 @@
 				</div>
 					
 			</div>
-			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
-			<c:choose>
-				<c:when test="${requestScope.assetVO.assetStatus == '폐기 대기'}">
-					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
-				</c:when>
-				<c:when test="${requestScope.assetVO.assetStatus == '폐기'}">
-					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
-				</c:when>
-				<c:otherwise>	
-				<form id="modifyForm" action="assetModify" method="POST">
-					<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
-				</form>
-				<form id="assetDispForm" action="assetDisposal" method="post">
-					<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
-				</form>
-				<form id="assetHistoryForm" action="assetHistory" method="post">
-					<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
-				</form>
-				<div style="display: flex; float: right">
-					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">수정</button>
-					<button class="btn btn-lg btn-primary" id="delbtn" onclick="outConfirm();">반출/수리</button>
-					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="dispReqConfirm();">폐기 신청</button>
-					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
-					<div class="mask"></div>
-			    </div>
-				</c:otherwise>
-			</c:choose>
+			<form id="printReportForm" action="printReport" method="post">
+				<input type="hidden" id="printReportArray" name="assetIdList"/>
+			</form>
+			<div style="display:flex; float: left; margin-top: 10px">
+				<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
+				<button class="btn btn-lg btn-primary" onclick="printReport();" >보고서 출력</button>
+			</div>
+			
+			<div style="display: flex; float: right">
+				<c:choose>
+					<c:when test="${requestScope.assetVO.assetStatus == '폐기 대기'}">
+						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
+					</c:when>
+					<c:when test="${requestScope.assetVO.assetStatus == '폐기'}">
+						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
+					</c:when>
+					<c:otherwise>	
+					<form id="modifyForm" action="assetModify" method="POST">
+						<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
+					</form>
+					<form id="assetDispForm" action="assetDisposal" method="post">
+						<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
+					</form>
+					<form id="assetHistoryForm" action="assetHistory" method="post">
+						<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
+					</form>
+						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">수정</button>
+						<button class="btn btn-lg btn-primary" id="delbtn" onclick="outConfirm();">반출/수리</button>
+						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="dispReqConfirm();">폐기 신청</button>
+						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
+						<div class="mask"></div>
+					</c:otherwise>
+				</c:choose>
+		    </div>
 		</div>
 	</div>
 

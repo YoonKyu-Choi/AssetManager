@@ -16,11 +16,11 @@ public interface CategoryDAO {
 	
 	public void deleteCategory(String categoryName);
 	
-	public void deleteItem(String categoryName, String itemName);
+	public int deleteItem(String categoryName, String itemName);
 	
 	public int checkCategoryItem(CategoryVO vo);
 	
-	public void updateCategoryName(String categoryOriName, String categoryName);
+	public int updateCategoryName(String categoryOriName, String categoryName);
 	
 	public void updateItemName(String itemOriName, String itemName, String categoryName);
 	

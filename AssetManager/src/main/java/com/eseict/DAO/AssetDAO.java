@@ -37,7 +37,7 @@ public interface AssetDAO {
 	// 폐기 자산 목록 조회
 	public List<AssetVO> getDisposalAssetList();
 	// 폐기 처리
-	public void disposeAsset(String assetId);
+	public int disposeAsset(String assetId);
 	// 카테고리 리스트 조회
 	public List<String> getAssetCategoryList();
 	// 자산 세부사항 등록

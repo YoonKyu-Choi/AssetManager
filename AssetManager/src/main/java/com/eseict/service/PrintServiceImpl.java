@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellUtil;
@@ -123,65 +124,98 @@ public class PrintServiceImpl implements PrintService {
 	public byte[] printReport(String[] assetIdList) throws IOException {
 		Workbook wb = new XSSFWorkbook();
 		Sheet sheet = wb.createSheet();
-		for(int i=0; i<4; i++) {
-			sheet.setColumnWidth(i, 5120);
-		}
+		sheet.setColumnWidth(0, 3000);
+		sheet.setColumnWidth(1, 7240);
+		sheet.setColumnWidth(2, 3000);
+		sheet.setColumnWidth(3, 7240);
 		
 		Font FontReportTitle = wb.createFont();
 		FontReportTitle.setFontHeight((short)(16*20));
 		FontReportTitle.setBold(true);
 		
+		Font FontReportItem = wb.createFont();
+		FontReportItem.setBold(true);
+		
 		// 스타일 지정
+		// 첫 행 A열, 왼쪽과 위쪽이 굵은 선
 		CellStyle BorderTopA = wb.createCellStyle();
 		BorderTopA.setBorderTop(BorderStyle.THICK);
 		BorderTopA.setBorderLeft(BorderStyle.THICK);
 		BorderTopA.setFont(FontReportTitle);
 
+		// 첫 행 BC열, 위쪽이 굵은 선
 		CellStyle BorderTopBC = wb.createCellStyle();
 		BorderTopBC.setBorderTop(BorderStyle.THICK);
 		
+		// 첫 행 D열, 오른쪽과 위쪽이 굵은 선
 		CellStyle BorderTopD = wb.createCellStyle();
 		BorderTopD.setBorderTop(BorderStyle.THICK);
 		BorderTopD.setBorderRight(BorderStyle.THICK);
 
+		// 영수증 주소 내용 칸; 위아래가 얇은 선
 		CellStyle BorderTopBottomThin = wb.createCellStyle();
 		BorderTopBottomThin.setBorderTop(BorderStyle.THIN);
 		BorderTopBottomThin.setBorderBottom(BorderStyle.THIN);
 
+		// C열 세부사항 칸; 사방이 얇은 선, 굵은 글자
+		CellStyle BorderThinBold = wb.createCellStyle();
+		BorderThinBold.setBorderTop(BorderStyle.THIN);
+		BorderThinBold.setBorderLeft(BorderStyle.THIN);
+		BorderThinBold.setBorderRight(BorderStyle.THIN);
+		BorderThinBold.setBorderBottom(BorderStyle.THIN);
+		BorderThinBold.setFont(FontReportItem);
+		BorderThinBold.setVerticalAlignment(VerticalAlignment.CENTER);
+		BorderThinBold.setWrapText(true);
+		
+		// B열 세부사항 내용 칸; 사방이 얇은 선
 		CellStyle BorderThin = wb.createCellStyle();
 		BorderThin.setBorderTop(BorderStyle.THIN);
 		BorderThin.setBorderLeft(BorderStyle.THIN);
 		BorderThin.setBorderRight(BorderStyle.THIN);
 		BorderThin.setBorderBottom(BorderStyle.THIN);
+		BorderThin.setVerticalAlignment(VerticalAlignment.CENTER);
+		BorderThin.setWrapText(true);
 		
+		// A열 빈 칸; 왼쪽이 두꺼운 선
 		CellStyle BorderLeftThick = wb.createCellStyle();
 		BorderLeftThick.setBorderLeft(BorderStyle.THICK);
+		BorderLeftThick.setFont(FontReportItem);
 		
+		// A열 세부사항 칸; 왼쪽은 두껍고 위아래가 얇은 선, 굵은 글자
 		CellStyle BorderLeftThickTopBottomThin = wb.createCellStyle();
 		BorderLeftThickTopBottomThin.setBorderLeft(BorderStyle.THICK);
 		BorderLeftThickTopBottomThin.setBorderTop(BorderStyle.THIN);
 		BorderLeftThickTopBottomThin.setBorderBottom(BorderStyle.THIN);
+		BorderLeftThickTopBottomThin.setFont(FontReportItem);
+		BorderLeftThickTopBottomThin.setVerticalAlignment(VerticalAlignment.CENTER);
+		BorderLeftThickTopBottomThin.setWrapText(true);
 		
+		// D열 빈 칸; 오른쪽이 두꺼운 선
 		CellStyle BorderRightThick = wb.createCellStyle();
 		BorderRightThick.setBorderRight(BorderStyle.THICK);
 
+		// D열 세부사항 내용 칸; 오른쪽은 두껍고 위아래가 얇은 선
 		CellStyle BorderRightThickTopBottomThin = wb.createCellStyle();
 		BorderRightThickTopBottomThin.setBorderRight(BorderStyle.THICK);
 		BorderRightThickTopBottomThin.setBorderTop(BorderStyle.THIN);
 		BorderRightThickTopBottomThin.setBorderBottom(BorderStyle.THIN);
+		BorderRightThickTopBottomThin.setVerticalAlignment(VerticalAlignment.CENTER);
+		BorderRightThickTopBottomThin.setWrapText(true);
 		
-		CellStyle BorderBottomThin = wb.createCellStyle();
-		BorderBottomThin.setBorderBottom(BorderStyle.THIN);
-
+		// 마지막 행 A열; 왼쪽과 아래쪽이 두껍고 위쪽이 얇은 선
 		CellStyle BorderBottomA = wb.createCellStyle();
 		BorderBottomA.setBorderTop(BorderStyle.THIN);
 		BorderBottomA.setBorderLeft(BorderStyle.THICK);
 		BorderBottomA.setBorderBottom(BorderStyle.THICK);
+		BorderBottomA.setVerticalAlignment(VerticalAlignment.CENTER);
+		BorderBottomA.setWrapText(true);
 
+		// 마지막 행 BC열; 아래쪽이 두껍고 위쪽이 얇은 선
 		CellStyle BorderBottomBC = wb.createCellStyle();
 		BorderBottomBC.setBorderTop(BorderStyle.THIN);
 		BorderBottomBC.setBorderBottom(BorderStyle.THICK);
 		
+		// 마지막 행 D열; 오른쪽과 아래쪽이 두껍고 위쪽이 얇은 선
 		CellStyle BorderBottomD = wb.createCellStyle();
 		BorderBottomD.setBorderTop(BorderStyle.THIN);
 		BorderBottomD.setBorderRight(BorderStyle.THICK);
@@ -213,7 +247,7 @@ public class PrintServiceImpl implements PrintService {
 			rowi = sheet.createRow(cur); 
 			rowi.createCell(0).setCellStyle(BorderLeftThickTopBottomThin);
 			rowi.createCell(1).setCellStyle(BorderThin);
-			rowi.createCell(2).setCellStyle(BorderThin);
+			rowi.createCell(2).setCellStyle(BorderThinBold);
 			rowi.createCell(3).setCellStyle(BorderRightThickTopBottomThin);
 			CellUtil.createCell(rowi, 0, "분류");
 			CellUtil.createCell(rowi, 1, vo.getAssetCategory());
@@ -224,7 +258,7 @@ public class PrintServiceImpl implements PrintService {
 			rowi = sheet.createRow(cur);
 			rowi.createCell(0).setCellStyle(BorderLeftThickTopBottomThin);
 			rowi.createCell(1).setCellStyle(BorderThin);
-			rowi.createCell(2).setCellStyle(BorderThin);
+			rowi.createCell(2).setCellStyle(BorderThinBold);
 			rowi.createCell(3).setCellStyle(BorderRightThickTopBottomThin);
 			CellUtil.createCell(rowi, 0, "관리 번호");
 			CellUtil.createCell(rowi, 1, vo.getAssetId());
@@ -235,18 +269,18 @@ public class PrintServiceImpl implements PrintService {
 			rowi = sheet.createRow(cur);
 			rowi.createCell(0).setCellStyle(BorderLeftThickTopBottomThin);
 			rowi.createCell(1).setCellStyle(BorderThin);
-			rowi.createCell(2).setCellStyle(BorderThin);
+			rowi.createCell(2).setCellStyle(BorderThinBold);
 			rowi.createCell(3).setCellStyle(BorderRightThickTopBottomThin);
 			CellUtil.createCell(rowi, 0, "시리얼 번호");
 			CellUtil.createCell(rowi, 1, vo.getAssetSerial());
 			CellUtil.createCell(rowi, 2, "반출 상태");
-			CellUtil.createCell(rowi, 3, "");
+			CellUtil.createCell(rowi, 3, vo.getAssetOutStatus());
 			cur += 1;
 
 			rowi = sheet.createRow(cur);
 			rowi.createCell(0).setCellStyle(BorderLeftThickTopBottomThin);
 			rowi.createCell(1).setCellStyle(BorderThin);
-			rowi.createCell(2).setCellStyle(BorderThin);
+			rowi.createCell(2).setCellStyle(BorderThinBold);
 			CellStyle dateCellStyle = wb.createCellStyle();
 			dateCellStyle.setDataFormat(wb.createDataFormat().getFormat("yyyy-mm-dd"));
 			dateCellStyle.setAlignment(HorizontalAlignment.LEFT);
@@ -263,7 +297,7 @@ public class PrintServiceImpl implements PrintService {
 			rowi = sheet.createRow(cur);
 			rowi.createCell(0).setCellStyle(BorderLeftThickTopBottomThin);
 			rowi.createCell(1).setCellStyle(BorderThin);
-			rowi.createCell(2).setCellStyle(BorderThin);
+			rowi.createCell(2).setCellStyle(BorderThinBold);
 			rowi.createCell(3).setCellStyle(BorderRightThickTopBottomThin);
 			CellUtil.createCell(rowi, 0, "모델명");
 			CellUtil.createCell(rowi, 1, vo.getAssetModel());
@@ -274,7 +308,7 @@ public class PrintServiceImpl implements PrintService {
 			rowi = sheet.createRow(cur);
 			rowi.createCell(0).setCellStyle(BorderLeftThickTopBottomThin);
 			rowi.createCell(1).setCellStyle(BorderThin);
-			rowi.createCell(2).setCellStyle(BorderThin);
+			rowi.createCell(2).setCellStyle(BorderThinBold);
 			rowi.createCell(3).setCellStyle(BorderRightThickTopBottomThin);
 			CellUtil.createCell(rowi, 0, "용도");
 			CellUtil.createCell(rowi, 1, vo.getAssetUsage());
@@ -285,7 +319,7 @@ public class PrintServiceImpl implements PrintService {
 			rowi = sheet.createRow(cur);
 			rowi.createCell(0).setCellStyle(BorderLeftThickTopBottomThin);
 			rowi.createCell(1).setCellStyle(BorderThin);
-			rowi.createCell(2).setCellStyle(BorderThin);
+			rowi.createCell(2).setCellStyle(BorderThinBold);
 			rowi.createCell(3).setCellStyle(BorderRightThickTopBottomThin);
 			CellUtil.createCell(rowi, 0, "사용 위치");
 			CellUtil.createCell(rowi, 1, vo.getAssetLocation());
@@ -312,7 +346,7 @@ public class PrintServiceImpl implements PrintService {
 				rowi = sheet.createRow(cur);
 				rowi.createCell(0).setCellStyle(BorderLeftThickTopBottomThin);
 				rowi.createCell(1).setCellStyle(BorderThin);
-				rowi.createCell(2).setCellStyle(BorderThin);
+				rowi.createCell(2).setCellStyle(BorderThinBold);
 				rowi.createCell(3).setCellStyle(BorderRightThickTopBottomThin);
 				CellUtil.createCell(rowi, 0, advo.get(i).getAssetItem());
 				CellUtil.createCell(rowi, 1, advo.get(i).getAssetItemDetail());
@@ -324,7 +358,7 @@ public class PrintServiceImpl implements PrintService {
 				rowi = sheet.createRow(cur);
 				rowi.createCell(0).setCellStyle(BorderLeftThickTopBottomThin);
 				rowi.createCell(1).setCellStyle(BorderThin);
-				rowi.createCell(2).setCellStyle(BorderThin);
+				rowi.createCell(2).setCellStyle(BorderThinBold);
 				rowi.createCell(3).setCellStyle(BorderRightThickTopBottomThin);
 				CellUtil.createCell(rowi, 0, advo.get(i).getAssetItem());
 				CellUtil.createCell(rowi, 1, advo.get(i).getAssetItemDetail());
