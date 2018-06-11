@@ -162,12 +162,15 @@ public class AssetController {
 		ahvo.setEmployeeSeq(eService.getEmployeeSeqByEmpId(employeeId));
 		ahvo.setAssetOccupiedDate(now);
 		aService.insertAssetHistory(ahvo);
+		
+		// 자산 이전 사용자도 등록
 		AssetFormerUserVO afuvo = new AssetFormerUserVO();
 		afuvo.setAssetId(avo.getAssetId());
 		afuvo.setEmployeeSeq(ahvo.getEmployeeSeq());
 		afuvo.setAssetUser(avo.getAssetUser());
 		afuvo.setAssetStartDate(ahvo.getAssetOccupiedDate());
 		aService.insertAssetFormerUser(afuvo);
+		
 		return "redirect:/assetList.tiles";
 	}
 	
@@ -177,7 +180,6 @@ public class AssetController {
 		List<CategoryVO> list = aService.getCategoryDetailItem(assetCategory);
 		return list;
 	}
-	
 	
 	@RequestMapping(value="assetModify")
 	public ModelAndView assetModify(@RequestParam String assetId, Model model) {
