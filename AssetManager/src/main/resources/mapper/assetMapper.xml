@@ -182,6 +182,7 @@
 			,#{assetItemDetail}
 		);
 	</insert>
+	
 
 	<select id="getCategoryDetailItem" parameterType="String"
 		resultMap="CategoryVO-result">
@@ -302,6 +303,30 @@
 	WHERE 
 		ASSET_ID = #{assetId}	
 	</select>
+	
+	<insert id="insertAssetHistory">
+		INSERT INTO
+				ASSET_HISTORY
+		VALUES(
+			#{assetId}
+			,#{employeeSeq}
+			,#{assetOccupiedDate}
+			,#{assetHistoryComment}
+		);
+	</insert>
+	
+	<insert id="insertAssetFormerUser">
+		INSERT INTO
+				ASSET_FORMER_USER
+		VALUES(
+			#{assetId}
+			,#{employeeSeq}
+			,#{assetUser}
+			,#{assetStartDate}
+			,#{assetEndDate}
+		);
+	</insert>
+	
 	
 </mapper>
 

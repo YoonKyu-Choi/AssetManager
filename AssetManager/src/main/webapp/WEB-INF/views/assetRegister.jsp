@@ -281,6 +281,7 @@
 							<th>이름</th>
 							<th><%=session.getAttribute("Id")%></th>
 						</tr>
+						<input type="hidden" id="employeeId" name="employeeId" value='<%=session.getAttribute("Id")%>'>
 						<tr>
 							<th>관리 번호</th>
 							<th>※ 자동 생성됩니다.</th>

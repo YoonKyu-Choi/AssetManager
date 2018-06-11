@@ -77,4 +77,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return new ModelAndView("userList.tiles", "userListData", userListData);
 	}
 
+	public int getEmployeeSeqByEmpId(String employeeId) {
+		return dao.getEmployeeSeqByEmpId(employeeId);
+	}
+
 }

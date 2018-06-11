@@ -32,5 +32,8 @@ public interface EmployeeService {
 	public int loginReact(String inputId, String inputPw);
 	
 	public ModelAndView userListMnV(String employeeName);
+
+	// 사용자 아이디로 사용자 번호 검색
+	public int getEmployeeSeqByEmpId(String employeeId);
 	
 }
