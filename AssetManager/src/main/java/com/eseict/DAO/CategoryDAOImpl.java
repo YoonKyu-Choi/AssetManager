@@ -19,32 +19,32 @@ public class CategoryDAOImpl implements CategoryDAO{
 	private static final String namespace = "com.eseict.mapper.CategoryMapper.";
 
 	@Override
-	public List<CategoryVO> getCategoryList() {
+	public List<CategoryVO> getCategoryList() throws Exception{
 		return sqlSession.selectList(namespace+"getCategoryList");
 	}
 
 	@Override
-	public int getCategoryCount() {
+	public int getCategoryCount() throws Exception{
 		return sqlSession.selectOne(namespace+"getCategoryCount");
 	}
 
 	@Override
-	public List<String> getCategoryByName(String categoryName) {
+	public List<String> getCategoryByName(String categoryName) throws Exception{
 		return sqlSession.selectList(namespace+"getCategoryByName", categoryName);
 	}
 
 	@Override
-	public void newCategory(CategoryVO vo) {
-		sqlSession.insert(namespace+"newCategory", vo);
+	public int newCategory(CategoryVO vo) throws Exception{
+		return sqlSession.insert(namespace+"newCategory", vo);
 	}
 
 	@Override
-	public void deleteCategory(String categoryName) {
-		sqlSession.delete(namespace+"deleteCategory", categoryName);
+	public int deleteCategory(String categoryName) throws Exception{
+		return sqlSession.delete(namespace+"deleteCategory", categoryName);
 	}
 
 	@Override
-	public int deleteItem(String categoryName, String itemName) {
+	public int deleteItem(String categoryName, String itemName) throws Exception{
 		HashMap<String, String> hsm = new HashMap<String, String>();
 		hsm.put("categoryName", categoryName);
 		hsm.put("itemName", itemName);
@@ -52,12 +52,12 @@ public class CategoryDAOImpl implements CategoryDAO{
 	}
 
 	@Override
-	public int checkCategoryItem(CategoryVO vo) {
+	public int checkCategoryItem(CategoryVO vo) throws Exception{
 		return sqlSession.selectOne(namespace+"checkCategoryItem", vo);
 	}
 
 	@Override
-	public int updateCategoryName(String categoryOriName, String categoryName) {
+	public int updateCategoryName(String categoryOriName, String categoryName) throws Exception{
 		HashMap<String, String> hsm = new HashMap<String, String>();
 		hsm.put("categoryOriName", categoryOriName);
 		hsm.put("categoryName", categoryName);
@@ -65,44 +65,44 @@ public class CategoryDAOImpl implements CategoryDAO{
 	}
 
 	@Override
-	public void updateItemName(String itemOriName, String itemName, String categoryName) {
+	public int updateItemName(String itemOriName, String itemName, String categoryName) throws Exception{
 		HashMap<String, String> hsm = new HashMap<String, String>();
 		hsm.put("itemOriName", itemOriName);
 		hsm.put("itemName", itemName);
 		hsm.put("categoryName", categoryName);
-		sqlSession.update(namespace+"updateItemName", hsm);
+		return sqlSession.update(namespace+"updateItemName", hsm);
 	}
 
 	@Override
-	public int isCategory(String categoryName) {
+	public int isCategory(String categoryName) throws Exception{
 		return sqlSession.selectOne(namespace+"isCategory", categoryName);
 	}
 
 	@Override
-	public int existsCode(String code) {
+	public int existsCode(String code) throws Exception{
 		return sqlSession.selectOne(namespace+"existsCode", code);
 	}
 
 	@Override
-	public void newCode(String categoryName, String codeName) {
+	public int newCode(String categoryName, String codeName) throws Exception{
 		HashMap<String, String> hsm = new HashMap<String, String>();
 		hsm.put("categoryName", categoryName);
 		hsm.put("codeName", codeName);
-		sqlSession.insert(namespace+"newCode", hsm);
+		return sqlSession.insert(namespace+"newCode", hsm);
 	}
 
 	@Override
-	public String getCode(String categoryName) {
+	public String getCode(String categoryName) throws Exception{
 		return sqlSession.selectOne(namespace+"getCode", categoryName);
 	}
 
 	@Override
-	public List<CategoryCodeVO> getCategoryCodeList() {
+	public List<CategoryCodeVO> getCategoryCodeList() throws Exception{
 		return sqlSession.selectList(namespace+"getCategoryCodeList");
 	}
 
 	@Override
-	public int deleteCode(String categoryName) {
+	public int deleteCode(String categoryName) throws Exception{
 		return sqlSession.delete(namespace+"deleteCode", categoryName);
 	}	
 }

@@ -4,128 +4,128 @@
 <mapper namespace="com.eseict.mapper.CategoryMapper">
 
 	<resultMap type="com.eseict.VO.CategoryVO" id="CategoryVO">
-		<result column="asset_category" property="assetCategory"/>
-		<result column="asset_item" property="assetItem"/>
+		<result column="ASSET_CATEGORY" property="assetCategory"/>
+		<result column="ASSET_ITEM" property="assetItem"/>
 	</resultMap>
 	
 	<resultMap type="com.eseict.VO.CategoryCodeVO" id="CategoryCodeVO">
-		<result column="asset_category" property="assetCategory"/>
-		<result column="category_code" property="assetCategoryCode"/>
+		<result column="ASSET_CATEGORY" property="assetCategory"/>
+		<result column="CATEGORY_CODE" property="assetCategoryCode"/>
 	</resultMap>
 	
 	<select id="getCategoryList" resultMap="CategoryVO">
 		SELECT
 			*
 		FROM
-			category_item
+			CATEGORY_ITEM
 	</select>
 	
 	<select id="getCategoryCount" resultType="integer">
 		SELECT
-			COUNT(DISTINCT asset_category)
+			COUNT(DISTINCT ASSET_CATEGORY)
 		FROM
-			category_item;
+			CATEGORY_ITEM;
 	</select>
 	
 	<select id="getCategoryByName" resultType="String">
 		SELECT
-			asset_item
+			ASSET_ITEM
 		FROM
-			category_item
+			CATEGORY_ITEM
 		WHERE
-			asset_category=#{categoryName}
+			ASSET_CATEGORY=#{categoryName}
 	</select>
 	
 	<insert id="newCategory">
 		INSERT INTO
-			category_item ("asset_category", "asset_item")
+			CATEGORY_ITEM ("ASSET_CATEGORY", "ASSET_ITEM")
 		SELECT
 			#{assetCategory}, #{assetItem}
 		WHERE NOT EXISTS(
 			SELECT
-				"asset_category", "asset_item"
+				"ASSET_CATEGORY", "ASSET_ITEM"
 			FROM
-				category_item
+				CATEGORY_ITEM
 			WHERE
-				asset_category=#{assetCategory}
-				AND asset_item=#{assetItem}
+				ASSET_CATEGORY=#{assetCategory}
+				AND ASSET_ITEM=#{assetItem}
 		)
 	</insert>
 	
 	<delete id="deleteCategory" parameterType="String">
 		DELETE FROM
-			category_item
+			CATEGORY_ITEM
 		WHERE
-			asset_category=#{categoryName}
+			ASSET_CATEGORY=#{categoryName}
 	</delete>
 	
 	<delete id="deleteItem" parameterType="HashMap">
 		DELETE FROM
-			category_item
+			CATEGORY_ITEM
 		WHERE
-			asset_item=#{itemName}
-			AND asset_category=#{categoryName}
+			ASSET_ITEM=#{itemName}
+			AND ASSET_CATEGORY=#{categoryName}
 	</delete>
 	
 	<select id="checkCategoryItem" resultType="integer">
 		SELECT
-			count(*)
+			COUNT(*)
 		FROM
-			category_item
+			CATEGORY_ITEM
 		WHERE
-			asset_category=#{assetCategory}
-			AND asset_item=#{assetItem}
+			ASSET_CATEGORY=#{assetCategory}
+			AND ASSET_ITEM=#{assetItem}
 	</select>
 	
 	<update id="updateCategoryName" parameterType="HashMap">
 		UPDATE
-			category_item
+			CATEGORY_ITEM
 		SET
-			asset_category=#{categoryName}
+			ASSET_CATEGORY=#{categoryName}
 		WHERE
-			asset_category=#{categoryOriName};
+			ASSET_CATEGORY=#{categoryOriName};
 			
 		UPDATE
-			asset_common_item
+			ASSET_COMMON_ITEM
 		SET
-			asset_category=#{categoryName}
+			ASSET_CATEGORY=#{categoryName}
 		WHERE
-			asset_category=#{categoryOriName};
+			ASSET_CATEGORY=#{categoryOriName};
 			
 		UPDATE
-			category_code
+			CATEGORY_CODE
 		SET
-			asset_category=#{categoryName}
+			ASSET_CATEGORY=#{categoryName}
 		WHERE
-			asset_category=#{categoryOriName}
+			ASSET_CATEGORY=#{categoryOriName}
 	</update>
 	
 	<update id="updateItemName" parameterType="HashMap">
 		UPDATE
-			category_item
+			CATEGORY_ITEM
 		SET
-			asset_item=#{itemName}
+			ASSET_ITEM=#{itemName}
 		WHERE
-			asset_item=#{itemOriName}
-			AND asset_category=#{categoryName}
+			ASSET_ITEM=#{itemOriName}
+			AND ASSET_CATEGORY=#{categoryName}
 	</update>
 	
 	<select id="isCategory" parameterType="String" resultType="Integer">
 		SELECT
-			count(*)
+			COUNT(*)
 		FROM
-			category_code
+			CATEGORY_CODE
 		WHERE
-			asset_category=#{categoryName}
+			ASSET_CATEGORY=#{categoryName}
 	</select>
 
 	<select id="existsCode" parameterType="String" resultType="Integer">
 		SELECT
-			count(*)
+			COUNT(*)
 		FROM
-			category_code
+			CATEGORY_CODE
 		WHERE
-			category_code=#{code}
+			CATEGORY_CODE=#{code}
 	</select>
 	
 	<insert id="newCode" parameterType="HashMap">

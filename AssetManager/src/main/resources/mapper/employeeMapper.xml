@@ -4,138 +4,151 @@
 <mapper namespace="com.eseict.mapper.EmployeeMapper">
 
 	<resultMap type="com.eseict.VO.EmployeeVO" id="EmployeeVO-result">
-		<id column="employee_seq" property="employeeSeq"/>
-		<result column="employee_name" property="employeeName"/>
-		<result column="employee_id" property="employeeId"/>
-		<result column="employee_pw" property="employeePw"/>
-		<result column="employee_rank" property="employeeRank"/>
-		<result column="employee_department" property="employeeDepartment"/>
-		<result column="employee_location" property="employeeLocation"/>
-		<result column="employee_email" property="employeeEmail"/>
-		<result column="employee_phone" property="employeePhone"/>
-		<result column="employee_status" property="employeeStatus"/>
+		<id column="EMPLOYEE_SEQ" property="employeeSeq"/>
+		<result column="EMPLOYEE_NAME" property="employeeName"/>
+		<result column="EMPLOYEE_ID" property="employeeId"/>
+		<result column="EMPLOYEE_PW" property="employeePw"/>
+		<result column="EMPLOYEE_RANK" property="employeeRank"/>
+		<result column="EMPLOYEE_DEPARTMENT" property="employeeDepartment"/>
+		<result column="EMPLOYEE_LOCATION" property="employeeLocation"/>
+		<result column="EMPLOYEE_EMAIL" property="employeeEmail"/>
+		<result column="EMPLOYEE_PHONE" property="employeePhone"/>
+		<result column="EMPLOYEE_STATUS" property="employeeStatus"/>
 		<collection property="rankVO" resultMap="RankVO-result"/>
 		<collection property="departmentVO" resultMap="DepartmentVO-result"/>
 	</resultMap>
 	
 	<resultMap type="com.eseict.VO.RankVO" id="RankVO-result">
-		<result column="employee_rank" property="employeeRank"/>
-		<result column="employee_rank_string" property="employeeRankString"/>
+		<result column="EMPLOYEE_RANK" property="employeeRank"/>
+		<result column="EMPLOYEE_RANK_STRING" property="employeeRankString"/>
 	</resultMap>
 	
 	<resultMap type="com.eseict.VO.DepartmentVO" id="DepartmentVO-result">
-		<result column="employee_department" property="employeeDepartment"/>
-		<result column="employee_department_string" property="employeeDepartmentString"/>
+		<result column="EMPLOYEE_DEPARTMENT" property="employeeDepartment"/>
+		<result column="EMPLOYEE_DEPARTMENT_STRING" property="employeeDepartmentString"/>
 	</resultMap>
 	
 	<insert id="newEmployee">
-		INSERT INTO employee VALUES
-		(nextval('employee_sequence'), #{employeeName}, #{employeeId}, #{employeePw}, #{employeeRank},
-		#{employeeDepartment}, #{employeeLocation}, #{employeeEmail}, #{employeePhone}, #{employeeStatus})
+		INSERT INTO
+			EMPLOYEE
+		VALUES (
+			NEXTVAL('EMPLOYEE_SEQUENCE')
+			, #{employeeName}
+			, #{employeeId}
+			, #{employeePw}
+			, #{employeeRank}
+			, #{employeeDepartment}
+			, #{employeeLocation}
+			, #{employeeEmail}
+			, #{employeePhone}
+			, #{employeeStatus}
+		)
 	</insert>
 
 	<select id="checkIdDuplication" resultType="String">
 		SELECT
-			employee_id
+			EMPLOYEE_ID
 		FROM
-			employee
+			EMPLOYEE
 		WHERE
-			employee_id=#{employeeId}
+			EMPLOYEE_ID=#{employeeId}
 	</select>
 	
 	<select id="checkRegistered" parameterType="hashmap" resultType="integer">
 		SELECT
-			count(*)
+			COUNT(*)
 		FROM
-			employee
+			EMPLOYEE
 		WHERE
-			employee_id=#{id} AND
-			employee_pw=#{pw}			
+			EMPLOYEE_ID=#{id}
+			AND EMPLOYEE_PW=#{pw}			
 	</select>
 
  	 <select id="getEmployeeList" resultMap="EmployeeVO-result" >
 		SELECT
-			employee.*, rank.employee_rank_string, department.employee_department_string
+			EMPLOYEE.*, RANK.EMPLOYEE_RANK_STRING, DEPARTMENT.EMPLOYEE_DEPARTMENT_STRING
 		FROM
-			employee, rank, department
+			EMPLOYEE, RANK, DEPARTMENT
 		WHERE
-			employee.employee_rank = rank.employee_rank
-			AND employee.employee_department=department.employee_department
+			EMPLOYEE.EMPLOYEE_RANK = RANK.EMPLOYEE_RANK
+			AND EMPLOYEE.EMPLOYEE_DEPARTMENT=DEPARTMENT.EMPLOYEE_DEPARTMENT
 	</select>
 	
 	<select id="getEmployeeNameList" resultType="String">
-		select employee_name
-		from employee
+		SELECT
+			EMPLOYEE_NAME
+		FROM
+			EMPLOYEE
 	</select>
  	 
 	<select id="selectEmployeeByEmployeeSeq" parameterType="integer" resultMap="EmployeeVO-result">
 		SELECT
-			employee.*, rank.employee_rank_string, department.employee_department_string
+			EMPLOYEE.*, RANK.EMPLOYEE_RANK_STRING, DEPARTMENT.EMPLOYEE_DEPARTMENT_STRING
 		FROM
-			employee, rank, department
+			EMPLOYEE, RANK, DEPARTMENT
 		WHERE
-			employee.employee_rank = rank.employee_rank
-			AND employee.employee_department=department.employee_department 
-			AND employee_seq = #{employeeSeq}
+			EMPLOYEE.EMPLOYEE_RANK = RANK.EMPLOYEE_RANK
+			AND EMPLOYEE.EMPLOYEE_DEPARTMENT=DEPARTMENT.EMPLOYEE_DEPARTMENT 
+			AND EMPLOYEE_SEQ = #{employeeSeq}
 	</select>
 	
 	<update id="updateEmployee" parameterType="com.eseict.VO.EmployeeVO">
 		UPDATE
-			employee
+			EMPLOYEE
 		SET
-			employee_pw=#{employeePw},
-			employee_rank=#{employeeRank},
-			employee_department=#{employeeDepartment},
-			employee_location=#{employeeLocation},	
-			employee_email=#{employeeEmail},
-			employee_phone=#{employeePhone},
-			employee_status=#{employeeStatus}
+			EMPLOYEE_PW=#{employeePw},
+			EMPLOYEE_RANK=#{employeeRank},
+			EMPLOYEE_DEPARTMENT=#{employeeDepartment},
+			EMPLOYEE_LOCATION=#{employeeLocation},	
+			EMPLOYEE_EMAIL=#{employeeEmail},
+			EMPLOYEE_PHONE=#{employeePhone},
+			EMPLOYEE_STATUS=#{employeeStatus}
 		WHERE
-			employee_seq=#{employeeSeq}
+			EMPLOYEE_SEQ=#{employeeSeq}
 	</update>	
 
 	<delete id="deleteEmployee" parameterType="integer">
 		DELETE
 		FROM
-			employee
+			EMPLOYEE
 		WHERE
-			employee_seq = #{employeeSeq}
+			EMPLOYEE_SEQ = #{employeeSeq}
 	</delete>
 	
 	<select id="selectEmployeeStatusById" parameterType="String" resultType="String">
 		SELECT
-			employee_status
+			EMPLOYEE_STATUS
 		FROM
-			employee
+			EMPLOYEE
 		WHERE
-			employee_id=#{employeeId}
+			EMPLOYEE_ID=#{employeeId}
 	</select>
 	
 	<select id="getUserCount" resultType="integer">
 		SELECT
-			count(*)
+			COUNT(*)
 		FROM
-			employee
+			EMPLOYEE
 	</select>
 	
 	<select id="getEmployeeListByName" parameterType="string" resultMap="EmployeeVO-result">
 		SELECT
-			employee.*, rank.employee_rank_string, department.employee_department_string
+			EMPLOYEE.*, RANK.EMPLOYEE_RANK_STRING, DEPARTMENT.EMPLOYEE_DEPARTMENT_STRING
 		FROM
-			employee, rank, department
+			EMPLOYEE, RANK, DEPARTMENT
 		WHERE
-			employee.employee_rank = rank.employee_rank
-			AND employee.employee_department=department.employee_department
-			AND employee_name like '%'||#{employeeName}||'%' 
+			EMPLOYEE.EMPLOYEE_RANK = RANK.EMPLOYEE_RANK
+			AND EMPLOYEE.EMPLOYEE_DEPARTMENT=DEPARTMENT.EMPLOYEE_DEPARTMENT
+			AND EMPLOYEE_NAME LIKE '%'||#{employeeName}||'%' 
 	</select>
 	
 	<select id="getEmployeeSeqByEmpId" parameterType="String" resultType="Integer">
 		SELECT 	
-			employee_seq
+			EMPLOYEE_SEQ
 		FROM 
-			employee
+			EMPLOYEE
 		WHERE 
-			employee_id = #{employeeId}
+			EMPLOYEE_ID = #{employeeId}
 	</select>
 	
 	

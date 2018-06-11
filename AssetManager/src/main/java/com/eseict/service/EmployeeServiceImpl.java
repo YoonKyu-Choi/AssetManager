@@ -17,42 +17,42 @@ public class EmployeeServiceImpl implements EmployeeService{
 	private EmployeeDAO dao;
 	
 	@Override
-	public void newEmployee(EmployeeVO vo) {
-		dao.newEmployee(vo);	
+	public int newEmployee(EmployeeVO vo) throws Exception {
+		return dao.newEmployee(vo);	
 	}
 
 	@Override
-	public String checkIdDuplication(String employeeId) {
+	public String checkIdDuplication(String employeeId) throws Exception {
 		return dao.checkIdDuplication(employeeId);
 	}
 
 	@Override
-	public int checkRegistered(String employeeId, String employeePw) {
+	public int checkRegistered(String employeeId, String employeePw) throws Exception {
 		return dao.checkRegistered(employeeId, employeePw);
 	}
 
 	@Override
-	public EmployeeVO selectEmployeeByEmployeeSeq(int employeeSeq) {
+	public EmployeeVO selectEmployeeByEmployeeSeq(int employeeSeq) throws Exception {
 		return dao.selectEmployeeByEmployeeSeq(employeeSeq);
 	}
 
 	@Override
-	public void updateEmployee(EmployeeVO evo) {
-		dao.updateEmployee(evo);
+	public int updateEmployee(EmployeeVO evo) throws Exception {
+		return dao.updateEmployee(evo);
 	}
 	
-	public void deleteEmployee(int employeeSeq) {
-		dao.deleteEmployee(employeeSeq);
+	public int deleteEmployee(int employeeSeq) throws Exception {
+		return dao.deleteEmployee(employeeSeq);
 		
 	}
 
 	@Override
-	public List<String> getEmployeeNameList() {
+	public List<String> getEmployeeNameList() throws Exception {
 		return dao.getEmployeeNameList();
 	}
 
 	@Override
-	public int loginReact(String inputId, String inputPw) {
+	public int loginReact(String inputId, String inputPw) throws Exception {
 		int check = dao.checkRegistered(inputId, inputPw);
 		String userStatus = dao.getUserStatusById(inputId);
 		if (check == 1 && userStatus.equals("퇴사")) {
@@ -62,7 +62,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	@Override
-	public ModelAndView userListMnV(String employeeName) {
+	public ModelAndView userListMnV(String employeeName) throws Exception {
 		HashMap<String, Object> userListData = new HashMap<String, Object>();
 		
 		int userCount = dao.getUserCount();
@@ -77,7 +77,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return new ModelAndView("userList.tiles", "userListData", userListData);
 	}
 
-	public int getEmployeeSeqByEmpId(String employeeId) {
+	public int getEmployeeSeqByEmpId(String employeeId) throws Exception {
 		return dao.getEmployeeSeqByEmpId(employeeId);
 	}
 

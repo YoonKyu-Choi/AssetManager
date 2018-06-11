@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.eseict.DAO.CategoryDAO;
@@ -20,32 +21,32 @@ public class CategoryServiceImpl implements CategoryService {
 	private CategoryDAO dao;
 	
 	@Override
-	public String getCode(String categoryName) {
+	public String getCode(String categoryName) throws Exception {
 		return dao.getCode(categoryName);
 	}
 
 	@Override
-	public void deleteCategory(String categoryName) {
-		dao.deleteCategory(categoryName);
+	public int deleteCategory(String categoryName) throws Exception{
+		return dao.deleteCategory(categoryName);
 	}
 
 	@Override
-	public int existsCode(String code) {
+	public int existsCode(String code) throws Exception{
 		return dao.existsCode(code);
 	}
 
 	@Override
-	public void newCode(String categoryName, String codeName) {
-		dao.newCode(categoryName, codeName);
+	public int newCode(String categoryName, String codeName) throws Exception{
+		return dao.newCode(categoryName, codeName);
 	}
 
 	@Override
-	public int deleteCode(String categoryName) {
+	public int deleteCode(String categoryName) throws Exception{
 		return dao.deleteCode(categoryName);
 	}
 
 	@Override
-	public ModelAndView categoryDetailMnV(String categoryName) {
+	public ModelAndView categoryDetailMnV(String categoryName) throws Exception{
 		List<String> cvo = dao.getCategoryByName(categoryName);
 		HashMap<String, Object> categoryData = new HashMap<String, Object>();
 		categoryData.put("name", categoryName);
@@ -55,7 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public ModelAndView categoryListMnV(String searchMode, String searchKeyword) {
+	public ModelAndView categoryListMnV(String searchMode, String searchKeyword) throws Exception{
 		HashMap<String, Object> categoryListData = new HashMap<String, Object>();
 
 		List<CategoryCodeVO> codelist = dao.getCategoryCodeList();
@@ -88,7 +89,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public ModelAndView categoryModifyMnV(String categoryName) {
+	public ModelAndView categoryModifyMnV(String categoryName) throws Exception{
 		List<String> cvo = dao.getCategoryByName(categoryName);
 		HashMap<String, Object> categoryData = new HashMap<String, Object>();
 		categoryData.put("name", categoryName);
@@ -99,7 +100,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 	
 	@Override
-	public boolean categoryRegisterSend(String categoryName, String[] items) {
+	public boolean categoryRegisterSend(String categoryName, String[] items) throws Exception{
 		for(String i: items) {
 			if(!i.equals("")) {
 				CategoryVO vo = new CategoryVO();
@@ -116,7 +117,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public int categoryModifyCheckName(String categoryOriName, String categoryName) {
+	public int categoryModifyCheckName(String categoryOriName, String categoryName) throws Exception{
 		List<String> cvolist = dao.getCategoryByName(categoryOriName);
 		String[] cvo = new String[cvolist.size()];
 		cvo = cvolist.toArray(cvo);
@@ -129,7 +130,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public ArrayList<Integer> categoryModifyItemDelete(String categoryName, String[] deleteItems) {
+	public ArrayList<Integer> categoryModifyItemDelete(String categoryName, String[] deleteItems) throws Exception{
 		List<String> cvolist = dao.getCategoryByName(categoryName);
 		String[] cvo = new String[cvolist.size()];
 		cvo = cvolist.toArray(cvo);
@@ -142,8 +143,9 @@ public class CategoryServiceImpl implements CategoryService {
 		return deleteItemsList;
 	}
 
+	@Transactional
 	@Override
-	public int categoryModifyItemUpdate(String categoryName, String[] items, ArrayList<Integer> deleteItemsList) {
+	public int categoryModifyItemUpdate(String categoryName, String[] items, ArrayList<Integer> deleteItemsList) throws Exception{
 		List<String> cvolist = dao.getCategoryByName(categoryName);
 		String[] cvo = new String[cvolist.size()];
 		cvo = cvolist.toArray(cvo);

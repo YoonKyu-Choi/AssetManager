@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eseict.service.EmployeeService;
 
@@ -31,31 +32,41 @@ public class LoginController {
 
 	@RequestMapping(value = "/loginSubmit", method = RequestMethod.POST)
 	@ResponseBody
-	public String loginSubmit(HttpSession session, HttpServletResponse response,
-			@RequestParam("inputId") String inputId, @RequestParam("inputPw") String inputPw) throws IOException {
-		int check = eService.loginReact(inputId, inputPw);
-		if(check == 1) {
-			if (inputId.equals("admin")) {
-				session.setAttribute("isAdmin", "TRUE");
+	public String loginSubmit(RedirectAttributes redirectAttributes, HttpSession session, HttpServletResponse response, @RequestParam("inputId") String inputId, @RequestParam("inputPw") String inputPw) throws IOException {
+		try {
+			int check = eService.loginReact(inputId, inputPw);
+			if(check == 1) {
+				if (inputId.equals("admin")) {
+					session.setAttribute("isAdmin", "TRUE");
+				}
+				session.setAttribute("isUser", "TRUE");
 			}
-			session.setAttribute("isUser", "TRUE");
+			session.setAttribute("Id", inputId);
+			return Integer.toString(check);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		session.setAttribute("Id", inputId);
-		return Integer.toString(check);
+		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
+		return "redirect:/";
 	}
 
 	@RequestMapping(value = "/checkId")
 	@ResponseBody
 	public String checkId(@RequestParam(value = "id", required = false) String inputId, HttpServletResponse response) throws IOException {
-		if (!inputId.isEmpty()) {
-			if (eService.checkIdDuplication(inputId) == null) {
-				return "new";
+		try {
+			if (!inputId.isEmpty()) {
+				if (eService.checkIdDuplication(inputId) == null) {
+					return "new";
+				} else {
+					return "duplicated";
+				}
 			} else {
-				return "duplicated";
+				return "empty";
 			}
-		} else {
-			return "empty";
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return "error";
 	}
 
 	@RequestMapping(value = "/logout")

@@ -17,20 +17,32 @@ public class DisposalController {
 	private DisposalService dService;
 
 	@RequestMapping(value="/disposalList")
-	public ModelAndView disposalList(Model model, @RequestParam(required = false) String searchMode, @RequestParam(required = false) String searchKeyword) {
+	public ModelAndView disposalList(RedirectAttributes redirectAttributes, Model model, @RequestParam(required = false) String searchMode, @RequestParam(required = false) String searchKeyword) {
 
-		if(searchKeyword != null) {
-			return dService.disposalListMnV(searchMode, searchKeyword);
-		} else {
-			return dService.disposalListMnV(null, null);
+		try {
+			if(searchKeyword != null) {
+				return dService.disposalListMnV(searchMode, searchKeyword);
+			} else {
+				return dService.disposalListMnV(null, null);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
+		return new ModelAndView("redirect:/disposalList");
 	}
 	
 	@RequestMapping(value="/disposeAsset", method=RequestMethod.POST)
 	public String disposeAsset(RedirectAttributes redirectAttributes, @RequestParam String[] disposeArray) {
-		int dispose = dService.disposeAsset(disposeArray);
-		
-		redirectAttributes.addFlashAttribute("msg", disposeArray.length+"개의 자산이 폐기 처리 되었습니다.");
-		return "redirect:disposalList";
+		try {
+			int dispose = dService.disposeAsset(disposeArray);
+			
+			redirectAttributes.addFlashAttribute("msg", disposeArray.length+"개의 자산이 폐기 처리 되었습니다.");
+			return "redirect:disposalList";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
+		return "redirect:/disposalList";
 	}
 }

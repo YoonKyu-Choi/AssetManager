@@ -89,11 +89,16 @@ public class AssetController {
 
 	@RequestMapping(value = "/assetRegister")
 	public ModelAndView nameList2(Model model) {
-		List<String> elist = eService.getEmployeeNameList();
-		List<String> clist = aService.getAssetCategoryList();
-		model.addAttribute("employeeNameList", elist);
-		model.addAttribute("categoryList", clist);
-		return new ModelAndView("assetRegister.tiles", "list", model); 
+		try {
+			List<String> elist = eService.getEmployeeNameList();
+			List<String> clist = aService.getAssetCategoryList();
+			model.addAttribute("employeeNameList", elist);
+			model.addAttribute("categoryList", clist);
+			return new ModelAndView("assetRegister.tiles", "list", model); 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ModelAndView("assetRegister.tiles");
 	}
 	
 	@RequestMapping(value = "/assetRegisterSend")
@@ -109,7 +114,12 @@ public class AssetController {
 		String categoryName = avo.getAssetCategory();
 		String itemSequence = null;
 		
-		categoryKeyword = cService.getCode(categoryName);
+		try {
+			categoryKeyword = cService.getCode(categoryName);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		// getYear는 폐기함수 -> getFullYear 함수로 대체 , 
 		int yearCut = avo.getAssetPurchaseDate().getYear() % 100;
@@ -159,7 +169,17 @@ public class AssetController {
 		AssetHistoryVO ahvo = new AssetHistoryVO();
 		java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 		ahvo.setAssetId(avo.getAssetId());
-		ahvo.setEmployeeSeq(eService.getEmployeeSeqByEmpId(employeeId));
+		
+
+		// 이 부분 에셋컨트롤러 수정하면서 같이 바꿔줄 것!
+		try {
+			ahvo.setEmployeeSeq(eService.getEmployeeSeqByEmpId(employeeId));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		ahvo.setAssetOccupiedDate(now);
 		aService.insertAssetHistory(ahvo);
 		
@@ -185,7 +205,17 @@ public class AssetController {
 	public ModelAndView assetModify(@RequestParam String assetId, Model model) {
 		AssetVO avo = aService.getAssetByAssetId(assetId);
 		List<AssetDetailVO> dlist = aService.getAssetDetailByAssetId(assetId);
-		List<String> elist = eService.getEmployeeNameList();
+		
+		// 이 부분 에셋컨트롤러 수정하면서 같이 바꿔줄 것!
+		List<String> elist = null;
+		try {
+			elist = eService.getEmployeeNameList();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		model.addAttribute("assetVO",avo);
 		model.addAttribute("assetDetailList",dlist);
 		model.addAttribute("employeeNameList", elist);
