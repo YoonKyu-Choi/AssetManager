@@ -36,7 +36,7 @@
 					$("#employeeId").addClass("disable");
 					$("#idInputCheck").val("true");
 					$("#employeeId").attr("readonly", true);
-				} else if (message == 'deplicated') {
+				} else if (message == 'duplicated') {
 					alert("중복된 아이디입니다.");
 					$("#employeeId").val("");
 					$("#idInputCheck").val("false");

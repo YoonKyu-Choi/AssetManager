@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eseict.service.EmployeeService;
 
@@ -19,31 +18,27 @@ import com.eseict.service.EmployeeService;
 public class LoginController {
 
 	@Autowired
-	private EmployeeService service;
+	private EmployeeService eService;
 	
 	@RequestMapping(value = "/")
 	public String login(HttpSession session) {
-		if (session.getAttribute("isUser") == "TRUE")
+		if (session.getAttribute("isUser") == "TRUE") {
 			return "redirect:/assetList";
-		else
+		} else {
 			return "login";
+		}
 	}
 
 	@RequestMapping(value = "/loginSubmit", method = RequestMethod.POST)
 	@ResponseBody
 	public String loginSubmit(HttpSession session, HttpServletResponse response,
 			@RequestParam("inputId") String inputId, @RequestParam("inputPw") String inputPw) throws IOException {
-		int check = service.checkRegistered(inputId, inputPw);
-		String userStatus = service.getUserStatusById(inputId);
-		if (check == 1) {
-			if (userStatus.equals("퇴사")) {
-				check = 2;
-			} else {
-				if (inputId.equals("admin")) {
-					session.setAttribute("isAdmin", "TRUE");
-				}
-					session.setAttribute("isUser", "TRUE");
+		int check = eService.loginReact(inputId, inputPw);
+		if(check == 1) {
+			if (inputId.equals("admin")) {
+				session.setAttribute("isAdmin", "TRUE");
 			}
+			session.setAttribute("isUser", "TRUE");
 		}
 		session.setAttribute("Id", inputId);
 		return Integer.toString(check);
@@ -51,13 +46,12 @@ public class LoginController {
 
 	@RequestMapping(value = "/checkId")
 	@ResponseBody
-	public String checkId(@RequestParam(value = "id", required = false) String inputId, HttpServletResponse response)
-			throws IOException {
+	public String checkId(@RequestParam(value = "id", required = false) String inputId, HttpServletResponse response) throws IOException {
 		if (!inputId.isEmpty()) {
-			if (service.checkIdDuplication(inputId) == null) {
+			if (eService.checkIdDuplication(inputId) == null) {
 				return "new";
 			} else {
-				return "deplicated";
+				return "duplicated";
 			}
 		} else {
 			return "empty";

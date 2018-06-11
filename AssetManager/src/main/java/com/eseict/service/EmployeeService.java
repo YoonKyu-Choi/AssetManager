@@ -2,6 +2,8 @@ package com.eseict.service;
 
 import java.util.List;
 
+import org.springframework.web.servlet.ModelAndView;
+
 import com.eseict.VO.EmployeeVO;
 
 public interface EmployeeService {
@@ -15,9 +17,6 @@ public interface EmployeeService {
 	// 등록 확인
 	public int checkRegistered(String employeeId, String employeePw);
 	
-	// 사용자 목록 조회
-	public List<EmployeeVO> getEmployeeList();
-	
 	// 사용자 상세보기
 	public EmployeeVO selectEmployeeByEmployeeSeq(int employeeSeq);
 	
@@ -27,14 +26,11 @@ public interface EmployeeService {
 	// 사용자 삭제
 	public void deleteEmployee(int employeeSeq);
 
-	// 사용자 상태 확인
-	public String getUserStatusById(String inputId);
-	
-	// 회원 수 조회
-	public int getUserCount();
-	// 사용자 이름으로 검색
-	public List<EmployeeVO> getEmployeeListByName(String employeeName);
 	// 사용자 이름 조회
 	public List<String> getEmployeeNameList();
+	
+	public int loginReact(String inputId, String inputPw);
+	
+	public ModelAndView userListMnV(String employeeName);
 	
 }

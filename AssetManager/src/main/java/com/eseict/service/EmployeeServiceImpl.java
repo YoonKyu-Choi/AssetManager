@@ -1,9 +1,11 @@
 package com.eseict.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.eseict.DAO.EmployeeDAO;
 import com.eseict.VO.EmployeeVO;
@@ -30,11 +32,6 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	@Override
-	public List<EmployeeVO> getEmployeeList() {
-		return dao.getEmployeeList();
-	}
-	
-	@Override
 	public EmployeeVO selectEmployeeByEmployeeSeq(int employeeSeq) {
 		return dao.selectEmployeeByEmployeeSeq(employeeSeq);
 	}
@@ -50,23 +47,34 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	@Override
-	public String getUserStatusById(String inputId) {
-		return dao.getUserStatusById(inputId);
-	}
-
-	@Override
-	public int getUserCount() {
-		return dao.getUserCount();
-	}
-
-	@Override
-	public List<EmployeeVO> getEmployeeListByName(String employeeName) {
-		return dao.getEmployeeListByName(employeeName);
-	}
-
-	@Override
 	public List<String> getEmployeeNameList() {
 		return dao.getEmployeeNameList();
+	}
+
+	@Override
+	public int loginReact(String inputId, String inputPw) {
+		int check = dao.checkRegistered(inputId, inputPw);
+		String userStatus = dao.getUserStatusById(inputId);
+		if (check == 1 && userStatus.equals("퇴사")) {
+			check = 2;
+		}
+		return check;
+	}
+
+	@Override
+	public ModelAndView userListMnV(String employeeName) {
+		HashMap<String, Object> userListData = new HashMap<String, Object>();
+		
+		int userCount = dao.getUserCount();
+		if (employeeName == null) {
+			List<EmployeeVO> list = dao.getEmployeeList();
+			userListData.put("employeeList", list);
+		} else {
+			List<EmployeeVO> list = dao.getEmployeeListByName(employeeName);
+			userListData.put("employeeList", list);
+		}
+		userListData.put("userCount", userCount);
+		return new ModelAndView("userList.tiles", "userListData", userListData);
 	}
 
 }
