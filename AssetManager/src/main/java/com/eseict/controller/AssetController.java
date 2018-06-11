@@ -2,6 +2,7 @@ package com.eseict.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -99,6 +100,7 @@ public class AssetController {
 	public String assetRegister(@ModelAttribute AssetVO avo
 							 	,@RequestParam String[] items
 							 	,@RequestParam String[] itemsDetail
+							 	,@RequestParam String employeeId
 							 	,@RequestParam(required=false) MultipartFile uploadImage
 							 	,HttpServletRequest request) throws IllegalStateException, IOException {
 		// 관리 번호 생성
@@ -109,6 +111,7 @@ public class AssetController {
 		
 		categoryKeyword = cService.getCode(categoryName);
 		
+		// getYear는 폐기함수 -> getFullYear 함수로 대체 , 
 		int yearCut = avo.getAssetPurchaseDate().getYear() % 100;
 		
 		if(avo.getAssetPurchaseDate().getMonth() + 1 <10) {
@@ -140,6 +143,8 @@ public class AssetController {
 			avo.setAssetReceiptUrl(fileName+".jpg");
 		}
 		aService.insertAsset(avo);
+		
+		// 자산 세부사항도 같이 등록 
 		AssetDetailVO dvo = new AssetDetailVO();
 		dvo.setAssetId(avo.getAssetId());
 		for(int a = 0; a < items.length; a++) {
@@ -148,8 +153,19 @@ public class AssetController {
 			aService.insertAssetDetail(dvo);
 		}
 		
+		// 등록 시 자산 이력 자동 등록
 		AssetHistoryVO ahvo = new AssetHistoryVO();
-		// 여기부터~~ 월요일
+		java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		ahvo.setAssetId(avo.getAssetId());
+		ahvo.setEmployeeSeq(eService.getEmployeeSeqByEmpId(employeeId));
+		ahvo.setAssetOccupiedDate(now);
+		aService.insertAssetHistory(ahvo);
+		AssetFormerUserVO afuvo = new AssetFormerUserVO();
+		afuvo.setAssetId(avo.getAssetId());
+		afuvo.setEmployeeSeq(ahvo.getEmployeeSeq());
+		afuvo.setAssetUser(avo.getAssetUser());
+		afuvo.setAssetStartDate(ahvo.getAssetOccupiedDate());
+		aService.insertAssetFormerUser(afuvo);
 		return "redirect:/assetList.tiles";
 	}
 	
@@ -182,6 +198,7 @@ public class AssetController {
 								 ,@RequestParam String[] itemsDetail
 								 ,@RequestParam(required=false) MultipartFile uploadImage
 								 ,HttpServletRequest request) throws IllegalStateException, IOException {
+		String beforeUser = avo.getAssetUser();
 		// 파일 업로드
 		ServletContext ctx = request.getServletContext();
 		String uploadDir = ctx.getRealPath("/resources/");
@@ -192,11 +209,21 @@ public class AssetController {
 			avo.setAssetReceiptUrl(fileName+".jpg");
 		}
 		aService.updateAsset(avo);
+		
 		dvo.setAssetId(avo.getAssetId());
 		for(int a = 0; a < items.length; a++) {
 			dvo.setAssetItem(items[a]);
 			dvo.setAssetItemDetail(itemsDetail[a]);
 			aService.updateAssetDetail(dvo);
+		}
+		
+		// 자산 수정 시 자산 이력 자동 입력
+		if(!beforeUser.equals(avo.getAssetUser())) {
+			AssetFormerUserVO afuvo = new AssetFormerUserVO();
+			java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+			afuvo.setAssetEndDate(now);
+			System.out.println(afuvo.getAssetEndDate());
+//			aService.insertAssetFormerUser(afuvo);
 		}
 		return "redirect:/assetDetail?assetId="+avo.getAssetId();
 	}

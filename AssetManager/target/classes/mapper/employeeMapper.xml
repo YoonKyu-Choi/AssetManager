@@ -127,7 +127,15 @@
 			employee.employee_rank = rank.employee_rank
 			AND employee.employee_department=department.employee_department
 			AND employee_name like '%'||#{employeeName}||'%' 
+	</select>
 	
+	<select id="getEmployeeSeqByEmpId" parameterType="String" resultType="Integer">
+		SELECT 	
+			employee_seq
+		FROM 
+			employee
+		WHERE 
+			employee_id = #{employeeId}
 	</select>
 	
 	

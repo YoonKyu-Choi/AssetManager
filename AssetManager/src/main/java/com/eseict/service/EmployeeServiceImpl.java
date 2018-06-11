@@ -69,4 +69,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return dao.getEmployeeNameList();
 	}
 
+	@Override
+	public int getEmployeeSeqByEmpId(String employeeId) {
+		return dao.getEmployeeSeqByEmpId(employeeId);
+	}
+
 }

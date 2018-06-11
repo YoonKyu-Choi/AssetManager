@@ -140,5 +140,15 @@ public class AssetDAOImpl implements AssetDAO {
 		return sqlSession.selectList(namespace+"getAssetFormerUserByAssetId", assetId);
 	}
 
+	@Override
+	public int insertAssetHistory(AssetHistoryVO ahvo) {
+		return sqlSession.insert(namespace+"insertAssetHistory",ahvo);
+	}
+
+	@Override
+	public int insertAssetFormerUser(AssetFormerUserVO afuvo) {
+		return sqlSession.insert(namespace+"insertAssetFormerUser",afuvo);
+	}
+
 
 }

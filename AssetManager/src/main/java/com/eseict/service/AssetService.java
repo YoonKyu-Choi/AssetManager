@@ -57,6 +57,10 @@ public interface AssetService {
 	public AssetHistoryVO getAssetHistoryByAssetId(String assetId);
 	// 자산 이전 사용자 리스트 조회
 	public List<AssetFormerUserVO> getAssetFormerUserByAssetId(String assetId);
+	// 자산 이력 등록
+	public int insertAssetHistory(AssetHistoryVO ahvo);
+	// 자산 이전 사용자 등록 
+	public int insertAssetFormerUser(AssetFormerUserVO afuvo);
 	
 	
 }

@@ -139,4 +139,15 @@ public class AssetServiceImpl implements AssetService {
 		return dao.getAssetFormerUserByAssetId(assetId);
 	}
 
+	@Override
+	public int insertAssetHistory(AssetHistoryVO ahvo) {
+		return dao.insertAssetHistory(ahvo);
+	}
+
+	@Override
+	public int insertAssetFormerUser(AssetFormerUserVO afuvo) {
+		return dao.insertAssetFormerUser(afuvo);
+	}
+
+
 }
