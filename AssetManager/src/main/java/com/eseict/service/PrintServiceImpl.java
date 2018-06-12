@@ -1,6 +1,7 @@
 package com.eseict.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.eseict.DAO.AssetDAO;
+import com.eseict.DAO.CategoryDAO;
 import com.eseict.VO.AssetDetailVO;
 import com.eseict.VO.AssetVO;
 
@@ -27,7 +29,10 @@ import com.eseict.VO.AssetVO;
 public class PrintServiceImpl implements PrintService {
 	
 	@Autowired
-	private AssetDAO dao;
+	private AssetDAO aDao;
+
+	@Autowired
+	private CategoryDAO cDao;
 
 	@Override
 	public String printFileName(String[] assetIdList, int mode) {
@@ -50,61 +55,115 @@ public class PrintServiceImpl implements PrintService {
 	@Override
 	public byte[] printList(String[] assetIdList) throws IOException {
 		Workbook wb = new XSSFWorkbook();
-		Sheet sheet = wb.createSheet();
-		for(int i=0; i<13; i++) {
-			sheet.setColumnWidth(i, 3000);
-		}
-		sheet.setColumnWidth(9, 4000);
-		sheet.setColumnWidth(13, 8000);
-
 		
-		Row row = sheet.createRow(0);
-		row.createCell(0).setCellValue("관리번호");
-		row.createCell(1).setCellValue("자산 분류");
-		row.createCell(2).setCellValue("사용자");
-		row.createCell(3).setCellValue("상태");
-		row.createCell(4).setCellValue("SID");
-		row.createCell(5).setCellValue("구입일");
-		row.createCell(6).setCellValue("구입가");
-		row.createCell(7).setCellValue("구입처");
-		row.createCell(8).setCellValue("제조사");
-		row.createCell(9).setCellValue("모델명");
-		row.createCell(10).setCellValue("용도");
-		row.createCell(11).setCellValue("책임자");
-		row.createCell(12).setCellValue("위치");
-		row.createCell(13).setCellValue("추가사항");
-		
+		ArrayList<AssetVO> avoList = new ArrayList<AssetVO>();
+		//시트 이름 목록
+		ArrayList<String> sheetName = new ArrayList<String>();
+		// 각 시트에 어떤 자산이 들어있는지
+		ArrayList<ArrayList<Integer>> sheetMap = new ArrayList<ArrayList<Integer>>();
+		sheetMap.add(new ArrayList<Integer>());
 		int index = 0;
 		for(String assetId: assetIdList) {
+			AssetVO vo = aDao.getAssetByAssetId(assetId);
+			avoList.add(vo);
+			sheetMap.get(0).add(index);	//공통사항
+			String category = vo.getAssetCategory();
+			if(!sheetName.contains(category)) {	// 처음 들어간 분류일 경우 새 시트 추가
+				ArrayList<Integer> arr = new ArrayList<Integer>();
+				arr.add(index);
+				sheetMap.add(arr);
+				sheetName.add(category);
+			} else {
+				int i = sheetName.indexOf(category);
+				sheetMap.get(i+1).add(index);
+			}
 			index += 1;
-			AssetVO vo = dao.getAssetByAssetId(assetId);
-			Row rowi = sheet.createRow(index);
-			rowi.createCell(0).setCellValue(vo.getAssetId());
-			rowi.createCell(1).setCellValue(vo.getAssetCategory());
-			rowi.createCell(2).setCellValue(vo.getAssetUser());
-			rowi.createCell(3).setCellValue(vo.getAssetStatus());
-			rowi.createCell(4).setCellValue(vo.getAssetSerial());
+		}
+		
+		for(int i=-1; i<sheetName.size(); i++) {
+			Sheet sheet;
+			if(i == -1) {
+				sheet = wb.createSheet("전체");
+			} else {
+				sheet = wb.createSheet(sheetName.get(i));
+			}
 			
-			CellStyle cellStyle5 = wb.createCellStyle();
-			cellStyle5.setDataFormat(wb.createDataFormat().getFormat("yyyy-mm-dd"));
-			Cell c5 = rowi.createCell(5);
-			c5.setCellStyle(cellStyle5);
-			c5.setCellValue(vo.getAssetPurchaseDate());
-
-			CellStyle cellStyle6 = wb.createCellStyle();
-			cellStyle6.setDataFormat(wb.createDataFormat().getFormat("₩#,##0;-₩#,##0"));
-			Cell c6 = rowi.createCell(6);
-			c6.setCellStyle(cellStyle6);
-			c6.setCellValue(vo.getAssetPurchasePrice());
+			for(int j=0; j<30; j++) {
+				sheet.setColumnWidth(j, 3000);
+			}
+			sheet.setColumnWidth(9, 4000);
+			sheet.setColumnWidth(13, 8000);
 			
-			rowi.createCell(6).setCellValue(vo.getAssetPurchasePrice());
-			rowi.createCell(7).setCellValue(vo.getAssetPurchaseShop());
-			rowi.createCell(8).setCellValue(vo.getAssetMaker());
-			rowi.createCell(9).setCellValue(vo.getAssetModel());
-			rowi.createCell(10).setCellValue(vo.getAssetUsage());
-			rowi.createCell(11).setCellValue(vo.getAssetManager());
-			rowi.createCell(12).setCellValue(vo.getAssetLocation());
-			rowi.createCell(13).setCellValue(vo.getAssetComment());
+			Row row = sheet.createRow(0);
+			row.createCell(0).setCellValue("관리번호");
+			row.createCell(1).setCellValue("자산 분류");
+			row.createCell(2).setCellValue("사용자");
+			row.createCell(3).setCellValue("상태");
+			row.createCell(4).setCellValue("SID");
+			row.createCell(5).setCellValue("구입일");
+			row.createCell(6).setCellValue("구입가");
+			row.createCell(7).setCellValue("구입처");
+			row.createCell(8).setCellValue("제조사");
+			row.createCell(9).setCellValue("모델명");
+			row.createCell(10).setCellValue("용도");
+			row.createCell(11).setCellValue("책임자");
+			row.createCell(12).setCellValue("위치");
+			row.createCell(13).setCellValue("추가사항");
+			
+			int colnum = 14;
+			ArrayList<String> detail = new ArrayList<String>();
+			try {
+				if(i >= 0) {
+					for(String item: cDao.getCategoryByName(sheetName.get(i))) {
+						row.createCell(colnum).setCellValue(item);
+						detail.add(item);
+						colnum += 1;
+					}
+				}
+			} catch (Exception e){
+				e.printStackTrace();
+			}
+			
+			index = 0;
+			for(int m: sheetMap.get(i+1)) {
+				index += 1;
+				AssetVO vo = avoList.get(m);
+				Row rowi = sheet.createRow(index);
+				rowi.createCell(0).setCellValue(vo.getAssetId());
+				rowi.createCell(1).setCellValue(vo.getAssetCategory());
+				rowi.createCell(2).setCellValue(vo.getAssetUser());
+				rowi.createCell(3).setCellValue(vo.getAssetStatus());
+				rowi.createCell(4).setCellValue(vo.getAssetSerial());
+				
+				CellStyle cellStyle5 = wb.createCellStyle();
+				cellStyle5.setDataFormat(wb.createDataFormat().getFormat("yyyy-mm-dd"));
+				Cell c5 = rowi.createCell(5);
+				c5.setCellStyle(cellStyle5);
+				c5.setCellValue(vo.getAssetPurchaseDate());
+	
+				CellStyle cellStyle6 = wb.createCellStyle();
+				cellStyle6.setDataFormat(wb.createDataFormat().getFormat("₩#,##0;-₩#,##0"));
+				Cell c6 = rowi.createCell(6);
+				c6.setCellStyle(cellStyle6);
+				c6.setCellValue(vo.getAssetPurchasePrice());
+				
+				rowi.createCell(6).setCellValue(vo.getAssetPurchasePrice());
+				rowi.createCell(7).setCellValue(vo.getAssetPurchaseShop());
+				rowi.createCell(8).setCellValue(vo.getAssetMaker());
+				rowi.createCell(9).setCellValue(vo.getAssetModel());
+				rowi.createCell(10).setCellValue(vo.getAssetUsage());
+				rowi.createCell(11).setCellValue(vo.getAssetManager());
+				rowi.createCell(12).setCellValue(vo.getAssetLocation());
+				rowi.createCell(13).setCellValue(vo.getAssetComment());
+				
+				if(i >= 0) {
+					List<AssetDetailVO> advoList = aDao.getAssetDetailByAssetId(vo.getAssetId());
+					for(AssetDetailVO advo: advoList) {
+						String item = advo.getAssetItem();
+						rowi.createCell(detail.indexOf(item)+14).setCellValue(advo.getAssetItemDetail());
+					}
+				}
+			}
 		}
 		
 		ByteArrayOutputStream fileOut = new ByteArrayOutputStream();
@@ -224,7 +283,7 @@ public class PrintServiceImpl implements PrintService {
 		int cur = 0;
 		int printIndex = 0;
 		for(String assetId: assetIdList) {
-			AssetVO vo = dao.getAssetByAssetId(assetId);
+			AssetVO vo = aDao.getAssetByAssetId(assetId);
 
 			Row rowi = sheet.createRow(cur);
 			rowi.createCell(0).setCellStyle(BorderTopA);
@@ -340,7 +399,7 @@ public class PrintServiceImpl implements PrintService {
 			CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
 			cur += 1;
 
-			List<AssetDetailVO> advo = dao.getAssetDetailByAssetId(assetId);
+			List<AssetDetailVO> advo = aDao.getAssetDetailByAssetId(assetId);
 			int i = 0;
 			for(i=0; i<advo.size()-1; i=i+2) {
 				rowi = sheet.createRow(cur);

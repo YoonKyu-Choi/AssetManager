@@ -99,6 +99,7 @@ public class CategoryServiceImpl implements CategoryService {
 		return new ModelAndView("categoryModify.tiles", "categoryData", categoryData);
 	}
 	
+	@Transactional
 	@Override
 	public boolean categoryRegisterSend(String categoryName, String[] items) throws Exception{
 		for(String i: items) {
@@ -129,6 +130,7 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public ArrayList<Integer> categoryModifyItemDelete(String categoryName, String[] deleteItems) throws Exception{
 		List<String> cvolist = dao.getCategoryByName(categoryName);
