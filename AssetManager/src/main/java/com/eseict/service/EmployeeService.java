@@ -2,43 +2,39 @@ package com.eseict.service;
 
 import java.util.List;
 
+import org.springframework.web.servlet.ModelAndView;
+
 import com.eseict.VO.EmployeeVO;
 
 public interface EmployeeService {
 
 	// 사용자 등록하기
-	public void newEmployee(EmployeeVO vo);
+	public int newEmployee(EmployeeVO vo) throws Exception;
 	
 	// 아이디 중복 확인
-	public String checkIdDuplication(String employeeId);
+	public String checkIdDuplication(String employeeId) throws Exception;
 	
 	// 등록 확인
-	public int checkRegistered(String employeeId, String employeePw);
-	
-	// 사용자 목록 조회
-	public List<EmployeeVO> getEmployeeList();
+	public int checkRegistered(String employeeId, String employeePw) throws Exception;
 	
 	// 사용자 상세보기
-	public EmployeeVO selectEmployeeByEmployeeSeq(int employeeSeq);
+	public EmployeeVO selectEmployeeByEmployeeSeq(int employeeSeq) throws Exception;
 	
 	// 사용자 수정
-	public void updateEmployee(EmployeeVO evo);
+	public int updateEmployee(EmployeeVO evo) throws Exception;
 	
 	// 사용자 삭제
-	public void deleteEmployee(int employeeSeq);
+	public int deleteEmployee(int employeeSeq) throws Exception;
 
-	// 사용자 상태 확인
-	public String getUserStatusById(String inputId);
-	
-	// 회원 수 조회
-	public int getUserCount();
-	// 사용자 이름으로 검색
-	public List<EmployeeVO> getEmployeeListByName(String employeeName);
 	// 사용자 이름 조회
-	public List<String> getEmployeeNameList();
+	public List<String> getEmployeeNameList() throws Exception;
 	
+	public int loginReact(String inputId, String inputPw) throws Exception;
+	
+	public ModelAndView userListMnV(String employeeName) throws Exception;
+
 	// 사용자 아이디로 사용자 번호 검색
-	public int getEmployeeSeqByEmpId(String employeeId);
+	public int getEmployeeSeqByEmpId(String employeeId) throws Exception;
 	// 사용자 이름으로 Seq 찾기 
 	public int getEmployeeSeqByEmpName(String beforeUser);
 	

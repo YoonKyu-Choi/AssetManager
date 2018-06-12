@@ -89,11 +89,16 @@ public class AssetController {
 
 	@RequestMapping(value = "/assetRegister")
 	public ModelAndView nameList2(Model model) {
-		List<String> elist = eService.getEmployeeNameList();
-		List<String> clist = aService.getAssetCategoryList();
-		model.addAttribute("employeeNameList", elist);
-		model.addAttribute("categoryList", clist);
-		return new ModelAndView("assetRegister.tiles", "list", model); 
+		try {
+			List<String> elist = eService.getEmployeeNameList();
+			List<String> clist = aService.getAssetCategoryList();
+			model.addAttribute("employeeNameList", elist);
+			model.addAttribute("categoryList", clist);
+			return new ModelAndView("assetRegister.tiles", "list", model); 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ModelAndView("assetRegister.tiles");
 	}
 	
 	@RequestMapping(value = "/assetRegisterSend")
@@ -102,14 +107,19 @@ public class AssetController {
 							 	,@RequestParam String[] itemsDetail
 							 	,@RequestParam String employeeId
 							 	,@RequestParam(required=false) MultipartFile uploadImage
-							 	,HttpServletRequest request) throws IllegalStateException, IOException {
+							 	,HttpServletRequest request) throws Exception {
 		// 관리 번호 생성
 		String categoryKeyword = null;
 		String month = null;
 		String categoryName = avo.getAssetCategory();
 		String itemSequence = null;
 		
-		categoryKeyword = cService.getCode(categoryName);
+		try {
+			categoryKeyword = cService.getCode(categoryName);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		// getYear는 폐기함수 -> getFullYear 함수로 대체 , 
 		int yearCut = avo.getAssetPurchaseDate().getYear() % 100;
@@ -160,7 +170,17 @@ public class AssetController {
 		AssetHistoryVO ahvo = new AssetHistoryVO();
 		java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 		ahvo.setAssetId(avo.getAssetId());
-		ahvo.setEmployeeSeq(eService.getEmployeeSeqByEmpId(employeeId));
+		
+
+		// 이 부분 에셋컨트롤러 수정하면서 같이 바꿔줄 것!
+		try {
+			ahvo.setEmployeeSeq(eService.getEmployeeSeqByEmpId(employeeId));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		ahvo.setAssetOccupiedDate(now);
 		aService.insertAssetHistory(ahvo);
 		
@@ -186,13 +206,20 @@ public class AssetController {
 	public ModelAndView assetModify(@RequestParam String assetId, Model model) {
 		AssetVO avo = aService.getAssetByAssetId(assetId);
 		List<AssetDetailVO> dlist = aService.getAssetDetailByAssetId(assetId);
-		List<String> elist = eService.getEmployeeNameList();
+		List<String> elist = null;
+		try {
+			elist = eService.getEmployeeNameList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		AssetHistoryVO ahvo = aService.getAssetHistoryByAssetId(assetId);
 		List<AssetFormerUserVO> afuvo = aService.getAssetFormerUserByAssetId(assetId);
 		int detailSize = dlist.size();
 		String beforeUser = avo.getAssetUser();
 		
 		model.addAttribute("beforeUser",beforeUser);
+
+		
 		model.addAttribute("assetVO",avo);
 		model.addAttribute("assetDetailList",dlist);
 		model.addAttribute("employeeNameList", elist);

@@ -19,49 +19,54 @@ import com.eseict.service.EmployeeService;
 public class LoginController {
 
 	@Autowired
-	private EmployeeService service;
+	private EmployeeService eService;
 	
 	@RequestMapping(value = "/")
 	public String login(HttpSession session) {
-		if (session.getAttribute("isUser") == "TRUE")
+		if (session.getAttribute("isUser") == "TRUE") {
 			return "redirect:/assetList";
-		else
+		} else {
 			return "login";
+		}
 	}
 
 	@RequestMapping(value = "/loginSubmit", method = RequestMethod.POST)
 	@ResponseBody
-	public String loginSubmit(HttpSession session, HttpServletResponse response,
-			@RequestParam("inputId") String inputId, @RequestParam("inputPw") String inputPw) throws IOException {
-		int check = service.checkRegistered(inputId, inputPw);
-		String userStatus = service.getUserStatusById(inputId);
-		if (check == 1) {
-			if (userStatus.equals("퇴사")) {
-				check = 2;
-			} else {
+	public String loginSubmit(RedirectAttributes redirectAttributes, HttpSession session, HttpServletResponse response, @RequestParam("inputId") String inputId, @RequestParam("inputPw") String inputPw) throws IOException {
+		try {
+			int check = eService.loginReact(inputId, inputPw);
+			if(check == 1) {
 				if (inputId.equals("admin")) {
 					session.setAttribute("isAdmin", "TRUE");
 				}
-					session.setAttribute("isUser", "TRUE");
+				session.setAttribute("isUser", "TRUE");
 			}
+			session.setAttribute("Id", inputId);
+			return Integer.toString(check);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		session.setAttribute("Id", inputId);
-		return Integer.toString(check);
+		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
+		return "redirect:/";
 	}
 
 	@RequestMapping(value = "/checkId")
 	@ResponseBody
-	public String checkId(@RequestParam(value = "id", required = false) String inputId, HttpServletResponse response)
-			throws IOException {
-		if (!inputId.isEmpty()) {
-			if (service.checkIdDuplication(inputId) == null) {
-				return "new";
+	public String checkId(@RequestParam(value = "id", required = false) String inputId, HttpServletResponse response) throws IOException {
+		try {
+			if (!inputId.isEmpty()) {
+				if (eService.checkIdDuplication(inputId) == null) {
+					return "new";
+				} else {
+					return "duplicated";
+				}
 			} else {
-				return "deplicated";
+				return "empty";
 			}
-		} else {
-			return "empty";
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return "error";
 	}
 
 	@RequestMapping(value = "/logout")

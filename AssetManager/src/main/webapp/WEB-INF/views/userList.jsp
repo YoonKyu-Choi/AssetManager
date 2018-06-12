@@ -39,7 +39,7 @@
 			var refreshCount = 1;
 			
 			$(".table-responsive").on("click", ".table tbody tr", function(){
-				if(${userCount} > 0){
+				if(${userListData['userCount']} > 0){
 					document.location.href='/assetmanager/userDetail?employeeSeq='+$(this).data("href");
 				}
 			});
@@ -64,19 +64,18 @@
 		});
 		
 		function searchFunc(){
-			alert($("#searchByName").val());
 			$.ajax({
-			"type" : "GET",
-			"url":"userList",
-			"dataType":"text",
-			"data" : {
+			"type": "GET",
+			"url": "userList",
+			"dataType": "text",
+			"data": {
 				employeeName : $("#searchByName").val()
 			},
-			"success" : function(list){
+			"success": function(list){
 				alert("검색 완료 ");
 			},
-				"error" : function(e){
-				alert("오류 발생 : "+e.responseText);
+			"error": function(e){
+				alert("오류 발생 : "+ e.responseText);
 			}
 			});
 		}
@@ -103,8 +102,8 @@
 				<form class="page-header" id="listRefresh">
 					<font size="6px"><b>회원 관리 > 회원 목록</b></font>
 					<label style="float: right; margin-top: 20px">
-						<select id="searchCategory" name="searchCategory">
-							<option value="0">회원 이름</option>
+						<select>
+							<option>회원 이름</option>
 						</select>
 						<input type="text" id="searchByName" name="employeeName">
 						<input type="submit" value="검색" onclick="searchFunc();">
@@ -112,7 +111,7 @@
 				</form>
 				<div style="margin-bottom: 10px">
 					<font size="4px">&nbsp;&nbsp;회원 수 : </font>
-					<span class="badge">${userCount}</span>
+					<span class="badge">${userListData['userCount']}</span>
 				</div>
 				<div class="table-responsive" style="overflow: scroll; height: 400px">
 					<table class="table table-striped" data-toggle="table">
@@ -130,7 +129,7 @@
 						</thead>
 						
 						<tbody>
-						<c:forEach items="${employeeList}" var="employee">
+						<c:forEach items="${userListData['employeeList']}" var="employee">
 							<tr class="clickable-row" data-href="${employee.employeeSeq}">
 								<input type="hidden" name="employeeSeq" value="${employee.employeeSeq}"/>
 								<td>${employee.employeeStatus}</td>

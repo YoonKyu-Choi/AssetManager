@@ -1,36 +1,32 @@
 package com.eseict.service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.web.servlet.ModelAndView;
 
-import com.eseict.VO.CategoryCodeVO;
-import com.eseict.VO.CategoryVO;
-
 public interface CategoryService {
 
-	public String getCode(String categoryName);
+	public String getCode(String categoryName) throws Exception;
 	
-	public void deleteCategory(String categoryName);
+	public int deleteCategory(String categoryName) throws Exception;
 	
-	public int existsCode(String code);
+	public int existsCode(String code) throws Exception;
 
-	public void newCode(String categoryName, String codeName);
+	public int newCode(String categoryName, String codeName) throws Exception;
 	
-	public int deleteCode(String categoryName);
+	public int deleteCode(String categoryName) throws Exception;
 	
-	public ModelAndView categoryDetailMnV(String categoryName);
+	public ModelAndView categoryDetailMnV(String categoryName) throws Exception;
 
-	public ModelAndView categoryListMnV(String searchMode, String searchKeyword);
+	public ModelAndView categoryListMnV(String searchMode, String searchKeyword) throws Exception;
 
-	public ModelAndView categoryModifyMnV(String categoryName);
+	public ModelAndView categoryModifyMnV(String categoryName) throws Exception;
 	
-	public boolean categoryRegisterSend(String categoryName, String[] items);
+	public boolean categoryRegisterSend(String categoryName, String[] items) throws Exception;
 	
-	public int categoryModifyCheckName(String categoryOriName, String categoryName);
+	public int categoryModifyCheckName(String categoryOriName, String categoryName) throws Exception;
 	
-	public ArrayList<Integer> categoryModifyItemDelete(String categoryName, String[] deleteItems);
+	public ArrayList<Integer> categoryModifyItemDelete(String categoryName, String[] deleteItems) throws Exception;
 	
-	public int categoryModifyItemUpdate(String categoryName, String[] items, ArrayList<Integer> deleteItemsList);
+	public int categoryModifyItemUpdate(String categoryName, String[] items, ArrayList<Integer> deleteItemsList) throws Exception;
 }
