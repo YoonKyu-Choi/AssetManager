@@ -156,6 +156,7 @@
 		VALUES(
 			 #{assetId}
 			,#{assetCategory}
+			,#{employeeSeq}
 			,#{assetUser}
 			,#{assetStatus}
 			,#{assetOutStatus}
@@ -286,22 +287,22 @@
 			asset_id = #{assetId} 
 	</update>
 	
-		<select id="getAssetHistoryByAssetId" parameterType="String" resultMap="AssetHistoryVO-result">
-	SELECT 
-		*
-	FROM 
-		ASSET_HISTORY
-	WHERE 
-		ASSET_ID = #{assetId}
+	<select id="getAssetHistoryByAssetId" parameterType="String" resultMap="AssetHistoryVO-result">
+		SELECT 
+			*
+		FROM 
+			ASSET_HISTORY
+		WHERE 
+			ASSET_ID = #{assetId}
 	</select>
 	
 	<select id="getAssetFormerUserByAssetId" parameterType="String" resultMap="AssetFormerUserVO-result">
-	SELECT
-		*
-	FROM
-		ASSET_FORMER_USER
-	WHERE 
-		ASSET_ID = #{assetId}	
+		SELECT
+			*
+		FROM
+			ASSET_FORMER_USER
+		WHERE 
+			ASSET_ID = #{assetId}	
 	</select>
 	
 	<insert id="insertAssetHistory">
@@ -326,6 +327,29 @@
 			,#{assetEndDate}
 		);
 	</insert>
+	
+	<update id="updateAssetFormerUserByKey" parameterType="hashmap">
+		UPDATE
+			ASSET_FORMER_USER
+		SET 
+			asset_end_date = #{assetEndDate}
+		WHERE
+			asset_id = #{assetId}
+		AND
+			employee_seq = #{employeeSeq}
+	</update>
+	
+	<update id="updateAssetHistory" parameterType="com.eseict.VO.AssetHistoryVO">
+		UPDATE 
+			ASSET_HISTORY
+		SET
+			EMPLOYEE_SEQ = #{employeeSeq},
+			ASSET_OCCUPIED_DATE = #{assetOccupiedDate},
+			ASSET_HISTORY_COMMENT = #{assetHistoryComment}
+		WHERE	
+			asset_id = #{assetId}
+	</update>
+	
 	
 	
 </mapper>

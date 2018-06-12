@@ -81,4 +81,9 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 		return sqlSession.selectOne(namespace+"getEmployeeSeqByEmpId",employeeId);
 	}
 
+	@Override
+	public int getEmployeeSeqByEmpName(String beforeUser) {
+		return sqlSession.selectOne(namespace+"getEmployeeSeqByEmpName",beforeUser);
+	}
+
 }

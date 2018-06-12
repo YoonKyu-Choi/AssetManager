@@ -1,5 +1,6 @@
 package com.eseict.DAO;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.eseict.VO.AssetDetailVO;
@@ -61,4 +62,8 @@ public interface AssetDAO {
 	public int insertAssetHistory(AssetHistoryVO ahvo);
 	// 자산 이전 사용자 등록
 	public int insertAssetFormerUser(AssetFormerUserVO afuvo);
+	// 자산 이전 사용자 수정 
+	public int updateAssetFormerUserByKey(HashMap<String, Object> map);
+	// 자산 이력 수정
+	public int updateAssetHistory(AssetHistoryVO ahvo);
 }

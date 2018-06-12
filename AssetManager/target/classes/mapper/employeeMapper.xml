@@ -138,5 +138,14 @@
 			employee_id = #{employeeId}
 	</select>
 	
+	<select id="getEmployeeSeqByEmpName" parameterType="String" resultType="Integer">
+		SELECT
+			EMPLOYEE_SEQ
+		FROM 
+			EMPLOYEE
+		WHERE
+			EMPLOYEE_NAME = #{employeeName}
+	</select>
+	
 	
 </mapper>

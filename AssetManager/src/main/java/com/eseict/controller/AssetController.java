@@ -2,7 +2,7 @@ package com.eseict.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -120,7 +120,6 @@ public class AssetController {
 			month = Integer.toString(avo.getAssetPurchaseDate().getMonth() + 1);
 		}
 		int i = aService.getAssetCountByCategory(avo.getAssetCategory()) + 1;
-		System.out.println("2222");
 		if (i < 10) {
 			itemSequence = "0" + "0" + i;
 		} else if(i>=10 && i<100) {
@@ -134,7 +133,6 @@ public class AssetController {
 			avo.setAssetId(yearCut + month + "-" + categoryKeyword + "-" + (itemSequence));
 		}
 		
-		System.out.println("3333");
 		// 파일 업로드
 		ServletContext ctx = request.getServletContext();
 		String uploadDir = ctx.getRealPath("/resources/");
@@ -144,6 +142,9 @@ public class AssetController {
 			uploadImage.transferTo(dir);
 			avo.setAssetReceiptUrl(fileName+".jpg");
 		}
+		
+		avo.setEmployeeSeq(eService.getEmployeeSeqByEmpId(employeeId));
+		
 		aService.insertAsset(avo);
 		
 		// 자산 세부사항도 같이 등록 
@@ -186,10 +187,17 @@ public class AssetController {
 		AssetVO avo = aService.getAssetByAssetId(assetId);
 		List<AssetDetailVO> dlist = aService.getAssetDetailByAssetId(assetId);
 		List<String> elist = eService.getEmployeeNameList();
+		AssetHistoryVO ahvo = aService.getAssetHistoryByAssetId(assetId);
+		List<AssetFormerUserVO> afuvo = aService.getAssetFormerUserByAssetId(assetId);
+		int detailSize = dlist.size();
+		String beforeUser = avo.getAssetUser();
+		
+		model.addAttribute("beforeUser",beforeUser);
 		model.addAttribute("assetVO",avo);
 		model.addAttribute("assetDetailList",dlist);
 		model.addAttribute("employeeNameList", elist);
-		int detailSize = dlist.size();
+		model.addAttribute("AssetHistoryVO",ahvo);
+		model.addAttribute("AssetFormerUserList",afuvo);
 		model.addAttribute("dSize",detailSize);
 		return new ModelAndView("assetModify.tiles","model",model);	
 	}
@@ -198,11 +206,19 @@ public class AssetController {
 	@RequestMapping(value = "/assetModifySend")
 	public String userModifySend(@ModelAttribute AssetVO avo
 								 ,@ModelAttribute AssetDetailVO dvo
+								 ,@ModelAttribute AssetHistoryVO ahvo
+								 ,@ModelAttribute AssetFormerUserVO afuvo
 								 ,@RequestParam String[] items
 								 ,@RequestParam String[] itemsDetail
+								 ,@RequestParam String beforeUser
 								 ,@RequestParam(required=false) MultipartFile uploadImage
 								 ,HttpServletRequest request) throws IllegalStateException, IOException {
-		String beforeUser = avo.getAssetUser();
+		
+		// new는 새로운 사용자 사용자번호, empSeq는 이전 사용자 번호 
+		// -> 이 부분을 입력 받은 이름으로 해결하고 있는데 동명이인일 경우 문제 해결 필요
+		int newEmpSeq = eService.getEmployeeSeqByEmpName(avo.getAssetUser());
+		int empSeq = eService.getEmployeeSeqByEmpName(beforeUser);
+		
 		// 파일 업로드
 		ServletContext ctx = request.getServletContext();
 		String uploadDir = ctx.getRealPath("/resources/");
@@ -212,6 +228,7 @@ public class AssetController {
 			uploadImage.transferTo(dir);
 			avo.setAssetReceiptUrl(fileName+".jpg");
 		}
+		avo.setEmployeeSeq(newEmpSeq);
 		aService.updateAsset(avo);
 		
 		dvo.setAssetId(avo.getAssetId());
@@ -223,11 +240,28 @@ public class AssetController {
 		
 		// 자산 수정 시 자산 이력 자동 입력
 		if(!beforeUser.equals(avo.getAssetUser())) {
-			AssetFormerUserVO afuvo = new AssetFormerUserVO();
+			// 이전 사용자의 반납 날짜 입력 ( update이긴 한데 반납하기 전까진 null )
 			java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 			afuvo.setAssetEndDate(now);
-			System.out.println(afuvo.getAssetEndDate());
-//			aService.insertAssetFormerUser(afuvo);
+			HashMap<String,Object> map = new HashMap<String,Object>();
+			map.put("assetId", avo.getAssetId());
+			map.put("employeeSeq",empSeq);
+			map.put("assetEndDate",now);
+			aService.updateAssetFormerUserByKey(map);
+			
+			// 새로운 사용자 정보 입력
+			AssetFormerUserVO newAfuvo = new AssetFormerUserVO();
+			newAfuvo.setAssetId(avo.getAssetId());
+			newAfuvo.setEmployeeSeq(avo.getEmployeeSeq());
+			newAfuvo.setAssetUser(avo.getAssetUser());
+			newAfuvo.setAssetStartDate(now);
+			aService.insertAssetFormerUser(newAfuvo);
+			
+			// 해당 자산 이력 수정
+			ahvo.setAssetId(avo.getAssetId());
+			ahvo.setEmployeeSeq(avo.getEmployeeSeq());
+			ahvo.setAssetOccupiedDate(now);
+			aService.updateAssetHistory(ahvo);
 		}
 		return "redirect:/assetDetail?assetId="+avo.getAssetId();
 	}

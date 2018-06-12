@@ -1,5 +1,6 @@
 package com.eseict.DAO;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -72,7 +73,6 @@ public class AssetDAOImpl implements AssetDAO {
 
 	@Override
 	public int getAssetCountByCategory(String assetCategory) {
-		System.out.println("dao 카테고리명 : " + assetCategory);
 		return sqlSession.selectOne(namespace + "getAssetCountByCategory", assetCategory);
 	}
 
@@ -148,6 +148,16 @@ public class AssetDAOImpl implements AssetDAO {
 	@Override
 	public int insertAssetFormerUser(AssetFormerUserVO afuvo) {
 		return sqlSession.insert(namespace+"insertAssetFormerUser",afuvo);
+	}
+
+	@Override
+	public int updateAssetFormerUserByKey(HashMap<String, Object> map) {
+		return sqlSession.update(namespace+"updateAssetFormerUserByKey",map);
+	}
+
+	@Override
+	public int updateAssetHistory(AssetHistoryVO ahvo) {
+		return sqlSession.update(namespace+"updateAssetHistory",ahvo);
 	}
 
 

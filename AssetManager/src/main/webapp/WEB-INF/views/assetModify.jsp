@@ -7,6 +7,7 @@
 <script>
 	$(document).ready(
 			function() {
+				$("#assetUser").val("${requestScope.assetVO.assetUser}").prop("selected", true);
 				$("#assetStatus").val("${requestScope.assetVO.assetStatus}").prop("selected", true);
 				$("#assetOutStatus").val("${requestScope.assetVO.assetOutStatus}").prop("selected", true);
 				$("#assetUsage").val("${requestScope.assetVO.assetUsage}").prop("selected", true);
@@ -189,10 +190,20 @@
 								<th>분류</th>
 								<th>${requestScope.assetVO.assetCategory}</th>
 								<th>이름</th>
-								<th>${requestScope.assetVO.assetUser}</th>
+								<th>
+									<select class="form-controlmin dropdown" name="assetUser" id="assetUser">
+										<option value="0">사용자를 선택하세요.</option>
+										<c:forEach items="${employeeNameList}" var="employee">
+											<option value="${employee}">${employee}</option>
+										</c:forEach>
+									</select>
+								</th>
 							</tr>
+								<input type="hidden" id="employeeId" name="employeeId" value='<%=session.getAttribute("Id")%>'>
 								<input type="hidden" id="assetCategory" name="assetCategory" value="${requestScope.assetVO.assetCategory}">
+								<!-- 
 								<input type="hidden" id="assetUser" name="assetUser" value="${requestScope.assetVO.assetUser}">
+								 -->
 							<tr>
 								<th>관리 번호</th>
 								<th>${requestScope.assetVO.assetId}</th>
@@ -200,6 +211,7 @@
 								<th><input type="text" id="assetSerial" name="assetSerial" value="${requestScope.assetVO.assetSerial}"></th>
 							</tr>
 								<input type="hidden" id="assetId" name="assetId" value="${requestScope.assetVO.assetId}">
+								<input type="hidden" id="beforeUser" name="beforeUser" value="${requestScope.beforeUser}">
 							<tr>
 								<th>자산 상태</th>
 								<th><select class="form-controlmin dropdown" id="assetStatus" name="assetStatus">
@@ -237,8 +249,8 @@
 								<th>용도</th>
 								<th><select class="form-controlmin dropdown" id="assetUsage" name="assetUsage">
 										<option value="0">용도를 선택하세요.</option>
-										<option value="개발">개발</option>
-										<option value="업무">업무</option>
+										<option value="개발용">개발용</option>
+										<option value="업무용">업무용</option>
 								</select></th>
 							</tr>
 							<tr>

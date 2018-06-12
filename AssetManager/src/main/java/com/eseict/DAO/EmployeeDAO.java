@@ -41,4 +41,7 @@ public interface EmployeeDAO {
 	
 	// 사용자 아이디로 사용자 번호 검색
 	public int getEmployeeSeqByEmpId(String employeeId);
+	
+	// 사용자 이름으로 Seq 찾기 
+	public int getEmployeeSeqByEmpName(String beforeUser);
 }

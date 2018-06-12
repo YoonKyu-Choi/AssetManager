@@ -1,5 +1,6 @@
 package com.eseict.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,6 +148,16 @@ public class AssetServiceImpl implements AssetService {
 	@Override
 	public int insertAssetFormerUser(AssetFormerUserVO afuvo) {
 		return dao.insertAssetFormerUser(afuvo);
+	}
+
+	@Override
+	public int updateAssetFormerUserByKey(HashMap<String, Object> map) {
+		return dao.updateAssetFormerUserByKey(map);
+	}
+
+	@Override
+	public int updateAssetHistory(AssetHistoryVO ahvo) {
+		return dao.updateAssetHistory(ahvo);
 	}
 
 

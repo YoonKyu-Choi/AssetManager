@@ -278,9 +278,9 @@
 									</c:forEach>
 								</select>
 							</th>
-							<th>이름</th>
-							<th><%=session.getAttribute("Id")%></th>
-						</tr>
+								<th>이름</th>
+								<th><%=session.getAttribute("Id")%></th>
+							</tr>
 						<input type="hidden" id="employeeId" name="employeeId" value='<%=session.getAttribute("Id")%>'>
 						<tr>
 							<th>관리 번호</th>

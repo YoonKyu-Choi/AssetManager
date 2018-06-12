@@ -22,7 +22,6 @@ public class AssetVO {
 	private String assetManager;
 	private String assetLocation;
 	private String assetReceiptUrl;
-	private MultipartFile imageFile;
 	private String assetComment;
 	
 	public AssetVO() {}
@@ -50,14 +49,7 @@ public class AssetVO {
 		this.assetReceiptUrl = assetReceiptUrl;
 		this.assetComment = assetComment;
 	}
-	public MultipartFile getImageFile() {
-		return imageFile;
-	}
-	
-	public void setImageFile(MultipartFile imageFile) {
-		this.imageFile = imageFile;
-	}
-	
+
 	public String getAssetId() {
 		return assetId;
 	}
@@ -121,7 +113,7 @@ public class AssetVO {
 	public void setAssetPurchaseDate(Date assetPurchaseDate) {
 		this.assetPurchaseDate = assetPurchaseDate;
 	}
-	
+
 	public String getAssetPurchasePrice() {
 		return assetPurchasePrice;
 	}
@@ -214,7 +206,6 @@ public class AssetVO {
 		result = prime * result + ((assetStatus == null) ? 0 : assetStatus.hashCode());
 		result = prime * result + ((assetUsage == null) ? 0 : assetUsage.hashCode());
 		result = prime * result + ((assetUser == null) ? 0 : assetUser.hashCode());
-		result = prime * result + employeeSeq;
 		return result;
 	}
 
@@ -307,8 +298,10 @@ public class AssetVO {
 				return false;
 		} else if (!assetUser.equals(other.assetUser))
 			return false;
-		if (employeeSeq != other.employeeSeq)
-			return false;
 		return true;
 	}
+
+	
+	
+	
 }
