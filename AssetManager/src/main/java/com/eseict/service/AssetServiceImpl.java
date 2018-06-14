@@ -10,6 +10,7 @@ import com.eseict.DAO.AssetDAO;
 import com.eseict.VO.AssetDetailVO;
 import com.eseict.VO.AssetFormerUserVO;
 import com.eseict.VO.AssetHistoryVO;
+import com.eseict.VO.AssetTakeOutHistoryVO;
 import com.eseict.VO.AssetVO;
 import com.eseict.VO.CategoryVO;
 
@@ -158,6 +159,26 @@ public class AssetServiceImpl implements AssetService {
 	@Override
 	public int updateAssetHistory(AssetHistoryVO ahvo) {
 		return dao.updateAssetHistory(ahvo);
+	}
+
+	@Override
+	public List<AssetTakeOutHistoryVO> getAssetTakeOutHistoryByAssetId(String assetId) {
+		return dao.getAssetTakeOutHistoryByAssetId(assetId);
+	}
+
+	@Override
+	public int insertAssetTakeOutHistory(AssetTakeOutHistoryVO atouhvo) {
+		return dao.insertAssetTakeOutHistory(atouhvo);
+	}
+
+	@Override
+	public int upateAssetTakeOutHistory(HashMap<String, Object> map) {
+		return dao.upateAssetTakeOutHistory(map);
+	}
+	
+	@Override
+	public List<Integer> getTakeOutHistorySeqByAssetId(String assetId) {
+		return dao.getTakeOutHistorySeqByAssetId(assetId);
 	}
 
 

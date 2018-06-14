@@ -6,6 +6,7 @@ import java.util.List;
 import com.eseict.VO.AssetDetailVO;
 import com.eseict.VO.AssetFormerUserVO;
 import com.eseict.VO.AssetHistoryVO;
+import com.eseict.VO.AssetTakeOutHistoryVO;
 import com.eseict.VO.AssetVO;
 import com.eseict.VO.CategoryVO;
 
@@ -66,4 +67,12 @@ public interface AssetService {
 	public int updateAssetFormerUserByKey(HashMap<String, Object> map);
 	// 자산 이력 수정
 	public int updateAssetHistory(AssetHistoryVO ahvo);
+	// 자산 반출/수리 이력 조회 
+	public List<AssetTakeOutHistoryVO> getAssetTakeOutHistoryByAssetId(String assetId);
+	// 자산 반출/수리 입력
+	public int insertAssetTakeOutHistory(AssetTakeOutHistoryVO atouhvo);
+	// 자산 납입
+	public int upateAssetTakeOutHistory(HashMap<String, Object> map);
+	// 자산 반출 seq 조회
+	public List<Integer> getTakeOutHistorySeqByAssetId(String assetId);
 }
