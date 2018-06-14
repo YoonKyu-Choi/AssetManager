@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.eseict.VO.AssetDetailVO;
 import com.eseict.VO.AssetFormerUserVO;
 import com.eseict.VO.AssetHistoryVO;
+import com.eseict.VO.AssetTakeOutHistoryVO;
 import com.eseict.VO.AssetVO;
 import com.eseict.VO.CategoryVO;
 import com.eseict.service.AssetService;
@@ -108,6 +109,7 @@ public class AssetController {
 							 	,@RequestParam String employeeId
 							 	,@RequestParam(required=false) MultipartFile uploadImage
 							 	,HttpServletRequest request) throws Exception {
+		System.out.println(employeeId);
 		// 관리 번호 생성
 		String categoryKeyword = null;
 		String month = null;
@@ -153,8 +155,7 @@ public class AssetController {
 			avo.setAssetReceiptUrl(fileName+".jpg");
 		}
 		
-		avo.setEmployeeSeq(eService.getEmployeeSeqByEmpId(employeeId));
-		
+		avo.setEmployeeSeq(eService.getEmployeeSeqByEmpName(avo.getAssetUser()));
 		aService.insertAsset(avo);
 		
 		// 자산 세부사항도 같이 등록 
@@ -170,17 +171,12 @@ public class AssetController {
 		AssetHistoryVO ahvo = new AssetHistoryVO();
 		java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 		ahvo.setAssetId(avo.getAssetId());
-		
 
-		// 이 부분 에셋컨트롤러 수정하면서 같이 바꿔줄 것!
 		try {
-			ahvo.setEmployeeSeq(eService.getEmployeeSeqByEmpId(employeeId));
+			ahvo.setEmployeeSeq(eService.getEmployeeSeqByEmpName(avo.getAssetUser()));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 		ahvo.setAssetOccupiedDate(now);
 		aService.insertAssetHistory(ahvo);
 		
@@ -218,8 +214,6 @@ public class AssetController {
 		String beforeUser = avo.getAssetUser();
 		
 		model.addAttribute("beforeUser",beforeUser);
-
-		
 		model.addAttribute("assetVO",avo);
 		model.addAttribute("assetDetailList",dlist);
 		model.addAttribute("employeeNameList", elist);
@@ -310,16 +304,57 @@ public class AssetController {
 	public ModelAndView assetHistory(Model model
 									,@RequestParam String assetId) {
 		AssetHistoryVO ahvo = aService.getAssetHistoryByAssetId(assetId);
-		
 		List<AssetFormerUserVO> afulist = aService.getAssetFormerUserByAssetId(assetId);
+		List<AssetTakeOutHistoryVO> atohList = aService.getAssetTakeOutHistoryByAssetId(assetId);
+		
 		model.addAttribute("assetId",assetId);
 		model.addAttribute("AssetHistoryVO", ahvo);
 		model.addAttribute("AssetFormerUserList", afulist);
-		
+		model.addAttribute("AssetTakeOutHistoryList",atohList);
 		return new ModelAndView("assetHistory.tiles", "model", model);
 	}
 	
+	@RequestMapping(value="/assetDelete")
+	public String assetDelete(Model model
+							  ,@RequestParam String assetId) {
+		aService.deleteAssetById(assetId);	
+		return "assetList.tiles";
+	}
 	
+	@RequestMapping(value="/assetTakeOutHistory")
+	public String assetTakeOutHistory(@ModelAttribute AssetTakeOutHistoryVO atouhvo) {
+		AssetVO avo = new AssetVO();
+		avo.setAssetId(atouhvo.getAssetId());
+		avo.setAssetOutStatus(atouhvo.getAssetOutStatus());
+		aService.updateAsset(avo);
+		aService.insertAssetTakeOutHistory(atouhvo);
+		return "redirect:/assetDetail?assetId="+atouhvo.getAssetId();
+	}
+	
+	@RequestMapping(value="/assetPayment")
+	public String assetPayment(@RequestParam String assetId) {
+
+		java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		
+		List<AssetTakeOutHistoryVO> atouhList = aService.getAssetTakeOutHistoryByAssetId(assetId);
+		for(AssetTakeOutHistoryVO vo : atouhList) {
+			System.out.println(vo.getAssetId()+" : "+vo.getAssetOutStatus()+" 번호 : "+vo.getTakeOutHistorySeq());
+		}
+		map.put("assetId", assetId);
+		map.put("takeoutHistorySeq",atouhList.get(atouhList.size()-1).getTakeOutHistorySeq());	
+		map.put("assetOutEndDate", now);
+		
+		map.put("assetOutStatus", atouhList.get(atouhList.size()-1).getAssetOutStatus());
+		aService.upateAssetTakeOutHistory(map);
+		
+		AssetVO avo = new AssetVO();
+		avo.setAssetId(assetId);
+		avo.setAssetOutStatus("반출 X");
+		aService.updateAsset(avo);
+		
+		return "redirect:/assetDetail?assetId="+assetId;
+	}
 }
 
 

@@ -34,21 +34,50 @@
             background-color: #ffffff;
             z-index:99999;
         }
+        
+        #pop{
+        width : 350px;
+        height : 400px;
+        background : #3d3d3d;
+        color : #fff;
+        position: absolute;
+        top : 200px;
+        right : 350px;
+        text-align : center;
+        border : 2px solid #000;
+        }
+        
+        .popInput{
+        color : #3d3d3d;
+        }
+        
 </style>
 
 <script>
+	
+	$(document).ready(function(){
+		 $("#pop").hide();
+		 $('#popSubmit').click(function() {
+		       $('#pop').submit();
+		 });
+		 $('#popClose').click(function() {
+		       $('#pop').hide();
+		 });
+
+	});
+
 	function modifyConfirm() {
 		if (!confirm("수정하시겠습니까?")) {
 			return false;
 		} else {
-			$("#modifyForm").submit();
+			$("#assetModifyForm").submit();
 		}
 	}
 	function outConfirm() {
 		if (!confirm("반출/수리 하겠습니까?")) {
 			return false;
 		} else {
-			
+			$("#pop").show();
 		}
 	}
 	function dispReqConfirm() {
@@ -64,6 +93,22 @@
 			return false;
 		} else {
 			$("#assetHistoryForm").submit();
+		}
+	}
+	
+	function deleteConfirm() {
+		if (!confirm("자산을 정말 삭제하시겠습니까?")) {
+			return false;
+		} else {
+			$("#assetDeleteForm").submit();
+		}
+	}
+	
+	function payConfirm(){
+		if (!confirm("자산을 정말 납입하시겠습니까?")) {
+			return false;
+		} else {
+			$("#assetPaymentForm").submit();
 		}
 	}
 
@@ -205,9 +250,6 @@
 				</div>
 					
 			</div>
-			<form id="printReportForm" action="printReport" method="post">
-				<input type="hidden" id="printReportArray" name="assetIdList"/>
-			</form>
 			<div style="display:flex; float: left; margin-top: 10px">
 				<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
 				<button class="btn btn-lg btn-primary" onclick="printReport();" >보고서 출력</button>
@@ -219,28 +261,84 @@
 						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
 						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">수정</button>
 					</c:when>
+					
 					<c:when test="${requestScope.assetVO.assetStatus == '폐기'}">
 						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
+						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="deleteConfirm();">자산 삭제</button>
 					</c:when>
+					
+					<c:when test="${requestScope.assetVO.assetOutStatus == '반출 중' || requestScope.assetVO.assetOutStatus == '수리 중'}">
+						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="payConfirm();">납입</button>
+						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
+					</c:when>
+					
 					<c:otherwise>	
 						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">수정</button>
-						<button class="btn btn-lg btn-primary" id="delbtn" onclick="outConfirm();">반출/수리</button>
+						<button class="btn btn-lg btn-primary" id="outBtn" onclick='$("#pop").show();'>반출/수리</button>
 						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="dispReqConfirm();">폐기 신청</button>
 						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
 						<div class="mask"></div>
 					</c:otherwise>
 				</c:choose>
-					<form id="modifyForm" action="assetModify" method="POST">
-						<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
-					</form>
-					<form id="assetDispForm" action="assetDisposal" method="post">
-						<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
-					</form>
-					<form id="assetHistoryForm" action="assetHistory" method="post">
-						<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
-					</form>
+				
+				<!-- 컨트롤러 이동 form -->
+				<form id="printReportForm" action="printReport" method="post">
+					<input type="hidden" id="printReportArray" name="assetIdList"/>
+				</form>
+				<form id="assetModifyForm" action="assetModify" method="POST">
+					<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
+				</form>
+				<form id="assetDispForm" action="assetDisposal" method="post">
+					<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
+				</form>
+				<form id="assetDeleteForm" action="assetDelete" method="POST">
+					<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
+				</form>
+				<form id="assetHistoryForm" action="assetHistory" method="post">
+					<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
+				</form>
+				<form id="assetPaymentForm" action="assetPayment" method="post">
+					<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
+					<input type="hidden" name="assetUser" value=${requestScope.assetVO.assetUser } />
+				</form>
+				
+				<!-- 반출/수리 레이어 팝업 -->
+				<form id="pop" action="assetTakeOutHistory" method="post">
+					<table style="margin-top:100px;margin-left:20px;">
+						<tr>
+							<th>용도</th>
+							<th class="popInput">
+								<select class="form-controlmin dropdown" id="assetOutStatus" name="assetOutStatus">
+										<option value="0">용도를 선택하세요.</option>
+										<option value="반출 중">반출 중</option>
+										<option value="수리 중">수리 중</option>
+										<option value="고장">고장</option>
+								</select>
+							</th>
+						</tr>
+						<tr>
+							<th>대상</th>
+							<th class="popInput"><input type="text" name="assetOutObjective" id="assetOutObjective"/></th>
+						</tr>
+						<tr>
+							<th>목적</th>
+							<th class="popInput"><input type="text" name="assetOutPurpose" id="assetOutPurpose"/></th>
+						</tr>
+						<tr>
+							<th>신청날짜</th>
+							<th class="popInput"><input type="text" name="assetOutStartDate" id="assetOutStartDate"/></th>
+						</tr>
+						<tr>
+							<th>비용</th>
+							<th class="popInput"><input type="text" name="assetOutCost" id="assetOutCost"/></th>
+						</tr>
+					</table>
+						<input type="hidden" id="assetId" name="assetId" value="${requestScope.assetVO.assetId }"/>
+						<input type="button" id="popSubmit" style="margin:30px; background:#3d3d3d" value="submit"/>
+						<input type="button" id="popClose" style="margin:30px; background:#3d3d3d" value="close"/>											
+				</form>
+				
 		    </div>
 		</div>
 	</div>
-
 </body>

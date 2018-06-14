@@ -266,7 +266,6 @@
 			<div class="table-responsive" style="overflow: scroll;">
 				자산 공통사항
 				<div style="display: flex; margin-left: 90px">
-					<input type="hidden" value="<%=session.getAttribute("Id")%>" name="assetUser" id="assetUser"/>
 					<table class="table table-striped" id="assetTable">
 						<tr>
 							<th>분류</th>
@@ -279,7 +278,14 @@
 								</select>
 							</th>
 								<th>이름</th>
-								<th><%=session.getAttribute("Id")%></th>
+								<th>
+									<select class="form-controlmin dropdown" name="assetUser" id="assetUser">
+										<option value="0">책임자를 선택하세요.</option>
+										<c:forEach items="${employeeNameList}" var="employee">
+											<option value="${employee}">${employee}</option>
+										</c:forEach>
+									</select>
+								</th>
 							</tr>
 						<input type="hidden" id="employeeId" name="employeeId" value='<%=session.getAttribute("Id")%>'>
 						<tr>

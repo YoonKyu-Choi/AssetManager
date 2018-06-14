@@ -54,7 +54,7 @@
 
 	<resultMap type="com.eseict.VO.AssetTakeOutHistoryVO" id="AssetTakeOutHistoryVO-result">
 		<id column="ASSET_ID" property="assetId" />
-		<result column="EMPLOYEE_SEQ" property="employeeSeq" />
+		<result column="TAKEOUT_HISTORY_SEQ" property="takeOutHistorySeq" />
 		<result column="ASSET_OUT_STATUS" property="assetOutStatus" />
 		<result column="ASSET_OUT_OBJECTIVE" property="assetOutObjective" />
 		<result column="ASSET_OUT_PURPOSE" property="assetOutPurpose" />
@@ -348,5 +348,60 @@
 		WHERE	
 			asset_id = #{assetId}
 	</update>
+	
+	<select id="getAssetTakeOutHistoryByAssetId" parameterType="String" resultMap="AssetTakeOutHistoryVO-result">
+		SELECT
+			*
+		FROM
+			ASSET_TAKEOUT_HISTORY
+		WHERE
+			asset_id = #{assetId}	
+	</select>
+	
+	<insert id="insertAssetTakeOutHistory">
+		INSERT INTO
+				ASSET_TAKEOUT_HISTORY
+		VALUES(
+			   #{assetId}
+			   ,NEXTVAL('TAKEOUT_HISTORY_SEQ')
+			   ,#{assetOutStatus}
+			   ,#{assetOutObjective}
+			   ,#{assetOutPurpose}
+			   ,#{assetOutStartDate}
+			   ,#{assetOutEndDate}
+			   ,#{assetOutCost}
+		)
+	</insert>
+<!--
+		SET
+			ASSET_OUT_END_DATE = #{assetOutEndDate},
+			ASSET_OUT_STATUS = '반출 X'
+-->
+	
+	<update id="upateAssetTakeOutHistory" parameterType="hashmap">
+		UPDATE
+			ASSET_TAKEOUT_HISTORY
+ 		<set>
+			<if test="assetOutEndDate != null">ASSET_OUT_END_DATE = #{assetOutEndDate},</if>
+			<if test="assetOutStatus == '반출 중'">ASSET_OUT_STATUS = '반출',</if>
+			<if test="assetOutStatus == '수리 중'">ASSET_OUT_STATUS = '수리',</if>
+			<if test="assetOutStatus == '고장'">ASSET_OUT_STATUS = '고장'</if>
+		</set> 
+		WHERE
+			ASSET_ID = #{assetId}
+		AND
+			TAKEOUT_HISTORY_SEQ = #{takeoutHistorySeq}
+	</update>
+	
+	<select id="getTakeOutHistorySeqByAssetId" parameterType="String" resultType="Integer">
+		SELECT
+			TAKEOUT_HISTORY_SEQ
+		FROM
+			ASSET_TAKEOUT_HISTORY
+		WHERE
+			ASSET_ID = #{assetId}
+	</select>
+	
+	
 	
 </mapper>

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.eseict.VO.AssetDetailVO;
 import com.eseict.VO.AssetFormerUserVO;
 import com.eseict.VO.AssetHistoryVO;
+import com.eseict.VO.AssetTakeOutHistoryVO;
 import com.eseict.VO.AssetVO;
 import com.eseict.VO.CategoryVO;
 
@@ -160,5 +161,24 @@ public class AssetDAOImpl implements AssetDAO {
 		return sqlSession.update(namespace+"updateAssetHistory",ahvo);
 	}
 
+	@Override
+	public List<AssetTakeOutHistoryVO> getAssetTakeOutHistoryByAssetId(String assetId) {
+		return sqlSession.selectList(namespace+"getAssetTakeOutHistoryByAssetId",assetId);
+	}
+
+	@Override
+	public int insertAssetTakeOutHistory(AssetTakeOutHistoryVO atouhvo) {
+		return sqlSession.insert(namespace+"insertAssetTakeOutHistory",atouhvo);
+	}
+
+	@Override
+	public int upateAssetTakeOutHistory(HashMap<String, Object> map) {
+		return sqlSession.update(namespace+"upateAssetTakeOutHistory",map);
+	}
+
+	@Override
+	public List<Integer> getTakeOutHistorySeqByAssetId(String assetId) {
+		return sqlSession.selectList(namespace+"getTakeOutHistorySeqByAssetId",assetId);
+	}
 
 }
