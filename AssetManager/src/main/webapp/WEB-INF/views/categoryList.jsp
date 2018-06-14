@@ -142,9 +142,9 @@
 					</div>
 					<% HashMap categoryListData = (HashMap)request.getAttribute("categoryListData");
 					int columnSize = (Integer)categoryListData.get("columnSize");%>
-					<div class="table-responsive" style="overflow: auto; height: 400px">
+					<div class="table-responsive">
 					
-						<table class="table table-striped" style="overflow: scroll;" data-toggle="table">
+						<table class="table table-striped" style="overflow: auto; position: absolute;" data-toggle="table">
 							<thead>
 								<tr>
 									<th data-sortable="true">분류 이름</th>

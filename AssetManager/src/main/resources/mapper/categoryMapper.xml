@@ -38,12 +38,12 @@
 	
 	<insert id="newCategory">
 		INSERT INTO
-			CATEGORY_ITEM ("ASSET_CATEGORY", "ASSET_ITEM")
+			CATEGORY_ITEM ("asset_category", "asset_item")	<!-- 대문자로 수정하지 말 것 -->
 		SELECT
 			#{assetCategory}, #{assetItem}
 		WHERE NOT EXISTS(
 			SELECT
-				"ASSET_CATEGORY", "ASSET_ITEM"
+				"asset_category", "asset_item"				<!-- 대문자로 수정하지 말 것 -->
 			FROM
 				CATEGORY_ITEM
 			WHERE

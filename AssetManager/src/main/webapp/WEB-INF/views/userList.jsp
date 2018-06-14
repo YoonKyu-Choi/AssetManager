@@ -83,15 +83,15 @@
 	
 	<style>
 		th, td {
-	text-align: center;
-	}
-	th{
-	background-color:darkgray;
-	color:white;
-	}
-	p{
+			text-align: center;
+		}
+		th{
+			background-color:darkgray;
+			color:white;
+		}
+		p{
 			font-size:25px;
-	}
+		}
 	</style>
 	
 </head>
@@ -113,8 +113,8 @@
 					<font size="4px">&nbsp;&nbsp;회원 수 : </font>
 					<span class="badge">${userListData['userCount']}</span>
 				</div>
-				<div class="table-responsive" style="overflow: scroll; height: 400px">
-					<table class="table table-striped" data-toggle="table">
+				<div class="table-responsive">
+					<table class="table table-striped" style="overflow: auto; position: absolute;" data-toggle="table">
 						<thead>
 							<tr>
 								<th data-sortable="true">상태</th>

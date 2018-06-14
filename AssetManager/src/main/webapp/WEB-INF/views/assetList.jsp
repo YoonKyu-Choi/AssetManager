@@ -237,8 +237,9 @@
 		}
 	});
 	*/
-
+	 
 </script>
+
 	
 <style>
 	th, td {
@@ -246,7 +247,7 @@
 		white-space: nowrap;
 	}
 	th{
-		background-color:darkgray;
+		background-color: darkgray;
 		color:white;
 	}
 	p{
@@ -270,10 +271,16 @@
 		     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 		        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 	}
-	</style>
+	#header-fixed { 
+		position: fixed; 
+		top: 0px;
+		display: none;
+		background-color:white;
+	}
+</style>
 </head>
-	<body>
-	 <div class="container-fluid">
+<body>
+	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
 				<form class="page-header" id="searchForm" action="assetList">
@@ -300,8 +307,8 @@
 					<font size="4px">&nbsp;&nbsp;폐기 대기 : </font><span class="badge">${assetCountByDispReady}</span>
 					<font size="4px">&nbsp;&nbsp;폐기 : </font><span class="badge">${assetCountByDisposal}</span>
 				</div>
-				<div class="table-responsive" style="overflow: scroll; height: 400px">
-					<table class="table table-striped" data-toggle="table">
+				<div class="table-responsive" id="res">
+					<table id="tab" class="table table-striped" style="overflow: auto; position: absolute;" data-toggle="table">
 						<thead>
 							<tr>
 								<th class="tdNonClick"><input type="checkbox" style="transform:scale(1.5)" id="allCheck" onclick="allClick();"/></th>
@@ -342,7 +349,7 @@
 						</tbody>
 					</table>
 				</div>
-				
+
 				<form id="printForm" action="printList" method="post">
 					<input type="hidden" id="printArray" name="assetIdList"/>
 				</form>
