@@ -7,12 +7,12 @@
 <script>
 	$(document).ready(
 			function() {
-				$("#assetUser").val("${requestScope.assetVO.assetUser}").prop("selected", true);
-				$("#assetStatus").val("${requestScope.assetVO.assetStatus}").prop("selected", true);
-				$("#assetOutStatus").val("${requestScope.assetVO.assetOutStatus}").prop("selected", true);
-				$("#assetUsage").val("${requestScope.assetVO.assetUsage}").prop("selected", true);
-				$("#assetManager").val("${requestScope.assetVO.assetManager}").prop("selected", true);
-				$("#assetLocation").val("${requestScope.assetVO.assetLocation}").prop("selected", true);
+				$("#assetUser").val("${model['assetVO']['assetUser']}").prop("selected", true);
+				$("#assetStatus").val("${model['assetVO']['assetStatus']}").prop("selected", true);
+				$("#assetOutStatus").val("${model['assetVO']['assetOutStatus']}").prop("selected", true);
+				$("#assetUsage").val("${model['assetVO']['assetUsage']}").prop("selected", true);
+				$("#assetManager").val("${model['assetVO']['assetManager']}").prop("selected", true);
+				$("#assetLocation").val("${model['assetVO']['assetLocation']}").prop("selected", true);
 				$("#uploadImage").on("change",handleImgFileSelect);
 		}
 	)
@@ -86,7 +86,7 @@
 		if (!confirm("수정하겠습니까?")) {
 			return false;
 		} else {
-			var counts = ${dSize};
+			var counts = ${model['dSize']};
 			var items = [];
 			var itemsDetail=[];
 			for(var i=0;i<counts;i++){
@@ -180,7 +180,7 @@
 				<form class="form" action="/assetmanager/assetModifySend"
 					id="modifySend" method="POST" enctype="multipart/form-data">
 					<h1 class="page-header">
-						<b>자산 관리 > ${requestScope.assetVO.assetId}의 자산 정보 수정</b>
+						<b>자산 관리 > ${model['assetVO']['assetId']}의 자산 정보 수정</b>
 					</h1>
 					<div class="table-responsive" id="inputDiv"
 						style="overflow: scroll; height: 500px;">
@@ -188,30 +188,30 @@
 						<table class="table table-striped" id="assetTable">
 							<tr>
 								<th>분류</th>
-								<th>${requestScope.assetVO.assetCategory}</th>
+								<th>${model['assetVO']['assetCategory']}</th>
 								<th>이름</th>
 								<th>
 									<select class="form-controlmin dropdown" name="assetUser" id="assetUser">
 										<option value="0">사용자를 선택하세요.</option>
-										<c:forEach items="${employeeNameList}" var="employee">
+										<c:forEach items="${model['employeeNameList']}" var="employee">
 											<option value="${employee}">${employee}</option>
 										</c:forEach>
 									</select>
 								</th>
 							</tr>
 								<input type="hidden" id="employeeId" name="employeeId" value='<%=session.getAttribute("Id")%>'>
-								<input type="hidden" id="assetCategory" name="assetCategory" value="${requestScope.assetVO.assetCategory}">
+								<input type="hidden" id="assetCategory" name="assetCategory" value="${model['assetVO']['assetCategory']}">
 								<!-- 
 								<input type="hidden" id="assetUser" name="assetUser" value="${requestScope.assetVO.assetUser}">
 								 -->
 							<tr>
 								<th>관리 번호</th>
-								<th>${requestScope.assetVO.assetId}</th>
+								<th>${model['assetVO']['assetId']}</th>
 								<th>시리얼 번호</th>
-								<th><input type="text" id="assetSerial" name="assetSerial" value="${requestScope.assetVO.assetSerial}"></th>
+								<th><input type="text" id="assetSerial" name="assetSerial" value="${model['assetVO']['assetSerial']}"></th>
 							</tr>
-								<input type="hidden" id="assetId" name="assetId" value="${requestScope.assetVO.assetId}">
-								<input type="hidden" id="beforeUser" name="beforeUser" value="${requestScope.beforeUser}">
+								<input type="hidden" id="assetId" name="assetId" value="${model['assetVO']['assetId']}">
+								<input type="hidden" id="beforeUser" name="beforeUser" value="${model['beforeUser']}">
 							<tr>
 								<th>자산 상태</th>
 								<th><select class="form-controlmin dropdown" id="assetStatus" name="assetStatus">
@@ -233,19 +233,19 @@
 							</tr>
 							<tr>
 								<th>구입일</th>
-								<th><input type="text" id="assetPurchaseDate" name="assetPurchaseDate" value="${requestScope.assetVO.assetPurchaseDate}"></th>
+								<th><input type="text" id="assetPurchaseDate" name="assetPurchaseDate" value="${model['assetVO']['assetPurchaseDate']}"></th>
 								<th>제조사</th>
-								<th><input type="text" id="assetMaker" name="assetMaker" value="${requestScope.assetVO.assetMaker}"></th>
+								<th><input type="text" id="assetMaker" name="assetMaker" value="${model['assetVO']['assetMaker']}"></th>
 							</tr>
 							<tr>
 								<th>구입가(원)</th>
 								<th><input type="text" id="assetPurchasePrice" name="assetPurchasePrice" maxlength="10" onkeypress="return fn_press(event, 'numbers');" onkeydown="fn_press_han(this);" value="${requestScope.assetVO.assetPurchasePrice}"></th>
 								<th>모델명</th>
-								<th><input type="text" id="assetModel" name="assetModel" value="${requestScope.assetVO.assetModel}"></th>
+								<th><input type="text" id="assetModel" name="assetModel" value="${model['assetVO']['assetModel']}"></th>
 							</tr>
 							<tr>
 								<th>구입처</th>
-								<th><input type="text" id="assetPurchaseShop" name="assetPurchaseShop" value="${requestScope.assetVO.assetPurchaseShop}"></th>
+								<th><input type="text" id="assetPurchaseShop" name="assetPurchaseShop" value="${model['assetVO']['assetPurchaseShop']}"></th>
 								<th>용도</th>
 								<th><select class="form-controlmin dropdown" id="assetUsage" name="assetUsage">
 										<option value="0">용도를 선택하세요.</option>
@@ -257,7 +257,7 @@
 								<th>책임자</th>
 								<th><select class="form-controlmin dropdown" name="assetManager" id="assetManager">
 										<option value="0">책임자를 선택하세요.</option>
-										<c:forEach items="${employeeNameList}" var="employee">
+										<c:forEach items="${model['employeeNameList']}" var="employee">
 											<option value="${employee}">${employee}</option>
 										</c:forEach>
 								</select></th>
@@ -271,19 +271,19 @@
 						</table>
 						<h3>자산 세부사항</h3>
 						<table class="table table-striped">
-							<c:forEach items="${assetDetailList}" varStatus="i" step="2" end="${dSize}">
-								<c:if test="${assetDetailList[i.index+1].assetItem !=null}">
+							<c:forEach items="${model['assetDetailList']}" varStatus="i" step="2" end="${model['dSize']}">
+								<c:if test="${model['assetDetailList'][i.index+1]['assetItem'] !=null}">
 									<tr>
-										<th><input type="text" id="assetItem" name="assetItem" value="${assetDetailList[i.index].assetItem}" readonly></th>
-										<th><input type="text" id="assetItemDetail" name="assetItemDetail" value="${assetDetailList[i.index].assetItemDetail}"></th>
-										<th><input type="text" id="assetItem" name="assetItem" value="${assetDetailList[i.index+1].assetItem}" readonly></th>
-										<th><input type="text" id="assetItemDetail" name="assetItemDetail" value="${assetDetailList[i.index+1].assetItemDetail}"></th>
+										<th><input type="text" id="assetItem" name="assetItem" value="${model['assetDetailList'][i.index]['assetItem']}" readonly></th>
+										<th><input type="text" id="assetItemDetail" name="assetItemDetail" value="${model['assetDetailList'][i.index]['assetItemDetail']}"></th>
+										<th><input type="text" id="assetItem" name="assetItem" value="${model['assetDetailList'][i.index+1]['assetItem']}" readonly></th>
+										<th><input type="text" id="assetItemDetail" name="assetItemDetail" value="${model['assetDetailList'][i.index+1]['assetItemDetail']}"></th>
 									</tr>
 								</c:if>
-								<c:if test="${assetDetailList[i.index+1].assetItem ==null }">
+								<c:if test="${model['assetDetailList'][i.index+1]['assetItem'] ==null }">
 									<tr>
-										<th><input type="text" id="assetItem" name="assetItem" value="${assetDetailList[i.index].assetItem}" readonly></th>
-										<th><input type="text" id="assetItemDetail" name="assetItemDetail" value="${assetDetailList[i.index].assetItemDetail}"></th>
+										<th><input type="text" id="assetItem" name="assetItem" value="${model['assetDetailList'][i.index]['assetItem']}" readonly></th>
+										<th><input type="text" id="assetItemDetail" name="assetItemDetail" value="${model['assetDetailList'][i.index]['assetItemDetail']}"></th>
 										<th></th>
 										<th></th>
 									</tr>
@@ -294,7 +294,7 @@
 					 	<input type="hidden" id="itemsDetail" name="itemsDetail">
 						<div>
 							<h3>기존 영수증 사진</h3><br>
-							<img style="width: 400px; height: 400px;" src="${pageContext.request.contextPath}/resources/${requestScope.assetVO.assetReceiptUrl}">
+							<img style="width: 400px; height: 400px;" src="${pageContext.request.contextPath}/resources/${model['assetVO']['assetReceiptUrl']}">
 							<h4>영수증 수정</h4>
 							<input type="file" id="uploadImage" name="uploadImage">
 						</div>
@@ -303,7 +303,7 @@
 						</div>
 						<div style="margin-top:50px; margin-bottom:30px;">
 						<h3>자산 코멘트</h3>
-						<textArea name="assetComment" id="assetComment" style="resize: none; width: 600px; height: 200px" rows="10" cols="40" onKeyUp="javascript:byteCheck(this,'999')">${requestScope.assetVO.assetComment}</textArea>
+						<textArea name="assetComment" id="assetComment" style="resize: none; width: 600px; height: 200px" rows="10" cols="40" onKeyUp="javascript:byteCheck(this,'999')">${model['assetVO']['assetComment']}</textArea>
 						<span id="byteInfo">수정 시 측정</span> / 999 Byte
 						</div>
 					</div>

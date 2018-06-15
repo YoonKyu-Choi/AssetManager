@@ -1,13 +1,11 @@
 package com.eseict.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,7 +29,9 @@ public class CategoryController {
 	private EmployeeService eService;
 
 	@RequestMapping(value="/categoryList")
-	public ModelAndView categoryList(RedirectAttributes redirectAttributes, Model model, @RequestParam(required = false) String searchMode, @RequestParam(required = false) String searchKeyword) {
+	public ModelAndView categoryList(RedirectAttributes redirectAttributes
+								   , @RequestParam(required = false) String searchMode
+								   , @RequestParam(required = false) String searchKeyword) {
 		try {
 			if(searchKeyword != null) {
 				return cService.categoryListMnV(searchMode, searchKeyword);
@@ -47,7 +47,8 @@ public class CategoryController {
 
 	
 	@RequestMapping(value="/categoryDetail")
-	public ModelAndView categoryDetail(RedirectAttributes redirectAttributes, @RequestParam String categoryName) {
+	public ModelAndView categoryDetail(RedirectAttributes redirectAttributes
+									 , @RequestParam String categoryName) {
 		try {
 			return cService.categoryDetailMnV(categoryName);
 		} catch (Exception e) {
@@ -64,7 +65,10 @@ public class CategoryController {
 	}
 	
 	@RequestMapping(value="/categoryRegisterSend")
-	public String categoryRegisterSend(RedirectAttributes redirectAttributes, @RequestParam String categoryName, @RequestParam String[] items, @RequestParam String code) {
+	public String categoryRegisterSend(RedirectAttributes redirectAttributes
+									 , @RequestParam String categoryName
+									 , @RequestParam String[] items
+									 , @RequestParam String code) {
 		boolean  dup;
 		try {
 			dup = cService.categoryRegisterSend(categoryName, items);
@@ -84,7 +88,9 @@ public class CategoryController {
 	}
 	
 	@RequestMapping(value="/categoryDelete")
-	public String categoryDelete(RedirectAttributes redirectAttributes, @RequestParam String categoryName, @RequestParam("checkAdminPw") String checkAdminPw) {
+	public String categoryDelete(RedirectAttributes redirectAttributes
+							   , @RequestParam String categoryName
+							   , @RequestParam("checkAdminPw") String checkAdminPw) {
 		try {
 			int check = eService.checkRegistered("admin", checkAdminPw);
 			if (check == 1) {
@@ -106,7 +112,8 @@ public class CategoryController {
 	}
 	
 	@RequestMapping(value="/categoryModify")
-	public ModelAndView categoryModify(RedirectAttributes redirectAttributes, @RequestParam String categoryName) {
+	public ModelAndView categoryModify(RedirectAttributes redirectAttributes
+									 , @RequestParam String categoryName) {
 		try {
 			return cService.categoryModifyMnV(categoryName);
 		} catch (Exception e) {
@@ -117,7 +124,11 @@ public class CategoryController {
 	}
 	
 	@RequestMapping(value="/categoryModifySend")
-	public String categoryModifySend(RedirectAttributes redirectAttributes, @RequestParam String categoryOriName, @RequestParam String categoryName, @RequestParam String[] items, @RequestParam String[] deleteItems) {
+	public String categoryModifySend(RedirectAttributes redirectAttributes
+								   , @RequestParam String categoryOriName
+								   , @RequestParam String categoryName
+								   , @RequestParam String[] items
+								   , @RequestParam String[] deleteItems) {
 		try {
 			int checkName = cService.categoryModifyCheckName(categoryOriName, categoryName);
 			ArrayList<Integer> deleteItemsList = cService.categoryModifyItemDelete(categoryName, deleteItems);		
@@ -133,7 +144,8 @@ public class CategoryController {
 
 	@RequestMapping(value = "/checkCode")
 	@ResponseBody
-	public String checkId(@RequestParam(value = "code", required = false) String inputCode, HttpServletResponse response) throws IOException {
+	public String checkId(@RequestParam(value = "code", required = false) String inputCode
+						, HttpServletResponse response) {
 		try {
 			if (!inputCode.isEmpty()) {
 				return String.valueOf(cService.existsCode(inputCode));

@@ -56,6 +56,7 @@
 <script>
 	
 	$(document).ready(function(){
+		
 		 $("#pop").hide();
 		 $('#popSubmit').click(function() {
 		       $('#pop').submit();
@@ -84,6 +85,9 @@
 		if (!confirm("폐기 신청을 하시겠습니까?")) {
 			return false;
 		} else {
+			var diposalAssetAry = [];
+			diposalAssetAry.push("${assetData['assetVO']['assetId']}");
+			$("#diposalAsset").val(diposalAssetAry);
 			$("#assetDispForm").submit();
 		}
 	}
@@ -176,76 +180,76 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<h1 class="page-header"><b>자산 관리 > ${requestScope.assetVO.assetId}의 자산 정보</b></h1>
+				<h1 class="page-header"><b>자산 관리 > ${assetData['assetVO']['assetId']}의 자산 정보</b></h1>
 				<div class="table-responsive" id="inputDiv" style="overflow: scroll;height: 500px;">
 				<h3>자산 공통사항</h3>
 					<table class="table table-striped">
 						<tr>
 							<th>분류</th>
-							<th>${requestScope.assetVO.assetCategory}</th>
+							<th>${assetData['assetVO']['assetCategory']}</th>
 							<th>이름</th>
-							<th>${requestScope.assetVO.assetUser}</th>
+							<th>${assetData['assetVO']['assetUser']}</th>
 						</tr>
 						<tr>
 							<th>관리 번호</th>
-							<th>${requestScope.assetVO.assetId}</th>
+							<th>${assetData['assetVO']['assetId']}</th>
 							<th>시리얼 번호</th>
-							<th>${requestScope.assetVO.assetSerial}</th>
+							<th>${assetData['assetVO']['assetSerial']}</th>
 						</tr>
 						<tr>
 							<th>자산 상태</th>
-							<th>${requestScope.assetVO.assetStatus}</th>
+							<th>${assetData['assetVO']['assetStatus']}</th>
 							<th>반출 상태</th>
-							<th>${requestScope.assetVO.assetOutStatus}</th>
+							<th>${assetData['assetVO']['assetOutStatus']}</th>
 						</tr>
 						<tr>
 							<th>구입일</th>
-							<th>${requestScope.assetVO.assetPurchaseDate}</th>
+							<th>${assetData['assetVO']['assetPurchaseDate']}</th>
 							<th>제조사</th>
-							<th>${requestScope.assetVO.assetMaker}</th>
+							<th>${assetData['assetVO']['assetMaker']}</th>
 						</tr>
 						<tr>
 							<th>구입가(원)</th>
-							<th>${requestScope.assetVO.assetPurchasePrice}</th>
+							<th>${assetData['assetVO']['assetPurchasePrice']}</th>
 							<th>모델명</th>
-							<th>${requestScope.assetVO.assetModel}</th>
+							<th>${assetData['assetVO']['assetModel']}</th>
 						</tr>
 						<tr>
 							<th>구입처</th>
-							<th>${requestScope.assetVO.assetPurchaseShop}</th>
+							<th>${assetData['assetVO']['assetPurchaseShop']}</th>
 							<th>용도</th>
-							<th>${requestScope.assetVO.assetUsage}</th>
+							<th>${assetData['assetVO']['assetUsage']}</th>
 						</tr>
 						<tr>
 							<th>책임자</th>
-							<th>${requestScope.assetVO.assetManager}</th>
+							<th>${assetData['assetVO']['assetManager']}</th>
 							<th>사용 위치</th>
-							<th>${requestScope.assetVO.assetLocation}</th>
+							<th>${assetData['assetVO']['assetLocation']}</th>
 						</tr>
 					</table>
 					<h3>자산 세부사항</h3>
 					<table class="table table-striped">
-					<c:forEach items="${assetDetailList}" varStatus="i" step="2">
+					<c:forEach items="${assetData['assetDetailList']}" varStatus="i" step="2">
 						<tr>
-							<th>${assetDetailList[i.index].assetItem}</th>
-							<th>${assetDetailList[i.index].assetItemDetail}</th>
-							<th>${assetDetailList[i.index+1].assetItem}</th>
-							<th>${assetDetailList[i.index+1].assetItemDetail}</th>
+							<th>${assetData['assetDetailList'][i.index]['assetItem']}</th>
+							<th>${assetData['assetDetailList'][i.index]['assetItemDetail']}</th>
+							<th>${assetData['assetDetailList'][i.index+1]['assetItem']}</th>
+							<th>${assetData['assetDetailList'][i.index+1]['assetItemDetail']}</th>
 						</tr>
 					</c:forEach>
 					</table>
 					<div>
 					<br>
-					<c:if test="${requestScope.assetVO.assetReceiptUrl !=null && requestScope.assetVO.assetReceiptUrl != ''}">
+					<c:if test="${assetData['assetVO']['assetReceiptUrl'] !=null && assetData['assetVO']['assetReceiptUrl'] != ''}">
 						<h3>영수증 사진</h3>
-						<img style="width:400px;height:400px;" src="${pageContext.request.contextPath}/resources/${requestScope.assetVO.assetReceiptUrl}">
+						<img style="width:400px;height:400px;" src="${pageContext.request.contextPath}/resources/${assetData['assetVO']['assetReceiptUrl']}">
 					</c:if>
-					<c:if test="${requestScope.assetVO.assetReceiptUrl ==null || requestScope.assetVO.assetReceiptUrl == ''}">	
+					<c:if test="${assetData['assetVO']['assetReceiptUrl'] ==null || assetData['assetVO']['assetReceiptUrl'] == ''}">	
 						<h3>영수증 사진이 없습니다.</h3>
 					</c:if>
 					<br>					
 						<h3>자산 코멘트</h3>
-						<textArea style="resize: none; width:600px; height:200px" readonly>${requestScope.assetVO.assetComment}</textArea>
+						<textArea style="resize: none; width:600px; height:200px" readonly>${assetData['assetVO']['assetComment']}</textArea>
  					</div>
 				</div>
 					
@@ -257,17 +261,17 @@
 			
 			<div style="display: flex; float: right">
 				<c:choose>
-					<c:when test="${requestScope.assetVO.assetStatus == '폐기 대기'}">
+					<c:when test="${assetData['assetVO']['assetStatus'] == '폐기 대기'}">
 						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
 						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">수정</button>
 					</c:when>
 					
-					<c:when test="${requestScope.assetVO.assetStatus == '폐기'}">
+					<c:when test="${assetData['assetVO']['assetStatus'] == '폐기'}">
 						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
 						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="deleteConfirm();">자산 삭제</button>
 					</c:when>
 					
-					<c:when test="${requestScope.assetVO.assetOutStatus == '반출 중' || requestScope.assetVO.assetOutStatus == '수리 중'}">
+					<c:when test="${assetData['assetVO']['assetOutStatus'] == '반출 중' || assetData['assetVO']['assetOutStatus'] == '수리 중'}">
 						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="payConfirm();">납입</button>
 						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
 					</c:when>
@@ -286,20 +290,20 @@
 					<input type="hidden" id="printReportArray" name="assetIdList"/>
 				</form>
 				<form id="assetModifyForm" action="assetModify" method="POST">
-					<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
+					<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
 				</form>
 				<form id="assetDispForm" action="assetDisposal" method="post">
-					<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
+					<input type="hidden" id="diposalAsset" name="assetId" />
 				</form>
 				<form id="assetDeleteForm" action="assetDelete" method="POST">
-					<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
+					<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
 				</form>
 				<form id="assetHistoryForm" action="assetHistory" method="post">
-					<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
+					<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
 				</form>
 				<form id="assetPaymentForm" action="assetPayment" method="post">
-					<input type="hidden" name="assetId" value=${requestScope.assetVO.assetId } />
-					<input type="hidden" name="assetUser" value=${requestScope.assetVO.assetUser } />
+					<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
+					<input type="hidden" name="assetUser" value=${assetData['assetVO']['assetUser'] } />
 				</form>
 				
 				<!-- 반출/수리 레이어 팝업 -->
@@ -333,7 +337,7 @@
 							<th class="popInput"><input type="text" name="assetOutCost" id="assetOutCost"/></th>
 						</tr>
 					</table>
-						<input type="hidden" id="assetId" name="assetId" value="${requestScope.assetVO.assetId }"/>
+						<input type="hidden" id="assetId" name="assetId" value="${assetData['assetVO']['assetId'] }"/>
 						<input type="button" id="popSubmit" style="margin:30px; background:#3d3d3d" value="submit"/>
 						<input type="button" id="popClose" style="margin:30px; background:#3d3d3d" value="close"/>											
 				</form>

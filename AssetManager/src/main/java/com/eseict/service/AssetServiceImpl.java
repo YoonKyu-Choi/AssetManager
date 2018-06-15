@@ -1,12 +1,20 @@
 package com.eseict.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.eseict.DAO.AssetDAO;
+import com.eseict.DAO.CategoryDAO;
+import com.eseict.DAO.EmployeeDAO;
 import com.eseict.VO.AssetDetailVO;
 import com.eseict.VO.AssetFormerUserVO;
 import com.eseict.VO.AssetHistoryVO;
@@ -18,168 +26,310 @@ import com.eseict.VO.CategoryVO;
 public class AssetServiceImpl implements AssetService {
 
 	@Autowired
-	private AssetDAO dao;
+	private AssetDAO aDao;
+
+	@Autowired
+	private EmployeeDAO eDao;
+
+	@Autowired
+	private CategoryDAO cDao;
 
 	@Override
-	public List<AssetVO> getAssetList() {
-		return dao.getAssetList();
+	public void insertAsset(AssetVO avo) throws Exception {
+		aDao.insertAsset(avo);
 	}
 
 	@Override
-	public int getAssetCount() {
-		return dao.getAssetCount();
+	public List<CategoryVO> getCategoryDetailItem(String assetCategory) throws Exception {
+		return aDao.getCategoryDetailItem(assetCategory);
 	}
 
 	@Override
-	public int getAssetCountByUse() {
-		return dao.getAssetCountByUse();
-	}
-
-	@Override
-	public int getAssetCountCanUse() {
-		return dao.getAssetCountCanUse();
-	}
-
-	@Override
-	public int getAssetCountByNotUse() {
-		return dao.getAssetCountbyNotUse();
-	}
-
-	@Override
-	public int getAssetCountByOut() {
-		return dao.getAssetCountByOut();
-	}
-
-	@Override
-	public int getAssetCountByDispReady() {
-		return dao.getAssetCountByDispReady();
-	}
-
-	@Override
-	public int getAssetCountByDisposal() {
-		return dao.getAssetCountByDisposal();
-	}
-
-	@Override
-	public AssetVO getAssetByAssetId(String assetId) {
-		return dao.getAssetByAssetId(assetId);
-	}
-
-	@Override
-	public void insertAsset(AssetVO avo) {
-		dao.insertAsset(avo);
-	}
-
-	@Override
-	public int getAssetCountByCategory(String assetCategory) {
-		return dao.getAssetCountByCategory(assetCategory);
-	}
-
-	@Override
-	public List<CategoryVO> getCategoryDetailItem(String assetCategory) {
-		return dao.getCategoryDetailItem(assetCategory);
-	}
-
-	@Override
-	public List<AssetVO> getDisposalAssetList() {
-		return dao.getDisposalAssetList();
-	}
-
-	@Override
-	public void disposeAsset(String assetId) {
-		dao.disposeAsset(assetId);
-	}
-
-	@Override
-	public List<String> getAssetCategoryList() {
-		return dao.getAssetCategoryList();
-	}
-
-	@Override
-	public void insertAssetDetail(AssetDetailVO dvo) {
-		dao.insertAssetDetail(dvo);
-	}
-
-	@Override
-	public List<AssetDetailVO> getAssetDetailByAssetId(String assetId) {
-		return dao.getAssetDetailByAssetId(assetId);
-	}
-
-	@Override
-	public int updateAsset(AssetVO avo) {
-		return dao.updateAsset(avo);
+	public int updateAsset(AssetVO avo) throws Exception {
+		return aDao.updateAsset(avo);
 		
 	}
 
 	@Override
-	public int updateAssetDetail(AssetDetailVO dvo) {
-		return dao.updateAssetDetail(dvo);
+	public int deleteAssetById(String assetId) throws Exception {
+		return aDao.deleteAssetById(assetId);
 	}
 
 	@Override
-	public int deleteAssetById(String assetId) {
-		return dao.deleteAssetById(assetId);
+	public List<String> getAssetIdListByCategory(String assetCategory) throws Exception {
+		return aDao.getAssetIdListByCategory(assetCategory);
+	}
+
+
+	@Override
+	public ModelAndView assetListMnV(String searchMode, String searchKeyword) throws Exception {
+		HashMap<String, Object> assetListData = new HashMap<String, Object>();
+
+		List<AssetVO> volist = aDao.getAssetList();
+
+		int assetCount = aDao.getAssetCount();
+		int assetCountByUse = aDao.getAssetCountByUse();
+		int assetCountCanUse = aDao.getAssetCountCanUse();
+		int assetCountByNotUse = aDao.getAssetCountByNotUse();
+		int assetCountByOut = aDao.getAssetCountByOut();
+		int assetCountByDispReady = aDao.getAssetCountByDispReady();
+		int assetCountByDisposal = aDao.getAssetCountByDisposal();
+
+		assetListData.put("assetList", volist);
+		assetListData.put("assetCount", assetCount);
+		assetListData.put("assetCountByUse", assetCountByUse);
+		assetListData.put("assetCountCanUse", assetCountCanUse);
+		assetListData.put("assetCountByNotUse", assetCountByNotUse);
+		assetListData.put("assetCountByOut", assetCountByOut);
+		assetListData.put("assetCountByDispReady", assetCountByDispReady);
+		assetListData.put("assetCountByDisposal", assetCountByDisposal);
+
+		if(searchKeyword != null) {
+			assetListData.put("searchMode", searchMode);
+			assetListData.put("searchKeyword", searchKeyword);
+			assetListData.put("search", "1");
+		} else {
+			assetListData.put("search", "0");
+		}
+		return new ModelAndView("assetList.tiles", "assetListData", assetListData);
 	}
 
 	@Override
-	public List<String> getAssetIdListByCategory(String assetCategory) {
-		return dao.getAssetIdListByCategory(assetCategory);
+	public ModelAndView assetDetailMnV(String assetId) throws Exception {
+		AssetVO avo = aDao.getAssetByAssetId(assetId);
+		List<AssetDetailVO> dlist = aDao.getAssetDetailByAssetId(assetId);
+		
+		HashMap<String, Object> assetData = new HashMap<String, Object>();
+		assetData.put("assetVO", avo);
+		assetData.put("assetDetailList", dlist);
+
+		return new ModelAndView("assetDetail.tiles", "assetData", assetData);
 	}
 
 	@Override
-	public int updateAssetDisposal(String assetId) {
-		return dao.updateAssetDisposal(assetId);
+	public ModelAndView assetRegisterMnV() throws Exception {
+		HashMap<String, Object> model = new HashMap<String, Object>();
+		List<String> elist = eDao.getEmployeeNameList();
+		List<String> clist = aDao.getAssetCategoryList();
+		
+		model.put("employeeNameList", elist);
+		model.put("categoryList", clist);
+		return new ModelAndView("assetRegister.tiles", "list", model); 
 	}
 
 	@Override
-	public AssetHistoryVO getAssetHistoryByAssetId(String assetId) {
-		return dao.getAssetHistoryByAssetId(assetId);
+	public String generateAssetId(AssetVO avo) throws Exception {
+
+		// 관리 번호 생성
+		String categoryKeyword = null;
+		String month = null;
+		String categoryName = avo.getAssetCategory();
+		String itemSequence = null;
+		
+		categoryKeyword = cDao.getCode(categoryName);
+		
+		// getYear는 폐기함수 -> getFullYear 함수로 대체 , 
+		int yearCut = avo.getAssetPurchaseDate().getYear() % 100;
+		
+		if(avo.getAssetPurchaseDate().getMonth() + 1 <10) {
+			month = "0" + Integer.toString(avo.getAssetPurchaseDate().getMonth() + 1); 
+		} else {
+			month = Integer.toString(avo.getAssetPurchaseDate().getMonth() + 1);
+		}
+		
+		int i = aDao.getAssetCountByCategory(avo.getAssetCategory()) + 1;
+		
+		if (i < 10) {
+			itemSequence = "0" + "0" + i;
+		} else if(i>=10 && i<100) {
+			itemSequence = "0" + i;
+		} else {
+			itemSequence = Integer.toString(i);	
+		}
+		
+		if(avo.getAssetPurchaseDate().getYear() == 8099) { // 9999 를 넘기면 8099 로 받아짐
+			return "0000"+ "-" + categoryKeyword + "-" + (itemSequence);
+		}else {
+			return yearCut + month + "-" + categoryKeyword + "-" + (itemSequence);
+		}
 	}
 
 	@Override
-	public List<AssetFormerUserVO> getAssetFormerUserByAssetId(String assetId) {
-		return dao.getAssetFormerUserByAssetId(assetId);
+	public String uploadImageFile(ServletContext ctx, MultipartFile uploadImage) throws Exception {
+
+		String uploadDir = ctx.getRealPath("/resources/");
+		if(uploadImage != null && !uploadImage.isEmpty()) {
+			String fileName = UUID.randomUUID().toString();
+			File dir = new File(uploadDir+fileName+".jpg");
+			uploadImage.transferTo(dir);
+			return fileName+".jpg";
+		}
+		
+		return null;
 	}
 
 	@Override
-	public int insertAssetHistory(AssetHistoryVO ahvo) {
-		return dao.insertAssetHistory(ahvo);
+	public int insertAssetDetail(String assetId, String[] items, String[] itemsDetail) throws Exception{
+		AssetDetailVO dvo = new AssetDetailVO();
+		dvo.setAssetId(assetId);
+		int ret = 0;
+		for(int a = 0; a < items.length; a++) {
+			dvo.setAssetItem(items[a]);
+			dvo.setAssetItemDetail(itemsDetail[a]);
+			ret += aDao.insertAssetDetail(dvo);
+		}
+		return ret;
 	}
 
 	@Override
-	public int insertAssetFormerUser(AssetFormerUserVO afuvo) {
-		return dao.insertAssetFormerUser(afuvo);
+	public int updateAssetDetail(String assetId, String[] items, String[] itemsDetail) throws Exception{
+		AssetDetailVO dvo = new AssetDetailVO();
+		dvo.setAssetId(assetId);
+		int ret = 0;
+		for(int a = 0; a < items.length; a++) {
+			dvo.setAssetItem(items[a]);
+			dvo.setAssetItemDetail(itemsDetail[a]);
+			ret += aDao.insertAssetDetail(dvo);
+		}
+		return ret;
 	}
 
 	@Override
-	public int updateAssetFormerUserByKey(HashMap<String, Object> map) {
-		return dao.updateAssetFormerUserByKey(map);
+	public int insertAssetHistory(String assetId, String assetUser) throws Exception {
+		int ret = 0;
+		
+		AssetHistoryVO ahvo = new AssetHistoryVO();
+		java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		ahvo.setAssetId(assetId);
+		int employeeSeq = eDao.getEmployeeSeqByEmpName(assetUser);
+		ahvo.setEmployeeSeq(employeeSeq);
+		ahvo.setAssetOccupiedDate(now);
+		ret += aDao.insertAssetHistory(ahvo);
+		
+		AssetFormerUserVO afuvo = new AssetFormerUserVO();
+		afuvo.setAssetId(assetId);
+		afuvo.setEmployeeSeq(employeeSeq);
+		afuvo.setAssetUser(assetUser);
+		afuvo.setAssetStartDate(now);
+		ret += aDao.insertAssetFormerUser(afuvo);
+
+		return ret;		// 정상 작동 시 ret = 2
 	}
 
 	@Override
-	public int updateAssetHistory(AssetHistoryVO ahvo) {
-		return dao.updateAssetHistory(ahvo);
+	public int updateAssetHistory(String assetId, String assetUser, int empSeq, int newEmpSeq) throws Exception {
+
+		int ret = 0;
+		
+		// 이전 사용자의 반납 날짜 입력 ( update이긴 한데 반납하기 전까진 null )
+		AssetFormerUserVO afuvo = new AssetFormerUserVO();
+		java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		afuvo.setAssetEndDate(now);
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("assetId", assetId);
+		map.put("employeeSeq",empSeq);
+		map.put("assetEndDate",now);
+		ret += aDao.updateAssetFormerUserByKey(map);
+		
+		// 새로운 사용자 정보 입력
+		AssetFormerUserVO newAfuvo = new AssetFormerUserVO();
+		newAfuvo.setAssetId(assetId);
+		newAfuvo.setEmployeeSeq(newEmpSeq);
+		newAfuvo.setAssetUser(assetUser);
+		newAfuvo.setAssetStartDate(now);
+		ret += aDao.insertAssetFormerUser(newAfuvo);
+		
+		// 해당 자산 이력 수정
+		AssetHistoryVO ahvo = new AssetHistoryVO();
+		ahvo.setAssetId(assetId);
+		ahvo.setEmployeeSeq(newEmpSeq);
+		ahvo.setAssetOccupiedDate(now);
+		ret += aDao.updateAssetHistory(ahvo);
+
+		return ret;
 	}
 
-	@Override
-	public List<AssetTakeOutHistoryVO> getAssetTakeOutHistoryByAssetId(String assetId) {
-		return dao.getAssetTakeOutHistoryByAssetId(assetId);
-	}
-
-	@Override
-	public int insertAssetTakeOutHistory(AssetTakeOutHistoryVO atouhvo) {
-		return dao.insertAssetTakeOutHistory(atouhvo);
-	}
-
-	@Override
-	public int upateAssetTakeOutHistory(HashMap<String, Object> map) {
-		return dao.upateAssetTakeOutHistory(map);
-	}
 	
 	@Override
-	public List<Integer> getTakeOutHistorySeqByAssetId(String assetId) {
-		return dao.getTakeOutHistorySeqByAssetId(assetId);
+	public ModelAndView assetModifyMnV(String assetId) throws Exception {
+		HashMap<String, Object> model = new HashMap<String, Object>();
+
+		AssetVO avo = aDao.getAssetByAssetId(assetId);
+		List<AssetDetailVO> dlist = aDao.getAssetDetailByAssetId(assetId);
+		List<String> elist = null;
+		elist = eDao.getEmployeeNameList();
+		AssetHistoryVO ahvo = aDao.getAssetHistoryByAssetId(assetId);
+		List<AssetFormerUserVO> afuvo = aDao.getAssetFormerUserByAssetId(assetId);
+		int detailSize = dlist.size();
+		String beforeUser = avo.getAssetUser();
+		
+		model.put("beforeUser",beforeUser);
+		model.put("assetVO",avo);
+		model.put("assetDetailList",dlist);
+		model.put("employeeNameList", elist);
+		model.put("AssetHistoryVO",ahvo);
+		model.put("AssetFormerUserList",afuvo);
+		model.put("dSize",detailSize);
+		return new ModelAndView("assetModify.tiles","model",model);	
 	}
 
+	@Override
+	public int updateAssetDisposal(String[] assetIdList) throws Exception {
+		int ret = 0;
+		for(int i=0;i<assetIdList.length;i++) {
+			ret += aDao.updateAssetDisposal(assetIdList[i]);
+		}
+		return ret;
+	}
+
+	@Override
+	public ModelAndView assetHistoryMnV(String assetId) throws Exception {
+		HashMap<String, Object> model = new HashMap<String, Object>();
+
+		AssetHistoryVO ahvo = aDao.getAssetHistoryByAssetId(assetId);
+		List<AssetFormerUserVO> afulist = aDao.getAssetFormerUserByAssetId(assetId);
+		List<AssetTakeOutHistoryVO> atohList = aDao.getAssetTakeOutHistoryByAssetId(assetId);
+		
+		model.put("assetId",assetId);
+		model.put("AssetHistoryVO", ahvo);
+		model.put("AssetFormerUserList", afulist);
+		model.put("AssetTakeOutHistoryList",atohList);
+		return new ModelAndView("assetHistory.tiles", "model", model);
+	}
+
+	@Override
+	public int insertAssetTakeOutHistory(AssetTakeOutHistoryVO atouhvo) throws Exception {
+		int ret = 0;
+		AssetVO avo = new AssetVO();
+		avo.setAssetId(atouhvo.getAssetId());
+		avo.setAssetOutStatus(atouhvo.getAssetOutStatus());
+		ret += aDao.updateAsset(avo);
+		ret += aDao.insertAssetTakeOutHistory(atouhvo);
+		return ret;
+	}
+
+	@Override
+	public int upateAssetTakeOutHistory(String assetId) throws Exception {
+		int ret = 0;
+		
+		java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		
+		List<AssetTakeOutHistoryVO> atouhList = aDao.getAssetTakeOutHistoryByAssetId(assetId);
+
+		map.put("assetId", assetId);
+		map.put("takeoutHistorySeq",atouhList.get(atouhList.size()-1).getTakeOutHistorySeq());	
+		map.put("assetOutEndDate", now);
+		
+		map.put("assetOutStatus", atouhList.get(atouhList.size()-1).getAssetOutStatus());
+		ret += aDao.upateAssetTakeOutHistory(map);
+		
+		AssetVO avo = new AssetVO();
+		avo.setAssetId(assetId);
+		avo.setAssetOutStatus("반출 X");
+		ret += aDao.updateAsset(avo);
+		
+		return ret;
+	}
 
 }

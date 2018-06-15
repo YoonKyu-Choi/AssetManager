@@ -4,7 +4,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +22,9 @@ public class UserController {
 
 	// 회원가입 등록
 	@RequestMapping(value = "/registerSend")
-	public String registerSend(HttpSession session, @ModelAttribute EmployeeVO vo, RedirectAttributes redirectAttributes) {
+	public String registerSend(HttpSession session
+							 , @ModelAttribute EmployeeVO vo
+							 , RedirectAttributes redirectAttributes) {
 		try {
 			eService.newEmployee(vo);
 			redirectAttributes.addFlashAttribute("msg", "회원가입되었습니다.");
@@ -45,7 +46,8 @@ public class UserController {
 
 	// 사용자 목록
 	@RequestMapping(value = "/userList", method = RequestMethod.GET)
-	public ModelAndView userList(RedirectAttributes redirectAttributes, Model model, @RequestParam(required = false) String employeeName) {
+	public ModelAndView userList(RedirectAttributes redirectAttributes
+							   , @RequestParam(required = false) String employeeName) {
 		try {
 			if(employeeName == null) {
 				return eService.userListMnV(null);
@@ -61,7 +63,8 @@ public class UserController {
 
 	// 사용자 상세보기
 	@RequestMapping(value = "/userDetail")
-	public ModelAndView userDetail(RedirectAttributes redirectAttributes, @RequestParam int employeeSeq) {
+	public ModelAndView userDetail(RedirectAttributes redirectAttributes
+								 , @RequestParam int employeeSeq) {
 		try {
 			EmployeeVO evo = eService.selectEmployeeByEmployeeSeq(employeeSeq);
 			return new ModelAndView("userDetail.tiles", "employeeVO", evo);
@@ -79,7 +82,9 @@ public class UserController {
 
 	// 사용자 삭제
 	@RequestMapping(value = "/userDelete", method = RequestMethod.POST)
-	public String userDelete(@RequestParam("employeeSeq") int employeeSeq, @RequestParam("checkAdminPw") String checkAdminPw, RedirectAttributes redirectAttributes) {
+	public String userDelete(RedirectAttributes redirectAttributes
+						   , @RequestParam("employeeSeq") int employeeSeq
+						   , @RequestParam("checkAdminPw") String checkAdminPw) {
 		try {
 			int check = eService.checkRegistered("admin", checkAdminPw);
 			if (check == 1) {
@@ -98,7 +103,8 @@ public class UserController {
 
 	// 사용자 수정 페이지 이동
 	@RequestMapping(value = "/userModify")
-	public ModelAndView userModify(RedirectAttributes redirectAttributes, @RequestParam int employeeSeq) {
+	public ModelAndView userModify(RedirectAttributes redirectAttributes
+								 , @RequestParam int employeeSeq) {
 		try {
 			EmployeeVO evo = eService.selectEmployeeByEmployeeSeq(employeeSeq);
 			return new ModelAndView("userModify.tiles", "employeeVO", evo);
@@ -111,7 +117,8 @@ public class UserController {
 
 	// 사용자 수정
 	@RequestMapping(value = "/userModifyConfirm")
-	public String userModifyConfirm(RedirectAttributes redirectAttributes, @ModelAttribute EmployeeVO evo) {
+	public String userModifyConfirm(RedirectAttributes redirectAttributes
+								  , @ModelAttribute EmployeeVO evo) {
 		try {
 			eService.updateEmployee(evo);
 			redirectAttributes.addFlashAttribute("msg", "수정되었습니다.");

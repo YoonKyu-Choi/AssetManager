@@ -64,7 +64,13 @@ public class PrintServiceImpl implements PrintService {
 		sheetMap.add(new ArrayList<Integer>());
 		int index = 0;
 		for(String assetId: assetIdList) {
-			AssetVO vo = aDao.getAssetByAssetId(assetId);
+			AssetVO vo = null;
+			try {
+				vo = aDao.getAssetByAssetId(assetId);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			avoList.add(vo);
 			sheetMap.get(0).add(index);	//공통사항
 			String category = vo.getAssetCategory();
@@ -157,7 +163,13 @@ public class PrintServiceImpl implements PrintService {
 				rowi.createCell(13).setCellValue(vo.getAssetComment());
 				
 				if(i >= 0) {
-					List<AssetDetailVO> advoList = aDao.getAssetDetailByAssetId(vo.getAssetId());
+					List<AssetDetailVO> advoList = null;
+					try {
+						advoList = aDao.getAssetDetailByAssetId(vo.getAssetId());
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					for(AssetDetailVO advo: advoList) {
 						String item = advo.getAssetItem();
 						rowi.createCell(detail.indexOf(item)+14).setCellValue(advo.getAssetItemDetail());
@@ -283,7 +295,13 @@ public class PrintServiceImpl implements PrintService {
 		int cur = 0;
 		int printIndex = 0;
 		for(String assetId: assetIdList) {
-			AssetVO vo = aDao.getAssetByAssetId(assetId);
+			AssetVO vo = null;
+			try {
+				vo = aDao.getAssetByAssetId(assetId);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			Row rowi = sheet.createRow(cur);
 			rowi.createCell(0).setCellStyle(BorderTopA);
@@ -399,7 +417,13 @@ public class PrintServiceImpl implements PrintService {
 			CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
 			cur += 1;
 
-			List<AssetDetailVO> advo = aDao.getAssetDetailByAssetId(assetId);
+			List<AssetDetailVO> advo = null;
+			try {
+				advo = aDao.getAssetDetailByAssetId(assetId);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			int i = 0;
 			for(i=0; i<advo.size()-1; i=i+2) {
 				rowi = sheet.createRow(cur);
