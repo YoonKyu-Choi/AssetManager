@@ -329,7 +329,7 @@
 							<th>
 								<select class="form-controlmin dropdown" id="assetCategory" name="assetCategory" onchange="getCategoryDetailItem();">
 									<option value="0" selected>분류를 선택하세요.</option>
-									<c:forEach items="${categoryList}" var="category">
+									<c:forEach items="${list['categoryList']}" var="category">
 										<option value="${category}">${category}</option>
 									</c:forEach>
 								</select>
@@ -338,7 +338,7 @@
 								<th>
 									<select class="form-controlmin dropdown" name="assetUser" id="assetUser">
 										<option value="0">책임자를 선택하세요.</option>
-										<c:forEach items="${employeeNameList}" var="employee">
+										<c:forEach items="${list['employeeNameList']}" var="employee">
 											<option value="${employee}">${employee}</option>
 										</c:forEach>
 									</select>
@@ -403,7 +403,7 @@
 							<th>
 								<select class="form-controlmin dropdown" name="assetManager" id="assetManager">
 									<option value="0">책임자를 선택하세요.</option>
-									<c:forEach items="${employeeNameList}" var="employee">
+									<c:forEach items="${list['employeeNameList']}" var="employee">
 										<option value="${employee}">${employee}</option>
 									</c:forEach>
 								</select>

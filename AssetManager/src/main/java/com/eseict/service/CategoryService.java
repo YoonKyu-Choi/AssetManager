@@ -26,7 +26,7 @@ public interface CategoryService {
 	
 	public int categoryModifyCheckName(String categoryOriName, String categoryName) throws Exception;
 	
-	public ArrayList<Integer> categoryModifyItemDelete(String categoryName, String[] deleteItems) throws Exception;
+	public int categoryModifyItemDelete(String categoryName, String[] deleteItems) throws Exception;
 	
 	public int categoryModifyItemUpdate(String categoryName, String[] items, ArrayList<Integer> deleteItemsList) throws Exception;
 }

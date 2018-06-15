@@ -32,7 +32,11 @@ public class LoginController {
 
 	@RequestMapping(value = "/loginSubmit", method = RequestMethod.POST)
 	@ResponseBody
-	public String loginSubmit(RedirectAttributes redirectAttributes, HttpSession session, HttpServletResponse response, @RequestParam("inputId") String inputId, @RequestParam("inputPw") String inputPw) throws IOException {
+	public String loginSubmit(RedirectAttributes redirectAttributes
+							, HttpSession session
+							, HttpServletResponse response
+							, @RequestParam("inputId") String inputId
+							, @RequestParam("inputPw") String inputPw) {
 		try {
 			int check = eService.loginReact(inputId, inputPw);
 			if(check == 1) {
@@ -52,7 +56,8 @@ public class LoginController {
 
 	@RequestMapping(value = "/checkId")
 	@ResponseBody
-	public String checkId(@RequestParam(value = "id", required = false) String inputId, HttpServletResponse response) throws IOException {
+	public String checkId(@RequestParam(value = "id", required = false) String inputId
+						, HttpServletResponse response) {
 		try {
 			if (!inputId.isEmpty()) {
 				if (eService.checkIdDuplication(inputId) == null) {

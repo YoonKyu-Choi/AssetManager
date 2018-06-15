@@ -15,14 +15,14 @@
 		<div class="row">
 			<div class="main">
 				<h1 class="page-header">
-					<b>자산 관리 > ${requestScope.assetId}의 자산 이력 정보</b>
+					<b>자산 관리 > ${model['assetId']}의 자산 이력 정보</b>
 				</h1>
 				<div class="table-responsive" id="inputDiv" style="overflow: scroll; height: 500px;">
 					
 					<h3>자산 이전 사용자</h3>
-					<c:if test="${requestScope.AssetFormerUserList.size() != 0 }">
+					<c:if test="${model['AssetFormerUserList'].size() != 0 }">
 					<table class="table table-striped">
-						<c:forEach items="${AssetFormerUserList}" var="assetFormerUser">
+						<c:forEach items="${model['AssetFormerUserList']}" var="assetFormerUser">
 							<tr>
 								<th>${assetFormerUser.assetUser}</th>
 								<th>${assetFormerUser.assetStartDate} &nbsp;&nbsp;&nbsp;
@@ -32,12 +32,12 @@
 						</c:forEach>
 					</table>
 					</c:if>
-					<c:if test="${requestScope.AssetFormerUserList.size() ==0 }">
+					<c:if test="${model['AssetFormerUserList'].size() ==0 }">
 						<h3>자산 이전 사용자가 없습니다.</h3>
 					</c:if>
 					
 					<h3>자산 반출/수리 이력</h3>
-					<c:if test="${requestScope.AssetHistoryList.size() != 0 }">						
+					<c:if test="${model['AssetHistoryList'].size() != 0 }">						
 					<table class="table table-striped">
 							<tr>
 								<th>반출/수리</th>
@@ -46,7 +46,7 @@
 								<th>기간</th>
 								<th>비용</th>
 							</tr>
-						<c:forEach items="${AssetTakeOutHistoryList}" var="assetTakeOutHistory">
+						<c:forEach items="${model['AssetTakeOutHistoryList']}" var="assetTakeOutHistory">
 							<tr>
 								<th>${assetTakeOutHistory.assetOutStatus}</th>
 								<th>${assetTakeOutHistory.assetOutObjective}</th>
@@ -58,13 +58,13 @@
 						</c:forEach>
 					</table>
 					</c:if>
-					<c:if test="${requestScope.AssetHistoryList.size() ==0 }">
+					<c:if test="${model['AssetHistoryList'].size() ==0 }">
 						<h3>자산 반출/수리 이력이 없습니다.</h3>
 					</c:if>
 					<div>
 					
 						<h3>자산 이력 코멘트</h3>
-						<textArea style="resize: none; width: 600px; height: 200px" readonly>${requestScope.AssetHistoryVO.assetHistoryComment}</textArea>
+						<textArea style="resize: none; width: 600px; height: 200px" readonly>${model['AssetHistoryVO']['assetHistoryComment']}</textArea>
 					</div>
 				</div>
 			</div>

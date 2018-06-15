@@ -132,22 +132,22 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Transactional
 	@Override
-	public ArrayList<Integer> categoryModifyItemDelete(String categoryName, String[] deleteItems) throws Exception{
+	public int categoryModifyItemDelete(String categoryName, String[] deleteItems) throws Exception{
+		int ret = 0;
 		List<String> cvolist = dao.getCategoryByName(categoryName);
 		String[] cvo = new String[cvolist.size()];
 		cvo = cvolist.toArray(cvo);
 
-		ArrayList<Integer> deleteItemsList = new ArrayList<Integer>();
 		for(String s: deleteItems) {
-			deleteItemsList.add(Integer.parseInt(s));
-			dao.deleteItem(categoryName, cvo[Integer.parseInt(s)]);
+			ret += dao.deleteItem(categoryName, cvo[Integer.parseInt(s)]);
 		}
-		return deleteItemsList;
+		return ret;
 	}
 
 	@Transactional
 	@Override
 	public int categoryModifyItemUpdate(String categoryName, String[] items, ArrayList<Integer> deleteItemsList) throws Exception{
+		int ret = 0;
 		List<String> cvolist = dao.getCategoryByName(categoryName);
 		String[] cvo = new String[cvolist.size()];
 		cvo = cvolist.toArray(cvo);
@@ -158,7 +158,7 @@ public class CategoryServiceImpl implements CategoryService {
 		
 		for(int i=0; i<cvo.length; i++) {
 			if(!cvo[i].equals(itemsList.get(i)) && !itemsList.get(i).equals("")) {
-				dao.updateItemName(cvo[i], itemsList.get(i), categoryName);
+				ret += dao.updateItemName(cvo[i], itemsList.get(i), categoryName);
 			}
 		}
 		
@@ -168,10 +168,10 @@ public class CategoryServiceImpl implements CategoryService {
 				CategoryVO vo = new CategoryVO();
 				vo.setAssetCategory(categoryName);
 				vo.setAssetItem(itemsList.get(j));
-				dao.newCategory(vo);
+				ret += dao.newCategory(vo);
 			}
 		}
-		return 0;
+		return ret;
 	}
 
 	

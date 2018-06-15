@@ -81,7 +81,7 @@
 	$(function(){
 		
 		$(document).on("click", ".table tbody tr", function(event){
-			if(${assetCount} > 0){
+			if(${assetListData['assetCount']} > 0){
 				if($(event.target).is(".chkbox") || $(event.target).is(".tdNonClick")){
 					return;
 				}
@@ -323,16 +323,57 @@
 						</label>
 				</form>
 				<div style="margin-bottom: 10px">
-					<font size="4px">&nbsp;&nbsp;총 자산 수 : </font><span class="badge">${assetCount}</span>
-					<font size="4px">&nbsp;&nbsp;사용 중: </font><span class="badge">${assetCountByUse}</span>
-					<font size="4px">&nbsp;&nbsp;사용 가능: </font><span class="badge">${assetCountCanUse}</span>
-					<font size="4px">&nbsp;&nbsp;사용불가 : </font><span class="badge">${assetCountByNotUse}</span>
-					<font size="4px">&nbsp;&nbsp;반출 : </font><span class="badge">${assetCountByOut}</span>
-					<font size="4px">&nbsp;&nbsp;폐기 대기 : </font><span class="badge">${assetCountByDispReady}</span>
-					<font size="4px">&nbsp;&nbsp;폐기 : </font><span class="badge">${assetCountByDisposal}</span>
+					<font size="4px">&nbsp;&nbsp;총 자산 수 : </font><span class="badge">${assetListData['assetCount']}</span>
+					<font size="4px">&nbsp;&nbsp;사용 중: </font><span class="badge">${assetListData['assetCountByUse']}</span>
+					<font size="4px">&nbsp;&nbsp;사용 가능: </font><span class="badge">${assetListData['assetCountCanUse']}</span>
+					<font size="4px">&nbsp;&nbsp;사용불가 : </font><span class="badge">${assetListData['assetCountByNotUse']}</span>
+					<font size="4px">&nbsp;&nbsp;반출 : </font><span class="badge">${assetListData['assetCountByOut']}</span>
+					<font size="4px">&nbsp;&nbsp;폐기 대기 : </font><span class="badge">${assetListData['assetCountByDispReady']}</span>
+					<font size="4px">&nbsp;&nbsp;폐기 : </font><span class="badge">${assetListData['assetCountByDisposal']}</span>
 				</div>
-				<div class="table-responsive" id="res">
-					<table id="tab" class="table table-striped" style="overflow: auto; position: absolute;" data-toggle="table">
+				<table class="table table-striped" style="" data-toggle="table">
+					<thead>
+						<tr>
+							<th class="tdNonClick"><input type="checkbox" style="transform:scale(1.5)" id="allCheck" onclick="allClick();"/></th>
+							<th data-sortable="true">관리 번호</th>
+							<th data-sortable="true">자산 분류</th>
+							<th data-sortable="true">사용자</th>
+							<th data-sortable="true">상태</th>
+							<th data-sortable="true">시리얼 번호</th>
+							<th data-sortable="true">구매 날짜</th>
+							<th data-sortable="true">구매 가격</th>
+							<th data-sortable="true">구매처</th>
+							<th data-sortable="true">제조사</th>
+							<th data-sortable="true">모델명</th>
+							<th data-sortable="true">용도</th>
+							<th data-sortable="true">책임자</th>
+							<th data-sortable="true">사용 위치</th>
+						</tr>
+					</thead>
+					<tbody style="display: none">
+					<c:forEach items="${assetListData['assetList']}" var="asset">
+						<tr class="clickable-row" data-href="${asset.assetId}">
+							<td class="tdNonClick"><input type="checkBox" style="transform:scale(1.5)" class="chkbox" onclick="dis(this);"/></td>
+							<td>${asset.assetId}</td>
+							<td>${asset.assetCategory}</td>
+							<td>${asset.assetUser}</td>
+							<td>${asset.assetStatus}</td>
+							<td>${asset.assetSerial}</td>
+							<td>${asset.assetPurchaseDate}</td>
+							<td>${asset.assetPurchasePrice}</td>
+							<td>${asset.assetPurchaseShop}</td>
+							<td>${asset.assetMaker}</td>
+							<td>${asset.assetModel}</td>
+							<td>${asset.assetUsage}</td>
+							<td>${asset.assetManager}</td>
+							<td>${asset.assetLocation}</td>
+						</tr>
+					</c:forEach>
+					</tbody>
+				</table>
+				<div class="table-responsive" >
+					
+					<table class="table table-striped" style="overflow: auto; position: absolute;" data-toggle="table">
 						<thead>
 							<tr>
 								<th class="tdNonClick"><input type="checkbox" style="transform:scale(1.5)" id="allCheck" onclick="allClick();"/></th>
@@ -352,7 +393,7 @@
 							</tr>
 						</thead>
 						<tbody>
-						<c:forEach items="${assetList}" var="asset">
+						<c:forEach items="${assetListData['assetList']}" var="asset">
 							<tr class="clickable-row" data-href="${asset.assetId}">
 								<td class="tdNonClick"><input type="checkBox" style="transform:scale(1.5)" class="chkbox" onclick="dis(this);"/></td>
 								<td>${asset.assetId}</td>
