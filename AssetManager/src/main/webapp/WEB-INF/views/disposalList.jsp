@@ -266,8 +266,8 @@
 						<font size="4px">&nbsp;&nbsp;폐기 대기 : </font><span class="badge">${disposalListData['assetCountByDispReady']}</span>
 						<font size="4px">&nbsp;&nbsp;폐기 : </font><span class="badge">${disposalListData['assetCountByDisposal']}</span>
 					</div>
-					<div class="table-responsive" style="overflow: scroll; height: 400px">
-						<table class="table table-striped" data-toggle="table" data-sort-name="status" data-sort-order="desc">
+					<div class="table-responsive">
+						<table class="table table-striped" style="overflow: auto; position: absolute;" data-toggle="table" data-sort-name="status" data-sort-order="desc">
 							<thead>
 								<tr>
 									<th><input type="checkbox" style="transform:scale(1.5)" onclick="allClick();"/></th>
