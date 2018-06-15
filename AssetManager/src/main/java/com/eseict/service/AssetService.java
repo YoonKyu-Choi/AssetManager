@@ -21,6 +21,7 @@ public interface AssetService {
 	public int updateAsset(AssetVO avo) throws Exception;
 	// 해당 id의 자산 삭제
 	public int deleteAssetById(String assetId) throws Exception;
+	public int deleteAssetDetailById(String assetId) throws Exception;
 	// 해당 분류의 자산 ID 리스트 조회
 	public List<String> getAssetIdListByCategory(String assetCategory) throws Exception;
 
@@ -51,4 +52,6 @@ public interface AssetService {
 	public int insertAssetTakeOutHistory(AssetTakeOutHistoryVO atouhvo) throws Exception;
 	// 자산 납입
 	public int upateAssetTakeOutHistory(String assetId) throws Exception;
+	// 자산 등록 할 때 반출 중/수리 중 선택 시 자산 반출/수리 등록
+	public int insertAssetTakeOutHistoryWhenRegister(AssetTakeOutHistoryVO atouhvo) throws Exception;
 }

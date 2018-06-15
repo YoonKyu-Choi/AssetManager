@@ -21,10 +21,49 @@
 	rel="stylesheet">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
 
+<style>
+		#pop{
+        width : 350px;
+        height : 400px;
+        background : #3d3d3d;
+        color : #fff;
+        position: absolute;
+        top : 200px;
+        right : 350px;
+        text-align : center;
+        border : 2px solid #000;
+        }
+        
+        .popInput{
+        color : #3d3d3d;
+        }
+
+</style>
+
 <script type="text/javascript">
 
 	$(document).ready(function(){
 		$("#uploadImage").on("change",handleImgFileSelect);
+		 $("#pop").hide();
+		 $("#popSubmit").click(function(){
+			 $("#pop").hide();
+			 $("#popTable tr:last").after('<tr><th><input type="hidden" id="assetOutStatus" name="assetOutStatus" value="'+$("#assetOutStatus option:selected").val()+'"></th></tr>');
+			 $("#assetOutStatus").attr("disabled",true);
+		 });
+		 $('#assetOutStatus').change(function(){
+			 var state = $('#assetOutStatus option:selected').val();
+				if(state == '반출 중'|| state=='수리 중') {
+					$("#pop").show();
+				} else {
+					$("#pop").hide();
+				}			 
+		 });
+		 $('#popClose').click(function() {
+			 $("#assetOutObjective").val("");
+			 $("#assetOutPurpose").val("");
+			 $("#assetOutCost").val("");
+		       $('#pop').hide();
+		 });
 	});
 	
 	var counts = 0;
@@ -387,7 +426,33 @@
 					<span id="byteInfo">0</span> / 999 Byte
 				</div>
 			</div>
+		<!-- 반출/수리 레이어 팝업 -->
+		<div id="pop">
+			<table style="margin-top:100px;margin-left:30px;" id="popTable">
+				<tr style="text-align:center;">
+					<th>날짜</th>
+					<th style="color:white;">&nbsp;&nbsp;오늘 날짜로 등록됩니다.</th>
+				</tr>
+				<tr>
+					<th>대상</th>
+					<th class="popInput"><input type="text" name="assetOutObjective" id="assetOutObjective"/></th>
+				</tr>
+				<tr>
+					<th>목적</th>
+					<th class="popInput"><input type="text" name="assetOutPurpose" id="assetOutPurpose"/></th>
+				</tr>
+				
+				<tr>
+					<th>비용</th>
+					<th class="popInput"><input type="text" name="assetOutCost" id="assetOutCost"/></th>
+				</tr>
+			</table>
+				<input type="button" id="popSubmit" style="margin:30px; background:#3d3d3d" value="등록"/>
+				<input type="button" id="popClose" style="margin:30px; background:#3d3d3d" value="취소"/>											
+		</div>
 		</form>
+		
+				
 		<div style="display: flex; width: 300px; margin-left: 90px;">
 			<input type="button" class="btn btn-lg btn-primary btn-block" id="registerBtn" onclick="submitCheck();" value="자산 등록" /> 
 			<label style="opacity: 0; margin: 10px"></label>

@@ -120,6 +120,10 @@ public class AssetDAOImpl implements AssetDAO {
 	public int deleteAssetById(String assetId) throws Exception {
 		return sqlSession.delete(namespace+"deleteAssetById", assetId);
 	}
+	@Override
+	public int deleteAssetDetailById(String assetId) throws Exception {
+		return sqlSession.delete(namespace+"deleteAssetDetailById", assetId);
+	}
 
 	@Override
 	public List<String> getAssetIdListByCategory(String assetCategory) throws Exception {
@@ -180,5 +184,6 @@ public class AssetDAOImpl implements AssetDAO {
 	public List<Integer> getTakeOutHistorySeqByAssetId(String assetId) throws Exception {
 		return sqlSession.selectList(namespace+"getTakeOutHistorySeqByAssetId",assetId);
 	}
+
 
 }
