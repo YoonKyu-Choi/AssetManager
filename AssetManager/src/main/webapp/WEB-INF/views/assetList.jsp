@@ -166,6 +166,30 @@
 		}
 	}
 	
+	function printLabel(){
+		if(checkCount == 0){
+			alert("자산을 선택해주세요.");
+			return false;
+		}
+		else{
+			if(!confirm('선택한 자산들의 라벨을 출력하겠습니까?')){
+				return false;
+			}else{
+				var printList = [];
+				$(".chkbox").each(function(){
+					if($(this).prop("checked")){
+						var id = $(this).closest("tr").find("td:eq(1)").text()
+						printList.push(id);
+					}
+				});
+				
+				$("#printLabelArray").val(printList);
+				$("#printLabelForm").submit();
+				
+			}
+		}
+	}
+	
 	function dispRequest(){
 		if(checkCount == 0){
 			alert("자산을 선택해주세요.");
@@ -352,8 +376,14 @@
 				<form id="printReportForm" action="printReport" method="post">
 					<input type="hidden" id="printReportArray" name="assetIdList"/>
 				</form>
+				<form id="printLabelForm" action="printLabel" method="post">
+					<input type="hidden" id="printLabelArray" name="assetIdList"/>
+				</form>
 				<div style="display:flex; float: left; margin-top: 10px">
 					<button class="btn btn-lg btn-primary" onclick="printReport();" >보고서 출력</button>
+				</div>
+				<div style="display:flex; float: left; margin-top: 10px">
+					<button class="btn btn-lg btn-primary" onclick="printLabel();" >라벨 출력</button>
 				</div>
 				
 				<div style="display:flex; float:right; margin-top: 10px">
