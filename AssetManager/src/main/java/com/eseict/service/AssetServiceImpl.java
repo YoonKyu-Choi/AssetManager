@@ -54,6 +54,11 @@ public class AssetServiceImpl implements AssetService {
 	public int deleteAssetById(String assetId) throws Exception {
 		return aDao.deleteAssetById(assetId);
 	}
+	@Override
+	public int deleteAssetDetailById(String assetId) throws Exception {
+		return aDao.deleteAssetDetailById(assetId);
+	}
+
 
 	@Override
 	public List<String> getAssetIdListByCategory(String assetCategory) throws Exception {
@@ -307,6 +312,11 @@ public class AssetServiceImpl implements AssetService {
 		ret += aDao.insertAssetTakeOutHistory(atouhvo);
 		return ret;
 	}
+	
+	@Override
+	public int insertAssetTakeOutHistoryWhenRegister(AssetTakeOutHistoryVO atouhvo) throws Exception {
+		return aDao.insertAssetTakeOutHistory(atouhvo);
+	}
 
 	@Override
 	public int upateAssetTakeOutHistory(String assetId) throws Exception {
@@ -331,5 +341,6 @@ public class AssetServiceImpl implements AssetService {
 		
 		return ret;
 	}
+
 
 }

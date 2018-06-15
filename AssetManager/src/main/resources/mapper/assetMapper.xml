@@ -256,6 +256,13 @@
 		WHERE
 			ASSET_ID=#{assetId}
 	</delete>
+	
+	<delete id="deleteAssetDetailById" parameterType="String">
+		DELETE FROM
+			ASSET_CATEGORY_ITEM
+		WHERE
+			ASSET_ID=#{assetId}
+	</delete>
 
 	<select id="getAssetIdListByCategory" parameterType="String" resultType="String">
 		SELECT

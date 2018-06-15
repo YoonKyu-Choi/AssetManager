@@ -78,6 +78,9 @@ public class AssetController {
 
 	public String assetRegister(RedirectAttributes redirectAttributes
 							  , @ModelAttribute AssetVO avo
+							  , @RequestParam(required=false) String assetOutObjective
+							  , @RequestParam(required=false) String assetOutPurpose
+	  					  	  , @RequestParam(required=false) String assetOutCost 
 							  , @RequestParam String[] items
 							  , @RequestParam String[] itemsDetail
 							  , @RequestParam(required=false) MultipartFile uploadImage
@@ -102,6 +105,23 @@ public class AssetController {
 					
 			// 자산 이력 등록
 			aService.insertAssetHistory(assetId, assetUser);
+			
+			System.out.println("objective:"+assetOutObjective);
+			System.out.println("purpose"+assetOutPurpose);
+			System.out.println("cost"+assetOutCost);
+			// 자산 등록 시 반출,수리 중이면 입력
+			if(!assetOutObjective.isEmpty() && !assetOutPurpose.isEmpty() && !assetOutCost.isEmpty() 
+					&& assetOutObjective != null && assetOutPurpose != null && assetOutCost != null) {
+			AssetTakeOutHistoryVO atouhvo = new AssetTakeOutHistoryVO();
+			atouhvo.setAssetId(assetId);
+			atouhvo.setAssetOutStatus(avo.getAssetOutStatus());
+			atouhvo.setAssetOutObjective(assetOutObjective);
+			atouhvo.setAssetOutPurpose(assetOutPurpose);
+			atouhvo.setAssetOutStartDate(new java.sql.Date(new java.util.Date().getTime()));
+			atouhvo.setAssetOutCost(assetOutCost);
+			aService.insertAssetTakeOutHistoryWhenRegister(atouhvo);
+			System.out.println(atouhvo);
+			}
 			
 			return "redirect:/assetList.tiles";
 		} catch (Exception e) {
@@ -208,7 +228,9 @@ public class AssetController {
 	public String assetDelete(RedirectAttributes redirectAttributes
 							, @RequestParam String assetId) {
 		try {
+			// 자산 삭제
 			aService.deleteAssetById(assetId);	
+			aService.deleteAssetDetailById(assetId);
 			return "assetList.tiles";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -221,6 +243,7 @@ public class AssetController {
 	public String assetTakeOutHistory(RedirectAttributes redirectAttributes
 									, @ModelAttribute AssetTakeOutHistoryVO atouhvo) {
 		try {
+			// 자산 반출/수리 이력 입력
 			aService.insertAssetTakeOutHistory(atouhvo);
 			return "redirect:/assetDetail?assetId="+atouhvo.getAssetId();
 		} catch (Exception e) {
@@ -234,6 +257,7 @@ public class AssetController {
 	public String assetPayment(RedirectAttributes redirectAttributes
 							 , @RequestParam String assetId) {
 		try {
+			// 자산 납입 
 			aService.upateAssetTakeOutHistory(assetId);
 			return "redirect:/assetDetail?assetId="+assetId;
 		} catch (Exception e) {

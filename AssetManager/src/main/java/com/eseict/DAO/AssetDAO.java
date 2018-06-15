@@ -52,6 +52,7 @@ public interface AssetDAO {
 	public int updateAssetDetail(AssetDetailVO dvo) throws Exception;
 	// 해당 id의 자산 삭제
 	public int deleteAssetById(String assetId) throws Exception;
+	public int deleteAssetDetailById(String assetId) throws Exception;
 	// 해당 분류의 자산 ID 리스트 조회
 	public List<String> getAssetIdListByCategory(String assetCategory) throws Exception;
 	// 자산 폐기 신청
