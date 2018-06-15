@@ -39,4 +39,15 @@ public class PrintController {
 
 		return service.printReport(assetIdList);
 	}
+	
+	@RequestMapping(value="printLabel")
+	@ResponseBody
+	public byte[] printLabel(HttpServletResponse response, @RequestParam String[] assetIdList) throws IOException {
+		String filename = service.printFileName(assetIdList, 2);
+		
+		response.setContentType("application/vnd.ms-excel");
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + filename +"\""); 
+
+		return service.printLabel(assetIdList);
+	}
 }

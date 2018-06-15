@@ -41,6 +41,8 @@ public class PrintServiceImpl implements PrintService {
 			filename = "AssetList_";
 		} else if(mode == 1) {
 			filename = "AssetReport_";
+		} else if(mode == 2) {
+			filename = "AssetLabel_";
 		}
 		
 		if(assetIdList.length == 1) {
@@ -499,6 +501,353 @@ public class PrintServiceImpl implements PrintService {
 			
 			cur += 1;
 			printIndex += 1;
+		}
+		
+		ByteArrayOutputStream fileOut = new ByteArrayOutputStream();
+		try{
+			wb.write(fileOut);
+		} catch(Exception e) {
+			System.out.println(e);
+		} finally {
+			wb.close();
+		}
+		
+		return fileOut.toByteArray();
+	}
+
+	
+	
+	
+	
+	
+	
+	@Override
+	public byte[] printLabel(String[] assetIdList) throws IOException {
+		Workbook wb = new XSSFWorkbook();
+		Sheet sheet = wb.createSheet();
+		sheet.setColumnWidth(0, 1617);
+		sheet.setColumnWidth(1, 2695);
+		sheet.setColumnWidth(2, 3234);
+		sheet.setColumnWidth(3, 1617);
+		sheet.setColumnWidth(4, 1078);
+		sheet.setColumnWidth(5, 1617);
+		sheet.setColumnWidth(6, 2695);
+		sheet.setColumnWidth(7, 3234);
+		sheet.setColumnWidth(8, 1617);
+		
+		Font FontReportTitle = wb.createFont();
+		FontReportTitle.setFontHeight((short)(16*20));
+		FontReportTitle.setBold(true);
+		
+		Font FontReportItem = wb.createFont();
+		FontReportItem.setBold(true);
+		
+		// 스타일 지정
+		// 제품식별표 굵은 글씨, 사방이 얇은 선
+		CellStyle BorderThinBold = wb.createCellStyle();
+		BorderThinBold.setBorderTop(BorderStyle.THIN);
+		BorderThinBold.setBorderLeft(BorderStyle.THIN);
+		BorderThinBold.setBorderRight(BorderStyle.THIN);
+		BorderThinBold.setBorderBottom(BorderStyle.THIN);
+		BorderThinBold.setFont(FontReportItem);
+		BorderThinBold.setVerticalAlignment(VerticalAlignment.CENTER);
+		BorderThinBold.setWrapText(true);
+		
+		// 데이터값 내용 칸; 사방이 얇은 선
+		CellStyle BorderThin = wb.createCellStyle();
+		BorderThin.setBorderTop(BorderStyle.THIN);
+		BorderThin.setBorderLeft(BorderStyle.THIN);
+		BorderThin.setBorderRight(BorderStyle.THIN);
+		BorderThin.setBorderBottom(BorderStyle.THIN);
+		BorderThin.setVerticalAlignment(VerticalAlignment.CENTER);
+		BorderThin.setWrapText(true);
+		
+		// E열 1행 ; 양쪽이 두껍다
+		CellStyle BorderRightLeftThick = wb.createCellStyle();
+		BorderRightLeftThick.setBorderTop(BorderStyle.THICK);
+		BorderRightLeftThick.setBorderBottom(BorderStyle.THIN);
+				
+		// BC열 1행 ; 위쪽 두껍고 아래쪽 얇은 선
+		CellStyle BorderTopThickBottomThin = wb.createCellStyle();
+		BorderTopThickBottomThin.setBorderTop(BorderStyle.THICK);
+		BorderTopThickBottomThin.setBorderBottom(BorderStyle.THIN);
+		
+		// A열 빈 칸; 오른쪽,위쪽  두꺼운 선
+		CellStyle BorderLeftTopThick = wb.createCellStyle();
+		BorderLeftTopThick.setBorderLeft(BorderStyle.THICK);
+		BorderLeftTopThick.setBorderTop(BorderStyle.THICK);
+		
+		// A열 2~6행, 8행 칸; 왼쪽이 두꺼운 선, 오른쪽 얇은 선
+		CellStyle BorderLeftThickRightThin = wb.createCellStyle();
+		BorderLeftThickRightThin.setBorderLeft(BorderStyle.THICK);
+		BorderLeftThickRightThin.setBorderRight(BorderStyle.THIN);
+		BorderLeftThickRightThin.setFont(FontReportItem);
+		
+		// AB열 7행 빈 칸; 왼쪽이 두꺼운 선, 위쪽, 오른쪽 얄은선 
+		CellStyle BorderLeftThickTopThin = wb.createCellStyle();
+		BorderLeftThickTopThin.setBorderLeft(BorderStyle.THICK);
+		BorderLeftThickTopThin.setBorderTop(BorderStyle.THIN);
+		BorderLeftThickTopThin.setBorderRight(BorderStyle.THIN);
+		
+		// AB열 9행 왼쪽 아래 굵은선 
+		CellStyle BorderLeftThickBottomThick = wb.createCellStyle();
+		BorderLeftThickBottomThick.setBorderLeft(BorderStyle.THICK);
+		BorderLeftThickBottomThick.setBorderBottom(BorderStyle.THICK);
+		
+		// B열 7행, 위쪽, 오른쪽 얇은선 
+		CellStyle BorderTopThinRightThin = wb.createCellStyle();
+		BorderTopThinRightThin.setBorderTop(BorderStyle.THIN);
+		BorderTopThinRightThin.setBorderRight(BorderStyle.THIN);
+		
+		// C열 7행, 위쪽, 왼쪽 얇은선 
+		CellStyle BorderTopThinLeftThin = wb.createCellStyle();
+		BorderTopThinLeftThin.setBorderTop(BorderStyle.THIN);
+		BorderTopThinLeftThin.setBorderRight(BorderStyle.THIN);
+		
+		// D열 7행, 위쪽 얇은선, 오른쪽 굵은선 
+		CellStyle BorderTopThinRightThick = wb.createCellStyle();
+		BorderTopThinRightThick.setBorderTop(BorderStyle.THIN);
+		BorderTopThinRightThick.setBorderRight(BorderStyle.THICK);
+		
+		// D열 빈 칸; 오른쪽이 두꺼운 선
+		CellStyle BorderRightTopThick = wb.createCellStyle();
+		BorderRightTopThick.setBorderRight(BorderStyle.THICK);
+		BorderRightTopThick.setBorderTop(BorderStyle.THICK);
+		
+		// D열 2~6행, 8행 칸; 오른쪽이 두꺼운 선, 왼쪽 얇은
+		CellStyle BorderLeftThinRightThick = wb.createCellStyle();
+		BorderLeftThinRightThick.setBorderRight(BorderStyle.THICK);
+		BorderLeftThinRightThick.setBorderLeft(BorderStyle.THIN);
+		
+		
+		
+		// A열 9행, 왼쪽 아래 굵은 선
+		CellStyle BorderLeftBottomThick = wb.createCellStyle();
+		BorderLeftBottomThick.setBorderLeft(BorderStyle.THICK);
+		BorderLeftBottomThick.setBorderBottom(BorderStyle.THICK);
+		// B열 9행, 아래 굵은 선, 오른쪽 얇은 선		
+		CellStyle BorderBottomThickRightThin = wb.createCellStyle();
+		BorderBottomThickRightThin.setBorderRight(BorderStyle.THIN);
+		BorderBottomThickRightThin.setBorderBottom(BorderStyle.THICK);
+		// C열 9행, 왼쪽 얇은 선, 아래 굵은 선
+		CellStyle BorderBottomThickLeftThin = wb.createCellStyle();
+		BorderBottomThickLeftThin.setBorderLeft(BorderStyle.THIN);
+		BorderBottomThickLeftThin.setBorderBottom(BorderStyle.THICK);
+		// D열 9행, 오른쪽 아래 굵은 선
+		CellStyle BorderRightBottomThick = wb.createCellStyle();
+		BorderRightBottomThick.setBorderRight(BorderStyle.THICK);
+		BorderRightBottomThick.setBorderBottom(BorderStyle.THICK);
+		
+		// 왼쪽만 굵은선
+		CellStyle BorderLeftThick = wb.createCellStyle();
+		BorderLeftThick.setBorderLeft(BorderStyle.THICK);
+		// 오른쪽만 얇은 선
+		CellStyle BorderRightThin = wb.createCellStyle();
+		BorderRightThin.setBorderRight(BorderStyle.THIN);
+		// 왼쪽만 얇은 선
+		CellStyle BorderLeftThin = wb.createCellStyle();
+		BorderLeftThin.setBorderLeft(BorderStyle.THIN);
+		// 왼쪽만 굵은선
+		CellStyle BorderRightThick = wb.createCellStyle();
+		BorderRightThick.setBorderRight(BorderStyle.THICK);
+		
+		int cur = 0;
+		int curSecond = 0;
+		int set = 0;
+		int printIndex = 1; 
+		
+		for(String assetId: assetIdList) {
+			AssetVO vo = null;
+			try {
+				vo = aDao.getAssetByAssetId(assetId);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			if(set % 2 == 0) {
+				
+				Row rowi = sheet.createRow(cur);
+				rowi.createCell(0).setCellStyle(BorderLeftTopThick);
+				rowi.createCell(1).setCellStyle(BorderTopThickBottomThin);
+				rowi.createCell(2).setCellStyle(BorderTopThickBottomThin);
+				rowi.createCell(3).setCellStyle(BorderRightTopThick);
+				sheet.addMergedRegion(new CellRangeAddress(cur, cur, 0, 3));
+				cur += 1;
+	
+				rowi = sheet.createRow(cur);
+				rowi.createCell(0).setCellStyle(BorderLeftThickRightThin);
+				rowi.createCell(1).setCellStyle(BorderThinBold);
+				rowi.createCell(2).setCellStyle(BorderThinBold);
+				rowi.createCell(3).setCellStyle(BorderLeftThinRightThick);
+				sheet.addMergedRegion(new CellRangeAddress(cur, cur, 1, 2));
+				Cell cell = CellUtil.createCell(rowi, 1, "제품 식별표(라벨)");
+				CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
+				cur += 1;
+				
+				rowi = sheet.createRow(cur);
+				rowi.createCell(0).setCellStyle(BorderLeftThickRightThin);
+				rowi.createCell(1).setCellStyle(BorderThinBold);
+				rowi.createCell(2).setCellStyle(BorderThin);
+				rowi.createCell(3).setCellStyle(BorderLeftThinRightThick);
+				CellUtil.createCell(rowi, 1, "분류");
+				CellUtil.createCell(rowi, 2, vo.getAssetCategory());
+				cur += 1;
+				
+				rowi = sheet.createRow(cur);
+				rowi.createCell(0).setCellStyle(BorderLeftThickRightThin);
+				rowi.createCell(1).setCellStyle(BorderThinBold);
+				rowi.createCell(2).setCellStyle(BorderThin);
+				rowi.createCell(3).setCellStyle(BorderLeftThinRightThick);
+				CellUtil.createCell(rowi, 1, "사용자");
+				CellUtil.createCell(rowi, 2, vo.getAssetUser());
+				cur += 1;
+				
+				rowi = sheet.createRow(cur);
+				rowi.createCell(0).setCellStyle(BorderLeftThickRightThin);
+				rowi.createCell(1).setCellStyle(BorderThinBold);
+				rowi.createCell(2).setCellStyle(BorderThin);
+				rowi.createCell(3).setCellStyle(BorderLeftThinRightThick);
+				CellUtil.createCell(rowi, 1, "구입일");
+				CellUtil.createCell(rowi, 2, vo.getAssetPurchaseDate().toString());
+				cur += 1;
+				
+				rowi = sheet.createRow(cur);
+				rowi.createCell(0).setCellStyle(BorderLeftThickRightThin);
+				rowi.createCell(1).setCellStyle(BorderThinBold);
+				rowi.createCell(2).setCellStyle(BorderThin);
+				rowi.createCell(3).setCellStyle(BorderLeftThinRightThick);
+				CellUtil.createCell(rowi, 1, "관리번호");
+				CellUtil.createCell(rowi, 2, vo.getAssetId());
+				cur += 1;
+				
+				rowi = sheet.createRow(cur);
+				rowi.createCell(0).setCellStyle(BorderLeftThickTopThin);
+				rowi.createCell(1).setCellStyle(BorderTopThinRightThin);
+				rowi.createCell(2).setCellStyle(BorderTopThinLeftThin);
+				rowi.createCell(3).setCellStyle(BorderTopThinRightThick);
+				CellUtil.createCell(rowi, 2, "Comment");
+				sheet.addMergedRegion(new CellRangeAddress(cur, cur, 0, 1));
+				sheet.addMergedRegion(new CellRangeAddress(cur, cur, 2, 3));
+				cur += 1;
+				
+				rowi = sheet.createRow(cur);
+				rowi.createCell(0).setCellStyle(BorderLeftThick);
+				rowi.createCell(1).setCellStyle(BorderRightThin);
+				rowi.createCell(2).setCellStyle(BorderLeftThin);
+				rowi.createCell(3).setCellStyle(BorderRightThick);
+				sheet.addMergedRegion(new CellRangeAddress(cur, cur, 0, 1));
+				sheet.addMergedRegion(new CellRangeAddress(cur, cur, 2, 3));
+				cur += 1;
+				
+				rowi = sheet.createRow(cur);
+				rowi.createCell(0).setCellStyle(BorderLeftBottomThick);
+				rowi.createCell(1).setCellStyle(BorderBottomThickRightThin);
+				rowi.createCell(2).setCellStyle(BorderBottomThickLeftThin);
+				rowi.createCell(3).setCellStyle(BorderRightBottomThick);
+				sheet.addMergedRegion(new CellRangeAddress(cur, cur, 0, 1));
+				sheet.addMergedRegion(new CellRangeAddress(cur, cur, 2, 3));
+				cur += 1;
+			
+			} else {
+				
+				Row rowi = sheet.getRow(curSecond);
+				rowi.createCell(5).setCellStyle(BorderLeftTopThick);
+				rowi.createCell(6).setCellStyle(BorderTopThickBottomThin);
+				rowi.createCell(7).setCellStyle(BorderTopThickBottomThin);
+				rowi.createCell(8).setCellStyle(BorderRightTopThick);
+				sheet.addMergedRegion(new CellRangeAddress(curSecond, curSecond, 5, 8));
+				curSecond += 1;
+
+				rowi = sheet.getRow(curSecond);
+				rowi.createCell(5).setCellStyle(BorderLeftThickRightThin);
+				rowi.createCell(6).setCellStyle(BorderThinBold);
+				rowi.createCell(7).setCellStyle(BorderThinBold);
+				rowi.createCell(8).setCellStyle(BorderLeftThinRightThick);
+				sheet.addMergedRegion(new CellRangeAddress(curSecond, curSecond, 6, 7));
+				Cell cell = CellUtil.createCell(rowi, 6, "제품 식별표(라벨)");
+				CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
+				curSecond += 1;
+				
+				rowi = sheet.getRow(curSecond);
+				rowi.createCell(5).setCellStyle(BorderLeftThickRightThin);
+				rowi.createCell(6).setCellStyle(BorderThinBold);
+				rowi.createCell(7).setCellStyle(BorderThin);
+				rowi.createCell(8).setCellStyle(BorderLeftThinRightThick);
+				CellUtil.createCell(rowi, 6, "분류");
+				CellUtil.createCell(rowi, 7, vo.getAssetCategory());
+				curSecond += 1;
+				
+				rowi = sheet.getRow(curSecond);
+				rowi.createCell(5).setCellStyle(BorderLeftThickRightThin);
+				rowi.createCell(6).setCellStyle(BorderThinBold);
+				rowi.createCell(7).setCellStyle(BorderThin);
+				rowi.createCell(8).setCellStyle(BorderLeftThinRightThick);
+				CellUtil.createCell(rowi, 6, "사용자");
+				CellUtil.createCell(rowi, 7, vo.getAssetUser());
+				curSecond += 1;
+				
+				rowi = sheet.getRow(curSecond);
+				rowi.createCell(5).setCellStyle(BorderLeftThickRightThin);
+				rowi.createCell(6).setCellStyle(BorderThinBold);
+				rowi.createCell(7).setCellStyle(BorderThin);
+				rowi.createCell(8).setCellStyle(BorderLeftThinRightThick);
+				CellUtil.createCell(rowi, 6, "구입일");
+				CellUtil.createCell(rowi, 7, vo.getAssetPurchaseDate().toString());
+				curSecond += 1;
+				
+				rowi = sheet.getRow(curSecond);
+				rowi.createCell(5).setCellStyle(BorderLeftThickRightThin);
+				rowi.createCell(6).setCellStyle(BorderThinBold);
+				rowi.createCell(7).setCellStyle(BorderThin);
+				rowi.createCell(8).setCellStyle(BorderLeftThinRightThick);
+				CellUtil.createCell(rowi, 6, "관리번호");
+				CellUtil.createCell(rowi, 7, vo.getAssetId());
+				curSecond += 1;
+				
+				rowi = sheet.getRow(curSecond);
+				rowi.createCell(5).setCellStyle(BorderLeftThickTopThin);
+				rowi.createCell(6).setCellStyle(BorderTopThinRightThin);
+				rowi.createCell(7).setCellStyle(BorderTopThinLeftThin);
+				rowi.createCell(8).setCellStyle(BorderTopThinRightThick);
+				CellUtil.createCell(rowi, 7, "Comment");
+				sheet.addMergedRegion(new CellRangeAddress(curSecond, curSecond, 5, 6));
+				sheet.addMergedRegion(new CellRangeAddress(curSecond, curSecond, 7, 8));
+				curSecond += 1;
+				
+				rowi = sheet.getRow(curSecond);
+				rowi.createCell(5).setCellStyle(BorderLeftThick);
+				rowi.createCell(6).setCellStyle(BorderRightThin);
+				rowi.createCell(7).setCellStyle(BorderLeftThin);
+				rowi.createCell(8).setCellStyle(BorderRightThick);
+				sheet.addMergedRegion(new CellRangeAddress(curSecond, curSecond, 5, 6));
+				sheet.addMergedRegion(new CellRangeAddress(curSecond, curSecond, 7, 8));
+				curSecond += 1;
+				
+				rowi = sheet.getRow(curSecond);
+				rowi.createCell(5).setCellStyle(BorderLeftBottomThick);
+				rowi.createCell(6).setCellStyle(BorderBottomThickRightThin);
+				rowi.createCell(7).setCellStyle(BorderBottomThickLeftThin);
+				rowi.createCell(8).setCellStyle(BorderRightBottomThick);
+				sheet.addMergedRegion(new CellRangeAddress(curSecond, curSecond, 5, 6));
+				sheet.addMergedRegion(new CellRangeAddress(curSecond, curSecond, 7, 8));
+				curSecond += 1;
+				
+			}
+			
+			if(set % 2 == 1) {
+				if(printIndex % 4 == 0) {
+					cur += 1;
+					curSecond += 1;
+					sheet.setRowBreak(cur);
+					printIndex +=1;
+				} else {
+					cur += 2;
+					curSecond += 2;
+					printIndex += 1;
+				}
+			}
+			set += 1;
 		}
 		
 		ByteArrayOutputStream fileOut = new ByteArrayOutputStream();

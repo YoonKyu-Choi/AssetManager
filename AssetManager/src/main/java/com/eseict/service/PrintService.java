@@ -22,4 +22,7 @@ public interface PrintService {
 	 * @return byte array of excel file of reports
 	 */
 	public byte[] printReport(String[] assetIdList) throws IOException;
+	
+	
+	public byte[] printLabel(String[] assetIdList) throws IOException;
 }

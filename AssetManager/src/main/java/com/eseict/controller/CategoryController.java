@@ -94,12 +94,13 @@ public class CategoryController {
 		try {
 			int check = eService.checkRegistered("admin", checkAdminPw);
 			if (check == 1) {
-				cService.deleteCategory(categoryName);
+				int categoryDel = cService.deleteCategory(categoryName);
+				int assetDel = 0;
 				for(String assetId: aService.getAssetIdListByCategory(categoryName)) {
-					aService.deleteAssetById(assetId);
+					assetDel += aService.deleteAssetById(assetId);
 				}
-				cService.deleteCode(categoryName);
-				redirectAttributes.addFlashAttribute("msg", "삭제되었습니다.");
+				int codeDel = cService.deleteCode(categoryName);
+				redirectAttributes.addFlashAttribute("msg", assetDel + " 개 자산이 삭제되었습니다.");
 			} else {
 				redirectAttributes.addFlashAttribute("msg", "비밀번호가 맞지 않아 삭제에 실패했습니다.");
 			}
@@ -130,10 +131,23 @@ public class CategoryController {
 								   , @RequestParam String[] items
 								   , @RequestParam String[] deleteItems) {
 		try {
+			String msg = "";
 			int checkName = cService.categoryModifyCheckName(categoryOriName, categoryName);
-			ArrayList<Integer> deleteItemsList = cService.categoryModifyItemDelete(categoryName, deleteItems);		
-			cService.categoryModifyItemUpdate(categoryName, items, deleteItemsList);
-			redirectAttributes.addFlashAttribute("msg", "수정되었습니다.");
+			if(checkName > 0) {
+				msg += "분류의 이름이 변경되었습니다. ";
+			}
+			int categoryDel = cService.categoryModifyItemDelete(categoryName, deleteItems);	
+			msg += (categoryDel + " 개의 세부사항이 삭제되었습니다. ");
+
+			ArrayList<Integer> deleteItemsList = new ArrayList<Integer>();
+			for(String s: deleteItems) {
+				deleteItemsList.add(Integer.parseInt(s));
+			}
+
+			int categoryChange = cService.categoryModifyItemUpdate(categoryName, items, deleteItemsList);
+			msg += (categoryChange + " 개의 세부사항이 변경/추가되었습니다.");
+			
+			redirectAttributes.addFlashAttribute("msg", msg);
 			return "redirect:/categoryList";
 		} catch(Exception e) {
 			e.printStackTrace();

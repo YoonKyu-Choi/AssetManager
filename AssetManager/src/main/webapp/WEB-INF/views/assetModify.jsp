@@ -239,7 +239,7 @@
 							</tr>
 							<tr>
 								<th>구입가(원)</th>
-								<th><input type="text" id="assetPurchasePrice" name="assetPurchasePrice" maxlength="10" onkeypress="return fn_press(event, 'numbers');" onkeydown="fn_press_han(this);" value="${requestScope.assetVO.assetPurchasePrice}"></th>
+								<th><input type="text" id="assetPurchasePrice" name="assetPurchasePrice" maxlength="10" onkeypress="return fn_press(event, 'numbers');" onkeydown="fn_press_han(this);" value="${model['assetVO']['assetPurchasePrice']}"></th>
 								<th>모델명</th>
 								<th><input type="text" id="assetModel" name="assetModel" value="${model['assetVO']['assetModel']}"></th>
 							</tr>
@@ -310,7 +310,7 @@
 				</form>
 			</div>
 			<form id="assetForm" action="assetDetail" method="POST">
-						<input type="hidden" name="assetId" value="${requestScope.assetVO.assetId}" />
+						<input type="hidden" name="assetId" value="${model['assetVO']['assetId']}" />
 					</form>
 					<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
 					<div style="display: flex; float: right">

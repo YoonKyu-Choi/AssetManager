@@ -166,6 +166,30 @@
 		}
 	}
 	
+	function printLabel(){
+		if(checkCount == 0){
+			alert("자산을 선택해주세요.");
+			return false;
+		}
+		else{
+			if(!confirm('선택한 자산들의 라벨을 출력하겠습니까?')){
+				return false;
+			}else{
+				var printList = [];
+				$(".chkbox").each(function(){
+					if($(this).prop("checked")){
+						var id = $(this).closest("tr").find("td:eq(1)").text()
+						printList.push(id);
+					}
+				});
+				
+				$("#printLabelArray").val(printList);
+				$("#printLabelForm").submit();
+				
+			}
+		}
+	}
+	
 	function dispRequest(){
 		if(checkCount == 0){
 			alert("자산을 선택해주세요.");
@@ -307,8 +331,49 @@
 					<font size="4px">&nbsp;&nbsp;폐기 대기 : </font><span class="badge">${assetListData['assetCountByDispReady']}</span>
 					<font size="4px">&nbsp;&nbsp;폐기 : </font><span class="badge">${assetListData['assetCountByDisposal']}</span>
 				</div>
-				<div class="table-responsive" id="res">
-					<table id="tab" class="table table-striped" style="overflow: auto; position: absolute;" data-toggle="table">
+				<table class="table table-striped" style="" data-toggle="table">
+					<thead>
+						<tr>
+							<th class="tdNonClick"><input type="checkbox" style="transform:scale(1.5)" id="allCheck" onclick="allClick();"/></th>
+							<th data-sortable="true">관리 번호</th>
+							<th data-sortable="true">자산 분류</th>
+							<th data-sortable="true">사용자</th>
+							<th data-sortable="true">상태</th>
+							<th data-sortable="true">시리얼 번호</th>
+							<th data-sortable="true">구매 날짜</th>
+							<th data-sortable="true">구매 가격</th>
+							<th data-sortable="true">구매처</th>
+							<th data-sortable="true">제조사</th>
+							<th data-sortable="true">모델명</th>
+							<th data-sortable="true">용도</th>
+							<th data-sortable="true">책임자</th>
+							<th data-sortable="true">사용 위치</th>
+						</tr>
+					</thead>
+					<tbody style="display: none">
+					<c:forEach items="${assetListData['assetList']}" var="asset">
+						<tr class="clickable-row" data-href="${asset.assetId}">
+							<td class="tdNonClick"><input type="checkBox" style="transform:scale(1.5)" class="chkbox" onclick="dis(this);"/></td>
+							<td>${asset.assetId}</td>
+							<td>${asset.assetCategory}</td>
+							<td>${asset.assetUser}</td>
+							<td>${asset.assetStatus}</td>
+							<td>${asset.assetSerial}</td>
+							<td>${asset.assetPurchaseDate}</td>
+							<td>${asset.assetPurchasePrice}</td>
+							<td>${asset.assetPurchaseShop}</td>
+							<td>${asset.assetMaker}</td>
+							<td>${asset.assetModel}</td>
+							<td>${asset.assetUsage}</td>
+							<td>${asset.assetManager}</td>
+							<td>${asset.assetLocation}</td>
+						</tr>
+					</c:forEach>
+					</tbody>
+				</table>
+				<div class="table-responsive" >
+					
+					<table class="table table-striped" style="overflow: auto; position: absolute;" data-toggle="table">
 						<thead>
 							<tr>
 								<th class="tdNonClick"><input type="checkbox" style="transform:scale(1.5)" id="allCheck" onclick="allClick();"/></th>
@@ -359,8 +424,14 @@
 				<form id="printReportForm" action="printReport" method="post">
 					<input type="hidden" id="printReportArray" name="assetIdList"/>
 				</form>
+				<form id="printLabelForm" action="printLabel" method="post">
+					<input type="hidden" id="printLabelArray" name="assetIdList"/>
+				</form>
 				<div style="display:flex; float: left; margin-top: 10px">
 					<button class="btn btn-lg btn-primary" onclick="printReport();" >보고서 출력</button>
+				</div>
+				<div style="display:flex; float: left; margin-top: 10px">
+					<button class="btn btn-lg btn-primary" onclick="printLabel();" >라벨 출력</button>
 				</div>
 				
 				<div style="display:flex; float:right; margin-top: 10px">

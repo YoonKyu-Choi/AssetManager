@@ -85,9 +85,11 @@
 		if (!confirm("폐기 신청을 하시겠습니까?")) {
 			return false;
 		} else {
-			var diposalAssetAry = [];
-			diposalAssetAry.push("${assetData['assetVO']['assetId']}");
-			$("#diposalAsset").val(diposalAssetAry);
+			var disposalAssetAry = [];
+			var assetId = "${assetData['assetVO']['assetId']}";
+			disposalAssetAry.push(assetId);
+			
+			$("#disposalAsset").val(disposalAssetAry);
 			$("#assetDispForm").submit();
 		}
 	}
@@ -166,7 +168,8 @@
 			return false;
 		}else{
 			var printList = [];
-			printList.push("${requestScope.assetVO.assetId}");
+			var assetId = "${assetData['assetVO']['assetId']}";
+			printList.push(assetId);
 			
 			$("#printReportArray").val(printList);
 			$("#printReportForm").submit();
@@ -293,7 +296,7 @@
 					<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
 				</form>
 				<form id="assetDispForm" action="assetDisposal" method="post">
-					<input type="hidden" id="diposalAsset" name="assetId" />
+					<input type="hidden" id="disposalAsset" name="assetIdList" />
 				</form>
 				<form id="assetDeleteForm" action="assetDelete" method="POST">
 					<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
