@@ -22,10 +22,67 @@
 <script
 	src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
 
+<style>
+		#pop{
+        width : 350px;
+        height : 400px;
+        background : #3d3d3d;
+        color : #fff;
+        position: absolute;
+        top : 200px;
+        right : 350px;
+        text-align : center;
+        border : 2px solid #000;
+        }
+        
+        .popInput{
+        color : #3d3d3d;
+        }
+
+</style>
+
 <script type="text/javascript">
 
 	$(document).ready(function(){
 		$("#uploadImage").on("change",handleImgFileSelect);
+		 $("#pop").hide();
+		 
+		 $('#assetOutStatus').change(function(){
+			 var state = $('#assetOutStatus option:selected').val();
+				if(state == '반출 중'|| state=='수리 중') {
+					$("#pop").show();
+				} else {
+					$("#pop").hide();
+				}			 
+		 });
+		 
+		 
+		 $('#popSubmit').click(function() {
+			 $.ajax({
+					"type":"POST",
+					"url":"assetTakeOutHistory",
+					"dataType":"text",
+					"data":{
+						assetOutStatus : $("#assetOutStatus option:selected").val(),
+						assetOutObjective : $("#assetOutObjective").val(),
+						assetOutPurpose : $("#assetOutPurpose").val(),
+						assetOutStartDate : $("#assetOutStartDate").val(),
+						assetOutCost : $("#assetOutCost").val(),
+					},
+					"success" : function(a){
+						alert("반출/수리 내역이 저장되었습니다.");
+						$("#pop").hide();
+						$("#assetOutStatus").addClass("disable");
+					},
+					"error":function(){
+						alert("에러");
+					}					
+				});
+		 });
+		 
+		 $('#popClose').click(function() {
+		       $('#pop').hide();
+		 });
 	});
 	
 	var counts = 0;
@@ -389,6 +446,43 @@
 				</div>
 			</div>
 		</form>
+		
+		<!-- 반출/수리 레이어 팝업 -->
+		<form id="pop" action="assetTakeOutHistory" method="post">
+			<table style="margin-top:100px;margin-left:20px;">
+				<tr>
+					<th>용도</th>
+					<th class="popInput">
+						<select class="form-controlmin dropdown" id="assetOutStatus" name="assetOutStatus">
+								<option value="0">용도를 선택하세요.</option>
+								<option value="반출 중">반출 중</option>
+								<option value="수리 중">수리 중</option>
+								<option value="고장">고장</option>
+						</select>
+					</th>
+				</tr>
+				<tr>
+					<th>대상</th>
+					<th class="popInput"><input type="text" name="assetOutObjective" id="assetOutObjective"/></th>
+				</tr>
+				<tr>
+					<th>목적</th>
+					<th class="popInput"><input type="text" name="assetOutPurpose" id="assetOutPurpose"/></th>
+				</tr>
+				<tr>
+					<th>신청날짜</th>
+					<th class="popInput"><input type="text" name="assetOutStartDate" id="assetOutStartDate"/></th>
+				</tr>
+				<tr>
+					<th>비용</th>
+					<th class="popInput"><input type="text" name="assetOutCost" id="assetOutCost"/></th>
+				</tr>
+			</table>
+				<input type="hidden" id="assetId" name="assetId" value="${requestScope.assetVO.assetId }"/>
+				<input type="button" id="popSubmit" style="margin:30px; background:#3d3d3d" value="submit"/>
+				<input type="button" id="popClose" style="margin:30px; background:#3d3d3d" value="close"/>											
+		</form>
+				
 		<div style="display: flex; width: 300px; margin-left: 90px;">
 			<input type="button" class="btn btn-lg btn-primary btn-block" id="registerBtn" onclick="submitCheck();" value="자산 등록" /> 
 			<label style="opacity: 0; margin: 10px"></label>

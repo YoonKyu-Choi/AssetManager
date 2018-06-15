@@ -717,7 +717,6 @@ public class PrintServiceImpl implements PrintService {
 				rowi.createCell(3).setCellStyle(BorderRightBottomThick);
 				sheet.addMergedRegion(new CellRangeAddress(cur, cur, 0, 1));
 				sheet.addMergedRegion(new CellRangeAddress(cur, cur, 2, 3));
-				cur += 1;
 			
 			} else {
 				
@@ -801,21 +800,18 @@ public class PrintServiceImpl implements PrintService {
 				rowi.createCell(8).setCellStyle(BorderRightBottomThick);
 				sheet.addMergedRegion(new CellRangeAddress(curSecond, curSecond, 5, 6));
 				sheet.addMergedRegion(new CellRangeAddress(curSecond, curSecond, 7, 8));
-				curSecond += 1;
 				
 			}
 			
 			if(set % 2 == 1) {
 				if(printIndex % 4 == 0) {
-					cur += 1;
-					curSecond += 1;
-					sheet.setRowBreak(cur);
-					printIndex +=1;
-				} else {
 					cur += 2;
 					curSecond += 2;
-					printIndex += 1;
+				} else {
+					cur += 3;
+					curSecond += 3;
 				}
+				printIndex += 1;
 			}
 			set += 1;
 		}

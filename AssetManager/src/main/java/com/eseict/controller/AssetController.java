@@ -109,7 +109,6 @@ public class AssetController {
 							 	,@RequestParam String employeeId
 							 	,@RequestParam(required=false) MultipartFile uploadImage
 							 	,HttpServletRequest request) throws Exception {
-		System.out.println(employeeId);
 		// 관리 번호 생성
 		String categoryKeyword = null;
 		String month = null;
@@ -187,6 +186,12 @@ public class AssetController {
 		afuvo.setAssetUser(avo.getAssetUser());
 		afuvo.setAssetStartDate(ahvo.getAssetOccupiedDate());
 		aService.insertAssetFormerUser(afuvo);
+					
+//		// 해당 자산 이력 수정
+//		ahvo.setAssetId(avo.getAssetId());
+//		ahvo.setEmployeeSeq(avo.getEmployeeSeq());
+//		ahvo.setAssetOccupiedDate(now);
+//		aService.updateAssetHistory(ahvo);		
 		
 		return "redirect:/assetList.tiles";
 	}
