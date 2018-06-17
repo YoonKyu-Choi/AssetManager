@@ -19,7 +19,8 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/dashboard.css"
 	rel="stylesheet">
-<script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
 
 <style>
 		#pop{
@@ -225,10 +226,10 @@
 
 	$(function() {
 		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight - 300);
+		$(".table-responsive").css("height", windowHeight - 250);
 		$(window).resize(function() {
 			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight - 300);
+			$(".table-responsive").css("height", windowHeight - 250);
 		});
 	});
 

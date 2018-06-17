@@ -59,21 +59,6 @@
 }
 </style>
 </head>
-
-<script>
-
-	$(function(){
-		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-350);
-		$(window).resize(function(){
-			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-350);
-		});
-	});
-
-</script>
-
-
 <body>
 
 		<div class="container-fluid">

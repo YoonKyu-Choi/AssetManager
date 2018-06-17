@@ -5,24 +5,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script>
-	$(function() {
-		$("#assetUser").val("${model['assetVO']['assetUser']}").prop("selected", true);
-		$("#assetStatus").val("${model['assetVO']['assetStatus']}").prop("selected", true);
-		$("#assetOutStatus").val("${model['assetVO']['assetOutStatus']}").prop("selected", true);
-		$("#assetUsage").val("${model['assetVO']['assetUsage']}").prop("selected", true);
-		$("#assetManager").val("${model['assetVO']['assetManager']}").prop("selected", true);
-		$("#assetLocation").val("${model['assetVO']['assetLocation']}").prop("selected", true);
-		$("#uploadImage").on("change",handleImgFileSelect);
-
-		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-350);
-		$(window).resize(function(){
-			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-300);
-		});
-	});
-	
-	
+	$(document).ready(
+			function() {
+				$("#assetUser").val("${model['assetVO']['assetUser']}").prop("selected", true);
+				$("#assetStatus").val("${model['assetVO']['assetStatus']}").prop("selected", true);
+				$("#assetOutStatus").val("${model['assetVO']['assetOutStatus']}").prop("selected", true);
+				$("#assetUsage").val("${model['assetVO']['assetUsage']}").prop("selected", true);
+				$("#assetManager").val("${model['assetVO']['assetManager']}").prop("selected", true);
+				$("#assetLocation").val("${model['assetVO']['assetLocation']}").prop("selected", true);
+				$("#uploadImage").on("change",handleImgFileSelect);
+		}
+	)
 			
 	function handleImgFileSelect(e){
 		

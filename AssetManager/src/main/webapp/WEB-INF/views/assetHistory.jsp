@@ -7,20 +7,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
+<script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
+<script>
 
+	$(document).on("click", ".table tbody tr", function(event){	
+		// 현재 클릭된 Row(<tr>)
+		var tr = $(this);
+		var td = tr.children();
+		var outSeq = td.eq(0).text();
+		var outComment = td.eq(6).text();
+		$("#assetOutComment").val(outComment);
+	});
+	
+</script>
+<style>
+	#displayNone{
+		display:None;
+	}
+</style>
 
 </head>
-
-<script>
-	var windowHeight = window.innerHeight;
-	$(".table-responsive").css("height", windowHeight-350);
-	$(window).resize(function(){
-		windowHeight = $(window).height();
-		$(".table-responsive").css("height", windowHeight-300);
-	})
-
-</script>
-
 <body>
 	<div class="container-fluid">
 		<div class="row">
@@ -35,10 +41,10 @@
 					<table class="table table-striped">
 						<c:forEach items="${model['AssetFormerUserList']}" var="assetFormerUser">
 							<tr>
-								<th>${assetFormerUser.assetUser}</th>
-								<th>${assetFormerUser.assetStartDate} &nbsp;&nbsp;&nbsp;
+								<td>${assetFormerUser.assetUser}</td>
+								<td>${assetFormerUser.assetStartDate} &nbsp;&nbsp;&nbsp;
 								~ &nbsp;&nbsp;&nbsp; ${assetFormerUser.assetEndDate}
-								</th>
+								</td>
 							</tr>
 						</c:forEach>
 					</table>
@@ -51,6 +57,7 @@
 					<c:if test="${model['AssetHistoryList'].size() != 0 }">						
 					<table class="table table-striped">
 							<tr>
+								<th>반출/수리 번호</th>
 								<th>반출/수리</th>
 								<th>대상</th>
 								<th>목적</th>
@@ -59,12 +66,14 @@
 							</tr>
 						<c:forEach items="${model['AssetTakeOutHistoryList']}" var="assetTakeOutHistory">
 							<tr>
+								<th>${assetTakeOutHistory.takeOutHistorySeq}</th>
 								<th>${assetTakeOutHistory.assetOutStatus}</th>
 								<th>${assetTakeOutHistory.assetOutObjective}</th>
 								<th>${assetTakeOutHistory.assetOutPurpose}</th>
 								<th>${assetTakeOutHistory.assetOutStartDate} 
 										~ ${assetTakeOutHistory.assetOutEndDate}</th>
 								<th>${assetTakeOutHistory.assetOutCost}</th>
+								<th id="displayNone">${assetTakeOutHistory.assetOutComment}</th>
 							</tr>
 						</c:forEach>
 					</table>
@@ -72,10 +81,9 @@
 					<c:if test="${model['AssetHistoryList'].size() ==0 }">
 						<h3>자산 반출/수리 이력이 없습니다.</h3>
 					</c:if>
-					<div>
-					
 						<h3>자산 이력 코멘트</h3>
-						<textArea style="resize: none; width: 600px; height: 200px" readonly>${model['AssetHistoryVO']['assetHistoryComment']}</textArea>
+					<div> 자산 반출/수리 이력를 클릭하시면 해당 이력을 확인 할 수 있습니다.<br>
+					<input type="text" id="assetOutComment" style="width:500px;height:120px"/>
 					</div>
 				</div>
 			</div>

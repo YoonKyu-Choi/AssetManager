@@ -341,13 +341,17 @@
 				<form id="pop" action="assetTakeOutHistory" method="post">
 					<table style="margin-top:100px;margin-left:20px;">
 						<tr>
+							<th>신청날짜</th>
+							<th>는 현재날짜로 등록됩니다.</th>
+						</tr>
+						<tr>
 							<th>용도</th>
 							<th class="popInput">
 								<select class="form-controlmin dropdown" id="assetOutStatus" name="assetOutStatus">
 										<option value="0">용도를 선택하세요.</option>
 										<option value="반출 중">반출 중</option>
 										<option value="수리 중">수리 중</option>
-										<option value="고장">고장</option>
+										<option value="고장">고장</option> 
 								</select>
 							</th>
 						</tr>
@@ -360,12 +364,12 @@
 							<th class="popInput"><input type="text" name="assetOutPurpose" id="assetOutPurpose"/></th>
 						</tr>
 						<tr>
-							<th>신청날짜</th>
-							<th class="popInput"><input type="text" name="assetOutStartDate" id="assetOutStartDate"/></th>
-						</tr>
-						<tr>
 							<th>비용</th>
 							<th class="popInput"><input type="text" name="assetOutCost" id="assetOutCost"/></th>
+						</tr>
+						<tr>
+							<th>자산 반출/수리 이력 COMMENT</th>
+							<th class="popInput"><textArea name="assetOutComment" id="assetOutComment" maxlength="100"></textArea></th>
 						</tr>
 					</table>
 						<input type="hidden" id="assetId" name="assetId" value="${assetData['assetVO']['assetId'] }"/>

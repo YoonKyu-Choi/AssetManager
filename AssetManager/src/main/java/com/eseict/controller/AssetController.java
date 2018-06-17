@@ -250,6 +250,7 @@ public class AssetController {
 									, @ModelAttribute AssetTakeOutHistoryVO atouhvo) {
 		try {
 			// 자산 반출/수리 이력 입력
+			atouhvo.setAssetOutStartDate(new java.sql.Date(new java.util.Date().getTime()));
 			aService.insertAssetTakeOutHistory(atouhvo);
 			return "redirect:/assetDetail?assetId="+atouhvo.getAssetId();
 		} catch (Exception e) {

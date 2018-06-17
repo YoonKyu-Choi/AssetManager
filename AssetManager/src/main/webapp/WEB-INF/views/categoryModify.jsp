@@ -118,15 +118,6 @@
 		}
 	}
 	
-	$(function(){
-		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-350);
-		$(window).resize(function(){
-			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-350);
-		});
-	});	
-
 	function cancelConfirm(){
 		if(!confirm('취소하겠습니까?')){
 				return false;				
@@ -157,26 +148,24 @@
 					</div>
 				</div>
 				<br><br>
-				<div class="table-responsive">
-					<table class="table table-striped" style="text-align: left; margin-top: 10px" id="itemTable" border="1">
-					
-						<c:forEach items="${categoryData.items}" var="categoryItem" varStatus="i" step="2">
-						<tr>
-							<td style="width: 50%; background: lightgray">
-								<input type="button" class="deleteItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;
-								<input type="text" style="width: 80%" value="${categoryData.items[i.index]}"/>
-							</td>
-							<td style="width: 50%; background: lightgray">
-								<input type="button" class="deleteItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;
-								<input type="text" style="width: 80%" value="${categoryData.items[i.index+1]}"/>
-							</td>
-						</tr>
-						</c:forEach>
-						<tr>
-							<td style="width: 50%"><input type="button" id="addItem" value="+"/></td>
-						</tr>
-					</table>
-				</div>
+				<table class="table table-striped" style="text-align: left; margin-top: 10px" id="itemTable" border="1">
+				
+					<c:forEach items="${categoryData.items}" var="categoryItem" varStatus="i" step="2">
+					<tr>
+						<td style="width: 50%; background: lightgray">
+							<input type="button" class="deleteItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="text" style="width: 80%" value="${categoryData.items[i.index]}"/>
+						</td>
+						<td style="width: 50%; background: lightgray">
+							<input type="button" class="deleteItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="text" style="width: 80%" value="${categoryData.items[i.index+1]}"/>
+						</td>
+					</tr>
+					</c:forEach>
+					<tr>
+						<td style="width: 50%"><input type="button" id="addItem" value="+"/></td>
+					</tr>
+				</table>
 				<div style="display: flex; float: right">
 					<input type="button" class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="categoryModify();" value="수정"/>
 					<input type="button" class="btn btn-lg btn-primary" onclick="cancelConfirm();" value="취소"/>
