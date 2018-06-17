@@ -196,6 +196,16 @@
 		});
 
 	}
+
+	$(function(){
+		var windowHeight = window.innerHeight;
+		$(".table-responsive").css("height", windowHeight-350);
+		$(window).resize(function(){
+			windowHeight = $(window).height();
+			$(".table-responsive").css("height", windowHeight-350);
+		});
+	});
+	
 </script>
 
 </head>
@@ -220,15 +230,17 @@
 					</div>
 				</div>
 				<br><br>
-				<table class="table table-striped" style="text-align: left; margin-top: 10px" id="itemTable" border="1">
-					<tr>
-						<td style="width: 50%">
-							<input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;
-							<input type="text" style="width: 80%" maxlength="33"/>
-						</td>
-						<td style="width: 50%"><input type="button" id="addItem" value="+"/></td>
-					</tr>
-				</table>
+				<div class="table-responsive">
+					<table class="table table-striped" style="text-align: left; margin-top: 10px" id="itemTable" border="1">
+						<tr>
+							<td style="width: 50%">
+								<input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="text" style="width: 80%" maxlength="33"/>
+							</td>
+							<td style="width: 50%"><input type="button" id="addItem" value="+"/></td>
+						</tr>
+					</table>
+				</div>
 				<div style="display: flex; float: right">
 					<input type="button" class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="categoryRegister();" value="등록"/>
 					<input type="button" class="btn btn-lg btn-primary" onclick="cancelConfirm();" value="취소"/>
