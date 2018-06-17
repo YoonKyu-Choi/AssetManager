@@ -261,7 +261,12 @@
 		}
 	});
 	*/
-	 
+	$(function(){
+		var flashmsg = "<c:out value='${msg}'/>";
+		if(flashmsg != "")
+				alert(flashmsg);
+	});
+	
 </script>
 
 	
