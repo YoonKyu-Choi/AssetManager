@@ -25,7 +25,7 @@ public interface AssetDAO {
 	// 자산 등록
 	public void insertAsset(AssetVO avo) throws Exception;
 	// 카테고리별 자산 수 
-	public int getAssetCountByCategory(String assetCategory) throws Exception;
+	public int getAssetCountByCategory(String assetCategory);
 	// 카테고리 이름으로 항목 조회
 	public List<CategoryVO> getCategoryDetailItem(String assetCategory) throws Exception;
 	// 폐기 자산 목록 조회

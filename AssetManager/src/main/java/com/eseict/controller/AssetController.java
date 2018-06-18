@@ -75,18 +75,19 @@ public class AssetController {
 	}
 	
 	@RequestMapping(value = "/assetRegisterSend")
-
 	public String assetRegister(RedirectAttributes redirectAttributes
 							  , @ModelAttribute AssetVO avo
 							  , @RequestParam(required=false) String assetOutObjective
 							  , @RequestParam(required=false) String assetOutPurpose
-	  					  	  , @RequestParam(required=false) String assetOutCost 
-							  , @RequestParam String[] items
+	  					  	  , @RequestParam(required=false) String assetOutCost
+	  					  	  , @RequestParam(required=false) String assetOutComment
+	  					  	  , @RequestParam String[] items
 							  , @RequestParam String[] itemsDetail
 							  , @RequestParam(required=false) MultipartFile uploadImage
 							  , HttpServletRequest request){
 
 		try {
+			
 			// 관리 번호 생성
 			String assetId = aService.generateAssetId(avo);
 			avo.setAssetId(assetId);
@@ -94,15 +95,15 @@ public class AssetController {
 			// 이미지 업로드
 			avo.setAssetReceiptUrl(aService.uploadImageFile(request.getServletContext(), uploadImage));
 			
-			// 동명이인 방지용 사원번호
 			String assetUser = avo.getAssetUser();
-			avo.setEmployeeSeq(eService.getEmployeeSeqByEmpName(assetUser));
-			
+			// 동명이인 방지용 사원번호
+			// 아이디로 해당 이름을 저장하고 아이디로 EmployeeSeq를 조회, 아이디로 해도 되는데 처음부터 EmployeeSeq로 DB를 짜놔서 이렇게 
+			avo.setEmployeeSeq(eService.getEmployeeSeqByEmpId(assetUser));
+			avo.setAssetUser(eService.getEmployeeNameByEmpId(assetUser));
 			aService.insertAsset(avo);
 			
 			// 자산 세부사항 등록 
 			aService.insertAssetDetail(assetId, items, itemsDetail);
-					
 			// 자산 이력 등록
 			aService.insertAssetHistory(assetId, assetUser);
 			
@@ -116,6 +117,7 @@ public class AssetController {
 			atouhvo.setAssetOutPurpose(assetOutPurpose);
 			atouhvo.setAssetOutStartDate(new java.sql.Date(new java.util.Date().getTime()));
 			atouhvo.setAssetOutCost(assetOutCost);
+			atouhvo.setAssetOutComment(assetOutComment);
 			aService.insertAssetTakeOutHistoryWhenRegister(atouhvo);
 			}
 			
@@ -171,15 +173,15 @@ public class AssetController {
 			
 			// new는 새로운 사용자 사용자번호, empSeq는 이전 사용자 번호 
 			// -> 이 부분을 입력 받은 이름으로 해결하고 있는데 동명이인일 경우 문제 해결 필요
-			int newEmpSeq = eService.getEmployeeSeqByEmpName(assetUser);
-			int empSeq = eService.getEmployeeSeqByEmpName(beforeUser);
+			int newEmpSeq = eService.getEmployeeSeqByEmpId(assetUser);
+			int empSeq = eService.getEmployeeSeqByEmpId(beforeUser);
 			
 			// 이미지 업로드
 			avo.setAssetReceiptUrl(aService.uploadImageFile(request.getServletContext(), uploadImage));
 			
+			avo.setAssetUser(eService.getEmployeeNameByEmpId(assetUser));
 			avo.setEmployeeSeq(newEmpSeq);
 			aService.updateAsset(avo);
-			
 			aService.updateAssetDetail(assetId, items, itemsDetail);
 			
 			// 자산 수정 시 자산 이력 자동 입력

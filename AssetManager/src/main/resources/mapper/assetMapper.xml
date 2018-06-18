@@ -6,6 +6,7 @@
 	<resultMap type="com.eseict.VO.AssetVO" id="AssetVO-result">
 		<id column="ASSET_ID" property="assetId" />
 		<result column="ASSET_CATEGORY" property="assetCategory" />
+		<result column="EMPLOYEE_SEQ" property="employeeSeq" />
 		<result column="ASSET_USER" property="assetUser" />
 		<result column="ASSET_STATUS" property="assetStatus" />
 		<result column="ASSET_OUT_STATUS" property="assetOutStatus" />

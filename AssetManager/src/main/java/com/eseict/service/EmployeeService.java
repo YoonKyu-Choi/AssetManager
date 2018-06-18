@@ -35,7 +35,8 @@ public interface EmployeeService {
 
 	// 사용자 아이디로 사용자 번호 검색
 	public int getEmployeeSeqByEmpId(String employeeId) throws Exception;
-	// 사용자 이름으로 Seq 찾기 
-	public int getEmployeeSeqByEmpName(String beforeUser);
+	
+	// 사용자 아이디로 사용자 이름 찾기 
+	public String getEmployeeNameByEmpId(String assetUser);
 	
 }

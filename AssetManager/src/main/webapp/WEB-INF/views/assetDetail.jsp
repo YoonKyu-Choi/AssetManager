@@ -36,7 +36,7 @@
         }
         
         #pop{
-        width : 350px;
+        width : 400px;
         height : 400px;
         background : #3d3d3d;
         color : #fff;
@@ -46,10 +46,14 @@
         text-align : center;
         border : 2px solid #000;
         display : none;
+        
         }
         
         .popInput{
         color : #3d3d3d;
+        width : 50px;
+        table-layout: fixed;
+        
         }
         
 </style>
@@ -252,7 +256,14 @@
 						</tr>
 						<tr>
 							<th>구입일</th>
-							<th>${assetData['assetVO']['assetPurchaseDate']}</th>
+							
+							<c:if test="${assetData['assetVO']['assetPurchaseDate'] == '9999-01-01'}">
+								<th>미입력</th>	
+							</c:if>
+							<c:if test="${assetData['assetVO']['assetPurchaseDate'] != '9999-01-01'}">
+								<th>${assetData['assetVO']['assetPurchaseDate']}</th>
+							</c:if>
+							
 							<th>제조사</th>
 							<th>${assetData['assetVO']['assetMaker']}</th>
 						</tr>
@@ -343,9 +354,6 @@
 				<form id="assetDispForm" action="assetDisposal" method="post">
 					<input type="hidden" id="disposalAsset" name="assetIdList" />
 				</form>
-				<form id="assetDeleteForm" action="assetDelete" method="POST">
-					<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
-				</form>
 				<form id="assetHistoryForm" action="assetHistory" method="post">
 					<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
 				</form>
@@ -357,6 +365,7 @@
 					<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
 				</form>
 				
+				<!-- 자산 삭제 시 비밀번호 체크 -->
 				<div class="mask"></div>
 				    <div class="window">
 				    	<p>비밀번호를 입력해주세요.</p>
@@ -373,10 +382,10 @@
 
 				<!-- 반출/수리 레이어 팝업 -->
 				<form id="pop" action="assetTakeOutHistory" method="post">
-					<table style="margin-top:100px;margin-left:20px;">
+					<table style="margin-top:50px;margin-left:20px;">
 						<tr>
 							<th>신청날짜</th>
-							<th>는 현재날짜로 등록됩니다.</th>
+							<th>현재날짜로 등록됩니다.</th>
 						</tr>
 						<tr>
 							<th>용도</th>
@@ -403,12 +412,12 @@
 						</tr>
 						<tr>
 							<th>자산 반출/수리 이력 COMMENT</th>
-							<th class="popInput"><textArea name="assetOutComment" id="assetOutComment" maxlength="100"></textArea></th>
+							<th class="popInput"><textArea name="assetOutComment" id="assetOutComment" maxlength="100" cols="20" style="height:150px; resize:none;"></textArea></th>
 						</tr>
 					</table>
 						<input type="hidden" id="assetId" name="assetId" value="${assetData['assetVO']['assetId'] }"/>
-						<input type="button" id="popSubmit" style="margin:30px; background:#3d3d3d" value="submit"/>
-						<input type="button" id="popClose" style="margin:30px; background:#3d3d3d" value="close"/>											
+						<input type="button" id="popSubmit" style="margin:30px; background:#3d3d3d" value="반출/수리 신청"/>
+						<input type="button" id="popClose" style="margin:30px; background:#3d3d3d" value="취소"/>											
 				</form>
 				
 		    </div>

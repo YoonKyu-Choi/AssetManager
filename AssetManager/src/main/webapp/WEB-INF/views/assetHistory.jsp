@@ -32,16 +32,16 @@
 	
 </script>
 <style>
-	.blue{
-		color:blue;
-	}
-	
 	.orange{
 		color:orange;
 	}
 
 	#displayNone{
 		display:None;
+	}
+	
+	#clickTable{
+		font-weight: bold;
 	}
 </style>
 

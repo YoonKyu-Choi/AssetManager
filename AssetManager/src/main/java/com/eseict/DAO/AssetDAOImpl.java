@@ -53,8 +53,13 @@ public class AssetDAOImpl implements AssetDAO {
 	}
 
 	@Override
-	public int getAssetCountByCategory(String assetCategory) throws Exception {
-		return sqlSession.selectOne(namespace + "getAssetCountByCategory", assetCategory);
+	public int getAssetCountByCategory(String assetCategory){
+		try {
+			return sqlSession.selectOne(namespace + "getAssetCountByCategory", assetCategory);
+		} catch (Exception e) {
+			// 관리번호 생성 시 하나도 없으면 Count가 안되서 에러가 뜬다 그걸 이용해서 0 을 리턴해서 관리 번호 생성
+			return 0;
+		} 
 	}
 
 	@Override
