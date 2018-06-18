@@ -7,6 +7,4 @@ public interface DisposalService {
 	public ModelAndView disposalListMnV(String searchMode, String searchKeyword) throws Exception;
 
 	public int disposeAsset(String[] disposeArray) throws Exception;
-
-	public int disposeAssetOne(String assetId) throws Exception;
 }

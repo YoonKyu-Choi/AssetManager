@@ -54,12 +54,17 @@
 			$("#modifyForm").submit();
 		}
 	}
+</script>
 
+<script>
 	$(function(){
 		var flashmsg = "<c:out value="${msg}"/>";
 //		if(flashmsg != "")
 			alert(flashmsg);
 	});
+</script>
+
+<script>
 	function wrapWindowByMask(){
 	    // 화면의 높이와 너비를 변수로 만듭니다.
 	    var maskHeight = $(window).height();

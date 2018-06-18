@@ -106,6 +106,9 @@ public class AssetController {
 			// 자산 이력 등록
 			aService.insertAssetHistory(assetId, assetUser);
 			
+			System.out.println("objective:"+assetOutObjective);
+			System.out.println("purpose"+assetOutPurpose);
+			System.out.println("cost"+assetOutCost);
 			// 자산 등록 시 반출,수리 중이면 입력
 			if(!assetOutObjective.isEmpty() && !assetOutPurpose.isEmpty() && !assetOutCost.isEmpty() 
 					&& assetOutObjective != null && assetOutPurpose != null && assetOutCost != null) {
@@ -120,12 +123,12 @@ public class AssetController {
 			System.out.println(atouhvo);
 			}
 			
-			return "redirect:/assetList";
+			return "redirect:/assetList.tiles";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return "redirect:/assetList";
+		return "redirect:/assetList.tiles";
 	}
 	
 	@RequestMapping(value = "/getCategoryDetailItem")
@@ -200,7 +203,7 @@ public class AssetController {
 							  , @RequestParam String[] assetIdList) {
 		try {
 			aService.updateAssetDisposal(assetIdList);
-			return "redirect:/assetList";
+			return "redirect:/assetList.tiles";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -223,21 +226,12 @@ public class AssetController {
 	
 	@RequestMapping(value="/assetDelete")
 	public String assetDelete(RedirectAttributes redirectAttributes
-							, @RequestParam String assetId
-							, @RequestParam("checkAdminPw") String checkAdminPw) {
+							, @RequestParam String assetId) {
 		try {
-			System.out.println(checkAdminPw);
-			int check = eService.checkRegistered("admin", checkAdminPw);
-			System.out.println(check);
-			if (check == 1) {
-				// 자산 삭제
-				aService.deleteAssetById(assetId);	
-				aService.deleteAssetDetailById(assetId);
-				redirectAttributes.addFlashAttribute("msg", "삭제되었습니다.");
-			} else {
-				redirectAttributes.addFlashAttribute("msg", "비밀번호가 맞지 않아 삭제에 실패했습니다.");
-			}
-			return "redirect:/assetList";
+			// 자산 삭제
+			aService.deleteAssetById(assetId);	
+			aService.deleteAssetDetailById(assetId);
+			return "assetList.tiles";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

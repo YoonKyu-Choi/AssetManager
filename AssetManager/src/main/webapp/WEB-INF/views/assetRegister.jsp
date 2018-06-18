@@ -115,25 +115,24 @@
 		$("#items").val(items);
 		$("#itemsDetail").val(itemsDetail);
 		
+		if($("#assetPurchaseDate").val()==''){
+			$("#assetPurchaseDate").val("9999-01-01");
+		}
+		if($("#assetPurchasePrice").val()==''){
+			$("#assetPurchasePrice").val("미입력");
+		}
+		if($("#assetPurchaseShop").val()==''){
+			$("#assetPurchaseShop").val("미입력");
+		}
+		
 		if ($("#assetCategory").val() == '0') {
 			alert("분류를 선택해주세요.");			
-			$("#assetCategory").focus();
-			return false;
-		} else if($("#assetUser").val()=='0'){
-			alert("이름을 선택해주세요.");
-			$("#assetUser").focus();
-			return false;
-		} else if($("#assetSerial").val()==''){
-			alert("시리얼 번호를 입력해주세요.");
-			$("#assetSerial").focus();
 			return false;
 		} else if($("#assetStatus").val()=='0'){
 			alert("자산 상태를 선택해주세요.");
-			$("#assetStatus").focus();
 			return false;
 		} else if($("#assetOutStatus").val()=='0'){
 			alert("자산 반출 상태를 선택해주세요.");
-			$("#assetOutStatus").focus();
 			return false;
 		} else if($("#assetMaker").val()==''){
 			alert("제조사를 입력해주세요.");
@@ -145,34 +144,22 @@
 			return false;
 		} else if($("#assetUsage").val()=='0'){
 			alert("용도를 선택해주세요.");
-			$("#assetUsage").focus();
 			return false;
 		} else if($("#assetManager").val()=='0'){
 			alert("책임자를 선택해주세요.");
-			$("#assetManager").focus();
 			return false;
 		} else if($("#assetLocation").val()=='0'){
 			alert("사용 위치를 선택해주세요.");
-			$("#assetLocation").focus();
 			return false;
 		} else {
-			// 얘네는 not null이 아니기 때문에 미입력 시 default값 지정
-			if($("#assetPurchaseDate").val()==''){
-				$("#assetPurchaseDate").val("9999-01-01");
-			}
-			if($("#assetPurchasePrice").val()==''){
-				$("#assetPurchasePrice").val("미입력");
-			}
-			if($("#assetPurchaseShop").val()==''){
-				$("#assetPurchaseShop").val("미입력");
-			}
-			// 세부사항 유효성 체크 하다가 만거 이러면 체크는 하는데 submit 되는듯 ?
-			for(var i=0;i<counts;i++){
+			/* 세부사항 유효성 체크 하다가 만거 이러면 체크는 하는데 submit 되는듯 ?
+			for(var i=0;i<counts-1;i++){
 				if($("th input[id='assetItemDetail']:eq("+i+")").val() ==''){
-					alert("세부사항을 전부 입력해주세요.");
+					alert("세부사항 내용을 입력해주세요.");
 					return false;
 				}
 			}
+			*/
 				$("#registerSend").submit();
 			}
 		}
@@ -376,13 +363,13 @@
 						</tr>
 						<tr>
 							<th>구입가(원)</th>
-							<th><input type="text" id="assetPurchasePrice" name="assetPurchasePrice" maxlength="10" placeholder="입력 X -> 미입력 등록"></th>
+							<th><input type="text" id="assetPurchasePrice" name="assetPurchasePrice" maxlength="10" onkeypress="return fn_press(event, 'numbers');" onkeydown="fn_press_han(this);"></th>
 							<th>모델명</th>
 							<th><input type="text" id="assetModel" name="assetModel"></th>
 						</tr>
 						<tr>
 							<th>구입처</th>
-							<th><input type="text" id="assetPurchaseShop" name="assetPurchaseShop" maxlength="10" placeholder="입력 X -> 미입력 등록"></th>
+							<th><input type="text" id="assetPurchaseShop" name="assetPurchaseShop"></th>
 							<th>용도</th>
 							<th>
 								<select class="form-controlmin dropdown" id="assetUsage" name="assetUsage">
