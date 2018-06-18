@@ -20,6 +20,7 @@
 	
 	<script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
 	
@@ -79,6 +80,29 @@
 			}
 			});
 		}
+		
+		var trName = "";
+		$(function(){
+			$("td").contextmenu(function(event){
+				trName = $(event.target).closest("tr").attr('data-href');
+			});
+		});
+	    var userMenu = new BootstrapMenu('td', {
+	    	actions: [{
+	    		name: '상세 보기',
+	    		onClick: function() {
+					document.location.href='/assetmanager/userDetail?employeeSeq=' + trName;
+	    		}
+	    	}]
+	    });
+		var generalMenu = new BootstrapMenu('.container', {
+			actions: [{
+				name: '회원 추가',
+				onClick: function(){
+					location.href='/assetmanager/register';
+				}
+			}]
+		});
 	</script>
 	
 	<style>
@@ -92,11 +116,23 @@
 		p{
 			font-size:25px;
 		}
+		.container{
+			top:0;
+			left:0;
+			bottom:0;
+			right:0;
+			height:100%;
+			width:100%;
+		}
+		.main{
+			margin: auto;
+			width: 60%;
+		}
 	</style>
 	
 </head>
 	<body>
-	 <div class="container-fluid">
+	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
 				<form class="page-header" id="listRefresh">
@@ -130,8 +166,8 @@
 						
 						<tbody>
 						<c:forEach items="${userListData['employeeList']}" var="employee">
+							<input type="hidden" name='employeeSeq' value="${employee.employeeSeq}"/>
 							<tr class="clickable-row" data-href="${employee.employeeSeq}">
-								<input type="hidden" name="employeeSeq" value="${employee.employeeSeq}"/>
 								<td>${employee.employeeStatus}</td>
 								<td>${employee.employeeName}</td>
 								<td>${employee.employeeId}</td>
@@ -149,5 +185,5 @@
 			</div>
 		</div>
 	</div>
-</body>
+	</body>
 </html>

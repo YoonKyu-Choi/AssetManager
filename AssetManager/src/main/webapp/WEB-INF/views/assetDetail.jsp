@@ -15,6 +15,7 @@
 <link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
 <link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet" />
 
@@ -176,7 +177,118 @@
 			
 		}
 	}
+	
+	$(function(){
+		var assetStatusStr = "${assetData['assetVO']['assetStatus']}";
+		var assetStatus = 0;
+		switch(assetStatusStr){
+			case '폐기 대기':
+				assetStatus = 1;
+				break;
+			case '폐기':
+				assetStatus = 2;
+				break;
+			case '반출 중':
+				assetStatus = 3;
+				break;
+			case '수리 중':
+				assetStatus = 3;
+				break;
+			default:
+				assetStatus = 4;
+				break;
+		}
+		var generalMenu = new BootstrapMenu('.container', {
+			actionsGroups:[
+				['assetHistory', 'assetModify', 'assetDelete', 'assetPay', 'assetTakeout', 'assetDisposeRequest'],
+				['assetList', 'printReport']
+			],
+			actions: {
+				assetHistory: {
+					name: '자산 이력',
+					onClick: function(){
+						historyConfirm();
+					}
+				},
+				assetModify: {
+					name: '수정',
+					onClick: function(){
+						modifyConfirm();
+					},
+					isShown: function(){
+						return ((assetStatus==1) || (assetStatus==4));
+					}
+				},
+				assetDelete: {
+					name: '자산 삭제',
+					onClick: function(){
+						deleteConfirm();
+					},
+					isShown: function(){
+						return (assetStatus == 2);
+					}
+				},
+				assetPay: {
+					name: '납입',
+					onClick: function(){
+						payConfirm();
+					},
+					isShown: function(){
+						return assetStatus==3;
+					}
+				},
+				assetTakeout: {
+					name: '반출/수리',
+					onClick: function(){
+						$("#pop").show();
+					},
+					isShown: function(){
+						return assetStatus==4;
+					}
+				},
+				assetDisposeRequest: {
+					name: '폐기 신청',
+					onClick: function(){
+						dispReqConfirm();
+					},
+					isShown: function(){
+						return assetStatus==4;
+					}
+				},
+				assetList: {
+					name: '목록',
+					onClick: function(){
+						location.href='/assetmanager/assetList';
+					}
+				},
+				printReport: {
+					name: '보고서 출력',
+					onClick: function(){
+						printReport();
+					}
+				}
+			}
+		});
+
+	});
+
+	
 </script>
+	<style>
+		.container{
+			top:0;
+			left:0;
+			bottom:0;
+			right:0;
+			height:100%;
+			width:100%;
+		}
+		.main{
+			margin: auto;
+			width: 60%;
+		}
+	</style>
+
 </head>
 
 <body>
@@ -255,101 +367,102 @@
 						<textArea style="resize: none; width:600px; height:200px" readonly>${assetData['assetVO']['assetComment']}</textArea>
  					</div>
 				</div>
+				<div>
+					<div style="display:flex; float: left; margin-top: 10px">
+						<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
+						<button class="btn btn-lg btn-primary" onclick="printReport();" >보고서 출력</button>
+					</div>
 					
+					<div style="display: flex; float: right">
+						<c:choose>
+							<c:when test="${assetData['assetVO']['assetStatus'] == '폐기 대기'}">
+								<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
+								<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">수정</button>
+							</c:when>
+							
+							<c:when test="${assetData['assetVO']['assetStatus'] == '폐기'}">
+								<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
+								<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="deleteConfirm();">자산 삭제</button>
+							</c:when>
+							
+							<c:when test="${assetData['assetVO']['assetOutStatus'] == '반출 중' || assetData['assetVO']['assetOutStatus'] == '수리 중'}">
+								<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="payConfirm();">납입</button>
+								<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
+							</c:when>
+							
+							<c:otherwise>	
+								<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">수정</button>
+								<button class="btn btn-lg btn-primary" id="outBtn" onclick='$("#pop").show();'>반출/수리</button>
+								<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="dispReqConfirm();">폐기 신청</button>
+								<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
+								<div class="mask"></div>
+							</c:otherwise>
+						</c:choose>
+						
+						<!-- 컨트롤러 이동 form -->
+						<form id="printReportForm" action="printReport" method="post">
+							<input type="hidden" id="printReportArray" name="assetIdList"/>
+						</form>
+						<form id="assetModifyForm" action="assetModify" method="POST">
+							<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
+						</form>
+						<form id="assetDispForm" action="assetDisposal" method="post">
+							<input type="hidden" id="disposalAsset" name="assetIdList" />
+						</form>
+						<form id="assetDeleteForm" action="assetDelete" method="POST">
+							<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
+						</form>
+						<form id="assetHistoryForm" action="assetHistory" method="post">
+							<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
+						</form>
+						<form id="assetPaymentForm" action="assetPayment" method="post">
+							<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
+							<input type="hidden" name="assetUser" value=${assetData['assetVO']['assetUser'] } />
+						</form>
+						
+						<!-- 반출/수리 레이어 팝업 -->
+						<form id="pop" action="assetTakeOutHistory" method="post">
+							<table style="margin-top:100px;margin-left:20px;">
+								<tr>
+									<th>신청날짜</th>
+									<th>는 현재날짜로 등록됩니다.</th>
+								</tr>
+								<tr>
+									<th>용도</th>
+									<th class="popInput">
+										<select class="form-controlmin dropdown" id="assetOutStatus" name="assetOutStatus">
+												<option value="0">용도를 선택하세요.</option>
+												<option value="반출 중">반출 중</option>
+												<option value="수리 중">수리 중</option>
+												<option value="고장">고장</option> 
+										</select>
+									</th>
+								</tr>
+								<tr>
+									<th>대상</th>
+									<th class="popInput"><input type="text" name="assetOutObjective" id="assetOutObjective"/></th>
+								</tr>
+								<tr>
+									<th>목적</th>
+									<th class="popInput"><input type="text" name="assetOutPurpose" id="assetOutPurpose"/></th>
+								</tr>
+								<tr>
+									<th>비용</th>
+									<th class="popInput"><input type="text" name="assetOutCost" id="assetOutCost"/></th>
+								</tr>
+								<tr>
+									<th>자산 반출/수리 이력 COMMENT</th>
+									<th class="popInput"><textArea name="assetOutComment" id="assetOutComment" maxlength="100"></textArea></th>
+								</tr>
+							</table>
+								<input type="hidden" id="assetId" name="assetId" value="${assetData['assetVO']['assetId'] }"/>
+								<input type="button" id="popSubmit" style="margin:30px; background:#3d3d3d" value="submit"/>
+								<input type="button" id="popClose" style="margin:30px; background:#3d3d3d" value="close"/>											
+						</form>
+						
+				    </div>
+			    </div>
 			</div>
-			<div style="display:flex; float: left; margin-top: 10px">
-				<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
-				<button class="btn btn-lg btn-primary" onclick="printReport();" >보고서 출력</button>
-			</div>
-			
-			<div style="display: flex; float: right">
-				<c:choose>
-					<c:when test="${assetData['assetVO']['assetStatus'] == '폐기 대기'}">
-						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
-						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">수정</button>
-					</c:when>
-					
-					<c:when test="${assetData['assetVO']['assetStatus'] == '폐기'}">
-						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
-						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="deleteConfirm();">자산 삭제</button>
-					</c:when>
-					
-					<c:when test="${assetData['assetVO']['assetOutStatus'] == '반출 중' || assetData['assetVO']['assetOutStatus'] == '수리 중'}">
-						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="payConfirm();">납입</button>
-						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
-					</c:when>
-					
-					<c:otherwise>	
-						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">수정</button>
-						<button class="btn btn-lg btn-primary" id="outBtn" onclick='$("#pop").show();'>반출/수리</button>
-						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="dispReqConfirm();">폐기 신청</button>
-						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
-						<div class="mask"></div>
-					</c:otherwise>
-				</c:choose>
-				
-				<!-- 컨트롤러 이동 form -->
-				<form id="printReportForm" action="printReport" method="post">
-					<input type="hidden" id="printReportArray" name="assetIdList"/>
-				</form>
-				<form id="assetModifyForm" action="assetModify" method="POST">
-					<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
-				</form>
-				<form id="assetDispForm" action="assetDisposal" method="post">
-					<input type="hidden" id="disposalAsset" name="assetIdList" />
-				</form>
-				<form id="assetDeleteForm" action="assetDelete" method="POST">
-					<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
-				</form>
-				<form id="assetHistoryForm" action="assetHistory" method="post">
-					<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
-				</form>
-				<form id="assetPaymentForm" action="assetPayment" method="post">
-					<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
-					<input type="hidden" name="assetUser" value=${assetData['assetVO']['assetUser'] } />
-				</form>
-				
-				<!-- 반출/수리 레이어 팝업 -->
-				<form id="pop" action="assetTakeOutHistory" method="post">
-					<table style="margin-top:100px;margin-left:20px;">
-						<tr>
-							<th>신청날짜</th>
-							<th>는 현재날짜로 등록됩니다.</th>
-						</tr>
-						<tr>
-							<th>용도</th>
-							<th class="popInput">
-								<select class="form-controlmin dropdown" id="assetOutStatus" name="assetOutStatus">
-										<option value="0">용도를 선택하세요.</option>
-										<option value="반출 중">반출 중</option>
-										<option value="수리 중">수리 중</option>
-										<option value="고장">고장</option> 
-								</select>
-							</th>
-						</tr>
-						<tr>
-							<th>대상</th>
-							<th class="popInput"><input type="text" name="assetOutObjective" id="assetOutObjective"/></th>
-						</tr>
-						<tr>
-							<th>목적</th>
-							<th class="popInput"><input type="text" name="assetOutPurpose" id="assetOutPurpose"/></th>
-						</tr>
-						<tr>
-							<th>비용</th>
-							<th class="popInput"><input type="text" name="assetOutCost" id="assetOutCost"/></th>
-						</tr>
-						<tr>
-							<th>자산 반출/수리 이력 COMMENT</th>
-							<th class="popInput"><textArea name="assetOutComment" id="assetOutComment" maxlength="100"></textArea></th>
-						</tr>
-					</table>
-						<input type="hidden" id="assetId" name="assetId" value="${assetData['assetVO']['assetId'] }"/>
-						<input type="button" id="popSubmit" style="margin:30px; background:#3d3d3d" value="submit"/>
-						<input type="button" id="popClose" style="margin:30px; background:#3d3d3d" value="close"/>											
-				</form>
-				
-		    </div>
 		</div>
 	</div>
 </body>
