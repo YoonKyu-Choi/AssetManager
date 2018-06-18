@@ -127,6 +127,7 @@
 					</div>
 				</div>
 			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
+			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetDetail?assetId=${model['assetId']}'" value="상세보기로 이동" />
 			</div>
 		</div>
 	</div>

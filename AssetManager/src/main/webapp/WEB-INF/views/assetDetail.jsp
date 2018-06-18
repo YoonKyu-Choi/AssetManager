@@ -94,7 +94,7 @@
 		} else{
 		// 반출/수리 전 추가내용 확인
 			if($("#assetOutComment").val()==''){
-				if(!confirm("자산 반출/수리 이력 추가내용이 입력되지 않았습니다.\n입력하지 않으면 빈칸으로 처리됩니다.\n 추가하시겠습니까 ?")){
+				if(!confirm("자산 반출/수리 이력 추가내용이 입력되지 않았습니다.\n입력하지 않으면 빈칸으로 처리됩니다.")){
 					return false;
 				} else {
 					$("#assetOutComment").val("자산 반출/수리 이력 추가내용이 없습니다.");
@@ -428,7 +428,7 @@
 						<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
 						<button class="btn btn-lg btn-primary" onclick="printReport();" >보고서 출력</button>
 					</div>
-					
+
 					<div style="display: flex; float: right">
 						<c:choose>
 							<c:when test="${assetData['assetVO']['assetStatus'] == '폐기 대기'}">
@@ -468,13 +468,20 @@
 						<form id="assetDeleteForm" action="assetDelete" method="POST">
 							<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
 						</form>
-
+						<form id="assetHistoryForm" action="assetHistory" method="post">
+							<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
+						</form>
+						<form id="assetPaymentForm" action="assetPayment" method="post">
+							<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
+							<input type="hidden" name="assetUser" value=${assetData['assetVO']['assetUser'] } />
+						</form>
+						
 						<!-- 반출/수리 레이어 팝업 -->
 						<form id="pop" action="assetTakeOutHistory" method="post">
-							<table style="margin-top:50px;margin-left:20px;">
+							<table style="margin-top:100px;margin-left:20px;">
 								<tr>
 									<th>신청날짜</th>
-									<th>현재날짜로 등록됩니다.</th>
+									<th>는 현재날짜로 등록됩니다.</th>
 								</tr>
 								<tr>
 									<th>용도</th>
@@ -501,13 +508,14 @@
 								</tr>
 								<tr>
 									<th>자산 반출/수리 이력 COMMENT</th>
-									<th class="popInput"><textArea name="assetOutComment" id="assetOutComment" maxlength="100" cols="20" style="height:150px; resize:none;"></textArea></th>
+									<th class="popInput"><textArea name="assetOutComment" id="assetOutComment" maxlength="100"></textArea></th>
 								</tr>
 							</table>
 								<input type="hidden" id="assetId" name="assetId" value="${assetData['assetVO']['assetId'] }"/>
-								<input type="button" id="popSubmit" style="margin:30px; background:#3d3d3d" value="반출/수리 신청"/>
-								<input type="button" id="popClose" style="margin:30px; background:#3d3d3d" value="취소"/>											
+								<input type="button" id="popSubmit" style="margin:30px; background:#3d3d3d" value="submit"/>
+								<input type="button" id="popClose" style="margin:30px; background:#3d3d3d" value="close"/>											
 						</form>
+						
 				    </div>
 			    </div>
 			</div>
