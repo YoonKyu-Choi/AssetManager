@@ -77,4 +77,6 @@ public interface AssetDAO {
 	public int upateAssetTakeOutHistory(HashMap<String, Object> map) throws Exception;
 	// 자산 반출 seq 조회
 	public List<Integer> getTakeOutHistorySeqByAssetId(String assetId) throws Exception;
+	// 자산 카테고리 검색
+	public List<String> getAssetCategoryByName(String assetCategory) throws Exception;
 }

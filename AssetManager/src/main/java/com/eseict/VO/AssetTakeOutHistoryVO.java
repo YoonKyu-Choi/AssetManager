@@ -12,11 +12,13 @@ public class AssetTakeOutHistoryVO {
 	private Date assetOutStartDate;
 	private Date assetOutEndDate;
 	private String assetOutCost;
+	private String assetOutComment;
 	
 	public AssetTakeOutHistoryVO() {}
 
 	public AssetTakeOutHistoryVO(String assetId, int takeOutHistorySeq, String assetOutStatus, String assetOutObjective,
-			String assetOutPurpose, Date assetOutStartDate, Date assetOutEndDate, String assetOutCost) {
+			String assetOutPurpose, Date assetOutStartDate, Date assetOutEndDate, String assetOutCost,
+			String assetOutComment) {
 		super();
 		this.assetId = assetId;
 		this.takeOutHistorySeq = takeOutHistorySeq;
@@ -26,6 +28,7 @@ public class AssetTakeOutHistoryVO {
 		this.assetOutStartDate = assetOutStartDate;
 		this.assetOutEndDate = assetOutEndDate;
 		this.assetOutCost = assetOutCost;
+		this.assetOutComment = assetOutComment;
 	}
 
 	public String getAssetId() {
@@ -92,11 +95,20 @@ public class AssetTakeOutHistoryVO {
 		this.assetOutCost = assetOutCost;
 	}
 
+	public String getAssetOutComment() {
+		return assetOutComment;
+	}
+
+	public void setAssetOutComment(String assetOutComment) {
+		this.assetOutComment = assetOutComment;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((assetId == null) ? 0 : assetId.hashCode());
+		result = prime * result + ((assetOutComment == null) ? 0 : assetOutComment.hashCode());
 		result = prime * result + ((assetOutCost == null) ? 0 : assetOutCost.hashCode());
 		result = prime * result + ((assetOutEndDate == null) ? 0 : assetOutEndDate.hashCode());
 		result = prime * result + ((assetOutObjective == null) ? 0 : assetOutObjective.hashCode());
@@ -120,6 +132,11 @@ public class AssetTakeOutHistoryVO {
 			if (other.assetId != null)
 				return false;
 		} else if (!assetId.equals(other.assetId))
+			return false;
+		if (assetOutComment == null) {
+			if (other.assetOutComment != null)
+				return false;
+		} else if (!assetOutComment.equals(other.assetOutComment))
 			return false;
 		if (assetOutCost == null) {
 			if (other.assetOutCost != null)
@@ -155,8 +172,7 @@ public class AssetTakeOutHistoryVO {
 			return false;
 		return true;
 	}
-	
-	
+
 	
 	
 }

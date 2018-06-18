@@ -38,6 +38,7 @@ public class AssetController {
 								, @RequestParam(required = false) String searchKeyword) {
 
 		try {
+			System.out.println(searchMode+searchKeyword);
 			if(searchKeyword != null) {
 				return aService.assetListMnV(searchMode, searchKeyword);
 			} else {
@@ -244,6 +245,7 @@ public class AssetController {
 									, @ModelAttribute AssetTakeOutHistoryVO atouhvo) {
 		try {
 			// 자산 반출/수리 이력 입력
+			atouhvo.setAssetOutStartDate(new java.sql.Date(new java.util.Date().getTime()));
 			aService.insertAssetTakeOutHistory(atouhvo);
 			return "redirect:/assetDetail?assetId="+atouhvo.getAssetId();
 		} catch (Exception e) {

@@ -38,10 +38,7 @@
 	<resultMap type="com.eseict.VO.AssetHistoryVO" id="AssetHistoryVO-result">
 		<id column="ASSET_ID" property="assetId" />
 		<result column="EMPLOYEE_SEQ" property="employeeSeq" />
-		<result column="EMPLOYEE_ID" property="employeeId" />
-		<result column="ASSET_USER_HISTORY" property="assetUserHistory" />
 		<result column="ASSET_OCCUPIED_DATE" property="assetOccupiedDate" />
-		<result column="ASSET_HISTORY_COMMENT" property="assetHistoryComment" />
 	</resultMap>
 
 	<resultMap type="com.eseict.VO.AssetFormerUserVO" id="AssetFormerUserVO-result">
@@ -61,6 +58,7 @@
 		<result column="ASSET_OUT_START_DATE" property="assetOutStartDate" />
 		<result column="ASSET_OUT_END_DATE" property="assetOutEndDate" />
 		<result column="ASSET_OUT_COST" property="assetOutCost" />
+		<result column="ASSET_OUT_COMMENT" property="assetOutComment" />
 	</resultMap>
 
 	<select id="getAssetList" resultMap="AssetVO-result">
@@ -143,7 +141,7 @@
 
 	<select id="getAssetCountByCategory" parameterType="String" resultType="integer">
 		SELECT 
-			COUNT(*)
+			CAST(MAX(SUBSTRING(ASSET_ID FROM 9 FOR 11)) AS INT)
 		FROM 
 			ASSET_COMMON_ITEM
 		WHERE 
@@ -318,7 +316,6 @@
 			#{assetId}
 			,#{employeeSeq}
 			,#{assetOccupiedDate}
-			,#{assetHistoryComment}
 		);
 	</insert>
 	
@@ -350,8 +347,7 @@
 			ASSET_HISTORY
 		SET
 			EMPLOYEE_SEQ = #{employeeSeq},
-			ASSET_OCCUPIED_DATE = #{assetOccupiedDate},
-			ASSET_HISTORY_COMMENT = #{assetHistoryComment}
+			ASSET_OCCUPIED_DATE = #{assetOccupiedDate}
 		WHERE	
 			asset_id = #{assetId}
 	</update>
@@ -377,13 +373,9 @@
 			   ,#{assetOutStartDate}
 			   ,#{assetOutEndDate}
 			   ,#{assetOutCost}
+			   ,#{assetOutComment}
 		)
 	</insert>
-<!--
-		SET
-			ASSET_OUT_END_DATE = #{assetOutEndDate},
-			ASSET_OUT_STATUS = '반출 X'
--->
 	
 	<update id="upateAssetTakeOutHistory" parameterType="hashmap">
 		UPDATE
@@ -409,6 +401,14 @@
 			ASSET_ID = #{assetId}
 	</select>
 	
+	<select id="getAssetCategoryByName" parameterType="String" resultType="String">
+		SELECT
+			ASSET_CATEGORY
+		FROM
+			ASSET_COMMON_ITEM
+		WHERE
+			ASSET_CATEGORY=#{assetCategory}
+	</select>
 	
 	
 </mapper>

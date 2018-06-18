@@ -93,10 +93,10 @@
 	
 	$(function(){
 		var windowHeight = window.innerHeight;
-		$("#divBody").css("height", windowHeight-400);
+		$(".table-responsive").css("height", windowHeight-350);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
-			$("#divBody").css("height", windowHeight-400);
+			$(".table-responsive").css("height", windowHeight-350);
 		});
 	});
 	
@@ -214,16 +214,16 @@
 		}
 	}
 	
-	/*
 	$(function(){
-		var isSearch = "${search}";
+		var isSearch = "${assetListData['search']}";
 		if(isSearch == "1"){
-			var keyword = "${searchKeyword}";
-			var mode = "${searchMode}";
+			var keyword = "${assetListData['searchKeyword']}";
+			var mode = "${assetListData['searchMode']}";
 			var result = [];
-			if(mode == "1"){
-				var count = "${assetCount}";
-				$("tr:gt(0) td:nth-child("+"${columnSize}"+1+"n+1)").each(function(){
+			
+			if(mode == "1"){		// 분류 이름
+				var count = "${assetListData['assetCount']}";
+				$("tr:gt(0) td:nth-child("+"${assetListData['columnSize']}"+1+"n+1)").each(function(){
 					$(this).closest("tr").show();
 					var name = $(this).text();
 					var match = name.match(new RegExp(keyword, 'g'));
@@ -234,13 +234,14 @@
 				});
 				alert(count+"개의 분류 검색됨.");
 			}
-			else if(mode == "2"){
-				var count = "${assetCount}";
+			
+			else if(mode == "2"){	// 세부 항목
+				var count = "${assetListData['assetCount']}";
 				var checkary = [];
 				for(var i=0; i<count; i++){
 					checkary.push(false)
 				}
-				$("tr:gt(0) td:not(:nth-child("+"${columnSize}"+1+"n+1))").each(function(){
+				$("tr:gt(0) td:not(:nth-child("+"${assetListData['columnSize']}"+1+"n+1))").each(function(){
 					$(this).closest("tr").show();
 					var name = $(this).text();
 					var match = name.match(new RegExp(keyword, 'g'));
@@ -260,7 +261,6 @@
 			}
 		}
 	});
-	*/
 	 
 	$(function(){
 		$("#tableHead th").click(function(){
@@ -272,6 +272,12 @@
 			var scrollpos = $("#divBody").scrollLeft(); 
 			$("#divOut .fixed-table-body").scrollLeft(scrollpos);
 		});
+	
+	$(function(){
+		var flashmsg = "<c:out value='${msg}'/>";
+		if(flashmsg != ""){
+			alert(flashmsg);
+		}
 	});
 	
 </script>
@@ -322,7 +328,6 @@
 	#tableBody thead{
 		visibility: collapse;
 	}
-	
 </style>
 </head>
 <body>
@@ -332,16 +337,14 @@
 				<form class="page-header" id="searchForm" action="assetList">
 					<font size="6px"><b>자산 관리 > 자산 목록</b></font>
 					<label style="float:right; margin-top: 20px">
-						<!-- 	
 						<select id="searchMode" name="searchMode">
-								<option value="0">자산 분류</option>
-								<option value="1">시리얼 번호</option>
-								<option value="2">구입년도</option>
-								<option value="3">관리 번호</option>
+								<option value="1">자산 분류</option>
+								<option value="2">시리얼 번호</option>
+								<option value="3">구입년도</option>
+								<option value="4">관리 번호</option>
 						</select>
 							<input type="text" id="searchKeyword" name="searchKeyword">
 							<input type="submit" value="검색">
-						 -->
 						</label>
 				</form>
 				<div style="margin-bottom: 10px">
@@ -355,7 +358,7 @@
 				</div>
 				<div id="divOut">
 				<div class="table-responsive" id="divHead">
-					<table class="table" data-toggle="table" id="tableHead">
+					<table class="table" id="tableHead" data-toggle="table">
 						<thead>
 							<tr>
 								<th class="tdNonClick"><input type="checkbox" style="transform:scale(1.5)" id="allCheck" onclick="allClick();"/></th>
@@ -374,13 +377,14 @@
 								<th data-sortable="true">사용 위치</th>
 							</tr>
 						</thead>
-						<tbody style="display:none">
+						<tbody style="display: none">
 						</tbody>
 					</table>
 				</div>
 				</div>
 				
 				<div class="table-responsive" id="divBody">
+					
 					<table class="table table-striped" id="tableBody" data-toggle="table">
 						<thead>
 							<tr>

@@ -20,6 +20,7 @@ import com.eseict.VO.AssetFormerUserVO;
 import com.eseict.VO.AssetHistoryVO;
 import com.eseict.VO.AssetTakeOutHistoryVO;
 import com.eseict.VO.AssetVO;
+import com.eseict.VO.CategoryCodeVO;
 import com.eseict.VO.CategoryVO;
 
 @Service
@@ -88,7 +89,23 @@ public class AssetServiceImpl implements AssetService {
 		assetListData.put("assetCountByOut", assetCountByOut);
 		assetListData.put("assetCountByDispReady", assetCountByDispReady);
 		assetListData.put("assetCountByDisposal", assetCountByDisposal);
-
+		
+		HashMap<AssetVO, List<String>> assetItemList = new HashMap<AssetVO, List<String>>();
+		int columnSize = 0;
+		for(AssetVO category: volist) {
+			assetItemList.put(category, aDao.getAssetCategoryByName(category.getAssetCategory()));
+		}
+		
+		for(AssetVO key: assetItemList.keySet()) {
+			int items = assetItemList.get(key).size();
+			if(columnSize < items) {
+				columnSize = items;
+			}
+		}
+		assetListData.put("assetItemList", assetItemList);
+		assetListData.put("columnSize", columnSize);
+		assetListData.put("assetCount", volist.size());
+		
 		if(searchKeyword != null) {
 			assetListData.put("searchMode", searchMode);
 			assetListData.put("searchKeyword", searchKeyword);
