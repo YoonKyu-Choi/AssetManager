@@ -68,7 +68,6 @@
 			}
 		}
 	}
-
 	function allClick(){
 		var allChecked = $("#allCheck").prop("checked");
 		$(".chkbox").each(function(){
@@ -93,10 +92,10 @@
 	
 	$(function(){
 		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-350);
+		$("#divBody").css("height", windowHeight-400);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-350);
+			$("#divBody").css("height", windowHeight-400);
 		});
 	});
 	
@@ -267,9 +266,20 @@
 		if(flashmsg != "")
 				alert(flashmsg);
 	});
+	 
+	$(function(){
+		$("#tableHead th").click(function(){
+			var index = $("#tableHead th").index($(event.target).closest("th"));
+			$("#tableBody th:eq("+index+") .sortable").click();
+		});
+		
+		$("#divBody").scroll(function(){
+			var scrollpos = $("#divBody").scrollLeft(); 
+			$("#divOut .fixed-table-body").scrollLeft(scrollpos);
+		});
+	});
 	
 </script>
-
 	
 <style>
 	th, td {
@@ -301,12 +311,22 @@
 		     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 		        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 	}
-	#header-fixed { 
-		position: fixed; 
-		top: 0px;
-		display: none;
-		background-color:white;
+	#divOut{
+		position: releative;
+		height: 40px;
+		overflow-y: scroll;
 	}
+	#divBody{
+		z-index: -1;
+	}
+	#tableBody{
+		overflow: auto;
+		position: absolute;
+	}
+	#tableBody thead{
+		visibility: collapse;
+	}
+	
 </style>
 </head>
 <body>
@@ -316,14 +336,16 @@
 				<form class="page-header" id="searchForm" action="assetList">
 					<font size="6px"><b>자산 관리 > 자산 목록</b></font>
 					<label style="float:right; margin-top: 20px">
+						<!-- 	
 						<select id="searchMode" name="searchMode">
-								<option value="1">자산 분류</option>
-								<option value="2">시리얼 번호</option>
-								<option value="3">구입년도</option>
-								<option value="4">관리 번호</option>
+								<option value="0">자산 분류</option>
+								<option value="1">시리얼 번호</option>
+								<option value="2">구입년도</option>
+								<option value="3">관리 번호</option>
 						</select>
 							<input type="text" id="searchKeyword" name="searchKeyword">
 							<input type="submit" value="검색">
+						 -->
 						</label>
 				</form>
 				<div style="margin-bottom: 10px">
@@ -335,56 +357,42 @@
 					<font size="4px">&nbsp;&nbsp;폐기 대기 : </font><span class="badge">${assetListData['assetCountByDispReady']}</span>
 					<font size="4px">&nbsp;&nbsp;폐기 : </font><span class="badge">${assetListData['assetCountByDisposal']}</span>
 				</div>
-				<table class="table table-striped" style="" data-toggle="table">
-					<thead>
-						<tr>
-							<th class="tdNonClick"><input type="checkbox" style="transform:scale(1.5)" id="allCheck" onclick="allClick();"/></th>
-							<th data-sortable="true">관리 번호</th>
-							<th data-sortable="true">자산 분류</th>
-							<th data-sortable="true">사용자</th>
-							<th data-sortable="true">상태</th>
-							<th data-sortable="true">시리얼 번호</th>
-							<th data-sortable="true">구매 날짜</th>
-							<th data-sortable="true">구매 가격</th>
-							<th data-sortable="true">구매처</th>
-							<th data-sortable="true">제조사</th>
-							<th data-sortable="true">모델명</th>
-							<th data-sortable="true">용도</th>
-							<th data-sortable="true">책임자</th>
-							<th data-sortable="true">사용 위치</th>
-						</tr>
-					</thead>
-					<tbody style="display: none">
-					<c:forEach items="${assetListData['assetList']}" var="asset">
-						<tr class="clickable-row" data-href="${asset.assetId}">
-							<td class="tdNonClick"><input type="checkBox" style="transform:scale(1.5)" class="chkbox" onclick="dis(this);"/></td>
-							<td>${asset.assetId}</td>
-							<td>${asset.assetCategory}</td>
-							<td>${asset.assetUser}</td>
-							<td>${asset.assetStatus}</td>
-							<td>${asset.assetSerial}</td>
-							<td>${asset.assetPurchaseDate}</td>
-							<td>${asset.assetPurchasePrice}</td>
-							<td>${asset.assetPurchaseShop}</td>
-							<td>${asset.assetMaker}</td>
-							<td>${asset.assetModel}</td>
-							<td>${asset.assetUsage}</td>
-							<td>${asset.assetManager}</td>
-							<td>${asset.assetLocation}</td>
-						</tr>
-					</c:forEach>
-					</tbody>
-				</table>
-				<div class="table-responsive" >
-					
-					<table class="table table-striped" style="overflow: auto; position: absolute;" data-toggle="table">
+				<div id="divOut">
+				<div class="table-responsive" id="divHead">
+					<table class="table" data-toggle="table" id="tableHead">
 						<thead>
 							<tr>
 								<th class="tdNonClick"><input type="checkbox" style="transform:scale(1.5)" id="allCheck" onclick="allClick();"/></th>
 								<th data-sortable="true">관리 번호</th>
 								<th data-sortable="true">자산 분류</th>
 								<th data-sortable="true">사용자</th>
-								<th data-sortable="true">상태</th>
+								<th data-sortable="true">현재 상태</th>
+								<th data-sortable="true">시리얼 번호</th>
+								<th data-sortable="true">구매 날짜</th>
+								<th data-sortable="true">구매 가격</th>
+								<th data-sortable="true">구매처</th>
+								<th data-sortable="true">제조사</th>
+								<th data-sortable="true">모델명</th>
+								<th data-sortable="true">용도</th>
+								<th data-sortable="true">책임자</th>
+								<th data-sortable="true">사용 위치</th>
+							</tr>
+						</thead>
+						<tbody style="display:none">
+						</tbody>
+					</table>
+				</div>
+				</div>
+				
+				<div class="table-responsive" id="divBody">
+					<table class="table table-striped" id="tableBody" data-toggle="table">
+						<thead>
+							<tr>
+								<th class="tdNonClick"><input type="checkbox" style="transform:scale(1.5)" id="allCheck" onclick="allClick();"/></th>
+								<th data-sortable="true">관리 번호</th>
+								<th data-sortable="true">자산 분류</th>
+								<th data-sortable="true">사용자</th>
+								<th data-sortable="true">현재 상태</th>
 								<th data-sortable="true">시리얼 번호</th>
 								<th data-sortable="true">구매 날짜</th>
 								<th data-sortable="true">구매 가격</th>
@@ -418,7 +426,6 @@
 						</tbody>
 					</table>
 				</div>
-
 				<form id="printForm" action="printList" method="post">
 					<input type="hidden" id="printArray" name="assetIdList"/>
 				</form>
