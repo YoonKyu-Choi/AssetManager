@@ -139,7 +139,7 @@
 			ASSET_ID=#{assetId}
 	</select>
 
-	<select id="getAssetCountByCategory" parameterType="String" resultType="Integer">
+	<select id="getAssetCountByCategory" parameterType="String" resultType="integer">
 		SELECT 
 			CAST(MAX(SUBSTRING(ASSET_ID FROM 9 FOR 11)) AS INT)
 		FROM 

@@ -106,8 +106,7 @@
 		if (!confirm("자산을 정말 삭제하시겠습니까?")) {
 			return false;
 		} else {
-			//$("#assetDeleteForm").submit();
-			wrapWindowByMask();
+			$("#assetDeleteForm").submit();
 		}
 	}
 	
@@ -116,14 +115,6 @@
 			return false;
 		} else {
 			$("#assetPaymentForm").submit();
-		}
-	}
-	
-	function disposeConfirm(){
-		if(!confirm('선택한 자산을 폐기하겠습니까?')){
-				return false;
-			}else{
-				$("#disposeForm").submit();
 		}
 	}
 
@@ -185,7 +176,6 @@
 			
 		}
 	}
-	
 </script>
 </head>
 
@@ -276,12 +266,12 @@
 				<c:choose>
 					<c:when test="${assetData['assetVO']['assetStatus'] == '폐기 대기'}">
 						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
-						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="disposeConfirm();">폐기</button>
+						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">수정</button>
 					</c:when>
 					
 					<c:when test="${assetData['assetVO']['assetStatus'] == '폐기'}">
 						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
-						<button class="btn btn-lg btn-primary" style="margin-right: 10px" id="delbtn" onclick="deleteConfirm();">자산 삭제</button>
+						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="deleteConfirm();">자산 삭제</button>
 					</c:when>
 					
 					<c:when test="${assetData['assetVO']['assetOutStatus'] == '반출 중' || assetData['assetVO']['assetOutStatus'] == '수리 중'}">
@@ -318,24 +308,6 @@
 					<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
 					<input type="hidden" name="assetUser" value=${assetData['assetVO']['assetUser'] } />
 				</form>
-				<form id="disposeForm" action="disposeAssetOne" method="post">
-					<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
-				</form>
-				
-				<div class="mask"></div>
-				    <div class="window">
-				    	<p>비밀번호를 입력해주세요.</p>
-
-						<form id="assetDeleteForm" action="assetDelete" method="POST">
-							<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
-							<input type="password" name="checkAdminPw" autofocus/>
-				        	<div style="margin-top: 20px">
-					        	<button class="btn btn-lg btn-primary" type="submit">제출</button>
-					        	<input class="btn btn-lg btn-primary close" type="button" value="취소"/>
-				        	</div>
-						</form>
-
-				    </div>
 				
 				<!-- 반출/수리 레이어 팝업 -->
 				<form id="pop" action="assetTakeOutHistory" method="post">

@@ -213,16 +213,16 @@
 		}
 	}
 	
+	/*
 	$(function(){
-		var isSearch = "${assetListData['search']}";
+		var isSearch = "${search}";
 		if(isSearch == "1"){
-			var keyword = "${assetListData['searchKeyword']}";
-			var mode = "${assetListData['searchMode']}";
+			var keyword = "${searchKeyword}";
+			var mode = "${searchMode}";
 			var result = [];
-			
-			if(mode == "1"){		// 분류 이름
-				var count = "${assetListData['assetCount']}";
-				$("tr:gt(0) td:nth-child("+"${assetListData['columnSize']}"+1+"n+1)").each(function(){
+			if(mode == "1"){
+				var count = "${assetCount}";
+				$("tr:gt(0) td:nth-child("+"${columnSize}"+1+"n+1)").each(function(){
 					$(this).closest("tr").show();
 					var name = $(this).text();
 					var match = name.match(new RegExp(keyword, 'g'));
@@ -233,14 +233,13 @@
 				});
 				alert(count+"개의 분류 검색됨.");
 			}
-			
-			else if(mode == "2"){	// 세부 항목
-				var count = "${assetListData['assetCount']}";
+			else if(mode == "2"){
+				var count = "${assetCount}";
 				var checkary = [];
 				for(var i=0; i<count; i++){
 					checkary.push(false)
 				}
-				$("tr:gt(0) td:not(:nth-child("+"${assetListData['columnSize']}"+1+"n+1))").each(function(){
+				$("tr:gt(0) td:not(:nth-child("+"${columnSize}"+1+"n+1))").each(function(){
 					$(this).closest("tr").show();
 					var name = $(this).text();
 					var match = name.match(new RegExp(keyword, 'g'));
@@ -260,6 +259,7 @@
 			}
 		}
 	});
+	*/
 	
 	$(function(){
 		var flashmsg = "<c:out value='${msg}'/>";

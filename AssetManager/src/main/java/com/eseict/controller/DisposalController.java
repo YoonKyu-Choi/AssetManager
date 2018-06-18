@@ -47,18 +47,4 @@ public class DisposalController {
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
 		return "redirect:/disposalList";
 	}
-	
-	@RequestMapping(value="/disposeAssetOne", method=RequestMethod.POST)
-	public String disposeAssetOne(RedirectAttributes redirectAttributes
-							 , @RequestParam String assetId) {
-		try {
-			dService.disposeAssetOne(assetId);
-			redirectAttributes.addFlashAttribute("msg", assetId+" 자산이 폐기 처리 되었습니다.");
-			return "redirect:disposalList";
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "redirect:/disposalList";
-	}
 }

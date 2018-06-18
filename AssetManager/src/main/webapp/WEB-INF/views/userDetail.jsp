@@ -60,6 +60,7 @@
 //		if(flashmsg != "")
 			alert(flashmsg);
 	});
+
 	function wrapWindowByMask(){
 	    // 화면의 높이와 너비를 변수로 만듭니다.
 	    var maskHeight = $(window).height();
@@ -96,6 +97,15 @@
             $(this).hide();
             $('.window').hide();
         });	
+	});
+	
+	$(function(){
+		var windowHeight = window.innerHeight;
+		$(".table-responsive").css("height", windowHeight-400);
+		$(window).resize(function(){
+			windowHeight = $(window).height();
+			$(".table-responsive").css("height", windowHeight-400);
+		});
 	});
 </script>
 

@@ -45,6 +45,16 @@
 			$("#modifySend").submit();
 		}
 	}
+	
+	$(function(){
+		var windowHeight = window.innerHeight;
+		$(".table-responsive").css("height", windowHeight-400);
+		$(window).resize(function(){
+			windowHeight = $(window).height();
+			$(".table-responsive").css("height", windowHeight-400);
+		});
+	});
+	
 </script>
 <style>
 .form-controlmin {

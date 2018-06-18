@@ -94,7 +94,6 @@ public class AssetServiceImpl implements AssetService {
 		int columnSize = 0;
 		for(AssetVO category: volist) {
 			assetItemList.put(category, aDao.getAssetCategoryByName(category.getAssetCategory()));
-			System.out.println(aDao.getAssetCategoryByName(category.getAssetCategory()));
 		}
 		
 		for(AssetVO key: assetItemList.keySet()) {
