@@ -261,6 +261,10 @@
 		}
 	});
 	*/
+	$(function(){
+		var flashmsg = "<c:out value='${msg}'/>";
+		if(flashmsg != "")
+				alert(flashmsg);
 	 
 	$(function(){
 		$("#tableHead th").click(function(){
