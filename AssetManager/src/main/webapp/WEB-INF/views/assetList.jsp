@@ -214,16 +214,16 @@
 		}
 	}
 	
-	/*
 	$(function(){
-		var isSearch = "${search}";
+		var isSearch = "${assetListData['search']}";
 		if(isSearch == "1"){
-			var keyword = "${searchKeyword}";
-			var mode = "${searchMode}";
+			var keyword = "${assetListData['searchKeyword']}";
+			var mode = "${assetListData['searchMode']}";
 			var result = [];
-			if(mode == "1"){
-				var count = "${assetCount}";
-				$("tr:gt(0) td:nth-child("+"${columnSize}"+1+"n+1)").each(function(){
+			
+			if(mode == "1"){		// 분류 이름
+				var count = "${assetListData['assetCount']}";
+				$("tr:gt(0) td:nth-child("+"${assetListData['columnSize']}"+1+"n+1)").each(function(){
 					$(this).closest("tr").show();
 					var name = $(this).text();
 					var match = name.match(new RegExp(keyword, 'g'));
@@ -234,13 +234,14 @@
 				});
 				alert(count+"개의 분류 검색됨.");
 			}
-			else if(mode == "2"){
-				var count = "${assetCount}";
+			
+			else if(mode == "2"){	// 세부 항목
+				var count = "${assetListData['assetCount']}";
 				var checkary = [];
 				for(var i=0; i<count; i++){
 					checkary.push(false)
 				}
-				$("tr:gt(0) td:not(:nth-child("+"${columnSize}"+1+"n+1))").each(function(){
+				$("tr:gt(0) td:not(:nth-child("+"${assetListData['columnSize']}"+1+"n+1))").each(function(){
 					$(this).closest("tr").show();
 					var name = $(this).text();
 					var match = name.match(new RegExp(keyword, 'g'));
@@ -260,7 +261,7 @@
 			}
 		}
 	});
-	*/
+	
 	$(function(){
 		var flashmsg = "<c:out value='${msg}'/>";
 		if(flashmsg != "")
@@ -315,16 +316,14 @@
 				<form class="page-header" id="searchForm" action="assetList">
 					<font size="6px"><b>자산 관리 > 자산 목록</b></font>
 					<label style="float:right; margin-top: 20px">
-						<!-- 	
 						<select id="searchMode" name="searchMode">
-								<option value="0">자산 분류</option>
-								<option value="1">시리얼 번호</option>
-								<option value="2">구입년도</option>
-								<option value="3">관리 번호</option>
+								<option value="1">자산 분류</option>
+								<option value="2">시리얼 번호</option>
+								<option value="3">구입년도</option>
+								<option value="4">관리 번호</option>
 						</select>
 							<input type="text" id="searchKeyword" name="searchKeyword">
 							<input type="submit" value="검색">
-						 -->
 						</label>
 				</form>
 				<div style="margin-bottom: 10px">

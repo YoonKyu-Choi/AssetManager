@@ -38,6 +38,7 @@ public class AssetController {
 								, @RequestParam(required = false) String searchKeyword) {
 
 		try {
+			System.out.println(searchMode+searchKeyword);
 			if(searchKeyword != null) {
 				return aService.assetListMnV(searchMode, searchKeyword);
 			} else {

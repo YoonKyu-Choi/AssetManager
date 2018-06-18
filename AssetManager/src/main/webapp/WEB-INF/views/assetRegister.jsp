@@ -21,7 +21,12 @@
 	rel="stylesheet">
 <script
 	src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/jquery.mtz.monthpicker.js"></script>
 
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
+<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>    
 <style>
 		#pop{
         width : 350px;
@@ -275,6 +280,42 @@
         }
         obj.value = obj.value.replace(/[\ㄱ-ㅎㅏ-ㅣ가-힣]/g, '');
     }
+    
+    var options = {
+
+            startYear: 2008,
+
+            finalYear: 2020,
+
+            pattern: 'yyyy-mm',
+
+            monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
+
+    };
+    
+    $(function() {
+        $("#assetPurchaseDate").datepicker({
+        	 dateFormat : "yy-mm-dd",
+        	 changeMonth: true, 
+             changeYear: true,
+             nextText: '다음 달',
+             prevText: '이전 달' 
+        });
+    });
+    
+    /*
+    $('#assetPurchaseDate').monthpicker(options);
+     
+    $('#assetPurchaseDate').monthpicker().bind('monthpicker-click-month', function (e, month) {
+        alert('You clicked on month ' + month);
+    }).bind('monthpicker-change-year', function (e, year) {
+        alert('You chosed the year ' + year);
+    }).bind('monthpicker-show', function () {
+        alert('showing...');
+    }).bind('monthpicker-hide', function () {
+        alert('hiding...');
+    });
+	*/
 
 </script>
 <style>

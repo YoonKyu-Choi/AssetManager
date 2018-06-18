@@ -185,5 +185,10 @@ public class AssetDAOImpl implements AssetDAO {
 		return sqlSession.selectList(namespace+"getTakeOutHistorySeqByAssetId",assetId);
 	}
 
+	@Override
+	public List<String> getAssetCategoryByName(String assetCategory) throws Exception {
+		return sqlSession.selectList(namespace+"getAssetCategoryByName",assetCategory);
+	}
+
 
 }
