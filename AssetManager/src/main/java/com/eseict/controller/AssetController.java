@@ -106,9 +106,6 @@ public class AssetController {
 			// 자산 이력 등록
 			aService.insertAssetHistory(assetId, assetUser);
 			
-			System.out.println("objective:"+assetOutObjective);
-			System.out.println("purpose"+assetOutPurpose);
-			System.out.println("cost"+assetOutCost);
 			// 자산 등록 시 반출,수리 중이면 입력
 			if(!assetOutObjective.isEmpty() && !assetOutPurpose.isEmpty() && !assetOutCost.isEmpty() 
 					&& assetOutObjective != null && assetOutPurpose != null && assetOutCost != null) {
@@ -120,14 +117,13 @@ public class AssetController {
 			atouhvo.setAssetOutStartDate(new java.sql.Date(new java.util.Date().getTime()));
 			atouhvo.setAssetOutCost(assetOutCost);
 			aService.insertAssetTakeOutHistoryWhenRegister(atouhvo);
-			System.out.println(atouhvo);
 			}
 			
 			return "redirect:/assetList.tiles";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
 		return "redirect:/assetList.tiles";
 	}
 	
@@ -226,12 +222,20 @@ public class AssetController {
 	
 	@RequestMapping(value="/assetDelete")
 	public String assetDelete(RedirectAttributes redirectAttributes
-							, @RequestParam String assetId) {
+							, @RequestParam String assetId
+							, @RequestParam("checkAdminPw") String checkAdminPw) {
 		try {
 			// 자산 삭제
-			aService.deleteAssetById(assetId);	
-			aService.deleteAssetDetailById(assetId);
-			return "assetList.tiles";
+			int check = eService.checkRegistered("admin", checkAdminPw);
+			if (check == 1) {
+				// 자산 삭제
+				aService.deleteAssetById(assetId);	
+				aService.deleteAssetDetailById(assetId);
+				redirectAttributes.addFlashAttribute("msg", "삭제되었습니다.");
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "비밀번호가 맞지 않아 삭제에 실패했습니다.");
+			}
+			return "redirect:/assetList";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

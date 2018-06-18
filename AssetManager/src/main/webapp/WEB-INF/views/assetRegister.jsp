@@ -117,24 +117,25 @@
 		$("#items").val(items);
 		$("#itemsDetail").val(itemsDetail);
 		
-		if($("#assetPurchaseDate").val()==''){
-			$("#assetPurchaseDate").val("9999-01-01");
-		}
-		if($("#assetPurchasePrice").val()==''){
-			$("#assetPurchasePrice").val("미입력");
-		}
-		if($("#assetPurchaseShop").val()==''){
-			$("#assetPurchaseShop").val("미입력");
-		}
-		
 		if ($("#assetCategory").val() == '0') {
-			alert("분류를 선택해주세요.");			
+			alert("분류를 선택해주세요.");
+			$("#assetCategory").focus();
+			return false;
+		} else if($("#assetUser").val()=='0'){
+			alert("이름을 선택해주세요.");
+			$("#assetUser").focus();
+			return false;
+		} else if($("#assetSerial").val()==''){
+			alert("시리얼 번호를 입력해주세요.");
+			$("#assetSerial").focus();
 			return false;
 		} else if($("#assetStatus").val()=='0'){
 			alert("자산 상태를 선택해주세요.");
+			$("#assetStatus").focus();
 			return false;
 		} else if($("#assetOutStatus").val()=='0'){
 			alert("자산 반출 상태를 선택해주세요.");
+			$("#assetOutStatus").focus();
 			return false;
 		} else if($("#assetMaker").val()==''){
 			alert("제조사를 입력해주세요.");
@@ -146,22 +147,37 @@
 			return false;
 		} else if($("#assetUsage").val()=='0'){
 			alert("용도를 선택해주세요.");
+			$("#assetUsage").focus();
 			return false;
 		} else if($("#assetManager").val()=='0'){
 			alert("책임자를 선택해주세요.");
+			$("#assetManager").focus();
 			return false;
 		} else if($("#assetLocation").val()=='0'){
 			alert("사용 위치를 선택해주세요.");
+			$("#assetLocation").focus();
 			return false;
 		} else {
-			/* 세부사항 유효성 체크 하다가 만거 이러면 체크는 하는데 submit 되는듯 ?
-			for(var i=0;i<counts-1;i++){
+			
+			// 얘네는 not null이 아니기 때문에 미입력 시 default값 지정
+			if($("#assetPurchaseDate").val()==''){
+				$("#assetPurchaseDate").val("9999-01-01");
+			}
+			if($("#assetPurchasePrice").val()==''){
+				$("#assetPurchasePrice").val("미입력");
+			}
+			if($("#assetPurchaseShop").val()==''){
+				$("#assetPurchaseShop").val("미입력");
+			}
+			
+			// 세부사항 유효성 검사
+			for(var i=0;i<counts;i++){
 				if($("th input[id='assetItemDetail']:eq("+i+")").val() ==''){
-					alert("세부사항 내용을 입력해주세요.");
+					alert("세부사항을 전부 입력해주세요.");
 					return false;
 				}
 			}
-			*/
+			
 				$("#registerSend").submit();
 			}
 		}
@@ -264,21 +280,12 @@
         obj.value = obj.value.replace(/[\ㄱ-ㅎㅏ-ㅣ가-힣]/g, '');
     }
     
-    var options = {
-
-            startYear: 2008,
-
-            finalYear: 2020,
-
-            pattern: 'yyyy-mm',
-
-            monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
-
-    };
-    
     $(function() {
         $("#assetPurchaseDate").datepicker({
         	 dateFormat : "yy-mm-dd",
+        	 dayNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
+             dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'], 
+             monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
         	 changeMonth: true, 
              changeYear: true,
              nextText: '다음 달',
@@ -381,7 +388,7 @@
 						</tr>
 						<tr>
 							<th>구입일</th>
-							<th><input type="text" id="assetPurchaseDate" name="assetPurchaseDate"></th>
+							<th><input type="text" id="assetPurchaseDate" name="assetPurchaseDate" readonly></th>
 							<th>제조사</th>
 							<th><input type="text" id="assetMaker" name="assetMaker"></th>
 						</tr>

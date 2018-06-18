@@ -46,6 +46,7 @@
         right : 350px;
         text-align : center;
         border : 2px solid #000;
+        display : none;
         }
         
         .popInput{
@@ -58,15 +59,51 @@
 	
 	$(document).ready(function(){
 		
-		 $("#pop").hide();
+		 //$("#pop").hide();
 		 $('#popSubmit').click(function() {
-		       $('#pop').submit();
+			 submitCheck();
 		 });
 		 $('#popClose').click(function() {
 		       $('#pop').hide();
 		 });
 
 	});
+	
+	function submitCheck() {
+		// 반출/수리 신청 시 유효성 검사
+		if ($("#assetOutStatus").val() == '0') {
+			alert("용도를 선택해주세요.");
+			$("#assetOutStatus").focus();
+			return false;
+		} else if($("#assetOutObjective").val()==''){
+			alert("반출/수리 대상을 입력해주세요.");
+			$("#assetOutObjective").focus();
+			return false;
+		} else if($("#assetOutPurpose").val()==''){
+			alert("반출/수리 목적을 입력해주세요.");
+			$("#assetOutPurpose").focus();
+			return false;
+		} else if($("#assetOutCost").val()==''){
+			alert("반출/수리 비용을 입력해주세요.");
+			$("#assetOutCost").focus();
+			return false;
+		} else{
+		// 반출/수리 전 추가내용 확인
+			if($("#assetOutComment").val()==''){
+				if(!confirm("자산 반출/수리 이력 추가내용이 입력되지 않았습니다.\n입력하지 않으면 빈칸으로 처리됩니다.\n 추가하시겠습니까 ?")){
+					return false;
+				} else {
+					$("#assetOutComment").val("자산 반출/수리 이력 추가내용이 없습니다.");
+				}
+			}
+		
+			if (!confirm("반출/수리을(를) 신청하시겠습니까?")) {
+				return false;
+			} else {
+				$('#pop').submit();
+			}
+		}
+	};
 
 	function modifyConfirm() {
 		if (!confirm("수정하시겠습니까?")) {
@@ -107,7 +144,7 @@
 		if (!confirm("자산을 정말 삭제하시겠습니까?")) {
 			return false;
 		} else {
-			$("#assetDeleteForm").submit();
+			wrapWindowByMask();
 		}
 	}
 	
@@ -116,6 +153,14 @@
 			return false;
 		} else {
 			$("#assetPaymentForm").submit();
+		}
+	}
+	
+	function disposeConfirm(){
+		if(!confirm('선택한 자산을 폐기하겠습니까?')){
+				return false;
+			}else{
+				$("#disposeForm").submit();
 		}
 	}
 
@@ -463,6 +508,7 @@
 				    </div>
 			    </div>
 			</div>
+
 		</div>
 	</div>
 </body>

@@ -443,12 +443,6 @@
 				</form>
 				<div style="margin-bottom: 10px">
 					<font size="4px">&nbsp;&nbsp;총 자산 수 : </font><span class="badge">${assetListData['assetCount']}</span>
-					<font size="4px">&nbsp;&nbsp;사용 중: </font><span class="badge">${assetListData['assetCountByUse']}</span>
-					<font size="4px">&nbsp;&nbsp;사용 가능: </font><span class="badge">${assetListData['assetCountCanUse']}</span>
-					<font size="4px">&nbsp;&nbsp;사용불가 : </font><span class="badge">${assetListData['assetCountByNotUse']}</span>
-					<font size="4px">&nbsp;&nbsp;반출 : </font><span class="badge">${assetListData['assetCountByOut']}</span>
-					<font size="4px">&nbsp;&nbsp;폐기 대기 : </font><span class="badge">${assetListData['assetCountByDispReady']}</span>
-					<font size="4px">&nbsp;&nbsp;폐기 : </font><span class="badge">${assetListData['assetCountByDisposal']}</span>
 				</div>
 				<div id="divOut">
 				<div class="table-responsive" id="divHead">

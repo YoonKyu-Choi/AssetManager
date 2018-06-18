@@ -11,13 +11,15 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
 <script>
 
-	$(document).on("click", ".table tbody tr", function(event){	
+	$(document).on("click", "#clickTable #clickTr", function(event){	
 		// 현재 클릭된 Row(<tr>)
 		var tr = $(this);
-		var td = tr.children();
-		var outSeq = td.eq(0).text();
-		var outComment = td.eq(6).text();
+		var th = tr.children();
+		var outSeq = th.eq(0).text();
+		var outComment = th.eq(6).text();
 		$("#assetOutComment").val(outComment);
+		$(tr).addClass("orange");
+		$(tr).siblings().removeClass("orange");
 	});
 	
 	$(function(){
@@ -39,6 +41,14 @@
 	});
 </script>
 <style>
+	.blue{
+		color:blue;
+	}
+	
+	.orange{
+		color:orange;
+	}
+
 	#displayNone{
 		display:None;
 	}
@@ -85,17 +95,17 @@
 					
 					<h3>자산 반출/수리 이력</h3>
 					<c:if test="${model['AssetHistoryList'].size() != 0 }">						
-					<table class="table table-striped">
+					<table class="table table-striped" id="clickTable">
 							<tr>
-								<th>반출/수리 번호</th>
-								<th>반출/수리</th>
-								<th>대상</th>
-								<th>목적</th>
-								<th>기간</th>
-								<th>비용</th>
+								<td>반출/수리 번호</td>
+								<td>반출/수리</td>
+								<td>대상</td>
+								<td>목적</td>
+								<td>기간</td>
+								<td>비용</td>
 							</tr>
 						<c:forEach items="${model['AssetTakeOutHistoryList']}" var="assetTakeOutHistory">
-							<tr>
+							<tr id="clickTr">
 								<th>${assetTakeOutHistory.takeOutHistorySeq}</th>
 								<th>${assetTakeOutHistory.assetOutStatus}</th>
 								<th>${assetTakeOutHistory.assetOutObjective}</th>
@@ -113,7 +123,7 @@
 					</c:if>
 						<h3>자산 이력 코멘트</h3>
 					<div> 자산 반출/수리 이력를 클릭하시면 해당 이력을 확인 할 수 있습니다.<br>
-					<input type="text" id="assetOutComment" style="width:500px;height:120px"/>
+					<input type="text" id="assetOutComment" style="width:500px;height:120px" readonly/>
 					</div>
 				</div>
 			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
