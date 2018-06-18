@@ -36,10 +36,12 @@
             background-color: #ffffff;
             z-index:99999;
         }
-    </style>
+        
+</style>
 
 
 <script>
+
 	function deleteConfirm() {
 		if (!confirm("삭제하겠습니까?")) {
 			return false;
@@ -57,7 +59,7 @@
 
 	$(function(){
 		var flashmsg = "<c:out value="${msg}"/>";
-//		if(flashmsg != "")
+		if(flashmsg != "")
 			alert(flashmsg);
 	});
 

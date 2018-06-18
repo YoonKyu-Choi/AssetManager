@@ -211,7 +211,7 @@ public class AssetServiceImpl implements AssetService {
 		for(int a = 0; a < items.length; a++) {
 			dvo.setAssetItem(items[a]);
 			dvo.setAssetItemDetail(itemsDetail[a]);
-			ret += aDao.insertAssetDetail(dvo);
+			ret += aDao.updateAssetDetail(dvo);
 		}
 		return ret;
 	}

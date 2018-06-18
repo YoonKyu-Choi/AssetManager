@@ -49,5 +49,10 @@ public class DisposalServiceImpl implements DisposalService{
 		}
 		return ret;
 	}
+	
+	@Override
+	public int disposeAssetOne(String assetId) throws Exception {
+		return dao.disposeAsset(assetId);
+	}
 
 }

@@ -81,10 +81,6 @@
 		}
 	}
 	
-	function modifyConfirm() {
-		
-	}
-	
 	function submitCheck() {
 		
 		if (!confirm("수정하겠습니까?")) {
@@ -101,13 +97,24 @@
 			$("#itemsDetail").val(itemsDetail);
 			
 			if ($("#assetCategory").val() == '0') {
-				alert("분류를 선택해주세요.");			
+				alert("분류를 선택해주세요.");
+				$("#assetCategory").focus();
+						return false;
+			} else if($("#assetUser").val()=='0'){
+				alert("이름을 선택해주세요.");
+				$("#assetUser").focus();
+				return false;
+			} else if($("#assetSerial").val()==''){
+				alert("시리얼 번호를 입력해주세요.");
+				$("#assetSerial").focus();
 				return false;
 			} else if($("#assetStatus").val()=='0'){
 				alert("자산 상태를 선택해주세요.");
+				$("#assetStatus").focus();
 				return false;
 			} else if($("#assetOutStatus").val()=='0'){
 				alert("자산 반출 상태를 선택해주세요.");
+				$("#assetOutStatus").focus();
 				return false;
 			} else if($("#assetMaker").val()==''){
 				alert("제조사를 입력해주세요.");
@@ -119,22 +126,41 @@
 				return false;
 			} else if($("#assetUsage").val()=='0'){
 				alert("용도를 선택해주세요.");
+				$("#assetUsage").focus();
 				return false;
 			} else if($("#assetManager").val()=='0'){
 				alert("책임자를 선택해주세요.");
+				$("#assetManager").focus();
 				return false;
 			} else if($("#assetLocation").val()=='0'){
 				alert("사용 위치를 선택해주세요.");
+				$("#assetLocation").focus();
 				return false;
-			} else if($("#assetItemDetail").val()==''){
-				alert("항목 내용을 입력해주세요.");
-				return false;
-			}else {
+			} else {
+				// 얘네는 not null이 아니기 때문에 미입력 시 default값 지정
+				if($("#assetPurchaseDate").val()==''){
+					$("#assetPurchaseDate").val("9999-01-01");
+				}
+				if($("#assetPurchasePrice").val()==''){
+					$("#assetPurchasePrice").val("미입력");
+				}
+				if($("#assetPurchaseShop").val()==''){
+					$("#assetPurchaseShop").val("미입력");
+				}
+				
+				// 세부사항 유효성 검사
+				for(var i=0;i<counts;i++){
+					if($("th input[id='assetItemDetail']:eq("+i+")").val() ==''){
+						alert("세부사항을 전부 입력해주세요.");
+						return false;
+					}
+				}
+				
 				$("#modifySend").submit();
 			}
 		}
 	};
-
+	
 	// 입력 키 숫자/한글 판정
 	function fn_press(event, type) {
         if(type == "numbers") {
@@ -297,9 +323,14 @@
 						<input type="hidden" id="items" name="items">
 					 	<input type="hidden" id="itemsDetail" name="itemsDetail">
 						<div>
-							<h3>기존 영수증 사진</h3><br>
-							<img style="width: 400px; height: 400px;" src="${pageContext.request.contextPath}/resources/${model['assetVO']['assetReceiptUrl']}">
-							<h4>영수증 수정</h4>
+							<c:if test="${assetData['assetVO']['assetReceiptUrl'] !=null && assetData['assetVO']['assetReceiptUrl'] != ''}">
+								<h3>기존 영수증 사진</h3><br>
+								<img style="width: 400px; height: 400px;" src="${pageContext.request.contextPath}/resources/${model['assetVO']['assetReceiptUrl']}">
+							</c:if>
+							<c:if test="${assetData['assetVO']['assetReceiptUrl'] ==null || assetData['assetVO']['assetReceiptUrl'] == ''}">	
+								<h3>영수증 사진이 없습니다.</h3>
+							</c:if>
+							<h4>영수증 등록/수정</h4>
 							<input type="file" id="uploadImage" name="uploadImage">
 						</div>
 						<div class="img_wrap" style="display: flex;">
