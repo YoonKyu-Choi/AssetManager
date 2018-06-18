@@ -16,14 +16,6 @@ public interface AssetDAO {
 	public List<AssetVO> getAssetList() throws Exception;
 	// 총 자산 수
 	public int getAssetCount() throws Exception;
-	// 사용 중인 자산 수
-	public int getAssetCountByUse() throws Exception;
-	// 사용 가능 자산 수
-	public int getAssetCountCanUse() throws Exception;
-	// 사용 불가 자산 수
-	public int getAssetCountByNotUse() throws Exception;
-	// 반출 자산 수
-	public int getAssetCountByOut() throws Exception;
 	// 폐기 대기 자산 수
 	public int getAssetCountByDispReady() throws Exception;
 	// 폐기 자산 수 

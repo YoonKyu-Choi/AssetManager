@@ -117,14 +117,13 @@ public class AssetController {
 			atouhvo.setAssetOutStartDate(new java.sql.Date(new java.util.Date().getTime()));
 			atouhvo.setAssetOutCost(assetOutCost);
 			aService.insertAssetTakeOutHistoryWhenRegister(atouhvo);
-			System.out.println(atouhvo);
 			}
 			
 			return "redirect:/assetList.tiles";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
 		return "redirect:/assetList.tiles";
 	}
 	

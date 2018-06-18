@@ -74,22 +74,15 @@ public class AssetServiceImpl implements AssetService {
 		List<AssetVO> volist = aDao.getAssetList();
 
 		int assetCount = aDao.getAssetCount();
-		int assetCountByUse = aDao.getAssetCountByUse();
-		int assetCountCanUse = aDao.getAssetCountCanUse();
-		int assetCountByNotUse = aDao.getAssetCountByNotUse();
-		int assetCountByOut = aDao.getAssetCountByOut();
 		int assetCountByDispReady = aDao.getAssetCountByDispReady();
 		int assetCountByDisposal = aDao.getAssetCountByDisposal();
 
 		assetListData.put("assetList", volist);
 		assetListData.put("assetCount", assetCount);
-		assetListData.put("assetCountByUse", assetCountByUse);
-		assetListData.put("assetCountCanUse", assetCountCanUse);
-		assetListData.put("assetCountByNotUse", assetCountByNotUse);
-		assetListData.put("assetCountByOut", assetCountByOut);
 		assetListData.put("assetCountByDispReady", assetCountByDispReady);
 		assetListData.put("assetCountByDisposal", assetCountByDisposal);
 		
+		/* 검색하다가 일단 정지 
 		HashMap<AssetVO, List<String>> assetItemList = new HashMap<AssetVO, List<String>>();
 		int columnSize = 0;
 		for(AssetVO category: volist) {
@@ -113,6 +106,7 @@ public class AssetServiceImpl implements AssetService {
 		} else {
 			assetListData.put("search", "0");
 		}
+		*/
 		return new ModelAndView("assetList.tiles", "assetListData", assetListData);
 	}
 
@@ -144,15 +138,21 @@ public class AssetServiceImpl implements AssetService {
 
 		// 관리 번호 생성
 		String categoryKeyword = null;
+		String year = null;
 		String month = null;
 		String categoryName = avo.getAssetCategory();
 		String itemSequence = null;
 		
 		categoryKeyword = cDao.getCode(categoryName);
 		
-		// getYear는 폐기함수 -> getFullYear 함수로 대체 , 
-		int yearCut = avo.getAssetPurchaseDate().getYear() % 100;
 		
+		// getYear는 폐기함수 -> getFullYear 함수로 대체 ,
+		// Year,Month 한자리수일 때 앞에 0 붙이기
+		if(avo.getAssetPurchaseDate().getYear() % 100 <10) {
+			year = "0" + Integer.toString(avo.getAssetPurchaseDate().getYear() % 100); 
+		} else {
+			year = Integer.toString(avo.getAssetPurchaseDate().getYear() % 100);
+		}
 		if(avo.getAssetPurchaseDate().getMonth() + 1 <10) {
 			month = "0" + Integer.toString(avo.getAssetPurchaseDate().getMonth() + 1); 
 		} else {
@@ -172,7 +172,7 @@ public class AssetServiceImpl implements AssetService {
 		if(avo.getAssetPurchaseDate().getYear() == 8099) { // 9999 를 넘기면 8099 로 받아짐
 			return "0000"+ "-" + categoryKeyword + "-" + (itemSequence);
 		}else {
-			return yearCut + month + "-" + categoryKeyword + "-" + (itemSequence);
+			return year + month + "-" + categoryKeyword + "-" + (itemSequence);
 		}
 	}
 
@@ -270,7 +270,6 @@ public class AssetServiceImpl implements AssetService {
 
 		return ret;
 	}
-
 	
 	@Override
 	public ModelAndView assetModifyMnV(String assetId) throws Exception {

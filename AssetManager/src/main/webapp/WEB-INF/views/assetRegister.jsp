@@ -120,7 +120,7 @@
 		if ($("#assetCategory").val() == '0') {
 			alert("분류를 선택해주세요.");
 			$("#assetCategory").focus();
-					return false;
+			return false;
 		} else if($("#assetUser").val()=='0'){
 			alert("이름을 선택해주세요.");
 			$("#assetUser").focus();
@@ -283,6 +283,9 @@
     $(function() {
         $("#assetPurchaseDate").datepicker({
         	 dateFormat : "yy-mm-dd",
+        	 dayNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
+             dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'], 
+             monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
         	 changeMonth: true, 
              changeYear: true,
              nextText: '다음 달',
@@ -385,7 +388,7 @@
 						</tr>
 						<tr>
 							<th>구입일</th>
-							<th><input type="text" id="assetPurchaseDate" name="assetPurchaseDate"></th>
+							<th><input type="text" id="assetPurchaseDate" name="assetPurchaseDate" readonly></th>
 							<th>제조사</th>
 							<th><input type="text" id="assetMaker" name="assetMaker"></th>
 						</tr>
