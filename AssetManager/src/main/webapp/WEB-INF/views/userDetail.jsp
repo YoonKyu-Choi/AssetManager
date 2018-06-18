@@ -14,7 +14,6 @@
 <!-- Bootstrap core CSS -->
 <link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
 <!-- Custom styles for this template -->
-<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
@@ -23,20 +22,19 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 <style>
-        .mask {
-            position:absolute;
-            left:0;
-            top:0;
-            z-index:9999;
-            background-color:#000;
-            display:none;
-        }
-        .window {
-            display: none;
-            background-color: #ffffff;
-            z-index:99999;
-        }
-        
+	.mask {
+		position:absolute;
+		left:0;
+		top:0;
+		z-index:9999;
+		background-color:#000;
+		display:none;
+	}
+	.window {
+		display: none;
+		background-color: #ffffff;
+		z-index:99999;
+	}
 </style>
 
 
@@ -110,7 +108,20 @@
 		});
 	});
 </script>
-
+<style>
+	.container{
+		top:0;
+		left:0;
+		bottom:0;
+		right:0;
+		height:100%;
+		width:100%;
+	}
+	.main{
+		margin: auto;
+		width: 60%;
+	}
+</style>
 
 </head>
 

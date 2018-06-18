@@ -149,7 +149,7 @@
 	}
 	
 	function alphabetOnly(){
-		var val = $("#categoryCodeName").val()
+		var val = $("#categoryCodeName").val();
 		var ch = val.slice(-1);
 		if(ch.charCodeAt(0) < 65 || ch.charCodeAt(0) > 90){
 			$("#categoryCodeName").val(val.slice(0,-1));

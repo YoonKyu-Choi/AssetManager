@@ -17,14 +17,15 @@
 		
 		<!-- Bootstrap core CSS -->
 		<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
+		<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
 		
 		<!-- Custom styles for this template -->
 		<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
 		
-		<script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
-		<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
 		<script>
 					
 			function depSort(a, b){
@@ -43,12 +44,6 @@
 						document.location.href='/assetmanager/categoryDetail?categoryName='+$(this).data("href");
 					}
 				});
-
-				var flashmsg = "<c:out value='${msg}'/>";
-				
-				if(flashmsg != ""){
-					alert(flashmsg);
-				}
 				
 				var windowHeight = window.innerHeight;
 				$(".table-responsive").css("height", windowHeight-350);
@@ -104,25 +99,73 @@
 					}
 				}
 			});
+			
+			var trName = "";
+			$(function(){
+				$("td").contextmenu(function(event){
+					trName = $(event.target).closest("tr").find("td:eq(0)").text();
+				});
+			});
+		    var categoryMenu = new BootstrapMenu('td', {
+		    	actions: [{
+		    		name: '상세 보기',
+		    		onClick: function() {
+						var categorynum = ${categoryListData['categoryCount']};
+						if(categorynum == 0){
+							alert("해당 분류가 없습니다.");
+							return;
+						}
+						document.location.href='/assetmanager/categoryDetail?categoryName=' + trName;
+		    		}
+		    	}]
+		    });
+			var generalMenu = new BootstrapMenu('.container', {
+				actions: [{
+					name: '분류 등록',
+					onClick: function(){
+						location.href='/assetmanager/categoryRegister';
+					}
+				}]
+			});
+
+			$(function(){
+				var flashmsg = "<c:out value='${msg}'/>";
+				
+				if(flashmsg != ""){
+					alert(flashmsg);
+				}
+			});
 		</script>
 		
 		<style>
-		th, td {
-		text-align: center;
-		}
-		th{
-		background-color:darkgray;
-		color:white;
-		}
-		p{
-			font-size:25px;
-		}
+			th, td {
+				text-align: center;
+			}
+			th{
+				background-color:darkgray;
+				color:white;
+			}
+			p{
+				font-size:25px;
+			}
+			.container{
+				top:0;
+				left:0;
+				bottom:0;
+				right:0;
+				height:100%;
+				width:100%;
+			}
+			.main{
+				margin: auto;
+				width: 60%;
+			}
 		</style>
 		
 	</head>
 
 	<body>
-		 <div class="container-fluid">
+		<div class="container-fluid">
 			<div class="row">
 				<div class="main">
 					<form class="page-header" id="searchForm" action="categoryList">
@@ -178,6 +221,5 @@
 				</div>
 			</div>
 		</div>
-		
 	</body>
 </html>

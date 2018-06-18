@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
 <script>
 
@@ -30,6 +31,14 @@
 		});
 	});
 	
+	var generalMenu = new BootstrapMenu('.container', {
+		actions: [{
+			name: '목록',
+			onClick: function(){
+				location.href='/assetmanager/assetList';
+			}
+		}]
+	});
 </script>
 <style>
 	.orange{
@@ -42,6 +51,18 @@
 	
 	#clickTable{
 		font-weight: bold;
+	}
+	.container{
+		top:0;
+		left:0;
+		bottom:0;
+		right:0;
+		height:100%;
+		width:100%;
+	}
+	.main{
+		margin: auto;
+		width: 60%;
 	}
 </style>
 
@@ -105,9 +126,8 @@
 					<input type="text" id="assetOutComment" style="width:500px;height:120px" readonly/>
 					</div>
 				</div>
-			</div>
 			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
-			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetDetail?assetId=${model['assetId']}'" value="자산 상세보기" />
+			</div>
 		</div>
 	</div>
 </body>

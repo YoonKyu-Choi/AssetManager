@@ -18,6 +18,7 @@
 
 	<script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
 
@@ -279,6 +280,87 @@
 		});
 	});
 	
+	
+	var trName = "";
+	$(function(){
+		$("td").contextmenu(function(event){
+			trName = $(event.target).closest("tr").find("td:eq(1)").text();
+		});
+	});
+	function isAsset(){
+		var assetnum = ${assetListData['assetCount']};
+		if(assetnum == 0){
+			alert("해당 자산이 없습니다.");
+			return;
+		}
+	}
+    var assetMenu = new BootstrapMenu('td', {
+    	actions: [{
+    		name: '상세 보기',
+    		onClick: function() {
+				isAsset();
+				document.location.href='/assetmanager/assetDetail?assetId=' + trName;
+    		}
+    	},{
+    		name: '수정',
+    		onClick: function() {
+				isAsset();
+				document.location.href='/assetmanager/assetDetail?assetId=' + trName;
+    		}
+    	},{
+    		name: '반출/수리',
+    		onClick: function() {
+				isAsset();
+				document.location.href='/assetmanager/assetDetail?assetId=' + trName;
+    		}
+    	},{
+    		name: '수정',
+    		onClick: function() {
+				isAsset();
+				document.location.href='/assetmanager/assetDetail?assetId=' + trName;
+    		}
+    	}]
+    });
+	var generalMenu = new BootstrapMenu('.container', {
+		actionsGroups:[
+			['assetRegister', 'assetDisposeRequest'],
+			['printList', 'printReport', 'printLabel']
+		],
+		actions: {
+			assetRegister: {
+				name: '자산 등록',
+				onClick: function(){
+					location.href='/assetmanager/assetRegister';
+				}
+			},
+			assetDisposeRequest: {
+				name: '폐기 신청',
+				onClick: function(){
+					dispRequest();
+				}
+			},
+			printList: {
+				name: '목록 출력',
+				onClick: function(){
+					printList();
+				}
+			},
+			printReport: {
+				name: '보고서 출력',
+				onClick: function(){
+					printReport();
+				}
+			},
+			printLabel: {
+				name: '라벨 출력',
+				onClick: function(){
+					printLabel();
+				}
+			}
+		}
+	});
+
+	
 </script>
 	
 <style>
@@ -326,7 +408,18 @@
 	#tableBody thead{
 		visibility: collapse;
 	}
-	
+	.container{
+		top:0;
+		left:0;
+		bottom:0;
+		right:0;
+		height:100%;
+		width:100%;
+	}
+	.main{
+		margin: auto;
+		width: 60%;
+	}
 </style>
 </head>
 <body>

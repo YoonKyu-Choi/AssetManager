@@ -22,6 +22,7 @@
 		
 		<script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
 		<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
 		<script>
@@ -225,21 +226,73 @@
 					}
 				}
 			}
+			
+			var trName = "";
+			$(function(){
+				$("td").contextmenu(function(event){
+					trName = $(event.target).closest("tr").find("td:eq(2)").text();
+				});
+			});
+		    var assetMenu = new BootstrapMenu('td', {
+		    	actions: [{
+		    		name: '상세 보기',
+		    		onClick: function() {
+						var disposalnum = ${disposalListData['assetCountByDispReady']} + ${disposalListData['assetCountByDisposal']};
+						if(disposalnum == 0){
+							alert("해당 자산이 없습니다.");
+							return;
+						}
+						document.location.href='/assetmanager/assetDetail?assetId=' + trName;
+		    		}
+		    	}]
+		    });
+			var generalMenu = new BootstrapMenu('.container', {
+				actions: [{
+					name: '폐기',
+					onClick: function(){
+						disposeAsset();
+					}
+				},{
+					name: '───────────',
+				},{
+					name: '목록 출력',
+					onClick: function(){
+						printList();
+					}
+				},{
+					name: '보고서 출력',
+					onClick: function(){
+						printReport();
+					}
+				}]
+			});
 
 		</script>
 		
 		<style>
-		th, td {
-		text-align: center;
-		white-space: nowrap;
-		}
-		th{
-		background-color:darkgray;
-		color:white;
-		}
-		p{
-			font-size:25px;
-		}
+			th, td {
+				text-align: center;
+				white-space: nowrap;
+			}
+			th{
+				background-color:darkgray;
+				color:white;
+			}
+			p{
+				font-size:25px;
+			}
+			.container{
+				top:0;
+				left:0;
+				bottom:0;
+				right:0;
+				height:100%;
+				width:100%;
+			}
+			.main{
+				margin: auto;
+				width: 60%;
+			}
 		</style>
 		
 	</head>
