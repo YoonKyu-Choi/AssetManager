@@ -65,14 +65,18 @@
 					var keyword = "${categoryListData['searchKeyword']}";
 					var mode = "${categoryListData['searchMode']}";
 					var result = [];
+					var $table = $("#cTable");
 					if(mode == "1"){		// 분류 이름
 						var count = "${categoryListData['categoryCount']}";
 						$("tr:gt(0) td:nth-child("+"${categoryListData['columnSize']}"+1+"n+1)").each(function(){
 							$(this).closest("tr").show();
+//							$(this).closest("tr").prop("data-visible","true");
+//							$table.bootstrapTable('showRow', {index:})
 							var name = $(this).text();
 							var match = name.match(new RegExp(keyword, 'g'));
 							if(match == null){
-								$(this).closest("tr").hide();
+//								$(this).closest("tr").hide();
+//								$(this).closest("tr").prop("data-visible","false");
 								count -= 1;
 							}
 						});
@@ -144,7 +148,7 @@
 					int columnSize = (Integer)categoryListData.get("columnSize");%>
 					<div class="table-responsive">
 					
-						<table class="table table-striped" style="overflow: auto; position: absolute;" data-toggle="table">
+						<table id="cTable" class="table table-striped" style="overflow: auto; position: absolute;" data-toggle="table">
 							<thead>
 								<tr>
 									<th data-sortable="true">분류 이름</th>
