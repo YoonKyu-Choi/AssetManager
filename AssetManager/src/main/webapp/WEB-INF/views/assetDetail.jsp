@@ -234,8 +234,6 @@
 				assetStatus = 2;
 				break;
 			case '반출 중':
-				assetStatus = 3;
-				break;
 			case '수리 중':
 				assetStatus = 3;
 				break;
