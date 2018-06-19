@@ -80,7 +80,7 @@
 		if (!confirm("취소하겠습니까?")) {
 			return false;
 		} else {
-			$("#idForm").submit();
+			$("#cancelForm").submit();
 		}
 	}
 	
@@ -240,16 +240,13 @@
 									<select class="form-controlmin dropdown" name="assetUser" id="assetUser">
 										<option value="0">사용자를 선택하세요.</option>
 										<c:forEach items="${model['employeeNameList']}" var="employee">
-											<option value="${employee}">${employee}</option>
+											<option value="${employee.employee_id}">${employee.employee_name}(${employee.employee_department_string})</option>
 										</c:forEach>
 									</select>
 								</th>
 							</tr>
 								<input type="hidden" id="employeeId" name="employeeId" value='<%=session.getAttribute("Id")%>'>
 								<input type="hidden" id="assetCategory" name="assetCategory" value="${model['assetVO']['assetCategory']}">
-								<!-- 
-								<input type="hidden" id="assetUser" name="assetUser" value="${requestScope.assetVO.assetUser}">
-								 -->
 							<tr>
 								<th>관리 번호</th>
 								<th>${model['assetVO']['assetId']}</th>
@@ -304,7 +301,7 @@
 								<th><select class="form-controlmin dropdown" name="assetManager" id="assetManager">
 										<option value="0">책임자를 선택하세요.</option>
 										<c:forEach items="${model['employeeNameList']}" var="employee">
-											<option value="${employee}">${employee}</option>
+											<option value="${employee.employee_id}">${employee.employee_name}(${employee.employee_department_string})</option>
 										</c:forEach>
 								</select></th>
 								<th>사용 위치</th>
@@ -360,15 +357,15 @@
 					</div>
 				</form>
 			</div>
-			<form id="assetForm" action="assetDetail" method="POST">
-						<input type="hidden" name="assetId" value="${model['assetVO']['assetId']}" />
-					</form>
-					<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
-					<div style="display: flex; float: right">
-						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="submitCheck();">수정</button>
-						<button class="btn btn-lg btn-primary" id="delbtn" onclick="cancelConfirm();">취소</button>
-						<div class="mask"></div>
-					</div>
+			<form id="cancelForm" action="assetDetail" method="POST">
+				<input type="hidden" name="assetId" value="${model['assetVO']['assetId']}" />
+			</form>
+			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
+			<div style="display: flex; float: right">
+				<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="submitCheck();">수정</button>
+				<button class="btn btn-lg btn-primary" onclick="cancelConfirm();">취소</button>
+				<div class="mask"></div>
 			</div>
 		</div>
+	</div>
 </body>

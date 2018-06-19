@@ -37,7 +37,7 @@
         }
         
         #pop{
-        width : 350px;
+        width : 400px;
         height : 400px;
         background : #3d3d3d;
         color : #fff;
@@ -47,10 +47,14 @@
         text-align : center;
         border : 2px solid #000;
         display : none;
+        
         }
         
         .popInput{
         color : #3d3d3d;
+        width : 50px;
+        table-layout: fixed;
+        
         }
         
 </style>
@@ -90,7 +94,7 @@
 		} else{
 		// 반출/수리 전 추가내용 확인
 			if($("#assetOutComment").val()==''){
-				if(!confirm("자산 반출/수리 이력 추가내용이 입력되지 않았습니다.\n입력하지 않으면 빈칸으로 처리됩니다.\n 추가하시겠습니까 ?")){
+				if(!confirm("자산 반출/수리 이력 추가내용이 입력되지 않았습니다.\n입력하지 않으면 빈칸으로 처리됩니다.")){
 					return false;
 				} else {
 					$("#assetOutComment").val("자산 반출/수리 이력 추가내용이 없습니다.");
@@ -362,7 +366,14 @@
 						</tr>
 						<tr>
 							<th>구입일</th>
-							<th>${assetData['assetVO']['assetPurchaseDate']}</th>
+							
+							<c:if test="${assetData['assetVO']['assetPurchaseDate'] == '9999-01-01'}">
+								<th>미입력</th>	
+							</c:if>
+							<c:if test="${assetData['assetVO']['assetPurchaseDate'] != '9999-01-01'}">
+								<th>${assetData['assetVO']['assetPurchaseDate']}</th>
+							</c:if>
+							
 							<th>제조사</th>
 							<th>${assetData['assetVO']['assetMaker']}</th>
 						</tr>
@@ -415,7 +426,7 @@
 						<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
 						<button class="btn btn-lg btn-primary" onclick="printReport();" >보고서 출력</button>
 					</div>
-					
+
 					<div style="display: flex; float: right">
 						<c:choose>
 							<c:when test="${assetData['assetVO']['assetStatus'] == '폐기 대기'}">
@@ -506,7 +517,6 @@
 				    </div>
 			    </div>
 			</div>
-
 		</div>
 	</div>
 </body>

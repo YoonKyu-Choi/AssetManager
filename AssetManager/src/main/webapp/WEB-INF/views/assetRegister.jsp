@@ -25,7 +25,7 @@
 
 <style>
 		#pop{
-        width : 350px;
+        width : 400px;
         height : 400px;
         background : #3d3d3d;
         color : #fff;
@@ -34,10 +34,14 @@
         right : 350px;
         text-align : center;
         border : 2px solid #000;
+        display : none;
         }
         
         .popInput{
         color : #3d3d3d;
+        width : 50px;
+        table-layout: fixed;
+        
         }
 
 </style>
@@ -46,7 +50,6 @@
 
 	$(document).ready(function(){
 		$("#uploadImage").on("change",handleImgFileSelect);
-		 $("#pop").hide();
 		 $("#popSubmit").click(function(){
 			 $("#pop").hide();
 			 $("#popTable tr:last").after('<tr><th><input type="hidden" id="assetOutStatus" name="assetOutStatus" value="'+$("#assetOutStatus option:selected").val()+'"></th></tr>');
@@ -351,7 +354,7 @@
 									<select class="form-controlmin dropdown" name="assetUser" id="assetUser">
 										<option value="0">책임자를 선택하세요.</option>
 										<c:forEach items="${list['employeeNameList']}" var="employee">
-											<option value="${employee}">${employee}</option>
+											<option value="${employee.employee_id}">${employee.employee_name}(${employee.employee_department_string})</option>
 										</c:forEach>
 									</select>
 								</th>
@@ -416,7 +419,7 @@
 								<select class="form-controlmin dropdown" name="assetManager" id="assetManager">
 									<option value="0">책임자를 선택하세요.</option>
 									<c:forEach items="${list['employeeNameList']}" var="employee">
-										<option value="${employee}">${employee}</option>
+										<option value="${employee.employee_id}">${employee.employee_name}(${employee.employee_department_string})</option>
 									</c:forEach>
 								</select>
 							</th>
@@ -476,6 +479,10 @@
 				<tr>
 					<th>비용</th>
 					<th class="popInput"><input type="text" name="assetOutCost" id="assetOutCost"/></th>
+				</tr>
+				<tr>
+					<th>자산 반출/수리 이력 COMMENT</th>
+					<th class="popInput"><textArea name="assetOutComment" id="assetOutComment" maxlength="100" cols="20" style="height:150px; resize:none;"></textArea></th>
 				</tr>
 			</table>
 				<input type="button" id="popSubmit" style="margin:30px; background:#3d3d3d" value="등록"/>

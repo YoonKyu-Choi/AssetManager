@@ -75,11 +75,15 @@
 			EMPLOYEE.EMPLOYEE_DEPARTMENT=DEPARTMENT.EMPLOYEE_DEPARTMENT
 	</select>
 	
-	<select id="getEmployeeNameList" resultType="String">
+	<select id="getEmployeeNameList" resultType="hashmap">
 		SELECT
-			EMPLOYEE_NAME
+			EMPLOYEE.EMPLOYEE_NAME, EMPLOYEE.EMPLOYEE_ID, DEPARTMENT.EMPLOYEE_DEPARTMENT_STRING, RANK.EMPLOYEE_RANK_STRING
 		FROM
-			EMPLOYEE
+			EMPLOYEE, RANK, DEPARTMENT
+		WHERE
+			EMPLOYEE.EMPLOYEE_RANK = RANK.EMPLOYEE_RANK
+		AND 
+			EMPLOYEE.EMPLOYEE_DEPARTMENT=DEPARTMENT.EMPLOYEE_DEPARTMENT	
 	</select>
  	 
 	<select id="selectEmployeeByEmployeeSeq" parameterType="integer" resultMap="EmployeeVO-result">
@@ -156,7 +160,26 @@
 			EMPLOYEE_ID = #{employeeId}
 	</select>
 	
-	<select id="getEmployeeSeqByEmpName" parameterType="String" resultType="Integer">
+	<select id="getEmployeeNameByEmpId" parameterType="String" resultType="String">
+		SELECT 	
+			EMPLOYEE_NAME
+		FROM 
+			EMPLOYEE
+		WHERE 
+			EMPLOYEE_ID = #{employeeId}
+	</select>
+	
+	<select id="getEmployeeIdByEmpName" parameterType="Integer" resultType="String">
+		SELECT
+			EMPLOYEE_ID
+		FROM 
+			EMPLOYEE
+		WHERE
+			EMPLOYEE_SEQ = #{employeeSeq}
+	</select>
+	
+	<!-- 추후 사용할 일 없으면 지우기 
+	<select id="getEmployeeSeqByEmpName" parameterType="hashmap" resultType="Integer">
 		SELECT
 			EMPLOYEE_SEQ
 		FROM 
@@ -164,6 +187,6 @@
 		WHERE
 			EMPLOYEE_NAME = #{employeeName}
 	</select>
-	
+	 -->
 	
 </mapper>

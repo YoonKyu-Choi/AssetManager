@@ -33,7 +33,7 @@ public class EmployeeVO {
 		this.rankVO = rankVO;
 		this.departmentVO = departmentVO;
 	}
-
+	
 	public int getEmployeeSeq() {
 		return employeeSeq;
 	}

@@ -41,16 +41,16 @@
 	});
 </script>
 <style>
-	.blue{
-		color:blue;
-	}
-	
 	.orange{
 		color:orange;
 	}
 
 	#displayNone{
 		display:None;
+	}
+	
+	#clickTable{
+		font-weight: bold;
 	}
 	.container{
 		top:0;
@@ -127,6 +127,7 @@
 					</div>
 				</div>
 			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
+			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetDetail?assetId=${model['assetId']}'" value="상세보기로 이동" />
 			</div>
 		</div>
 	</div>

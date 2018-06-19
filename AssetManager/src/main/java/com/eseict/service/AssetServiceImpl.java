@@ -48,7 +48,6 @@ public class AssetServiceImpl implements AssetService {
 	@Override
 	public int updateAsset(AssetVO avo) throws Exception {
 		return aDao.updateAsset(avo);
-		
 	}
 
 	@Override
@@ -113,6 +112,7 @@ public class AssetServiceImpl implements AssetService {
 	@Override
 	public ModelAndView assetDetailMnV(String assetId) throws Exception {
 		AssetVO avo = aDao.getAssetByAssetId(assetId);
+		avo.setAssetManager(eDao.getEmployeeNameByEmpId(avo.getAssetManager()));
 		List<AssetDetailVO> dlist = aDao.getAssetDetailByAssetId(assetId);
 		
 		HashMap<String, Object> assetData = new HashMap<String, Object>();
@@ -145,9 +145,8 @@ public class AssetServiceImpl implements AssetService {
 		
 		categoryKeyword = cDao.getCode(categoryName);
 		
-		
 		// getYear는 폐기함수 -> getFullYear 함수로 대체 ,
-		// Year,Month 한자리수일 때 앞에 0 붙이기
+		// Year,Month 한자리수일 때 형식에 맞게 수정
 		if(avo.getAssetPurchaseDate().getYear() % 100 <10) {
 			year = "0" + Integer.toString(avo.getAssetPurchaseDate().getYear() % 100); 
 		} else {
@@ -223,7 +222,7 @@ public class AssetServiceImpl implements AssetService {
 		AssetHistoryVO ahvo = new AssetHistoryVO();
 		java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 		ahvo.setAssetId(assetId);
-		int employeeSeq = eDao.getEmployeeSeqByEmpName(assetUser);
+		int employeeSeq = eDao.getEmployeeSeqByEmpId(assetUser);
 		ahvo.setEmployeeSeq(employeeSeq);
 		ahvo.setAssetOccupiedDate(now);
 		ret += aDao.insertAssetHistory(ahvo);
@@ -277,12 +276,14 @@ public class AssetServiceImpl implements AssetService {
 
 		AssetVO avo = aDao.getAssetByAssetId(assetId);
 		List<AssetDetailVO> dlist = aDao.getAssetDetailByAssetId(assetId);
-		List<String> elist = null;
-		elist = eDao.getEmployeeNameList();
+		List<String> elist = eDao.getEmployeeNameList();
 		AssetHistoryVO ahvo = aDao.getAssetHistoryByAssetId(assetId);
 		List<AssetFormerUserVO> afuvo = aDao.getAssetFormerUserByAssetId(assetId);
 		int detailSize = dlist.size();
-		String beforeUser = avo.getAssetUser();
+		String beforeUser = eDao.getEmployeeIdByEmpSeq(avo.getEmployeeSeq());
+		
+		// Detail 때문에 DB에 저장을 이름으로 저장하고 다시 뽑아갈 때는 ID로 뽑아간다.
+		avo.setAssetUser(eDao.getEmployeeIdByEmpSeq(avo.getEmployeeSeq()));
 		
 		model.put("beforeUser",beforeUser);
 		model.put("assetVO",avo);

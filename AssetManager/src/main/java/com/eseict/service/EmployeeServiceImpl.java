@@ -82,8 +82,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	@Override
-	public int getEmployeeSeqByEmpName(String beforeUser) {
-		return dao.getEmployeeSeqByEmpName(beforeUser);
+	public String getEmployeeNameByEmpId(String assetUser) {
+		return dao.getEmployeeNameByEmpId(assetUser);
 	}
-
-}
+	
+	}
