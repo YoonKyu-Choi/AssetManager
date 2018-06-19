@@ -57,10 +57,10 @@
 		$(function(){
 			
 			var windowHeight = window.innerHeight;
-			$(".table-responsive").css("height", windowHeight-350);
+			$(".table-responsive").css("height", windowHeight-400);
 			$(window).resize(function(){
 				windowHeight = $(window).height();
-				$(".table-responsive").css("height", windowHeight-350);
+				$(".table-responsive").css("height", windowHeight-400);
 			});
 		});
 		
@@ -80,7 +80,20 @@
 			}
 			});
 		}
+
+		$(function(){
+			$("#tableHead th").click(function(){
+				var index = $("#tableHead th").index($(event.target).closest("th"));
+				$("#tableBody th:eq("+index+") .sortable").click();
+			});
+			
+			$("#divBody").scroll(function(){
+				var scrollpos = $("#divBody").scrollLeft(); 
+				$("#divHead .fixed-table-body").scrollLeft(scrollpos);
+			});
+		});
 		
+
 		var trName = "";
 		$(function(){
 			$("td").contextmenu(function(event){
@@ -128,6 +141,21 @@
 			margin: auto;
 			width: 60%;
 		}
+		#divHead{
+			position: releative;
+			height: 40px;
+		}
+		#divBody{
+			z-index: -1;
+			overflow-y: scroll;
+		}
+		#tableBody{
+			overflow: auto;
+			position: absolute;
+		}
+		#tableBody thead{
+			visibility: collapse;
+		}
 	</style>
 	
 </head>
@@ -149,8 +177,43 @@
 					<font size="4px">&nbsp;&nbsp;회원 수 : </font>
 					<span class="badge">${userListData['userCount']}</span>
 				</div>
+				
+				<div id="divHead">
 				<div class="table-responsive">
-					<table class="table table-striped" style="overflow: auto; position: absolute;" data-toggle="table">
+					<table class="table table-striped" data-toggle="table" id="tableHead">
+						<thead>
+							<tr>
+								<th data-sortable="true">상태</th>
+								<th data-sortable="true">이름</th>
+								<th data-sortable="true">아이디</th>
+								<th data-sortable="true" data-sorter="depSort" data-field="dep" data-sort-name="_dep_data">소속</th>
+								<th data-sortable="true" data-sorter="rankSort" data-field="rank" data-sort-name="_rank_data">직급</th>
+								<th data-sortable="true">위치</th>
+								<th data-sortable="true">이메일</th>
+								<th data-sortable="true">연락처</th>
+							</tr>
+						</thead>
+						<tbody style="visibility: collapse">
+						<c:forEach items="${userListData['employeeList']}" var="employee">
+							<input type="hidden" name='employeeSeq' value="${employee.employeeSeq}"/>
+							<tr class="clickable-row" data-href="${employee.employeeSeq}">
+								<td>${employee.employeeStatus}</td>
+								<td>${employee.employeeName}</td>
+								<td>${employee.employeeId}</td>
+								<td data-dep="${employee.departmentVO.employeeDepartment}">${employee.departmentVO.employeeDepartmentString}</td>
+								<td data-rank="${employee.rankVO.employeeRank}">${employee.rankVO.employeeRankString}</td>
+								<td>${employee.employeeLocation}</td>
+								<td>${employee.employeeEmail}</td>
+								<td>${employee.employeePhone}</td>
+							</tr>
+						</c:forEach>
+						</tbody>
+					</table>
+				</div>
+				</div>
+				
+				<div class="table-responsive" id="divBody">
+					<table class="table table-striped" data-toggle="table" id="tableBody">
 						<thead>
 							<tr>
 								<th data-sortable="true">상태</th>

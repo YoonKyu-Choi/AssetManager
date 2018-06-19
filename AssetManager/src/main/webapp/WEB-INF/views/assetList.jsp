@@ -214,53 +214,77 @@
 		}
 	}
 	
-	/*
+	
 	$(function(){
-		var isSearch = "${search}";
+		var isSearch = "${assetListData['search']}";
 		if(isSearch == "1"){
-			var keyword = "${searchKeyword}";
-			var mode = "${searchMode}";
+			var keyword = "${assetListData['searchKeyword']}";
+			var mode = "${assetListData['searchMode']}";
 			var result = [];
-			if(mode == "1"){
-				var count = "${assetCount}";
-				$("tr:gt(0) td:nth-child("+"${columnSize}"+1+"n+1)").each(function(){
+			if(mode == "1"){		// 자산 분류
+				var count = "${assetListData['assetCount']}";
+				$("tr:gt(0) td:nth-child(14n+3)").each(function(){
 					$(this).closest("tr").show();
+					$(this).closest("tr").css("background-color", "transparent");
 					var name = $(this).text();
 					var match = name.match(new RegExp(keyword, 'g'));
 					if(match == null){
 						$(this).closest("tr").hide();
 						count -= 1;
+					} else{
+						$(this).css("background-color", "yellow");
+					}
+				});
+				alert(count+"개의 분류 검색됨.");
+			} else if(mode == "2"){	// 시리얼 번호
+				var count = "${assetListData['assetCount']}";
+				$("tr:gt(0) td:nth-child(14n+6)").each(function(){
+					$(this).closest("tr").show();
+					$(this).closest("tr").css("background-color", "transparent");
+					var name = $(this).text();
+					var match = name.match(new RegExp(keyword, 'g'));
+					if(match == null){
+						$(this).closest("tr").hide();
+						count -= 1;
+					} else{
+						$(this).css("background-color", "yellow");
+					}
+				});
+				alert(count+"개의 분류 검색됨.");
+			} else if(mode == "3"){	// 구입 년도
+				var count = "${assetListData['assetCount']}";
+				$("tr:gt(0) td:nth-child(14n+7)").each(function(){
+					$(this).closest("tr").show();
+					$(this).closest("tr").css("background-color", "transparent");
+					var name = $(this).text().slice(0,4);
+					var match = name.match(new RegExp(keyword, 'g'));
+					if(match == null){
+						$(this).closest("tr").hide();
+						count -= 1;
+					} else{
+						$(this).css("background-color", "yellow");
+					}
+				});
+				alert(count+"개의 분류 검색됨.");
+			} else if(mode == "4"){	// 관리 번호
+				var count = "${assetListData['assetCount']}";
+				$("tr:gt(0) td:nth-child(14n+2)").each(function(){
+					$(this).closest("tr").show();
+					$(this).closest("tr").css("background-color", "transparent");
+					var name = $(this).text();
+					var match = name.match(new RegExp(keyword, 'g'));
+					if(match == null){
+						$(this).closest("tr").hide();
+						count -= 1;
+					} else{
+						$(this).css("background-color", "yellow");
 					}
 				});
 				alert(count+"개의 분류 검색됨.");
 			}
-			else if(mode == "2"){
-				var count = "${assetCount}";
-				var checkary = [];
-				for(var i=0; i<count; i++){
-					checkary.push(false)
-				}
-				$("tr:gt(0) td:not(:nth-child("+"${columnSize}"+1+"n+1))").each(function(){
-					$(this).closest("tr").show();
-					var name = $(this).text();
-					var match = name.match(new RegExp(keyword, 'g'));
-					if(match != null){
-						var index = $("tr").index($(this).closest("tr"));
-						checkary[index-1] = true;
-					}
-				});
-				var count2 = count;
-				for(var i=0; i<count; i++){
-					if(checkary[i] == false){
-						$("tr:eq("+(i+1)+")").hide();
-						count2 -= 1;
-					}
-				}
-				alert(count2+"개의 분류 검색됨.");
-			}
 		}
 	});
-	*/
+	
 	
 	$(function(){
 		var flashmsg = "<c:out value='${msg}'/>";
@@ -276,7 +300,7 @@
 		
 		$("#divBody").scroll(function(){
 			var scrollpos = $("#divBody").scrollLeft(); 
-			$("#divOut .fixed-table-body").scrollLeft(scrollpos);
+			$("#divHead .fixed-table-body").scrollLeft(scrollpos);
 		});
 	});
 	
@@ -295,31 +319,23 @@
 		}
 	}
     var assetMenu = new BootstrapMenu('td', {
-    	actions: [{
-    		name: '상세 보기',
-    		onClick: function() {
-				isAsset();
-				document.location.href='/assetmanager/assetDetail?assetId=' + trName;
+    	actions: {
+    		assetDetail: {
+	    		name: '상세 보기',
+	    		onClick: function() {
+					isAsset();
+					document.location.href='/assetmanager/assetDetail?assetId=' + trName;
+	    		}
+    		},
+    		assetHistory: {
+	    		name: '이력 보기',
+	    		onClick: function() {
+					isAsset();
+					$("#assetHistoryForm input").val(trName); 
+					$("#assetHistoryForm").submit();
+	    		}
     		}
-    	},{
-    		name: '수정',
-    		onClick: function() {
-				isAsset();
-				document.location.href='/assetmanager/assetDetail?assetId=' + trName;
-    		}
-    	},{
-    		name: '반출/수리',
-    		onClick: function() {
-				isAsset();
-				document.location.href='/assetmanager/assetDetail?assetId=' + trName;
-    		}
-    	},{
-    		name: '수정',
-    		onClick: function() {
-				isAsset();
-				document.location.href='/assetmanager/assetDetail?assetId=' + trName;
-    		}
-    	}]
+    	}
     });
 	var generalMenu = new BootstrapMenu('.container', {
 		actionsGroups:[
@@ -393,13 +409,14 @@
 		     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 		        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 	}
-	#divOut{
+	#divHead{
 		position: releative;
 		height: 40px;
 		overflow-y: scroll;
 	}
 	#divBody{
 		z-index: -1;
+		overflow-y: scroll;
 	}
 	#tableBody{
 		overflow: auto;
@@ -429,23 +446,21 @@
 				<form class="page-header" id="searchForm" action="assetList">
 					<font size="6px"><b>자산 관리 > 자산 목록</b></font>
 					<label style="float:right; margin-top: 20px">
-						<!-- 	
 						<select id="searchMode" name="searchMode">
-								<option value="0">자산 분류</option>
-								<option value="1">시리얼 번호</option>
-								<option value="2">구입년도</option>
-								<option value="3">관리 번호</option>
+							<option value="1">자산 분류</option>
+							<option value="2">시리얼 번호</option>
+							<option value="3">구입 년도</option>
+							<option value="4">관리 번호</option>
 						</select>
-							<input type="text" id="searchKeyword" name="searchKeyword">
-							<input type="submit" value="검색">
-						 -->
-						</label>
+						<input type="text" id="searchKeyword" name="searchKeyword">
+						<input type="submit" value="검색">
+					</label>
 				</form>
 				<div style="margin-bottom: 10px">
 					<font size="4px">&nbsp;&nbsp;총 자산 수 : </font><span class="badge">${assetListData['assetCount']}</span>
 				</div>
-				<div id="divOut">
-				<div class="table-responsive" id="divHead">
+				<div id="divHead">
+				<div class="table-responsive">
 					<table class="table" data-toggle="table" id="tableHead">
 						<thead>
 							<tr>
@@ -513,6 +528,9 @@
 						</tbody>
 					</table>
 				</div>
+				<form id="assetHistoryForm" action="assetHistory" method="post">
+					<input type="hidden" name="assetId"/>
+				</form>
 				<form id="printForm" action="printList" method="post">
 					<input type="hidden" id="printArray" name="assetIdList"/>
 				</form>

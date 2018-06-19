@@ -137,11 +137,11 @@
 	}
 	
 	function historyConfirm() {
-		if (!confirm("이력을 확인하시겠습니까?")) {
-			return false;
-		} else {
+//		if (!confirm("이력을 확인하시겠습니까?")) {
+//			return false;
+//		} else {
 			$("#assetHistoryForm").submit();
-		}
+//		}
 	}
 	
 	function deleteConfirm() {

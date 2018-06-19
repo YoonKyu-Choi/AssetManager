@@ -89,10 +89,10 @@
 					alert(flashmsg);
 				
 				var windowHeight = window.innerHeight;
-				$(".table-responsive").css("height", windowHeight-350);
+				$(".table-responsive").css("height", windowHeight-400);
 				$(window).resize(function(){
 					windowHeight = $(window).height();
-					$(".table-responsive").css("height", windowHeight-350);
+					$(".table-responsive").css("height", windowHeight-400);
 				})
 				
 			});
@@ -108,11 +108,14 @@
 					if(mode == "1"){
 						$("tr:gt(0) td:nth-child(16n+4)").each(function(){
 							$(this).closest("tr").show();
+							$(this).closest("tr").css("background-color", "transparent");
 							var name = $(this).text();
 							var match = name.match(new RegExp(keyword, 'g'));
 							if(match == null){
 								$(this).closest("tr").hide();
 								count -= 1;
+							} else{
+								$(this).css("background-color", "yellow");
 							}
 						});
 						alert(count+"개의 분류 검색됨.");
@@ -120,11 +123,14 @@
 					else if(mode == "2"){
 						$("tr:gt(0) td:nth-child(16n+7)").each(function(){
 							$(this).closest("tr").show();
+							$(this).closest("tr").css("background-color", "transparent");
 							var name = $(this).text();
 							var match = name.match(new RegExp(keyword, 'g'));
 							if(match == null){
 								$(this).closest("tr").hide();
 								count -= 1;
+							} else{
+								$(this).css("background-color", "yellow");
 							}
 						});
 						alert(count+"개의 분류 검색됨.");
@@ -132,11 +138,14 @@
 					else if(mode == "3"){
 						$("tr:gt(0) td:nth-child(16n+8)").each(function(){
 							$(this).closest("tr").show();
+							$(this).closest("tr").css("background-color", "transparent");
 							var name = $(this).text().slice(0,4);
 							var match = name.match(new RegExp(keyword, 'g'));
 							if(match == null){
 								$(this).closest("tr").hide();
 								count -= 1;
+							} else{
+								$(this).css("background-color", "yellow");
 							}
 						});
 						alert(count+"개의 분류 검색됨.");
@@ -144,11 +153,14 @@
 					else if(mode == "4"){
 						$("tr:gt(0) td:nth-child(16n+3)").each(function(){
 							$(this).closest("tr").show();
+							$(this).closest("tr").css("background-color", "transparent");
 							var name = $(this).text();
 							var match = name.match(new RegExp(keyword, 'g'));
 							if(match == null){
 								$(this).closest("tr").hide();
 								count -= 1;
+							} else{
+								$(this).css("background-color", "yellow");
 							}
 						});
 						alert(count+"개의 분류 검색됨.");
@@ -196,7 +208,6 @@
 						});
 						
 						$("#printArray").val(printList);
-	//					alert($("#disposeArray").val());
 						$("#printForm").submit();
 						
 					}
@@ -227,44 +238,75 @@
 				}
 			}
 			
+			$(function(){
+				$("#tableHead th").click(function(){
+					var index = $("#tableHead th").index($(event.target).closest("th"));
+					$("#tableBody th:eq("+index+") .sortable").click();
+				});
+				
+				$("#divBody").scroll(function(){
+					var scrollpos = $("#divBody").scrollLeft(); 
+					$("#divHead .fixed-table-body").scrollLeft(scrollpos);
+				});
+			});
+			
 			var trName = "";
 			$(function(){
 				$("td").contextmenu(function(event){
 					trName = $(event.target).closest("tr").find("td:eq(2)").text();
 				});
 			});
+			function isAsset(){
+				var assetnum = ${disposalListData['assetCountByDispReady']} + ${disposalListData['assetCountByDisposal']};
+				if(assetnum == 0){
+					alert("해당 자산이 없습니다.");
+					return;
+				}
+			}
 		    var assetMenu = new BootstrapMenu('td', {
-		    	actions: [{
-		    		name: '상세 보기',
-		    		onClick: function() {
-						var disposalnum = ${disposalListData['assetCountByDispReady']} + ${disposalListData['assetCountByDisposal']};
-						if(disposalnum == 0){
-							alert("해당 자산이 없습니다.");
-							return;
-						}
-						document.location.href='/assetmanager/assetDetail?assetId=' + trName;
+		    	actions: {
+		    		assetDetail: {
+			    		name: '상세 보기',
+			    		onClick: function() {
+							isAsset();
+							document.location.href='/assetmanager/assetDetail?assetId=' + trName;
+			    		}
+		    		},
+		    		assetHistory: {
+			    		name: '이력 보기',
+			    		onClick: function() {
+							isAsset();
+							$("#assetHistoryForm input").val(trName); 
+							$("#assetHistoryForm").submit();
+			    		}
 		    		}
-		    	}]
+		    	}
 		    });
 			var generalMenu = new BootstrapMenu('.container', {
-				actions: [{
-					name: '폐기',
-					onClick: function(){
-						disposeAsset();
+				actionsGroups: [
+					['assetDispose'],
+					['printList', 'printReport']
+				],
+				actions: {
+					assetDispose: {
+						name: '폐기',
+						onClick: function(){
+							disposeAsset();
+						}
+					},
+					printList: {
+						name: '목록 출력',
+						onClick: function(){
+							printList();
+						}
+					},
+					printReport: {
+						name: '보고서 출력',
+						onClick: function(){
+							printReport();
+						}
 					}
-				},{
-					name: '───────────',
-				},{
-					name: '목록 출력',
-					onClick: function(){
-						printList();
-					}
-				},{
-					name: '보고서 출력',
-					onClick: function(){
-						printReport();
-					}
-				}]
+				}
 			});
 
 		</script>
@@ -293,6 +335,21 @@
 				margin: auto;
 				width: 60%;
 			}
+			#divHead{
+				position: releative;
+				overflow-x: hidden;
+				height: 40px;
+			}
+			#divBody{
+				overflow-y: scroll;
+			}
+			#tableBody{
+				overflow: auto;
+				position: absolute;
+			}
+			#tableBody thead{
+				visibility: collapse;
+			}
 		</style>
 		
 	</head>
@@ -319,8 +376,59 @@
 						<font size="4px">&nbsp;&nbsp;폐기 대기 : </font><span class="badge">${disposalListData['assetCountByDispReady']}</span>
 						<font size="4px">&nbsp;&nbsp;폐기 : </font><span class="badge">${disposalListData['assetCountByDisposal']}</span>
 					</div>
+
+					<div id="divHead">
 					<div class="table-responsive">
-						<table class="table table-striped" style="overflow: auto; position: absolute;" data-toggle="table" data-sort-name="status" data-sort-order="desc">
+						<table class="table table-striped" data-toggle="table" data-sort-name="status" data-sort-order="desc" id="tableHead">
+							<thead>
+								<tr>
+									<th><input type="checkbox" style="transform:scale(1.5)" onclick="allClick();"/></th>
+									<th data-sortable="true" data-field="status">상태</th>
+									<th data-sortable="true">관리번호</th>
+									<th data-sortable="true">분류</th>
+									<th data-sortable="true">사용자</th>
+									<th data-sortable="true">반출</th>
+									<th data-sortable="true">SID</th>
+									<th data-sortable="true">구입일</th>
+									<th data-sortable="true">구입가</th>
+									<th data-sortable="true">구입처</th>
+									<th data-sortable="true">제조사</th>
+									<th data-sortable="true">모델명</th>
+									<th data-sortable="true">용도</th>
+									<th data-sortable="true">관리자</th>
+									<th data-sortable="true">위치</th>
+									<th data-sortable="true">추가사항</th>
+								</tr>
+							</thead>
+							
+							<tbody style="visibility: collapse">
+							<c:forEach items="${disposalListData['assetList']}" var="asset">
+								<tr class="clickable-row" data-href="${asset.assetId}">
+									<td><input type="checkBox" style="transform:scale(1.5)" class="chkbox" onclick="dis(this);"/></td>
+									<td>${asset.assetStatus}</td>
+									<td>${asset.assetId}</td>
+									<td>${asset.assetCategory}</td>
+									<td>${asset.assetUser}</td>
+									<td>${asset.assetOutStatus}</td>
+									<td>${asset.assetSerial}</td>
+									<td>${asset.assetPurchaseDate}</td>
+									<td>${asset.assetPurchasePrice}</td>
+									<td>${asset.assetPurchaseShop}</td>
+									<td>${asset.assetMaker}</td>
+									<td>${asset.assetModel}</td>
+									<td>${asset.assetUsage}</td>
+									<td>${asset.assetManager}</td>
+									<td>${asset.assetLocation}</td>
+									<td>${asset.assetComment}</td>
+								</tr>
+							</c:forEach>
+							</tbody>
+						</table>
+					</div>
+					</div>
+
+					<div class="table-responsive" id="divBody">
+						<table class="table table-striped" data-toggle="table" data-sort-name="status" data-sort-order="desc" id="tableBody">
 							<thead>
 								<tr>
 									<th><input type="checkbox" style="transform:scale(1.5)" onclick="allClick();"/></th>
@@ -367,6 +475,9 @@
 						</table>
 					</div>
 					
+					<form id="assetHistoryForm" action="assetHistory" method="post">
+						<input type="hidden" name="assetId"/>
+					</form>
 					<form id="printForm" action="printList" method="post">
 						<input type="hidden" id="printArray" name="assetIdList"/>
 					</form>
