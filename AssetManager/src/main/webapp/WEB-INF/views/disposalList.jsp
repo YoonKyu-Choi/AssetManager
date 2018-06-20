@@ -26,6 +26,11 @@
 		<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
 		<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
 		<script>
+
+			$(function(){
+				$("#dispLink").prop("class", "active");
+			});
+			
 			var disableCount = 0;
 			var checkCount = 0;
 		
@@ -107,60 +112,53 @@
 	
 					if(mode == "1"){
 						$("tr:gt(0) td:nth-child(16n+4)").each(function(){
-							$(this).closest("tr").show();
-							$(this).closest("tr").css("background-color", "transparent");
+							var index = $(this).closest("tr").find("input:eq(1)").val();
+							$("#tableBody").bootstrapTable('showRow', {'index': index, isIdField: true});
 							var name = $(this).text();
 							var match = name.match(new RegExp(keyword, 'g'));
 							if(match == null){
-								$(this).closest("tr").hide();
+								$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
 								count -= 1;
-							} else{
-								$(this).css("background-color", "yellow");
 							}
 						});
 						alert(count+"개의 분류 검색됨.");
 					}
 					else if(mode == "2"){
 						$("tr:gt(0) td:nth-child(16n+7)").each(function(){
-							$(this).closest("tr").show();
-							$(this).closest("tr").css("background-color", "transparent");
+							var index = $(this).closest("tr").find("input:eq(1)").val();
+							$("#tableBody").bootstrapTable('showRow', {'index': index, isIdField: true});
 							var name = $(this).text();
 							var match = name.match(new RegExp(keyword, 'g'));
 							if(match == null){
-								$(this).closest("tr").hide();
+								$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
 								count -= 1;
-							} else{
-								$(this).css("background-color", "yellow");
 							}
 						});
 						alert(count+"개의 분류 검색됨.");
 					}
 					else if(mode == "3"){
 						$("tr:gt(0) td:nth-child(16n+8)").each(function(){
-							$(this).closest("tr").show();
-							$(this).closest("tr").css("background-color", "transparent");
+							var index = $(this).closest("tr").find("input:eq(1)").val();
+							$("#tableBody").bootstrapTable('showRow', {'index': index, isIdField: true});
 							var name = $(this).text().slice(0,4);
 							var match = name.match(new RegExp(keyword, 'g'));
 							if(match == null){
-								$(this).closest("tr").hide();
+								$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
 								count -= 1;
-							} else{
-								$(this).css("background-color", "yellow");
 							}
 						});
 						alert(count+"개의 분류 검색됨.");
 					}
 					else if(mode == "4"){
-						$("tr:gt(0) td:nth-child(16n+3)").each(function(){
-							$(this).closest("tr").show();
-							$(this).closest("tr").css("background-color", "transparent");
+						$("#tableBody tr:gt(0) td:nth-child(16n+3)").each(function(){
+							var id = $(this).closest("tr").find("td:nth-child(16n+3)").text();
+							var index = $(this).closest("tr").find("input:eq(1)").val();
+							$("#tableBody").bootstrapTable('showRow', {'index': index, isIdField: true});
 							var name = $(this).text();
 							var match = name.match(new RegExp(keyword, 'g'));
 							if(match == null){
-								$(this).closest("tr").hide();
+								$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
 								count -= 1;
-							} else{
-								$(this).css("background-color", "yellow");
 							}
 						});
 						alert(count+"개의 분류 검색됨.");
@@ -320,9 +318,6 @@
 				background-color:darkgray;
 				color:white;
 			}
-			p{
-				font-size:25px;
-			}
 			.container{
 				top:0;
 				left:0;
@@ -330,15 +325,19 @@
 				right:0;
 				height:100%;
 				width:100%;
+				margin-top: 1%;
 			}
 			.main{
-				margin: auto;
-				width: 60%;
+				margin-left: 13%;
+				width: 76%;
 			}
 			#divHead{
 				position: releative;
-				overflow-x: hidden;
 				height: 40px;
+				overflow-y: scroll; 
+			}
+			#tableHead{
+				overflow-y: scroll; 
 			}
 			#divBody{
 				overflow-y: scroll;
@@ -359,7 +358,7 @@
 			<div class="row">
 				<div class="main">
 					<form class="page-header" id="searchForm" action="disposalList">
-						<font size="6px"><b>폐기 관리 > 폐기 자산 목록</b></font>
+						<font size="6px"><b># 폐기 관리</b></font>
 						<span class="badge">${disposalListData['categoryCount']}</span>
 						<label style="float:right; margin-top: 20px">
 							<select id="searchMode" name="searchMode">
@@ -379,13 +378,13 @@
 
 					<div id="divHead">
 					<div class="table-responsive">
-						<table class="table table-striped" data-toggle="table" data-sort-name="status" data-sort-order="desc" id="tableHead">
+						<table class="table table-striped" data-toggle="table" id="tableHead">
 							<thead>
 								<tr>
 									<th><input type="checkbox" style="transform:scale(1.5)" onclick="allClick();"/></th>
-									<th data-sortable="true" data-field="status">상태</th>
+									<th data-sortable="true" data-field="status">현재 상태</th>
 									<th data-sortable="true">관리번호</th>
-									<th data-sortable="true">분류</th>
+									<th data-sortable="true">자산 분류</th>
 									<th data-sortable="true">사용자</th>
 									<th data-sortable="true">반출</th>
 									<th data-sortable="true">SID</th>
@@ -401,40 +400,20 @@
 								</tr>
 							</thead>
 							
-							<tbody style="visibility: collapse">
-							<c:forEach items="${disposalListData['assetList']}" var="asset">
-								<tr class="clickable-row" data-href="${asset.assetId}">
-									<td><input type="checkBox" style="transform:scale(1.5)" class="chkbox" onclick="dis(this);"/></td>
-									<td>${asset.assetStatus}</td>
-									<td>${asset.assetId}</td>
-									<td>${asset.assetCategory}</td>
-									<td>${asset.assetUser}</td>
-									<td>${asset.assetOutStatus}</td>
-									<td>${asset.assetSerial}</td>
-									<td>${asset.assetPurchaseDate}</td>
-									<td>${asset.assetPurchasePrice}</td>
-									<td>${asset.assetPurchaseShop}</td>
-									<td>${asset.assetMaker}</td>
-									<td>${asset.assetModel}</td>
-									<td>${asset.assetUsage}</td>
-									<td>${asset.assetManager}</td>
-									<td>${asset.assetLocation}</td>
-									<td>${asset.assetComment}</td>
-								</tr>
-							</c:forEach>
+							<tbody style="display:none">
 							</tbody>
 						</table>
 					</div>
 					</div>
 
 					<div class="table-responsive" id="divBody">
-						<table class="table table-striped" data-toggle="table" data-sort-name="status" data-sort-order="desc" id="tableBody">
+						<table class="table table-striped" data-toggle="table" id="tableBody">
 							<thead>
 								<tr>
 									<th><input type="checkbox" style="transform:scale(1.5)" onclick="allClick();"/></th>
-									<th data-sortable="true" data-field="status">상태</th>
+									<th data-sortable="true" data-field="status">현재 상태</th>
 									<th data-sortable="true">관리번호</th>
-									<th data-sortable="true">분류</th>
+									<th data-sortable="true">자산 분류</th>
 									<th data-sortable="true">사용자</th>
 									<th data-sortable="true">반출</th>
 									<th data-sortable="true">SID</th>
@@ -451,6 +430,7 @@
 							</thead>
 							
 							<tbody>
+							<%int index = 0; %>
 							<c:forEach items="${disposalListData['assetList']}" var="asset">
 								<tr class="clickable-row" data-href="${asset.assetId}">
 									<td><input type="checkBox" style="transform:scale(1.5)" class="chkbox" onclick="dis(this);"/></td>
@@ -468,8 +448,9 @@
 									<td>${asset.assetUsage}</td>
 									<td>${asset.assetManager}</td>
 									<td>${asset.assetLocation}</td>
-									<td>${asset.assetComment}</td>
+									<td>${asset.assetComment}<input type="hidden" value="<%=index %>"></td>
 								</tr>
+								<%index += 1; %>
 							</c:forEach>
 							</tbody>
 						</table>

@@ -27,7 +27,11 @@
 		<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
 		<script>
-					
+
+			$(function(){
+				$("#catgLink").prop("class", "active");
+			});
+			
 			function depSort(a, b){
 				if(a.dep < b.dep) return -1;
 				if(a.dep > b.dep) return 1;
@@ -47,14 +51,14 @@
 				
 				var windowHeight = window.innerHeight;
 				$(".table-responsive").css("height", windowHeight-400);
-				var rightHeight = $("#wrapper").height()-40;
+				var rightHeight = $("#wrapper").height()-55;
 				$("#divLeft").height(rightHeight);
 				var rightWidth = $("#divLeft").width();
 				$("#divHeadLeft").width(rightWidth);
 				$(window).resize(function(){
 					windowHeight = $(window).height();
 					$(".table-responsive").css("height", windowHeight-400);
-					rightHeight = $("#wrapper").height();
+					rightHeight = $("#wrapper").height()-55;
 					$("#divLeft").height(rightHeight);
 				});
 				
@@ -91,22 +95,22 @@
 							checkary.push(false)
 						}
 						$("#tableBody tr:gt(0) td:not(:nth-child("+"${categoryListData['columnSize']}"+1+"n+1))").each(function(){
-							$(this).css("background-color", "transparent");
-							$(this).closest("tr").show();
-							var index = $("#tableBody tr").index($(this).closest("tr"));
-							$("#divLeft tr:eq("+index+")").show();
+							var index = $(this).closest("tr").find("input").val();
+							$("#tableBody").bootstrapTable('showRow', {'index': index, isIdField: true});
+							$("#divLeft").bootstrapTable('showRow', {'index': index, isIdField: true});
+
 							var name = $(this).text();
 							var match = name.match(new RegExp(keyword, 'g'));
 							if(match != null){
-								checkary[index-1] = true;
+								checkary[index] = true;
 								$(this).css("background-color", "yellow");
 							}
 						});
 						var count2 = count;
 						for(var i=0; i<count; i++){
 							if(checkary[i] == false){
-								$("#tableBody tr:eq("+(i+1)+")").hide();
-								$("#divLeft tr:eq("+(i+1)+")").hide();
+								$("#tableBody").bootstrapTable('hideRow', {'index': i, isIdField: true});
+								$("#tableLeft").bootstrapTable('hideRow', {'index': i, isIdField: true});
 								count2 -= 1;
 							}
 						}
@@ -177,9 +181,6 @@
 				background-color:darkgray;
 				color:white;
 			}
-			p{
-				font-size:25px;
-			}
 			.container{
 				top:0;
 				left:0;
@@ -187,10 +188,11 @@
 				right:0;
 				height:100%;
 				width:100%;
+				margin-top: 1%;
 			}
 			.main{
-				margin: auto;
-				width: 60%;
+				margin-left: 13%;
+				width: 76%;
 			}
 			#divHeadLeft{
 				z-index: 9999;
@@ -202,7 +204,7 @@
 				margin-top: 40px;
 				position: fixed;
 				background-color: white;
-				overflow-x: scroll;
+				overflow-x: hidden;
 				overflow-y: hidden;
 			}
 			#divLeft thead{
@@ -239,7 +241,7 @@
 			<div class="row">
 				<div class="main">
 					<form class="page-header" id="searchForm" action="categoryList">
-						<font size="6px"><b>분류 관리 > 분류 목록</b></font>&nbsp;&nbsp;&nbsp;&nbsp;
+						<font size="6px"><b># 분류 관리</b></font>&nbsp;&nbsp;&nbsp;&nbsp;
 						<label style="float:right; margin-top: 20px">
 							<select id="searchMode" name="searchMode">
 								<option value="1">분류 이름</option>
@@ -331,9 +333,10 @@
 										</thead>
 										
 										<tbody>
+										<%int index = 0; %>
 										<c:forEach items="${categoryListData['categoryItemList']}" var="categoryItem">
 											<tr class="clickable-row" data-href="${categoryItem.key.assetCategory}">
-												<td>${categoryItem.key.assetCategory}</td>
+												<td>${categoryItem.key.assetCategory}<input type="hidden" value="<%=index %>"></td>
 												<%int i=0; %>
 												<c:forEach items="${categoryItem.value}" var="item">
 												<td>${item}</td>
@@ -344,6 +347,7 @@
 												<td></td>
 												<%}%>
 											</tr>
+											<%index += 1; %>
 										</c:forEach>
 										</tbody>
 									</table>

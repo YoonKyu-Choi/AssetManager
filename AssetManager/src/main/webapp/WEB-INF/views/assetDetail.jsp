@@ -21,45 +21,12 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
-<style>
-        .mask {
-            position:absolute;
-            left:0;
-            top:0;
-            z-index:9999;
-            background-color:#000;
-            display:none;
-        }
-        .window {
-            display: none;
-            background-color: #ffffff;
-            z-index:99999;
-        }
-        
-        #pop{
-        width : 400px;
-        height : 400px;
-        background : #3d3d3d;
-        color : #fff;
-        position: absolute;
-        top : 200px;
-        right : 350px;
-        text-align : center;
-        border : 2px solid #000;
-        display : none;
-        
-        }
-        
-        .popInput{
-        color : #3d3d3d;
-        width : 50px;
-        table-layout: fixed;
-        
-        }
-        
-</style>
-
 <script>
+
+	$(function(){
+		$("#asstLink").prop("class", "active");
+	});
+	
 	
 	$(document).ready(function(){
 		
@@ -205,10 +172,10 @@
         });	
 	    
 		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-350);
+		$(".table-responsive").css("height", windowHeight-250);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-350);
+			$(".table-responsive").css("height", windowHeight-250);
 		})
 
 	});
@@ -321,20 +288,70 @@
 
 	
 </script>
-	<style>
-		.container{
-			top:0;
-			left:0;
-			bottom:0;
-			right:0;
-			height:100%;
-			width:100%;
-		}
-		.main{
-			margin: auto;
-			width: 60%;
-		}
-	</style>
+<style>
+	.mask {
+		position:absolute;
+		left:0;
+		top:0;
+		z-index:9999;
+		background-color:#000;
+		display:none;
+	}
+	
+	.window {
+		display: none;
+		background-color: #ffffff;
+		z-index:99999;
+	}
+	
+	#pop{
+		width : 400px;
+		height : 400px;
+		background : #3d3d3d;
+		color : #fff;
+		position: absolute;
+		top : 200px;
+		right : 350px;
+		text-align : center;
+		border : 2px solid #000;
+		display : none;
+	}
+	
+	.popInput{
+		color : #3d3d3d;
+		width : 50px;
+		table-layout: fixed;
+	}
+
+	.container{
+		top:0;
+		left:0;
+		bottom:0;
+		right:0;
+		height:100%;
+		width:100%;
+		margin-top: 1%;
+	}
+	.main{
+		margin-left: 13%;
+		width: 76%;
+	}
+	th:nth-child(4n+1), th:nth-child(4n+3){
+		width: 25%;
+		font-weight: bold;
+	}
+	th:nth-child(4n+2), th:nth-child(4n+4){
+		width: 25%;
+		font-weight: normal;
+	}
+	hr {
+		height: 1px;
+		width: 100%;
+		border: 1;
+		background-color: gray;
+		background-image: linear-gradient(to right, #ccc, #333, #ccc);
+	}
+</style>
 
 </head>
 
@@ -342,7 +359,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<h1 class="page-header"><b>자산 관리 > ${assetData['assetVO']['assetId']}의 자산 정보</b></h1>
+				<h1 class="page-header"><b># 자산 정보</b></h1>
 				<div class="table-responsive" id="inputDiv" style="overflow: scroll;height: 500px;">
 				<h3>자산 공통사항</h3>
 					<table class="table table-striped">
@@ -396,6 +413,7 @@
 							<th>${assetData['assetVO']['assetLocation']}</th>
 						</tr>
 					</table>
+					<hr>
 					<h3>자산 세부사항</h3>
 					<table class="table table-striped">
 					<c:forEach items="${assetData['assetDetailList']}" varStatus="i" step="2">
@@ -408,7 +426,7 @@
 					</c:forEach>
 					</table>
 					<div>
-					<br>
+					<hr>
 					<c:if test="${assetData['assetVO']['assetReceiptUrl'] !=null && assetData['assetVO']['assetReceiptUrl'] != ''}">
 						<h3>영수증 사진</h3>
 						<img style="width:400px;height:400px;" src="${pageContext.request.contextPath}/resources/${assetData['assetVO']['assetReceiptUrl']}">
@@ -416,12 +434,14 @@
 					<c:if test="${assetData['assetVO']['assetReceiptUrl'] ==null || assetData['assetVO']['assetReceiptUrl'] == ''}">	
 						<h3>영수증 사진이 없습니다.</h3>
 					</c:if>
-					<br>					
-						<h3>자산 코멘트</h3>
-						<textArea style="resize: none; width:600px; height:200px" readonly>${assetData['assetVO']['assetComment']}</textArea>
+					<hr>					
+					<h3>자산 코멘트</h3>
+					<textArea style="resize: none; width:600px; height:200px" readonly>${assetData['assetVO']['assetComment']}</textArea>
  					</div>
 				</div>
+
 				<div>
+<!-- 
 					<div style="display:flex; float: left; margin-top: 10px">
 						<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
 						<button class="btn btn-lg btn-primary" onclick="printReport();" >보고서 출력</button>
@@ -452,7 +472,7 @@
 								<div class="mask"></div>
 							</c:otherwise>
 						</c:choose>
-						
+ -->						
 						<!-- 컨트롤러 이동 form -->
 						<form id="printReportForm" action="printReport" method="post">
 							<input type="hidden" id="printReportArray" name="assetIdList"/>

@@ -25,6 +25,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 <script>
+
+	$(function(){
+		$("#catgLink").prop("class", "active");
+	});
+	
 	var itemSize = Number("<c:out value="${categoryData.itemSize}"/>");
 	var plusCount = itemSize;
 	var deleteItems = [];
@@ -71,9 +76,7 @@
 			plusCount -= 1;
 		});
 	});
-</script>
 
-<script>
 	function categoryModify(){
 		if (!confirm("이대로 수정하겠습니까?")) {
 			return false;
@@ -136,13 +139,29 @@
 	});	
 </script>
 
+<style>
+	.container{
+		top:0;
+		left:0;
+		bottom:0;
+		right:0;
+		height:100%;
+		width:100%;
+		margin-top: 1%;
+	}
+	.main{
+		margin-left: 13%;
+		width: 76%;
+	}
+
+</style>
 
 </head>
 <body>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<h1 class="page-header"><b>분류 관리 > ${categoryData["name"]} 분류 수정</b></h1>
+				<h1 class="page-header"><b># 분류 수정</b></h1>
 				<div>
 					<div style="float: left; display:inline-block;">
 						<form id="category" action="categoryModifySend" method="post">

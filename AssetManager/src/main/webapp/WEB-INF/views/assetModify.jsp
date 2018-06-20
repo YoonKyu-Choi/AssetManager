@@ -4,10 +4,23 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Bootstrap core CSS -->
+<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
+<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
+<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet" />
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
-<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>    
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script>
+
+	$(function(){
+		$("#asstLink").prop("class", "active");
+	});
+
 	$(function() {
 		$("#assetUser").val("${model['assetVO']['assetUser']}").prop("selected", true);
 		$("#assetStatus").val("${model['assetVO']['assetStatus']}").prop("selected", true);
@@ -198,25 +211,51 @@
 
 </script>
 <style>
-.form-controlmin {
-	  display: block;
-	  width: 60%;
-	  height: 32px;
-	  padding: 6px 12px;
-	  font-size: 14px;
-	  line-height: 1.42857143;
-	  color: #555;
-	  background-color: #fff;
-	  background-image: none;
-	  border: 1px solid #ccc;
-	  border-radius: 4px;
-	  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-	          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-	  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-	       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-	          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	.form-controlmin {
+		display: block;
+		height: 32px;
+		padding: 6px 12px;
+		font-size: 14px;
+		line-height: 1.42857143;
+		color: #555;
+		background-color: #fff;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+		        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+		-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+		     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+		        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 	}
 
+	.container{
+		top:0;
+		left:0;
+		bottom:0;
+		right:0;
+		height:100%;
+		width:100%;
+		margin-top: 1%;
+	}
+	.main{
+		margin-left: 13%;
+		width: 76%;
+	}
+	th:nth-child(4n+1), th:nth-child(4n+3){
+		width: 25%;
+		font-weight: bold;
+	}
+	th:nth-child(4n+2), th:nth-child(4n+4){
+		width: 25%;
+		font-weight: normal;
+	}
+	hr {
+		height: 1px;
+		width: 100%;
+		border: 1;
+		background-color: gray;
+		background-image: linear-gradient(to right, #ccc, #333, #ccc);
+	}
 </style>
 </head>
 <body>
@@ -240,13 +279,13 @@
 									<select class="form-controlmin dropdown" name="assetUser" id="assetUser">
 										<option value="0">사용자를 선택하세요.</option>
 										<c:forEach items="${model['employeeNameList']}" var="employee">
-											<option value="${employee.employee_id}">${employee.employee_name}(${employee.employee_department_string})</option>
+											<option value="${employee.employee_id}">${employee.employee_name} (${employee.employee_department_string})</option>
 										</c:forEach>
 									</select>
 								</th>
 							</tr>
-								<input type="hidden" id="employeeId" name="employeeId" value='<%=session.getAttribute("Id")%>'>
-								<input type="hidden" id="assetCategory" name="assetCategory" value="${model['assetVO']['assetCategory']}">
+							<input type="hidden" id="employeeId" name="employeeId" value='<%=session.getAttribute("Id")%>'>
+							<input type="hidden" id="assetCategory" name="assetCategory" value="${model['assetVO']['assetCategory']}">
 							<tr>
 								<th>관리 번호</th>
 								<th>${model['assetVO']['assetId']}</th>
@@ -274,9 +313,10 @@
 										<option value="고장">고장</option>
 								</select></th>
 							</tr>
+							<input type="hidden" id="assetPurchaseDate" name="assetPurchaseDate" value="${model['assetVO']['assetPurchaseDate']}" >
 							<tr>
 								<th>구입일</th>
-								<th><input type="text" id="assetPurchaseDate" name="assetPurchaseDate" value="${model['assetVO']['assetPurchaseDate']}" readonly></th>
+								<th> ${model['assetVO']['assetPurchaseDate']}</th>
 								<th>제조사</th>
 								<th><input type="text" id="assetMaker" name="assetMaker" value="${model['assetVO']['assetMaker']}"></th>
 							</tr>
@@ -301,7 +341,7 @@
 								<th><select class="form-controlmin dropdown" name="assetManager" id="assetManager">
 										<option value="0">책임자를 선택하세요.</option>
 										<c:forEach items="${model['employeeNameList']}" var="employee">
-											<option value="${employee.employee_id}">${employee.employee_name}(${employee.employee_department_string})</option>
+											<option value="${employee.employee_id}">${employee.employee_name} (${employee.employee_department_string})</option>
 										</c:forEach>
 								</select></th>
 								<th>사용 위치</th>
@@ -312,20 +352,24 @@
 								</select></th>
 							</tr>
 						</table>
+						<hr>
 						<h3>자산 세부사항</h3>
 						<table class="table table-striped">
 							<c:forEach items="${model['assetDetailList']}" varStatus="i" step="2" end="${model['dSize']}">
 								<c:if test="${model['assetDetailList'][i.index+1]['assetItem'] !=null}">
+									<input type="hidden" id="assetItem" name="assetItem" value="${model['assetDetailList'][i.index]['assetItem']}">
+									<input type="hidden" id="assetItem" name="assetItem" value="${model['assetDetailList'][i.index+1]['assetItem']}">
 									<tr>
-										<th><input type="text" id="assetItem" name="assetItem" value="${model['assetDetailList'][i.index]['assetItem']}" readonly></th>
+										<th>${model['assetDetailList'][i.index]['assetItem']}</th>
 										<th><input type="text" id="assetItemDetail" name="assetItemDetail" value="${model['assetDetailList'][i.index]['assetItemDetail']}"></th>
-										<th><input type="text" id="assetItem" name="assetItem" value="${model['assetDetailList'][i.index+1]['assetItem']}" readonly></th>
+										<th>${model['assetDetailList'][i.index+1]['assetItem']}</th>
 										<th><input type="text" id="assetItemDetail" name="assetItemDetail" value="${model['assetDetailList'][i.index+1]['assetItemDetail']}"></th>
 									</tr>
 								</c:if>
 								<c:if test="${model['assetDetailList'][i.index+1]['assetItem'] ==null }">
+									<input type="hidden" id="assetItem" name="assetItem" value="${model['assetDetailList'][i.index]['assetItem']}">
 									<tr>
-										<th><input type="text" id="assetItem" name="assetItem" value="${model['assetDetailList'][i.index]['assetItem']}" readonly></th>
+										<th>${model['assetDetailList'][i.index]['assetItem']}</th>
 										<th><input type="text" id="assetItemDetail" name="assetItemDetail" value="${model['assetDetailList'][i.index]['assetItemDetail']}"></th>
 										<th></th>
 										<th></th>
@@ -335,6 +379,7 @@
 						</table>
 						<input type="hidden" id="items" name="items">
 					 	<input type="hidden" id="itemsDetail" name="itemsDetail">
+					 	<hr>
 						<div>
 							<c:if test="${assetData['assetVO']['assetReceiptUrl'] !=null && assetData['assetVO']['assetReceiptUrl'] != ''}">
 								<h3>기존 영수증 사진</h3><br>
@@ -349,6 +394,7 @@
 						<div class="img_wrap" style="display: flex;">
 							<img id="img" />
 						</div>
+						<hr>
 						<div style="margin-top:50px; margin-bottom:30px;">
 						<h3>자산 코멘트</h3>
 						<textArea name="assetComment" id="assetComment" style="resize: none; width: 600px; height: 200px" rows="10" cols="40" onKeyUp="javascript:byteCheck(this,'999')">${model['assetVO']['assetComment']}</textArea>
@@ -356,15 +402,15 @@
 						</div>
 					</div>
 				</form>
-			</div>
-			<form id="cancelForm" action="assetDetail" method="POST">
-				<input type="hidden" name="assetId" value="${model['assetVO']['assetId']}" />
-			</form>
-			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
-			<div style="display: flex; float: right">
-				<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="submitCheck();">수정</button>
-				<button class="btn btn-lg btn-primary" onclick="cancelConfirm();">취소</button>
-				<div class="mask"></div>
+				<form id="cancelForm" action="assetDetail" method="POST">
+					<input type="hidden" name="assetId" value="${model['assetVO']['assetId']}" />
+				</form>
+				<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
+				<div style="display: flex; float: right">
+					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="submitCheck();">수정</button>
+					<button class="btn btn-lg btn-primary" onclick="cancelConfirm();">취소</button>
+					<div class="mask"></div>
+				</div>
 			</div>
 		</div>
 	</div>

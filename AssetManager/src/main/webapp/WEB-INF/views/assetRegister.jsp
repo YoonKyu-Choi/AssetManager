@@ -24,29 +24,32 @@
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>    
 
 <style>
-		#pop{
-        width : 400px;
-        height : 400px;
-        background : #3d3d3d;
-        color : #fff;
-        position: absolute;
-        top : 200px;
-        right : 350px;
-        text-align : center;
-        border : 2px solid #000;
-        display : none;
-        }
-        
-        .popInput{
-        color : #3d3d3d;
-        width : 50px;
-        table-layout: fixed;
-        
-        }
+	#pop{
+		width : 400px;
+		height : 400px;
+		background : #3d3d3d;
+		color : #fff;
+		position: absolute;
+		top : 200px;
+		right : 350px;
+		text-align : center;
+		border : 2px solid #000;
+		display : none;
+	}
+	
+	.popInput{
+		color : #3d3d3d;
+		width : 50px;
+		table-layout: fixed;
+	}
 
 </style>
 
 <script type="text/javascript">
+
+	$(function(){
+		$("#asstLink").prop("class", "active");
+	});
 
 	$(document).ready(function(){
 		$("#uploadImage").on("change",handleImgFileSelect);
@@ -326,11 +329,25 @@
 .img_wrap img {
 	max-width: 100%;
 }
+	.container{
+		top:0;
+		left:0;
+		bottom:0;
+		right:0;
+		height:100%;
+		width:100%;
+		margin-top: 1%;
+	}
+	.main{
+		margin-left: 13%;
+		width: 76%;
+	}
+
 </style>
 </head>
 
 <body>
-	<div style="text-align: center;" id="main">
+	<div style="text-align: center;" class="main">
 		<form class="form" action="/assetmanager/assetRegisterSend" id="registerSend" method="POST" enctype="multipart/form-data">
 			<h2 style="text-align: center">
 				<b>자산 관리 > 자산 정보 입력</b>
@@ -491,10 +508,10 @@
 		</form>
 		
 				
-		<div style="display: flex; width: 300px; margin-left: 90px;">
-			<input type="button" class="btn btn-lg btn-primary btn-block" id="registerBtn" onclick="submitCheck();" value="자산 등록" /> 
-			<label style="opacity: 0; margin: 10px"></label>
+		<div style="display: flex; float: right">
 			<input type="button" class="btn btn-lg btn-primary btn-block" onclick="location.href='/assetmanager/assetList'" value="취소" />
+			<label style="opacity: 0; margin: 10px"></label>
+			<input type="button" class="btn btn-lg btn-primary btn-block" id="registerBtn" onclick="submitCheck();" value="자산 등록" /> 
 		</div>
 	</div>
 </body>

@@ -25,23 +25,42 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 <style>
-        .mask {
-            position:absolute;
-            left:0;
-            top:0;
-            z-index:9999;
-            background-color:#000;
-            display:none;
-        }
-        .window {
-            display: none;
-            background-color: #ffffff;
-            z-index:99999;
-        }
-    </style>
+    .mask {
+        position:absolute;
+        left:0;
+        top:0;
+        z-index:9999;
+        background-color:#000;
+        display:none;
+    }
+    .window {
+        display: none;
+        background-color: #ffffff;
+        z-index:99999;
+    }
+	.container{
+		top:0;
+		left:0;
+		bottom:0;
+		right:0;
+		height:100%;
+		width:100%;
+		margin-top: 1%;
+	}
+	.main{
+		margin-left: 13%;
+		width: 76%;
+	}
+
+</style>
 
 
 <script>
+
+	$(function(){
+		$("#catgLink").prop("class", "active");
+	});
+	
 	function deleteConfirm() {
 		if (!confirm("해당 분류의 자산이 모두 삭제됩니다. 계속할까요?")) {
 			return false;
@@ -56,17 +75,13 @@
 			$("#modifyForm").submit();
 		}
 	}
-</script>
 
-<script>
 	$(function(){
 		var flashmsg = "<c:out value="${msg}"/>";
 		if(flashmsg != "")
 			alert(flashmsg);
 	});
-</script>
 
-<script>
 	function wrapWindowByMask(){
 	    // 화면의 높이와 너비를 변수로 만듭니다.
 	    var maskHeight = $(window).height();
@@ -122,17 +137,17 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<h1 class="page-header"><b>분류 관리 > ${categoryData["name"]} 분류 정보</b></h1>
+				<h1 class="page-header"><b># 분류 정보</b></h1>
 				
-				<h3>분류 코드: ${categoryData["code"]}</h3>
+				<h3>분류 이름: ${categoryData["name"]} &nbsp&nbsp&nbsp&nbsp 분류 코드: ${categoryData["code"]}</h3>
 				<br>
 				<h5>세부 사항</h5>
 				<div class="table-responsive">
-					<table class="table table-striped" style="text-align: center;">
+					<table class="table table-striped" style="text-align: center; width: 100%">
 					<c:forEach items="${categoryData.items}" var="categoryItem" varStatus="i" step="2">
 					<tr>
-						<td>${categoryData.items[i.index]}</td>
-						<td>${categoryData.items[i.index+1]}</td>
+						<td style="width: 50%">${categoryData.items[i.index]}</td>
+						<td style="width: 50%">${categoryData.items[i.index+1]}</td>
 					</tr>
 					</c:forEach>
 					</table>

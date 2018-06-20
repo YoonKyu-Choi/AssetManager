@@ -23,6 +23,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 <script>
+
+	$(function(){
+		$("#catgLink").prop("class", "active");
+	});
+	
 	var plusCount = 0;
 	$(function(){
 		$(document).on("click", "#addItem", function(){
@@ -205,12 +210,29 @@
 	});
 </script>
 
+<style>
+	.container{
+		top:0;
+		left:0;
+		bottom:0;
+		right:0;
+		height:100%;
+		width:100%;
+		margin-top: 1%;
+	}
+	.main{
+		margin-left: 13%;
+		width: 76%;
+	}
+
+</style>
+
 </head>
 <body>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<h1 class="page-header"><b>분류 관리 > 새로운 분류 등록</b></h1>
+				<h1 class="page-header"><b># 분류 등록</b></h1>
 				<div style="margin-bottom: 10px">
 					<div style="float: left; display:inline-block;">
 						<form id="category" action="categoryRegisterSend" method="post">

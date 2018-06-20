@@ -37,6 +37,11 @@
 		}
 		
 		$(function(){
+
+			$(function(){
+				$("#userLink").prop("class", "active");
+			});
+			
 			var refreshCount = 1;
 			
 			$(".table-responsive").on("click", ".table tbody tr", function(){
@@ -126,9 +131,6 @@
 			background-color:darkgray;
 			color:white;
 		}
-		p{
-			font-size:25px;
-		}
 		.container{
 			top:0;
 			left:0;
@@ -136,10 +138,11 @@
 			right:0;
 			height:100%;
 			width:100%;
+			margin-top: 1%;
 		}
 		.main{
-			margin: auto;
-			width: 60%;
+			margin-left: 13%;
+			width: 76%;
 		}
 		#divHead{
 			position: releative;
@@ -164,7 +167,7 @@
 		<div class="row">
 			<div class="main">
 				<form class="page-header" id="listRefresh">
-					<font size="6px"><b>회원 관리 > 회원 목록</b></font>
+					<font size="6px"><b># 회원 관리</b></font>
 					<label style="float: right; margin-top: 20px">
 						<select>
 							<option>회원 이름</option>

@@ -1,10 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <meta name="description" content="">
 <meta name="author" content="">
@@ -19,26 +17,12 @@
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
 <link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet" />
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-
-<style>
-	.mask {
-		position:absolute;
-		left:0;
-		top:0;
-		z-index:9999;
-		background-color:#000;
-		display:none;
-	}
-	.window {
-		display: none;
-		background-color: #ffffff;
-		z-index:99999;
-	}
-</style>
-
 
 <script>
+
+	$(function(){
+		$("#userLink").prop("class", "active");
+	});
 
 	function deleteConfirm() {
 		if (!confirm("삭제하겠습니까?")) {
@@ -56,9 +40,10 @@
 	}
 
 	$(function(){
-		var flashmsg = "<c:out value="${msg}"/>";
-		if(flashmsg != "")
+		var flashmsg = "${msg}";
+		if(flashmsg != ""){
 			alert(flashmsg);
+		}
 	});
 
 	function wrapWindowByMask(){
@@ -101,14 +86,28 @@
 	
 	$(function(){
 		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-400);
+		$(".table-responsive").css("height", windowHeight-350);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-400);
+			$(".table-responsive").css("height", windowHeight-350);
 		});
 	});
 </script>
+
 <style>
+	.mask {
+		position:absolute;
+		left:0;
+		top:0;
+		z-index:9999;
+		background-color:#000;
+		display:none;
+	}
+	.window {
+		display: none;
+		background-color: #ffffff;
+		z-index:99999;
+	}
 	.container{
 		top:0;
 		left:0;
@@ -116,10 +115,19 @@
 		right:0;
 		height:100%;
 		width:100%;
+		margin-top: 1%;
 	}
 	.main{
-		margin: auto;
-		width: 60%;
+		margin-left: 13%;
+		width: 76%;
+	}
+	th:nth-child(2n+1){
+		width: 25%;
+		font-weight: bold;
+	}
+	th:nth-child(2n+2){
+		width: 75%;
+		font-weight: normal;
 	}
 </style>
 

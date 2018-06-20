@@ -11,6 +11,10 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
 <script>
 
+	$(function(){
+		$("#asstLink").prop("class", "active");
+	});
+
 	$(document).on("click", "#clickTable #clickTr", function(event){	
 		// 현재 클릭된 Row(<tr>)
 		var tr = $(this);
@@ -59,10 +63,11 @@
 		right:0;
 		height:100%;
 		width:100%;
+		margin-top: 1%;
 	}
 	.main{
-		margin: auto;
-		width: 60%;
+		margin-left: 13%;
+		width: 76%;
 	}
 </style>
 

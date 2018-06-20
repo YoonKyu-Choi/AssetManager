@@ -132,6 +132,9 @@
 			location.href='/assetmanager/';
 	}
 </script>
+
+
+
 </head>
 
 <body>
@@ -172,22 +175,25 @@
 					<select class="form-control dropdown" id="employeeDepartment" name="employeeDepartment">
 						<option value="0">소속을 선택하세요</option>
 						<option value="1">이에스이</option>
-						<option value="2">　└ 경영전략기획실</option>
+						<option value="2">　└ 경영지원본부</option>
 						<option value="3">　　└ 관리팀</option>
-						<option value="4">　　└ 경영전략팀</option>
-						<option value="5">　└ 품질관리팀</option>
-						<option value="6">　└ 리노기술연구소</option>
-						<option value="7">　　└ 연구개발1팀</option>
-						<option value="8">　　└ 연구개발2팀</option>
-						<option value="9">　└ 스마트사업본부</option>
-						<option value="10">　　└ 전략사업TF</option>
-						<option value="11">　　└ 스마트시티팀</option>
-						<option value="12">　　└ 스마트타운팀</option>
-						<option value="13">　　└ 중국지사</option>
-						<option value="14">　└ 스마트TS본부</option>
-						<option value="15">　　└ TS1팀</option>
-						<option value="16">　　└ TS2팀</option>
-						<option value="17">　　└ TS3팀</option>
+						<option value="4">　└ 전략사업본부</option>
+						<option value="5">　　└ 본사</option>
+						<option value="6">　　└ 중국지사</option>
+						<option value="7">　└ 솔루션영업본부</option>
+						<option value="8">　　└ 영업팀</option>
+						<option value="9">　　└ 사업전략팀</option>
+						<option value="10">　└ 솔루션사업본부</option>
+						<option value="11">　　└ 기획팀</option>
+						<option value="12">　　└ 솔루션개발팀</option>
+						<option value="13">　　└ 사업수행팀</option>
+						<option value="14">　└ 기술연구소</option>
+						<option value="15">　　└ 연구1팀</option>
+						<option value="16">　　└ 연구2팀</option>
+						<option value="17">　　└ 품질관리팀</option>
+						<option value="18">　└ 개발사업본부</option>
+						<option value="19">　　└ 개발1팀</option>
+						<option value="20">　　└ 개발2팀</option>
 					</select> 
 					<select class="form-control dropdown" id="employeeLocation" name="employeeLocation">
 						<option value="0">위치를 선택하세요</option>

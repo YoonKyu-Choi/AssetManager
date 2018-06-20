@@ -23,6 +23,11 @@
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
 
 <script type="text/javascript">
+
+	$(function(){
+		$("#asstLink").prop("class", "active");
+	});
+
 	var disableCount = 0;
 	var checkCount = 0;
 	
@@ -93,10 +98,10 @@
 	
 	$(function(){
 		var windowHeight = window.innerHeight;
-		$("#divBody").css("height", windowHeight-400);
+		$("#divBody").css("height", windowHeight-330);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
-			$("#divBody").css("height", windowHeight-400);
+			$("#divBody").css("height", windowHeight-330);
 		});
 	});
 	
@@ -224,60 +229,52 @@
 			if(mode == "1"){		// 자산 분류
 				var count = "${assetListData['assetCount']}";
 				$("tr:gt(0) td:nth-child(14n+3)").each(function(){
-					$(this).closest("tr").show();
-					$(this).closest("tr").css("background-color", "transparent");
+					var index = $(this).closest("tr").find("input:eq(1)").val();
+					$("#tableBody").bootstrapTable('showRow', {'index': index, isIdField: true});
 					var name = $(this).text();
 					var match = name.match(new RegExp(keyword, 'g'));
 					if(match == null){
-						$(this).closest("tr").hide();
+						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
 						count -= 1;
-					} else{
-						$(this).css("background-color", "yellow");
 					}
 				});
 				alert(count+"개의 분류 검색됨.");
 			} else if(mode == "2"){	// 시리얼 번호
 				var count = "${assetListData['assetCount']}";
 				$("tr:gt(0) td:nth-child(14n+6)").each(function(){
-					$(this).closest("tr").show();
-					$(this).closest("tr").css("background-color", "transparent");
+					var index = $(this).closest("tr").find("input:eq(1)").val();
+					$("#tableBody").bootstrapTable('showRow', {'index': index, isIdField: true});
 					var name = $(this).text();
 					var match = name.match(new RegExp(keyword, 'g'));
 					if(match == null){
-						$(this).closest("tr").hide();
+						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
 						count -= 1;
-					} else{
-						$(this).css("background-color", "yellow");
 					}
 				});
 				alert(count+"개의 분류 검색됨.");
 			} else if(mode == "3"){	// 구입 년도
 				var count = "${assetListData['assetCount']}";
 				$("tr:gt(0) td:nth-child(14n+7)").each(function(){
-					$(this).closest("tr").show();
-					$(this).closest("tr").css("background-color", "transparent");
+					var index = $(this).closest("tr").find("input:eq(1)").val();
+					$("#tableBody").bootstrapTable('showRow', {'index': index, isIdField: true});
 					var name = $(this).text().slice(0,4);
 					var match = name.match(new RegExp(keyword, 'g'));
 					if(match == null){
-						$(this).closest("tr").hide();
+						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
 						count -= 1;
-					} else{
-						$(this).css("background-color", "yellow");
 					}
 				});
 				alert(count+"개의 분류 검색됨.");
 			} else if(mode == "4"){	// 관리 번호
 				var count = "${assetListData['assetCount']}";
 				$("tr:gt(0) td:nth-child(14n+2)").each(function(){
-					$(this).closest("tr").show();
-					$(this).closest("tr").css("background-color", "transparent");
+					var index = $(this).closest("tr").find("input:eq(1)").val();
+					$("#tableBody").bootstrapTable('showRow', {'index': index, isIdField: true});
 					var name = $(this).text();
 					var match = name.match(new RegExp(keyword, 'g'));
 					if(match == null){
-						$(this).closest("tr").hide();
+						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
 						count -= 1;
-					} else{
-						$(this).css("background-color", "yellow");
 					}
 				});
 				alert(count+"개의 분류 검색됨.");
@@ -288,8 +285,9 @@
 	
 	$(function(){
 		var flashmsg = "<c:out value='${msg}'/>";
-		if(flashmsg != "")
-				alert(flashmsg);
+		if(flashmsg != ""){
+			alert(flashmsg);
+		}
 	});
 	 
 	$(function(){
@@ -376,7 +374,6 @@
 		}
 	});
 
-	
 </script>
 	
 <style>
@@ -387,27 +384,6 @@
 	th{
 		background-color: darkgray;
 		color:white;
-	}
-	p{
-		font-size:25px;
-	}
-	.form-controlmin {
-		display: block;
-		width: 12%;
-		height: 34px;
-		padding: 6px 12px;
-		font-size: 14px;
-		line-height: 1.42857143;
-		color: #555;
-		background-color: #fff;
-		background-image: none;
-		border: 1px solid #ccc;
-		border-radius: 4px;
-		-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-		        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-		-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-		     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-		        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 	}
 	#divHead{
 		position: releative;
@@ -432,10 +408,11 @@
 		right:0;
 		height:100%;
 		width:100%;
+		margin-top: 1%;
 	}
 	.main{
-		margin: auto;
-		width: 60%;
+		margin-left: 13%;
+		width: 76%;
 	}
 </style>
 </head>
@@ -444,7 +421,7 @@
 		<div class="row">
 			<div class="main">
 				<form class="page-header" id="searchForm" action="assetList">
-					<font size="6px"><b>자산 관리 > 자산 목록</b></font>
+					<font size="6px"><b># 자산 관리</b></font>
 					<label style="float:right; margin-top: 20px">
 						<select id="searchMode" name="searchMode">
 							<option value="1">자산 분류</option>
@@ -507,6 +484,7 @@
 							</tr>
 						</thead>
 						<tbody>
+						<%int index = 0; %>
 						<c:forEach items="${assetListData['assetList']}" var="asset">
 							<tr class="clickable-row" data-href="${asset.assetId}">
 								<td class="tdNonClick"><input type="checkBox" style="transform:scale(1.5)" class="chkbox" onclick="dis(this);"/></td>
@@ -522,8 +500,9 @@
 								<td>${asset.assetModel}</td>
 								<td>${asset.assetUsage}</td>
 								<td>${asset.assetManager}</td>
-								<td>${asset.assetLocation}</td>
+								<td>${asset.assetLocation}<input type="hidden" value="<%=index %>"></td>
 							</tr>
+							<%index += 1; %>
 						</c:forEach>
 						</tbody>
 					</table>
@@ -534,31 +513,33 @@
 				<form id="printForm" action="printList" method="post">
 					<input type="hidden" id="printArray" name="assetIdList"/>
 				</form>
-				<div style="display:flex; float: left; margin-top: 10px">
-					<button class="btn btn-lg btn-primary" onclick="printList();" >목록 출력</button>
-				</div>
 				<form id="printReportForm" action="printReport" method="post">
 					<input type="hidden" id="printReportArray" name="assetIdList"/>
 				</form>
 				<form id="printLabelForm" action="printLabel" method="post">
 					<input type="hidden" id="printLabelArray" name="assetIdList"/>
 				</form>
+				<form id="assetDispForm" action="assetDisposal" method="post">
+					<input type="hidden" id="dispReqArray" name="assetIdList"/>
+				</form>
+
+<!-- 
+				<div style="display:flex; float: left; margin-top: 10px">
+					<button class="btn btn-lg btn-primary" onclick="printList();" >목록 출력</button>
+				</div>
 				<div style="display:flex; float: left; margin-top: 10px">
 					<button class="btn btn-lg btn-primary" onclick="printReport();" >보고서 출력</button>
 				</div>
 				<div style="display:flex; float: left; margin-top: 10px">
 					<button class="btn btn-lg btn-primary" onclick="printLabel();" >라벨 출력</button>
 				</div>
-				
 				<div style="display:flex; float:right; margin-top: 10px">
 					<button class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetRegister';">자산 등록</button>
 					<div class="admin"> 
 						<button class="btn btn-lg btn-primary" id="disposalButton"onclick="dispRequest();">폐기 신청</button>
-						<form id="assetDispForm" action="assetDisposal" method="post">
-							<input type="hidden" id="dispReqArray" name="assetIdList"/>
-						</form>
 					</div>
 				</div>
+-->				
 			</div>
 		</div>
 	</div>
