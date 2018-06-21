@@ -1,39 +1,28 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<meta name="description" content="">
-<meta name="author" content="">
-
-<title>분류 수정</title>
-
-<!-- Bootstrap core CSS -->
-<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
-<!-- Custom styles for this template -->
-<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
-<script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
-<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet" />
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-
-<script>
-
-	$(function(){
-		$("#catgLink").prop("class", "active");
-	});
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet" />
+	
+<script>
 	var itemSize = Number("<c:out value="${categoryData.itemSize}"/>");
 	var plusCount = itemSize;
 	var deleteItems = [];
+
 	$(function(){
+		// 사이드바 활성화
+		$("#catgLink").prop("class", "active");
+		
+		// 세부사항 추가제거
 		if(itemSize % 2 == 1){
 			var index = Math.floor(itemSize/2);
 			$("tr:eq("+index+") td:last").remove();
@@ -43,7 +32,7 @@
 			$("tr:last").remove();
 		}
 		
-		$(document).on("click", "#addItem", function(){
+		$("#addItem").click(function(){
 			if(plusCount % 2 == 0){
 				$("#itemTable tr:last td:last").before('<td style="width: 50%"><input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="width: 80%" value=""/></td>');
 			} else if(plusCount % 2 == 1){
@@ -54,7 +43,7 @@
 			plusCount += 1;
 		});
 		
-		$(document).on("click", ".deleteItem", function(event){
+		$(".deleteItem").click(function(event){
 			if(!$(event.target).hasClass("deleteItemCancel")){
 				$(event.target).closest("td").find("input:last").prop("readonly", true).css('background', 'gray');
 				$(event.target).addClass("deleteItemCancel");
@@ -64,7 +53,7 @@
 			}
 		});
 	
-		$(document).on("click", ".removeItem", function(event){
+		$(".removeItem").click(function(event){
 			var index = $("tr").index($(event.target).closest("tr"));
 			$(event.target).closest("td").remove();
 			$("tr:gt("+index+") td:nth-child(2n+1)").each(function(){
@@ -75,6 +64,15 @@
 			}
 			plusCount -= 1;
 		});
+
+		// 반응성 윈도우 사이즈
+		var windowHeight = window.innerHeight;
+		$(".table-responsive").css("height", windowHeight-350);
+		$(window).resize(function(){
+			windowHeight = $(window).height();
+			$(".table-responsive").css("height", windowHeight-350);
+		});
+
 	});
 
 	function categoryModify(){
@@ -129,14 +127,6 @@
 		}
 	}
 	
-	$(function(){
-		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-350);
-		$(window).resize(function(){
-			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-350);
-		});
-	});	
 </script>
 
 <style>
@@ -153,7 +143,6 @@
 		margin-left: 13%;
 		width: 76%;
 	}
-
 </style>
 
 </head>
@@ -161,7 +150,9 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<h1 class="page-header"><b># 분류 수정</b></h1>
+				<h1 class="page-header">
+					<font size="6px"><b># 분류 수정</b></font>
+				</h1>
 				<div>
 					<div style="float: left; display:inline-block;">
 						<form id="category" action="categoryModifySend" method="post">
@@ -203,7 +194,4 @@
 			</div>
 		</div>
 	</div>
-
-
 </body>
-</html>

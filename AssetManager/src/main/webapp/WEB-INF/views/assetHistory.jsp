@@ -1,40 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="">
-<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"></script>
+
 <script>
-
-	$(function(){
-		$("#asstLink").prop("class", "active");
-	});
-
-	$(document).on("click", "#clickTable #clickTr", function(event){	
-		// 현재 클릭된 Row(<tr>)
-		var tr = $(this);
-		var th = tr.children();
-		var outSeq = th.eq(0).text();
-		var outComment = th.eq(6).text();
-		$("#assetOutComment").val(outComment);
-		$(tr).addClass("orange");
-		$(tr).siblings().removeClass("orange");
-	});
-	
-	$(function(){
-		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-400);
-		$(window).resize(function(){
-			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-400);
-		});
-	});
-	
 	var generalMenu = new BootstrapMenu('.container', {
 		actions: [{
 			name: '목록',
@@ -43,16 +17,40 @@
 			}
 		}]
 	});
+
+	$(function(){
+		// 사이드바 활성화
+		$("#asstLink").prop("class", "active");
+
+		// 코멘트 보여주기
+		$("#clickTable #clickTr").click(function(event){	
+			// 현재 클릭된 Row(<tr>)
+			var tr = $(this);
+			var th = tr.children();
+			var outSeq = th.eq(0).text();
+			var outComment = th.eq(6).text();
+			$("#assetOutComment").val(outComment);
+			$(tr).addClass("orange");
+			$(tr).siblings().removeClass("orange");
+		});
+	
+		// 반응성 윈도우 사이즈
+		var windowHeight = window.innerHeight;
+		$(".table-responsive").css("height", windowHeight-400);
+		$(window).resize(function(){
+			windowHeight = $(window).height();
+			$(".table-responsive").css("height", windowHeight-400);
+		});
+	});
+	
 </script>
 <style>
 	.orange{
 		color:orange;
 	}
-
 	#displayNone{
 		display:None;
 	}
-	
 	#clickTable{
 		font-weight: bold;
 	}

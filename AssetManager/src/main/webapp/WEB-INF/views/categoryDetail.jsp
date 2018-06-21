@@ -1,64 +1,52 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<meta name="description" content="">
-<meta name="author" content="">
-
-<title>사용자 상세보기</title>
-
-<!-- Bootstrap core CSS -->
-<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
-<!-- Custom styles for this template -->
-<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
-<script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
-<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet" />
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-
-<style>
-    .mask {
-        position:absolute;
-        left:0;
-        top:0;
-        z-index:9999;
-        background-color:#000;
-        display:none;
-    }
-    .window {
-        display: none;
-        background-color: #ffffff;
-        z-index:99999;
-    }
-	.container{
-		top:0;
-		left:0;
-		bottom:0;
-		right:0;
-		height:100%;
-		width:100%;
-		margin-top: 1%;
-	}
-	.main{
-		margin-left: 13%;
-		width: 76%;
-	}
-
-</style>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet" />
+	
 
 
 <script>
 
 	$(function(){
+		// 사이드바 활성화
 		$("#catgLink").prop("class", "active");
+
+		// 플래시 메시지
+		var flashmsg = "<c:out value="${msg}"/>";
+		if(flashmsg != ""){
+			alert(flashmsg);
+		}
+	
+		// 마스크 닫기
+	    // 닫기(close)를 눌렀을 때 작동합니다.
+	    $('.window .close').click(function (e) {
+	        e.preventDefault();
+	        $('.mask, .window').hide();
+	    });
+
+	    // 뒤 검은 마스크를 클릭시에도 모두 제거하도록 처리합니다.
+        $('.mask').click(function () {
+            $(this).hide();
+            $('.window').hide();
+        });	
+
+	    // 반응성 윈도우 사이즈
+		var windowHeight = window.innerHeight;
+		$(".table-responsive").css("height", windowHeight-400);
+		$(window).resize(function(){
+			windowHeight = $(window).height();
+			$(".table-responsive").css("height", windowHeight-400);
+		});
+
 	});
 	
 	function deleteConfirm() {
@@ -75,12 +63,6 @@
 			$("#modifyForm").submit();
 		}
 	}
-
-	$(function(){
-		var flashmsg = "<c:out value="${msg}"/>";
-		if(flashmsg != "")
-			alert(flashmsg);
-	});
 
 	function wrapWindowByMask(){
 	    // 화면의 높이와 너비를 변수로 만듭니다.
@@ -106,30 +88,36 @@
 	    $('.window').show();
 	}
 	
-	$(function(){
-	    // 닫기(close)를 눌렀을 때 작동합니다.
-	    $('.window .close').click(function (e) {
-	        e.preventDefault();
-	        $('.mask, .window').hide();
-	    });
-
-	    // 뒤 검은 마스크를 클릭시에도 모두 제거하도록 처리합니다.
-        $('.mask').click(function () {
-            $(this).hide();
-            $('.window').hide();
-        });	
-	});
-	
-	$(function(){
-		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-400);
-		$(window).resize(function(){
-			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-400);
-		});
-	});
 </script>
 
+<style>
+	.mask {
+		position:absolute;
+		left:0;
+		top:0;
+		z-index:9999;
+		background-color:#000;
+		display:none;
+	}
+	.window {
+		display: none;
+		background-color: #ffffff;
+		z-index:99999;
+	}
+	.container{
+		top:0;
+		left:0;
+		bottom:0;
+		right:0;
+		height:100%;
+		width:100%;
+		margin-top: 1%;
+	}
+	.main{
+		margin-left: 13%;
+		width: 76%;
+	}
+</style>
 
 </head>
 
@@ -137,7 +125,9 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<h1 class="page-header"><b># 분류 정보</b></h1>
+				<h1 class="page-header">
+					<font size="6px"><b># 분류 정보</b></font>
+				</h1>
 				
 				<h3>분류 이름: ${categoryData["name"]} &nbsp&nbsp&nbsp&nbsp 분류 코드: ${categoryData["code"]}</h3>
 				<br>
@@ -183,4 +173,3 @@
 	</div>
 
 </body>
-</html>

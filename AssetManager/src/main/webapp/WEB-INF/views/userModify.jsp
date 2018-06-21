@@ -1,38 +1,32 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<meta name="description" content="">
-<meta name="author" content="">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>사용자 상세보기</title>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css"	rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/dashboard.css"	rel="stylesheet">
 
-<!-- Bootstrap core CSS -->
-<link
-	href="${pageContext.request.contextPath}/resources/css/bootstrap.css"
-	rel="stylesheet">
-<!-- Custom styles for this template -->
-<link
-	href="${pageContext.request.contextPath}/resources/css/dashboard.css"
-	rel="stylesheet">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script type="text/javascript">
+<script>
 
 	$(function(){
+		// 사이드바 활성화
 		$("#userLink").prop("class", "active");
-	});
-	
-	$(function(){
+
+		// 기존 데이터 설정
 		$("#employeeRank").val("${requestScope.employeeVO.employeeRank}").prop("selected", true);
 		$("#employeeDepartment").val("${requestScope.employeeVO.employeeDepartment}").prop("selected", true);
 		$("#employeeLocation").val("${requestScope.employeeVO.employeeLocation}").prop("selected", true);
 		$("#employeeStatus").val("${requestScope.employeeVO.employeeStatus}").attr("selected", "selected");
+
+		// 반응성 윈도우 사이즈
+		var windowHeight = window.innerHeight;
+		$(".table-responsive").css("height", windowHeight-400);
+		$(window).resize(function(){
+			windowHeight = $(window).height();
+			$(".table-responsive").css("height", windowHeight-400);
+		});
 	});
 
 	function cancelConfirm() {
@@ -49,15 +43,6 @@
 			$("#modifySend").submit();
 		}
 	}
-	
-	$(function(){
-		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-400);
-		$(window).resize(function(){
-			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-400);
-		});
-	});
 	
 </script>
 <style>
@@ -144,8 +129,7 @@
 							</tr>
 							<tr>
 								<th>직급</th>
-								<th><select class="form-controlmin dropdown" id="employeeRank"
-									name="employeeRank">
+								<th><select class="form-controlmin dropdown" id="employeeRank" name="employeeRank">
 										<option value="0">직급을 선택하세요</option>
 										<option value="1">대표이사</option>
 										<option value="2">부사장</option>
@@ -188,11 +172,13 @@
 							</tr>
 							<tr>
 								<th>위치</th>
-								<th><select class="form-controlmin dropdown" id="employeeLocation" name="employeeLocation">
+								<th>
+									<select class="form-controlmin dropdown" id="employeeLocation" name="employeeLocation">
 										<option value="0">위치를 선택하세요</option>
 										<option value="4층">4층</option>
 										<option value="5층">5층</option>
-								</select></th>
+									</select>
+								</th>
 							</tr>
 							<tr>
 								<th>이메일</th>
@@ -204,13 +190,14 @@
 							</tr>
 							<tr>
 								<th>상태</th>
-								<th><select class="form-controlmin dropdown admin" id="employeeStatus" name="employeeStatus">
+								<th>
+									<select class="form-controlmin dropdown admin" id="employeeStatus" name="employeeStatus">
 										<option value="재직" selected>재직</option>
 										<option value="휴직">휴직</option>
 										<option value="퇴사">퇴사</option>
-								</select></th>
+									</select>
+								</th>
 							</tr>
-							<tr>
 						</table>
 					</form>
 				</div>
@@ -226,4 +213,3 @@
 	</form>
 
 </body>
-</html>

@@ -1,76 +1,98 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session = "false" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- The above 3 meta tags must come first in the head; any other head content must come after these tags -->
-	<meta name="description" content="">
-	<meta name="author" content="">
-			
-	<!-- Bootstrap core CSS -->
-	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
 	
-	<!-- Custom styles for this template -->
-	<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
-	
-	<script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
-	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet">
 	
-	<script>
-		function depSort(a, b){
-			if(a.dep < b.dep) return -1;
-			if(a.dep > b.dep) return 1;
-			return 0;
-		}
-		function rankSort(a, b){
-			if(a.rank < b.rank) return -1;
-			if(a.rank > b.rank) return 1;
-			return 0;
-		}
-		
-		$(function(){
+<script>
+	var trName = "";
+    var userMenu = new BootstrapMenu('td', {
+    	actions: [{
+    		name: '상세 보기',
+    		onClick: function() {
+				document.location.href='/assetmanager/userDetail?employeeSeq=' + trName;
+    		}
+    	}]
+    });
+	var generalMenu = new BootstrapMenu('.container', {
+		actions: [{
+			name: '회원 추가',
+			onClick: function(){
+				location.href='/assetmanager/register';
+			}
+		}]
+	});
 
-			$(function(){
-				$("#userLink").prop("class", "active");
-			});
-			
-			var refreshCount = 1;
-			
-			$(".table-responsive").on("click", ".table tbody tr", function(){
-				if(${userListData['userCount']} > 0){
-					document.location.href='/assetmanager/userDetail?employeeSeq='+$(this).data("href");
-				}
-			});
-			var flashmsg = "<c:out value="${msg}"/>";
-			
-			if(refreshCount > 0){
-				if(flashmsg != ""){
-					alert(flashmsg);
-				}
-				refreshCount -= 1;
+	$(function(){
+		// 사이드바 활성화
+		$("#userLink").prop("class", "active");
+		
+		// 플래시 메시지
+		var refreshCount = 1;
+		
+		$(".table-responsive").on("click", ".table tbody tr", function(){
+			if(${userListData["userCount"]} > 0){
+				document.location.href='/assetmanager/userDetail?employeeSeq='+$(this).data("href");
 			}
 		});
+		var flashmsg = "<c:out value="${msg}"/>";
 		
-		$(function(){
-			
-			var windowHeight = window.innerHeight;
-			$(".table-responsive").css("height", windowHeight-400);
-			$(window).resize(function(){
-				windowHeight = $(window).height();
-				$(".table-responsive").css("height", windowHeight-400);
-			});
+		if(refreshCount > 0){
+			if(flashmsg != ""){
+				alert(flashmsg);
+			}
+			refreshCount -= 1;
+		}
+
+		// 소트 클릭, 스크롤 연결
+		$("#tableHead th").click(function(){
+			var index = $("#tableHead th").index($(event.target).closest("th"));
+			$("#tableBody th:eq("+index+") .sortable").click();
 		});
 		
-		function searchFunc(){
-			$.ajax({
+		$("#divBody").scroll(function(){
+			var scrollpos = $("#divBody").scrollLeft(); 
+			$("#divHead .fixed-table-body").scrollLeft(scrollpos);
+		});
+
+		// 우클릭 시 해당 행의 관리 번호를 저장
+		$("td").contextmenu(function(event){
+			trName = $(event.target).closest("tr").attr('data-href');
+		});
+
+		// 반응성 윈도우 사이즈
+		var windowHeight = window.innerHeight;
+		$(".table-responsive").css("height", windowHeight-400);
+		$(window).resize(function(){
+			windowHeight = $(window).height();
+			$(".table-responsive").css("height", windowHeight-400);
+		});
+
+	});
+	
+	function depSort(a, b){
+		if(a.dep < b.dep) return -1;
+		if(a.dep > b.dep) return 1;
+		return 0;
+	}
+	function rankSort(a, b){
+		if(a.rank < b.rank) return -1;
+		if(a.rank > b.rank) return 1;
+		return 0;
+	}
+		
+	function searchFunc(){
+		$.ajax({
 			"type": "GET",
 			"url": "userList",
 			"dataType": "text",
@@ -83,86 +105,51 @@
 			"error": function(e){
 				alert("오류 발생 : "+ e.responseText);
 			}
-			});
-		}
+		});
+	}
 
-		$(function(){
-			$("#tableHead th").click(function(){
-				var index = $("#tableHead th").index($(event.target).closest("th"));
-				$("#tableBody th:eq("+index+") .sortable").click();
-			});
-			
-			$("#divBody").scroll(function(){
-				var scrollpos = $("#divBody").scrollLeft(); 
-				$("#divHead .fixed-table-body").scrollLeft(scrollpos);
-			});
-		});
-		
-
-		var trName = "";
-		$(function(){
-			$("td").contextmenu(function(event){
-				trName = $(event.target).closest("tr").attr('data-href');
-			});
-		});
-	    var userMenu = new BootstrapMenu('td', {
-	    	actions: [{
-	    		name: '상세 보기',
-	    		onClick: function() {
-					document.location.href='/assetmanager/userDetail?employeeSeq=' + trName;
-	    		}
-	    	}]
-	    });
-		var generalMenu = new BootstrapMenu('.container', {
-			actions: [{
-				name: '회원 추가',
-				onClick: function(){
-					location.href='/assetmanager/register';
-				}
-			}]
-		});
-	</script>
+</script>
 	
-	<style>
-		th, td {
-			text-align: center;
-		}
-		th{
-			background-color:darkgray;
-			color:white;
-		}
-		.container{
-			top:0;
-			left:0;
-			bottom:0;
-			right:0;
-			height:100%;
-			width:100%;
-			margin-top: 1%;
-		}
-		.main{
-			margin-left: 13%;
-			width: 76%;
-		}
-		#divHead{
-			position: releative;
-			height: 40px;
-		}
-		#divBody{
-			z-index: -1;
-			overflow-y: scroll;
-		}
-		#tableBody{
-			overflow: auto;
-			position: absolute;
-		}
-		#tableBody thead{
-			visibility: collapse;
-		}
-	</style>
+<style>
+	th, td {
+		text-align: center;
+	}
+	th{
+		background-color:darkgray;
+		color:white;
+	}
+	.container{
+		top:0;
+		left:0;
+		bottom:0;
+		right:0;
+		height:100%;
+		width:100%;
+		margin-top: 1%;
+	}
+	.main{
+		margin-left: 13%;
+		width: 76%;
+	}
+	#divHead{
+		position: releative;
+		height: 40px;
+	}
+	#divBody{
+		z-index: -1;
+		overflow-y: scroll;
+	}
+	#tableBody{
+		overflow: auto;
+		position: absolute;
+	}
+	#tableBody thead{
+		visibility: collapse;
+	}
+</style>
 	
 </head>
-	<body>
+<body>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
@@ -251,5 +238,4 @@
 			</div>
 		</div>
 	</div>
-	</body>
-</html>
+</body>

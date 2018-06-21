@@ -1,27 +1,47 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
 <head>
-<meta charset="utf-8">
-<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<meta name="description" content="">
-<meta name="author" content="">
-
-<title>사용자 상세보기</title>
-
-<!-- Bootstrap core CSS -->
-<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
-<!-- Custom styles for this template -->
-<script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
-<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet" />
-
+	<meta charset="utf-8">
+	
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
 
 <script>
 
 	$(function(){
+		// 사이드바 활성화
 		$("#userLink").prop("class", "active");
+
+		// 플래시 메시지
+		var flashmsg = "${msg}";
+		if(flashmsg != ""){
+			alert(flashmsg);
+		}
+
+		// 마스크 닫기
+	    // 닫기(close)를 눌렀을 때 작동합니다.
+	    $('.window .close').click(function (e) {
+	        e.preventDefault();
+	        $('.mask, .window').hide();
+	    });
+
+	    // 뒤 검은 마스크를 클릭시에도 모두 제거하도록 처리합니다.
+        $('.mask').click(function () {
+            $(this).hide();
+            $('.window').hide();
+        });	
+
+	    // 반응성 윈도우 사이즈
+		var windowHeight = window.innerHeight;
+		$(".table-responsive").css("height", windowHeight-350);
+		$(window).resize(function(){
+			windowHeight = $(window).height();
+			$(".table-responsive").css("height", windowHeight-350);
+		});
+
 	});
 
 	function deleteConfirm() {
@@ -38,13 +58,6 @@
 			$("#modifyForm").submit();
 		}
 	}
-
-	$(function(){
-		var flashmsg = "${msg}";
-		if(flashmsg != ""){
-			alert(flashmsg);
-		}
-	});
 
 	function wrapWindowByMask(){
 	    // 화면의 높이와 너비를 변수로 만듭니다.
@@ -70,28 +83,6 @@
 	    $('.window').show();
 	}
 	
-	$(function(){
-	    // 닫기(close)를 눌렀을 때 작동합니다.
-	    $('.window .close').click(function (e) {
-	        e.preventDefault();
-	        $('.mask, .window').hide();
-	    });
-
-	    // 뒤 검은 마스크를 클릭시에도 모두 제거하도록 처리합니다.
-        $('.mask').click(function () {
-            $(this).hide();
-            $('.window').hide();
-        });	
-	});
-	
-	$(function(){
-		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-350);
-		$(window).resize(function(){
-			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-350);
-		});
-	});
 </script>
 
 <style>
@@ -137,7 +128,9 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<h1 class="page-header"><b>회원 관리 > ${requestScope.employeeVO.employeeName}님 정보</b></h1>
+				<h1 class="page-header">
+					<font size="6px"><b># 회원 정보</b></font>
+				</h1>
 
 				<div class="table-responsive">
 					<table class="table table-striped">
@@ -204,6 +197,4 @@
 			</div>
 		</div>
 	</div>
-
 </body>
-</html>

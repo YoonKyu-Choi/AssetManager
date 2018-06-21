@@ -1,21 +1,27 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<meta name="description" content="">
-<meta name="author" content="">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>이에스이 자산관리시스템</title>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"></script>
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/signin.css" rel="stylesheet">
 
-<!-- Bootstrap core CSS -->
-<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
-<!-- Custom styles for this template -->
-<link href="${pageContext.request.contextPath}/resources/css/signin.css" rel="stylesheet">
-<script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
+<script>
+	$(function(){
+		// 권한별 버튼 보이기
+		var isAdmin = "<%=session.getAttribute("isAdmin") %>";
+		if(isAdmin == "TRUE"){
+			$(".admin").show();
+		}
+		
+		// 드롭다운 사이즈 조정
+		var left = $('#rank').height();
+		var right = $('.dropdown').height();
+		$('.dropdown').height(left);
+	});
 
-<script type="text/javascript">
 	function idCheck() {
 		var id = $('#employeeId').val();
 		$.ajax({
@@ -113,27 +119,16 @@
 			return false;
 		};
 	}
-	$(function(){
-		var isAdmin = "<%=session.getAttribute("isAdmin") %>";
-		if(isAdmin == "TRUE"){
-			$(".admin").show();
-		}
-	});
-	$(function(){
-		var left = $('#rank').height();
-		var right = $('.dropdown').height();
-		$('.dropdown').height(left);
-	});
+
 	function registerCancel(){
 		var isAdmin = "<%=session.getAttribute("isAdmin")%>"; 
-		if(isAdmin == "TRUE")
+		if(isAdmin == "TRUE"){
 			location.href='/assetmanager/userList';
-		else
+		} else{
 			location.href='/assetmanager/';
+		}
 	}
 </script>
-
-
 
 </head>
 

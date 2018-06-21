@@ -1,27 +1,24 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!-- Bootstrap core CSS -->
-<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
-<!-- Custom styles for this template -->
-<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
-<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
-<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet" />
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet" />
+	<link href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" rel="stylesheet"/>  
+
 <script>
-
 	$(function(){
+		// 사이드바 활성화
 		$("#asstLink").prop("class", "active");
-	});
 
-	$(function() {
+		// 기존 설정
 		$("#assetUser").val("${model['assetVO']['assetUser']}").prop("selected", true);
 		$("#assetStatus").val("${model['assetVO']['assetStatus']}").prop("selected", true);
 		$("#assetOutStatus").val("${model['assetVO']['assetOutStatus']}").prop("selected", true);
@@ -30,11 +27,26 @@
 		$("#assetLocation").val("${model['assetVO']['assetLocation']}").prop("selected", true);
 		$("#uploadImage").on("change",handleImgFileSelect);
 			var windowHeight = window.innerHeight;
+
+		// 반응성 윈도우 사이즈	
 		$(".table-responsive").css("height", windowHeight-350);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
 			$(".table-responsive").css("height", windowHeight-300);
 		});
+
+		// 달력
+		$("#assetPurchaseDate").datepicker({
+			dateFormat : "yy-mm-dd",
+			dayNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
+			dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'], 
+			monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+			changeMonth: true, 
+			changeYear: true,
+			nextText: '다음 달',
+			prevText: '이전 달' 
+       });
+	
 	});
 			
 	function handleImgFileSelect(e){
@@ -98,7 +110,6 @@
 	}
 	
 	function submitCheck() {
-		
 		if (!confirm("수정하겠습니까?")) {
 			return false;
 		} else {
@@ -189,27 +200,14 @@
     function fn_press_han(obj)
     {
         //좌우 방향키, 백스페이스, 딜리트, 탭키에 대한 예외
-        if(event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39
-        || event.keyCode == 46 ){
+        if(event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 46 ){
             return;
         }
         obj.value = obj.value.replace(/[\ㄱ-ㅎㅏ-ㅣ가-힣]/g, '');
     }
     
-    $(function() {
-        $("#assetPurchaseDate").datepicker({
-        	 dateFormat : "yy-mm-dd",
-        	 dayNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
-             dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'], 
-             monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-        	 changeMonth: true, 
-             changeYear: true,
-             nextText: '다음 달',
-             prevText: '이전 달' 
-        });
-    });
-
 </script>
+
 <style>
 	.form-controlmin {
 		display: block;
@@ -227,7 +225,6 @@
 		     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 		        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 	}
-
 	.container{
 		top:0;
 		left:0;
@@ -262,13 +259,11 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<form class="form" action="/assetmanager/assetModifySend"
-					id="modifySend" method="POST" enctype="multipart/form-data">
+				<form class="form" action="/assetmanager/assetModifySend" id="modifySend" method="POST" enctype="multipart/form-data">
 					<h1 class="page-header">
-						<b>자산 관리 > ${model['assetVO']['assetId']}의 자산 정보 수정</b>
+						<font size="6px"><b># 자산 정보 수정</b></font>
 					</h1>
-					<div class="table-responsive" id="inputDiv"
-						style="overflow: scroll; height: 500px;">
+					<div class="table-responsive" id="inputDiv"	style="overflow: scroll; height: 500px;">
 						<h3>자산 공통사항</h3>
 						<table class="table table-striped" id="assetTable">
 							<tr>

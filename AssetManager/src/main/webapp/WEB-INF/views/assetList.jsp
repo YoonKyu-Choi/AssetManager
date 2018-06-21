@@ -1,42 +1,193 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- The above 3 meta tags must come first in the head; any other head content must come after these tags -->
-	<meta name="description" content="">
-	<meta name="author" content="">
-			
-	<!-- Bootstrap core CSS -->
-	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
-	
-	<!-- Custom styles for this template -->
-	<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
 
-	<script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
 
-<script type="text/javascript">
-
-	$(function(){
-		$("#asstLink").prop("class", "active");
-	});
+<script>
 
 	var disableCount = 0;
 	var checkCount = 0;
-	
+	var trName = "";
+    var assetMenu = new BootstrapMenu('td', {
+    	actions: {
+    		assetDetail: {
+	    		name: '상세 보기',
+	    		onClick: function() {
+					isAsset();
+					document.location.href='/assetmanager/assetDetail?assetId=' + trName;
+	    		}
+    		},
+    		assetHistory: {
+	    		name: '이력 보기',
+	    		onClick: function() {
+					isAsset();
+					$("#assetHistoryForm input").val(trName); 
+					$("#assetHistoryForm").submit();
+	    		}
+    		}
+    	}
+    });
+
+    var generalMenu = new BootstrapMenu('.container', {
+		actionsGroups:[
+			['assetRegister', 'assetDisposeRequest'],
+			['printList', 'printReport', 'printLabel']
+		],
+		actions: {
+			assetRegister: {
+				name: '자산 등록',
+				onClick: function(){
+					location.href='/assetmanager/assetRegister';
+				}
+			},
+			assetDisposeRequest: {
+				name: '폐기 신청',
+				onClick: function(){
+					dispRequest();
+				}
+			},
+			printList: {
+				name: '목록 출력',
+				onClick: function(){
+					printList();
+				}
+			},
+			printReport: {
+				name: '보고서 출력',
+				onClick: function(){
+					printReport();
+				}
+			},
+			printLabel: {
+				name: '라벨 출력',
+				onClick: function(){
+					printLabel();
+				}
+			}
+		}
+	});
+
 	$(function(){
+		// 사이드바 활성화
+		$("#asstLink").prop("class", "active");
+		
+		// 권한별 버튼 활성화
 		var isAdmin = "<%=session.getAttribute("isAdmin") %>";
 		if(isAdmin == "TRUE"){
 			$("div.admin").show();
 		}
+		
+		// 테이블이 비어있을 경우 클릭 불가
+		$(document).on("click", ".table tbody tr", function(event){
+			if(${assetListData['assetCount']} > 0){
+				if($(event.target).is(".chkbox") || $(event.target).is(".tdNonClick")){
+					return;
+				}
+				document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
+			}
+		});
+
+		// 반응성 윈도우 크기
+		var windowHeight = window.innerHeight;
+		$("#divBody").css("height", windowHeight-330);
+		$(window).resize(function(){
+			windowHeight = $(window).height();
+			$("#divBody").css("height", windowHeight-330);
+		});
+
+		// 검색
+		var isSearch = "${assetListData['search']}";
+		if(isSearch == "1"){
+			var keyword = "${assetListData['searchKeyword']}";
+			var mode = "${assetListData['searchMode']}";
+			var result = [];
+			if(mode == "1"){		// 자산 분류
+				var count = "${assetListData['assetCount']}";
+				$("tr:gt(0) td:nth-child(14n+3)").each(function(){
+					var index = $(this).closest("tr").find("input:eq(1)").val();
+					var name = $(this).text();
+					var match = name.match(new RegExp(keyword, 'g'));
+					if(match == null){
+						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
+						count -= 1;
+					}
+				});
+				alert(count+"개의 분류 검색됨.");
+			} else if(mode == "2"){	// 시리얼 번호
+				var count = "${assetListData['assetCount']}";
+				$("tr:gt(0) td:nth-child(14n+6)").each(function(){
+					var index = $(this).closest("tr").find("input:eq(1)").val();
+					var name = $(this).text();
+					var match = name.match(new RegExp(keyword, 'g'));
+					if(match == null){
+						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
+						count -= 1;
+					}
+				});
+				alert(count+"개의 분류 검색됨.");
+			} else if(mode == "3"){	// 구입 년도
+				var count = "${assetListData['assetCount']}";
+				$("tr:gt(0) td:nth-child(14n+7)").each(function(){
+					var index = $(this).closest("tr").find("input:eq(1)").val();
+					var name = $(this).text().slice(0,4);
+					var match = name.match(new RegExp(keyword, 'g'));
+					if(match == null){
+						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
+						count -= 1;
+					}
+				});
+				alert(count+"개의 분류 검색됨.");
+			} else if(mode == "4"){	// 관리 번호
+				var count = "${assetListData['assetCount']}";
+				$("tr:gt(0) td:nth-child(14n+2)").each(function(){
+					var index = $(this).closest("tr").find("input:eq(1)").val();
+					var name = $(this).text();
+					var match = name.match(new RegExp(keyword, 'g'));
+					if(match == null){
+						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
+						count -= 1;
+					}
+				});
+				alert(count+"개의 분류 검색됨.");
+			}
+		}
+		
+		// 플래시 메시지
+		var flashmsg = "<c:out value='${msg}'/>";
+		if(flashmsg != ""){
+			alert(flashmsg);
+		}
+
+		// 테이블 헤더 소트 연결
+		$("#tableHead th").click(function(){
+			var index = $("#tableHead th").index($(event.target).closest("th"));
+			$("#tableBody th:eq("+index+") .sortable").click();
+		});
+		
+		$("#divBody").scroll(function(){
+			var scrollpos = $("#divBody").scrollLeft(); 
+			$("#divHead .fixed-table-body").scrollLeft(scrollpos);
+		});
+
+		// 우클릭 시 해당 행의 관리 번호를 저장
+		$("td").contextmenu(function(event){
+			trName = $(event.target).closest("tr").find("td:eq(1)").text();
+		});
+		
 	});
+	
+	
 	function depSort(a, b){
 		if(a.dep < b.dep) return -1;
 		if(a.dep > b.dep) return 1;
@@ -74,6 +225,7 @@
 			}
 		}
 	}
+	
 	function allClick(){
 		var allChecked = $("#allCheck").prop("checked");
 		$(".chkbox").each(function(){
@@ -82,28 +234,6 @@
 			}
 		});
 	}
-	
-	$(function(){
-		
-		$(document).on("click", ".table tbody tr", function(event){
-			if(${assetListData['assetCount']} > 0){
-				if($(event.target).is(".chkbox") || $(event.target).is(".tdNonClick")){
-					return;
-				}
-				document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
-			}
-		});
-		
-	});
-	
-	$(function(){
-		var windowHeight = window.innerHeight;
-		$("#divBody").css("height", windowHeight-330);
-		$(window).resize(function(){
-			windowHeight = $(window).height();
-			$("#divBody").css("height", windowHeight-330);
-		});
-	});
 	
 	function searchFunc(){
 		alert($("#searchByName").val());
@@ -219,96 +349,6 @@
 		}
 	}
 	
-	
-	$(function(){
-		var isSearch = "${assetListData['search']}";
-		if(isSearch == "1"){
-			var keyword = "${assetListData['searchKeyword']}";
-			var mode = "${assetListData['searchMode']}";
-			var result = [];
-			if(mode == "1"){		// 자산 분류
-				var count = "${assetListData['assetCount']}";
-				$("tr:gt(0) td:nth-child(14n+3)").each(function(){
-					var index = $(this).closest("tr").find("input:eq(1)").val();
-					$("#tableBody").bootstrapTable('showRow', {'index': index, isIdField: true});
-					var name = $(this).text();
-					var match = name.match(new RegExp(keyword, 'g'));
-					if(match == null){
-						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
-						count -= 1;
-					}
-				});
-				alert(count+"개의 분류 검색됨.");
-			} else if(mode == "2"){	// 시리얼 번호
-				var count = "${assetListData['assetCount']}";
-				$("tr:gt(0) td:nth-child(14n+6)").each(function(){
-					var index = $(this).closest("tr").find("input:eq(1)").val();
-					$("#tableBody").bootstrapTable('showRow', {'index': index, isIdField: true});
-					var name = $(this).text();
-					var match = name.match(new RegExp(keyword, 'g'));
-					if(match == null){
-						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
-						count -= 1;
-					}
-				});
-				alert(count+"개의 분류 검색됨.");
-			} else if(mode == "3"){	// 구입 년도
-				var count = "${assetListData['assetCount']}";
-				$("tr:gt(0) td:nth-child(14n+7)").each(function(){
-					var index = $(this).closest("tr").find("input:eq(1)").val();
-					$("#tableBody").bootstrapTable('showRow', {'index': index, isIdField: true});
-					var name = $(this).text().slice(0,4);
-					var match = name.match(new RegExp(keyword, 'g'));
-					if(match == null){
-						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
-						count -= 1;
-					}
-				});
-				alert(count+"개의 분류 검색됨.");
-			} else if(mode == "4"){	// 관리 번호
-				var count = "${assetListData['assetCount']}";
-				$("tr:gt(0) td:nth-child(14n+2)").each(function(){
-					var index = $(this).closest("tr").find("input:eq(1)").val();
-					$("#tableBody").bootstrapTable('showRow', {'index': index, isIdField: true});
-					var name = $(this).text();
-					var match = name.match(new RegExp(keyword, 'g'));
-					if(match == null){
-						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
-						count -= 1;
-					}
-				});
-				alert(count+"개의 분류 검색됨.");
-			}
-		}
-	});
-	
-	
-	$(function(){
-		var flashmsg = "<c:out value='${msg}'/>";
-		if(flashmsg != ""){
-			alert(flashmsg);
-		}
-	});
-	 
-	$(function(){
-		$("#tableHead th").click(function(){
-			var index = $("#tableHead th").index($(event.target).closest("th"));
-			$("#tableBody th:eq("+index+") .sortable").click();
-		});
-		
-		$("#divBody").scroll(function(){
-			var scrollpos = $("#divBody").scrollLeft(); 
-			$("#divHead .fixed-table-body").scrollLeft(scrollpos);
-		});
-	});
-	
-	
-	var trName = "";
-	$(function(){
-		$("td").contextmenu(function(event){
-			trName = $(event.target).closest("tr").find("td:eq(1)").text();
-		});
-	});
 	function isAsset(){
 		var assetnum = ${assetListData['assetCount']};
 		if(assetnum == 0){
@@ -316,63 +356,7 @@
 			return;
 		}
 	}
-    var assetMenu = new BootstrapMenu('td', {
-    	actions: {
-    		assetDetail: {
-	    		name: '상세 보기',
-	    		onClick: function() {
-					isAsset();
-					document.location.href='/assetmanager/assetDetail?assetId=' + trName;
-	    		}
-    		},
-    		assetHistory: {
-	    		name: '이력 보기',
-	    		onClick: function() {
-					isAsset();
-					$("#assetHistoryForm input").val(trName); 
-					$("#assetHistoryForm").submit();
-	    		}
-    		}
-    	}
-    });
-	var generalMenu = new BootstrapMenu('.container', {
-		actionsGroups:[
-			['assetRegister', 'assetDisposeRequest'],
-			['printList', 'printReport', 'printLabel']
-		],
-		actions: {
-			assetRegister: {
-				name: '자산 등록',
-				onClick: function(){
-					location.href='/assetmanager/assetRegister';
-				}
-			},
-			assetDisposeRequest: {
-				name: '폐기 신청',
-				onClick: function(){
-					dispRequest();
-				}
-			},
-			printList: {
-				name: '목록 출력',
-				onClick: function(){
-					printList();
-				}
-			},
-			printReport: {
-				name: '보고서 출력',
-				onClick: function(){
-					printReport();
-				}
-			},
-			printLabel: {
-				name: '라벨 출력',
-				onClick: function(){
-					printLabel();
-				}
-			}
-		}
-	});
+	
 
 </script>
 	
