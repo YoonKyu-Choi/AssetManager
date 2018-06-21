@@ -94,12 +94,12 @@ public class CategoryController {
 		try {
 			int check = eService.checkRegistered("admin", checkAdminPw);
 			if (check == 1) {
-				int categoryDel = cService.deleteCategory(categoryName);
+				cService.deleteCategory(categoryName);
 				int assetDel = 0;
 				for(String assetId: aService.getAssetIdListByCategory(categoryName)) {
 					assetDel += aService.deleteAssetById(assetId);
 				}
-				int codeDel = cService.deleteCode(categoryName);
+				cService.deleteCode(categoryName);
 				redirectAttributes.addFlashAttribute("msg", assetDel + " 개 자산이 삭제되었습니다.");
 			} else {
 				redirectAttributes.addFlashAttribute("msg", "비밀번호가 맞지 않아 삭제에 실패했습니다.");

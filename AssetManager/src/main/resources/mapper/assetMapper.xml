@@ -23,14 +23,12 @@
 		<result column="ASSET_COMMENT" property="assetComment" />
 	</resultMap>
 
-	<resultMap type="com.eseict.VO.CategoryVO"
-		id="CategoryVO-result">
+	<resultMap type="com.eseict.VO.CategoryVO" id="CategoryVO-result">
 		<id column="ASSET_CATEGORY" property="assetCategory" />
 		<result column="ASSET_ITEM" property="assetItem" />
 	</resultMap>
 
-	<resultMap type="com.eseict.VO.AssetDetailVO"
-		id="AssetDetailVO-result">
+	<resultMap type="com.eseict.VO.AssetDetailVO" id="AssetDetailVO-result">
 		<id column="ASSET_ID" property="assetId" />
 		<result column="ASSET_ITEM" property="assetItem" />
 		<result column="ASSET_ITEM_DETAIL" property="assetItemDetail" />
