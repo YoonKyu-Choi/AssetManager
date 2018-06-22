@@ -70,7 +70,6 @@ public class AssetServiceImpl implements AssetService {
 		HashMap<String, Object> assetListData = new HashMap<String, Object>();
 
 		List<AssetVO> volist = aDao.getAssetList();
-
 		int assetCount = aDao.getAssetCount();
 
 		assetListData.put("assetList", volist);
@@ -134,6 +133,7 @@ public class AssetServiceImpl implements AssetService {
 		// Year,Month 한자리수일 때 형식에 맞게 수정
 		if(avo.getAssetPurchaseDate().getYear() % 100 <10) {
 			year = "0" + Integer.toString(avo.getAssetPurchaseDate().getYear() % 100); 
+			System.out.println(year);
 		} else {
 			year = Integer.toString(avo.getAssetPurchaseDate().getYear() % 100);
 		}

@@ -6,12 +6,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/jquery.mtz.monthpicker.js"></script>
-	<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>    
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
-	<link href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" rel="stylesheet"/>  
-
+	<link href="${pageContext.request.contextPath}/resources/css/jquery-ui-1-12-1.min.css" rel="stylesheet"/>  
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-ui-1-12-1.min.js"></script>
+	
 <script type="text/javascript">
 	var counts = 0;
 	var selectedFile;
@@ -68,7 +67,6 @@
     	// 달력
         $("#assetPurchaseDate").datepicker({
 			dateFormat : "yy-mm-dd",
-			dayNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
 			dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'], 
 			monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
 			changeMonth: true, 
@@ -185,7 +183,7 @@
 			// 세부사항 유효성 검사
 			for(var i=0;i<counts;i++){
 				if($("th input[id='assetItemDetail']:eq("+i+")").val() ==''){
-					alert("세부사항을 전부 입력해주세요.");
+					alert(i+1+"번째 세부사항을 전부 입력해주세요.");
 					return false;
 				}
 			}
