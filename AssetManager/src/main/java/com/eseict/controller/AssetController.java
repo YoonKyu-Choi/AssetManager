@@ -112,6 +112,7 @@ public class AssetController {
 			// 자산 등록 시 반출,수리 중이면 입력
 			if(!assetOutObjective.isEmpty() && !assetOutPurpose.isEmpty() && !assetOutCost.isEmpty() 
 					&& assetOutObjective != null && assetOutPurpose != null && assetOutCost != null) {
+		long start = System.currentTimeMillis();
 			AssetTakeOutHistoryVO atouhvo = new AssetTakeOutHistoryVO();
 			atouhvo.setAssetId(assetId);
 			atouhvo.setAssetOutStatus(avo.getAssetOutStatus());
@@ -121,14 +122,16 @@ public class AssetController {
 			atouhvo.setAssetOutCost(assetOutCost);
 			atouhvo.setAssetOutComment(assetOutComment);
 			aService.insertAssetTakeOutHistoryWhenRegister(atouhvo);
+		long end = System.currentTimeMillis();
+		System.out.println("실행 시간 : "+( end - start )/1000.0+"초");
 			}
 			
-			return "redirect:/assetList.tiles";
+			return "redirect:/assetList";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "redirect:/assetList.tiles";
+		return "redirect:/assetList";
 	}
 	
 	@RequestMapping(value = "/getCategoryDetailItem")

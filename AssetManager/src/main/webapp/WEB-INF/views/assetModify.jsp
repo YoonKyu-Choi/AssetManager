@@ -11,7 +11,6 @@
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet" />
-	<link href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" rel="stylesheet"/>  
 
 <script>
 	$(function(){
