@@ -10,23 +10,35 @@
 	<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
+    <script type="text/ecmascript" src="http://www.guriddo.net/demo/js/trirand/jquery.jqGrid.min.js"></script>
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
+    <link rel="stylesheet" media="screen" href="http://www.guriddo.net/demo/css/jquery-ui.css" />
+    <link rel="stylesheet" media="screen" href="http://www.guriddo.net/demo/css/trirand/ui.jqgrid.css" />
+
 
 <script>
 
-	var disableCount = 0;
-	var checkCount = 0;
 	var trName = "";
+	var multiSelected = false;
+	var disposeActive = true;
+	var assetCount = ${assetListData['assetCount']};
     var assetMenu = new BootstrapMenu('td', {
+    	actionsGroups:[
+			['assetDetail', 'assetHistory', 'assetDisposeRequest'],
+			['printList', 'printReport', 'printLabel']
+		],
     	actions: {
     		assetDetail: {
 	    		name: '상세 보기',
 	    		onClick: function() {
 					isAsset();
 					document.location.href='/assetmanager/assetDetail?assetId=' + trName;
-	    		}
+	    		},
+			    isShown: function(){
+					return !multiSelected;
+				}
     		},
     		assetHistory: {
 	    		name: '이력 보기',
@@ -34,27 +46,18 @@
 					isAsset();
 					$("#assetHistoryForm input").val(trName); 
 					$("#assetHistoryForm").submit();
-	    		}
-    		}
-    	}
-    });
-
-    var generalMenu = new BootstrapMenu('.container', {
-		actionsGroups:[
-			['assetRegister', 'assetDisposeRequest'],
-			['printList', 'printReport', 'printLabel']
-		],
-		actions: {
-			assetRegister: {
-				name: '자산 등록',
-				onClick: function(){
-					location.href='/assetmanager/assetRegister';
+	    		},
+			    isShown: function(){
+					return !multiSelected;
 				}
-			},
+    		},
 			assetDisposeRequest: {
 				name: '폐기 신청',
 				onClick: function(){
 					dispRequest();
+				},
+				isEnabled: function(){
+					return disposeActive;
 				}
 			},
 			printList: {
@@ -88,16 +91,6 @@
 			$("div.admin").show();
 		}
 		
-		// 테이블이 비어있을 경우 클릭 불가
-		$(document).on("click", ".table tbody tr", function(event){
-			if(${assetListData['assetCount']} > 0){
-				if($(event.target).is(".chkbox") || $(event.target).is(".tdNonClick")){
-					return;
-				}
-				document.location.href='/assetmanager/assetDetail?assetId='+$(this).data("href");
-			}
-		});
-
 		// 반응성 윈도우 크기
 		var windowHeight = window.innerHeight;
 		$("#divBody").css("height", windowHeight-330);
@@ -111,51 +104,48 @@
 		if(isSearch == "1"){
 			var keyword = "${assetListData['searchKeyword']}";
 			var mode = "${assetListData['searchMode']}";
-			var result = [];
+			var count = assetCount;
 			if(mode == "1"){		// 자산 분류
-				var count = "${assetListData['assetCount']}";
-				$("tr:gt(0) td:nth-child(14n+3)").each(function(){
+				$("#assetTable tr td:nth-child(14n+3)").each(function(){
 					var index = $(this).closest("tr").find("input:eq(1)").val();
 					var name = $(this).text();
 					var match = name.match(new RegExp(keyword, 'g'));
+					alert(name);
 					if(match == null){
-						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
+						$(this).closest("tr").hide();
 						count -= 1;
 					}
 				});
 				alert(count+"개의 분류 검색됨.");
 			} else if(mode == "2"){	// 시리얼 번호
-				var count = "${assetListData['assetCount']}";
-				$("tr:gt(0) td:nth-child(14n+6)").each(function(){
+				$("#assetTable tr td:nth-child(14n+6)").each(function(){
 					var index = $(this).closest("tr").find("input:eq(1)").val();
 					var name = $(this).text();
 					var match = name.match(new RegExp(keyword, 'g'));
 					if(match == null){
-						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
+						$(this).closest("tr").hide();
 						count -= 1;
 					}
 				});
 				alert(count+"개의 분류 검색됨.");
 			} else if(mode == "3"){	// 구입 년도
-				var count = "${assetListData['assetCount']}";
-				$("tr:gt(0) td:nth-child(14n+7)").each(function(){
+				$("#assetTable tr td:nth-child(14n+7)").each(function(){
 					var index = $(this).closest("tr").find("input:eq(1)").val();
 					var name = $(this).text().slice(0,4);
 					var match = name.match(new RegExp(keyword, 'g'));
 					if(match == null){
-						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
+						$(this).closest("tr").hide();
 						count -= 1;
 					}
 				});
 				alert(count+"개의 분류 검색됨.");
 			} else if(mode == "4"){	// 관리 번호
-				var count = "${assetListData['assetCount']}";
-				$("tr:gt(0) td:nth-child(14n+2)").each(function(){
+				$("#assetTable tr td:nth-child(14n+2)").each(function(){
 					var index = $(this).closest("tr").find("input:eq(1)").val();
 					var name = $(this).text();
 					var match = name.match(new RegExp(keyword, 'g'));
 					if(match == null){
-						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
+						$(this).closest("tr").hide();
 						count -= 1;
 					}
 				});
@@ -169,20 +159,70 @@
 			alert(flashmsg);
 		}
 
-		// 테이블 헤더 소트 연결
-		$("#tableHead th").click(function(){
-			var index = $("#tableHead th").index($(event.target).closest("th"));
-			$("#tableBody th:eq("+index+") .sortable").click();
-		});
-		
-		$("#divBody").scroll(function(){
-			var scrollpos = $("#divBody").scrollLeft(); 
-			$("#divHead .fixed-table-body").scrollLeft(scrollpos);
-		});
+		// jqGrid 포매팅
+		var myData = [];
+		<c:forEach items="${assetListData['assetList']}" var="asset">
+			var dic = {};
+			dic['assetId'] = "${asset.assetId}";
+			dic['assetCategory'] = "${asset.assetCategory}";
+			dic['assetUser'] = "${asset.assetUser}";
+			dic['assetStatus'] = "${asset.assetStatus}";
+			dic['assetSerial'] = "${asset.assetSerial}";
+			dic['assetPurchaseDate'] = "${asset.assetPurchaseDate}";
+			dic['assetPurchasePrice'] = "${asset.assetPurchasePrice}";
+			dic['assetPurchaseShop'] = "${asset.assetPurchaseShop}";
+			dic['assetMaker'] = "${asset.assetMaker}";
+			dic['assetModel'] = "${asset.assetModel}";
+			dic['assetUsage'] = "${asset.assetUsage}";
+			dic['assetManager'] = "${asset.assetManager}";
+			dic['assetLocation'] = "${asset.assetLocation}";
+			myData.push(dic);
+		</c:forEach>
 
-		// 우클릭 시 해당 행의 관리 번호를 저장
-		$("td").contextmenu(function(event){
-			trName = $(event.target).closest("tr").find("td:eq(1)").text();
+		var isSelected = false;
+		$("#assetTable").jqGrid({
+			datatype: "local",
+			data: myData,
+			height: 250,
+			rowNum: assetCount,
+			multiselect: true,
+			viewrecord: true,
+			colNames:['관리 번호', '자산 분류', '사용자', '상태', '시리얼 번호', '구매 날짜', '구매 가격', '구매처', '제조사', '모델명', '용도', '책임자', '위치'],
+			colModel:[
+				{name:'assetId',index:'assetId', width:100},
+				{name:'assetCategory',index:'assetCategory', width:80},
+				{name:'assetUser',index:'assetUser', width:60},
+				{name:'assetStatus',index:'assetStatus', width:80},
+				{name:'assetSerial',index:'assetSerial', width:120},
+				{name:'assetPurchaseDate',index:'assetPurchaseDate', width:100},
+				{name:'assetPurchasePrice',index:'assetPurchasePrice', width:100},
+				{name:'assetPurchaseShop',index:'assetPurchaseShop', width:120},
+				{name:'assetMaker',index:'assetMaker', width:120},
+				{name:'assetModel',index:'assetModel', width:120},
+				{name:'assetUsage',index:'assetUsage', width:60},
+				{name:'assetManager',index:'assetManager', width:60},
+				{name:'assetLocation',index:'assetLocation', width:40}
+			],
+			onRightClickRow: function(rowid){
+				trName = $("#assetTable").getRowData(rowid)['assetId'];
+				isSelected = $("#assetTable").find("input[type=checkbox]:eq("+(rowid-1)+")").prop("checked");
+				if(isSelected == false){
+					$("#assetTable").find("tr:eq("+rowid+")").click();
+				}
+				var selarrrow = $("#assetTable").getGridParam('selarrrow'); 
+				if(selarrrow.length > 1){
+					multiSelected = true;
+				} else{
+					multiSelected = false;
+				}
+				disposeActive = true;
+				for(i in selarrrow){
+					var assetStatus = $("#assetTable").getRowData(selarrrow[i])['assetStatus'];
+					if(assetStatus == "폐기 대기" || assetStatus == "폐기"){
+						disposeActive = false;
+					}
+				}
+			}
 		});
 		
 	});
@@ -198,41 +238,6 @@
 		if(a.rank < b.rank) return -1;
 		if(a.rank > b.rank) return 1;
 		return 0;
-	}
-	
-	function dis(chkbox){
-		var status = $(chkbox).closest("tr").find("td:eq(4)").text();
-		if(status == "폐기"){
-            if(chkbox.checked == true){
-                $("#disposalButton").prop("disabled", true);
-                disableCount += 1;
-                checkCount += 1;
-            }
-            else{
-                disableCount -= 1;
-                checkCount -= 1;
-                if(disableCount == 0){
-                    $("#disposalButton").prop("disabled", false);
-                }
-            }
-		}
-		else{
-			if(chkbox.checked == true){
-				checkCount += 1;
-			}
-			else{
-				checkCount -= 1;
-			}
-		}
-	}
-	
-	function allClick(){
-		var allChecked = $("#allCheck").prop("checked");
-		$(".chkbox").each(function(){
-			if($(this).prop("checked") != allChecked){
-				$(this).click();
-			}
-		});
 	}
 	
 	function searchFunc(){
@@ -254,104 +259,78 @@
 	}
 	
 	function printList(){
-		if(checkCount == 0){
-			alert("자산을 선택해주세요.");
+		if(!confirm('선택한 자산의 목록을 출력하겠습니까?')){
 			return false;
-		}
-		else{
-			if(!confirm('선택한 자산의 목록을 출력하겠습니까?')){
-				return false;
-			}else{
-				var printList = [];
-				$(".chkbox").each(function(){
-					if($(this).prop("checked")){
-						var id = $(this).closest("tr").find("td:eq(1)").text()
-						printList.push(id);
-					}
-				});
-				
-				$("#printArray").val(printList);
-				$("#printForm").submit();
-				
+		}else{
+			var printList = [];
+			var arr = $("#assetTable").getGridParam('selarrrow');
+			for(i in arr){
+				var rowid = arr[Number(i)];
+				var assetId = $("#assetTable").getRowData(rowid)['assetId'];
+				printList.push(assetId);
 			}
+			
+			$("#printArray").val(printList);
+			$("#printForm").submit();
+			
 		}
 	}
 	
 	function printReport(){
-		if(checkCount == 0){
-			alert("자산을 선택해주세요.");
+		if(!confirm('선택한 자산의 보고서를 출력하겠습니까?')){
 			return false;
-		}
-		else{
-			if(!confirm('선택한 자산의 보고서를 출력하겠습니까?')){
-				return false;
-			}else{
-				var printList = [];
-				$(".chkbox").each(function(){
-					if($(this).prop("checked")){
-						var id = $(this).closest("tr").find("td:eq(1)").text()
-						printList.push(id);
-					}
-				});
-				
-				$("#printReportArray").val(printList);
-				$("#printReportForm").submit();
-				
+		}else{
+			var printList = [];
+			var arr = $("#assetTable").getGridParam('selarrrow');
+			for(i in arr){
+				var rowid = arr[Number(i)];
+				var assetId = $("#assetTable").getRowData(rowid)['assetId'];
+				printList.push(assetId);
 			}
+			$("#printReportArray").val(printList);
+			$("#printReportForm").submit();
+			
 		}
 	}
 	
 	function printLabel(){
-		if(checkCount == 0){
-			alert("자산을 선택해주세요.");
+		if(!confirm('선택한 자산들의 라벨을 출력하겠습니까?')){
 			return false;
-		}
-		else{
-			if(!confirm('선택한 자산들의 라벨을 출력하겠습니까?')){
-				return false;
-			}else{
-				var printList = [];
-				$(".chkbox").each(function(){
-					if($(this).prop("checked")){
-						var id = $(this).closest("tr").find("td:eq(1)").text()
-						printList.push(id);
-					}
-				});
-				
-				$("#printLabelArray").val(printList);
-				$("#printLabelForm").submit();
-				
+		}else{
+			var printList = [];
+			var arr = $("#assetTable").getGridParam('selarrrow');
+			for(i in arr){
+				var rowid = arr[Number(i)];
+				var assetId = $("#assetTable").getRowData(rowid)['assetId'];
+				printList.push(assetId);
 			}
+			
+			$("#printLabelArray").val(printList);
+			$("#printLabelForm").submit();
+			
 		}
 	}
 	
 	function dispRequest(){
-		if(checkCount == 0){
-			alert("자산을 선택해주세요.");
+		if(!confirm('선택한 자산들을 폐기 신청하겠습니까?')){
 			return false;
-		}
-		else{
-			if(!confirm('선택한 자산들을 폐기 신청하겠습니까?')){
-				return false;
-			}else{
-				var printList = [];
-				$(".chkbox").each(function(){
-					if($(this).prop("checked")){
-						var id = $(this).closest("tr").find("td:eq(1)").text()
-						printList.push(id);
-					}
-				});
-				
-				$("#dispReqArray").val(printList);
-				$("#assetDispForm").submit();
-				
-			}
+		}else{
+			var printList = [];
+			$(".chkbox").each(function(){
+				if($(this).prop("checked")){
+					var id = $(this).closest("tr").find("td:eq(1)").text()
+					printList.push(id);
+				}
+			});
+			
+			$("#dispReqArray").val(printList);
+			$("#assetDispForm").submit();
+			
 		}
 	}
 	
 	function isAsset(){
-		var assetnum = ${assetListData['assetCount']};
-		if(assetnum == 0){
+		if(assetCount == 0){
 			alert("해당 자산이 없습니다.");
 			return;
 		}
@@ -361,30 +340,6 @@
 </script>
 	
 <style>
-	th, td {
-		text-align: center;
-		white-space: nowrap;
-	}
-	th{
-		background-color: darkgray;
-		color:white;
-	}
-	#divHead{
-		position: releative;
-		height: 40px;
-		overflow-y: scroll;
-	}
-	#divBody{
-		z-index: -1;
-		overflow-y: scroll;
-	}
-	#tableBody{
-		overflow: auto;
-		position: absolute;
-	}
-	#tableBody thead{
-		visibility: collapse;
-	}
 	.container{
 		top:0;
 		left:0;
@@ -420,77 +375,11 @@
 				<div style="margin-bottom: 10px">
 					<font size="4px">&nbsp;&nbsp;총 자산 수 : </font><span class="badge">${assetListData['assetCount']}</span>
 				</div>
-				<div id="divHead">
-				<div class="table-responsive">
-					<table class="table" data-toggle="table" id="tableHead">
-						<thead>
-							<tr>
-								<th class="tdNonClick"><input type="checkbox" style="transform:scale(1.5)" id="allCheck" onclick="allClick();"/></th>
-								<th data-sortable="true">관리 번호</th>
-								<th data-sortable="true">자산 분류</th>
-								<th data-sortable="true">사용자</th>
-								<th data-sortable="true">현재 상태</th>
-								<th data-sortable="true">시리얼 번호</th>
-								<th data-sortable="true">구매 날짜</th>
-								<th data-sortable="true">구매 가격</th>
-								<th data-sortable="true">구매처</th>
-								<th data-sortable="true">제조사</th>
-								<th data-sortable="true">모델명</th>
-								<th data-sortable="true">용도</th>
-								<th data-sortable="true">책임자</th>
-								<th data-sortable="true">사용 위치</th>
-							</tr>
-						</thead>
-						<tbody style="display:none">
-						</tbody>
-					</table>
-				</div>
-				</div>
 				
-				<div class="table-responsive" id="divBody">
-					<table class="table table-striped" id="tableBody" data-toggle="table">
-						<thead>
-							<tr>
-								<th class="tdNonClick"><input type="checkbox" style="transform:scale(1.5)" id="allCheck" onclick="allClick();"/></th>
-								<th data-sortable="true">관리 번호</th>
-								<th data-sortable="true">자산 분류</th>
-								<th data-sortable="true">사용자</th>
-								<th data-sortable="true">현재 상태</th>
-								<th data-sortable="true">시리얼 번호</th>
-								<th data-sortable="true">구매 날짜</th>
-								<th data-sortable="true">구매 가격</th>
-								<th data-sortable="true">구매처</th>
-								<th data-sortable="true">제조사</th>
-								<th data-sortable="true">모델명</th>
-								<th data-sortable="true">용도</th>
-								<th data-sortable="true">책임자</th>
-								<th data-sortable="true">사용 위치</th>
-							</tr>
-						</thead>
-						<tbody>
-						<%int index = 0; %>
-						<c:forEach items="${assetListData['assetList']}" var="asset">
-							<tr class="clickable-row" data-href="${asset.assetId}">
-								<td class="tdNonClick"><input type="checkBox" style="transform:scale(1.5)" class="chkbox" onclick="dis(this);"/></td>
-								<td>${asset.assetId}</td>
-								<td>${asset.assetCategory}</td>
-								<td>${asset.assetUser}</td>
-								<td>${asset.assetStatus}</td>
-								<td>${asset.assetSerial}</td>
-								<td>${asset.assetPurchaseDate}</td>
-								<td>${asset.assetPurchasePrice}</td>
-								<td>${asset.assetPurchaseShop}</td>
-								<td>${asset.assetMaker}</td>
-								<td>${asset.assetModel}</td>
-								<td>${asset.assetUsage}</td>
-								<td>${asset.assetManager}</td>
-								<td>${asset.assetLocation}<input type="hidden" value="<%=index %>"></td>
-							</tr>
-							<%index += 1; %>
-						</c:forEach>
-						</tbody>
-					</table>
+				<div style="overflow: auto">
+				<table id="assetTable"></table>
 				</div>
+
 				<form id="assetHistoryForm" action="assetHistory" method="post">
 					<input type="hidden" name="assetId"/>
 				</form>
@@ -507,23 +396,10 @@
 					<input type="hidden" id="dispReqArray" name="assetIdList"/>
 				</form>
 
-<!-- 
-				<div style="display:flex; float: left; margin-top: 10px">
-					<button class="btn btn-lg btn-primary" onclick="printList();" >목록 출력</button>
-				</div>
-				<div style="display:flex; float: left; margin-top: 10px">
-					<button class="btn btn-lg btn-primary" onclick="printReport();" >보고서 출력</button>
-				</div>
-				<div style="display:flex; float: left; margin-top: 10px">
-					<button class="btn btn-lg btn-primary" onclick="printLabel();" >라벨 출력</button>
-				</div>
 				<div style="display:flex; float:right; margin-top: 10px">
 					<button class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetRegister';">자산 등록</button>
-					<div class="admin"> 
-						<button class="btn btn-lg btn-primary" id="disposalButton"onclick="dispRequest();">폐기 신청</button>
-					</div>
 				</div>
--->				
+				
 			</div>
 		</div>
 	</div>
