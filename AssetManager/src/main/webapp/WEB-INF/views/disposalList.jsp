@@ -277,6 +277,7 @@
 				});
 				
 				$("#printReportArray").val(printList);
+				console.log($("#printReportArray").val());
 				$("#printReportForm").submit();
 				
 			}
