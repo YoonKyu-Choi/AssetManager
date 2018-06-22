@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,6 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<title>ESE 자산관리시스템</title>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"></script>
 <style>
 
 footer {
@@ -65,7 +68,7 @@ li a:hover {
 			<tiles:insertAttribute name="adminHeader" />
 		</div>
 	</header>
-	<c:if test='${sessionScope.isAdmin != "TRUE" }'>
+	<c:if test='${sessionScope.isAdmin == "TRUE" }'>
 	<ul>
 		<li id="systemlogo"><font>자산관리시스템</font></li>
 		<li><a id="asstLink" href="/assetmanager/assetList">자산 관리</a></li>
@@ -74,12 +77,12 @@ li a:hover {
 		<li><a id="catgLink" href="/assetmanager/categoryList">분류 관리</a></li>
 	</ul>
 	</c:if>
-	<c:if test='${sessionScope.isAdmin == "TRUE" }'>
+	<c:if test='${sessionScope.isAdmin != "TRUE" }'>
 	<ul>
 		<li id="systemlogo"><font>자산관리시스템</font></li>
 		<li><a id="asstLink" href="/assetmanager/assetList">자산 관리</a></li>
-		<li><a id="userLink" href="/assetmanager/userList">내 정보</a></li>
-		<li><a id="dispLink" href="/assetmanager/disposalList">My 자산</a></li>
+		<li><a id="myUserLink" href="userDetail?employeeSeq=<%=session.getAttribute("employeeSeq")%>">내 정보</a></li>
+		<li><a id="myAssetLink" href="/assetmanager/disposalList">My 자산</a></li>
 	</ul>
 	</c:if>
 	<div class="container">

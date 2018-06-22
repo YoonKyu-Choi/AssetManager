@@ -66,8 +66,8 @@ public class UserController {
 	public ModelAndView userDetail(RedirectAttributes redirectAttributes
 								 , @RequestParam int employeeSeq) {
 		try {
-			EmployeeVO evo = eService.selectEmployeeByEmployeeSeq(employeeSeq);
-			return new ModelAndView("userDetail.tiles", "employeeVO", evo);
+				EmployeeVO evo = eService.selectEmployeeByEmployeeSeq(employeeSeq);
+				return new ModelAndView("userDetail.tiles", "employeeVO", evo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

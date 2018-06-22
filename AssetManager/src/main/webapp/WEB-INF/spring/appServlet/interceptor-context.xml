@@ -24,7 +24,6 @@
 		<!-- 로그인한 사람인데 아이디가 admin인 사람에 대한 권한 (관리자 권한) -->
 		<mvc:interceptor>
 			<mvc:mapping path="/userList"/>
-			<mvc:mapping path="/userDetail"/>
 			<mvc:mapping path="/userDelete"/>
 			<mvc:mapping path="/userModify"/>
 			<mvc:mapping path="/userModifyConfirm"/>

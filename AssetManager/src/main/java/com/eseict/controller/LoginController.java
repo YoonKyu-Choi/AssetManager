@@ -42,6 +42,7 @@ public class LoginController {
 					session.setAttribute("isAdmin", "TRUE");
 				}
 				session.setAttribute("isUser", "TRUE");
+				session.setAttribute("employeeSeq", eService.getEmployeeSeqByEmpId(inputId));
 			}
 			session.setAttribute("Id", inputId);
 			return Integer.toString(check);
