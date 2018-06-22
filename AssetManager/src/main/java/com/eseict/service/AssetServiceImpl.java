@@ -20,7 +20,6 @@ import com.eseict.VO.AssetFormerUserVO;
 import com.eseict.VO.AssetHistoryVO;
 import com.eseict.VO.AssetTakeOutHistoryVO;
 import com.eseict.VO.AssetVO;
-import com.eseict.VO.CategoryCodeVO;
 import com.eseict.VO.CategoryVO;
 
 @Service
@@ -73,29 +72,16 @@ public class AssetServiceImpl implements AssetService {
 		List<AssetVO> volist = aDao.getAssetList();
 
 		int assetCount = aDao.getAssetCount();
-		int assetCountByDispReady = aDao.getAssetCountByDispReady();
-		int assetCountByDisposal = aDao.getAssetCountByDisposal();
 
 		assetListData.put("assetList", volist);
 		assetListData.put("assetCount", assetCount);
-		assetListData.put("assetCountByDispReady", assetCountByDispReady);
-		assetListData.put("assetCountByDisposal", assetCountByDisposal);
 		
-		/* 검색하다가 일단 정지 
 		HashMap<AssetVO, List<String>> assetItemList = new HashMap<AssetVO, List<String>>();
-		int columnSize = 0;
 		for(AssetVO category: volist) {
 			assetItemList.put(category, aDao.getAssetCategoryByName(category.getAssetCategory()));
 		}
 		
-		for(AssetVO key: assetItemList.keySet()) {
-			int items = assetItemList.get(key).size();
-			if(columnSize < items) {
-				columnSize = items;
-			}
-		}
 		assetListData.put("assetItemList", assetItemList);
-		assetListData.put("columnSize", columnSize);
 		assetListData.put("assetCount", volist.size());
 		
 		if(searchKeyword != null) {
@@ -105,7 +91,6 @@ public class AssetServiceImpl implements AssetService {
 		} else {
 			assetListData.put("search", "0");
 		}
-		*/
 		return new ModelAndView("assetList.tiles", "assetListData", assetListData);
 	}
 

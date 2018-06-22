@@ -37,7 +37,7 @@ public class DisposalController {
 	public String disposeAsset(RedirectAttributes redirectAttributes
 							 , @RequestParam String[] disposeArray) {
 		try {
-			int dispose = dService.disposeAsset(disposeArray);
+			dService.disposeAsset(disposeArray);
 			
 			redirectAttributes.addFlashAttribute("msg", disposeArray.length+"개의 자산이 폐기 처리 되었습니다.");
 			return "redirect:disposalList";

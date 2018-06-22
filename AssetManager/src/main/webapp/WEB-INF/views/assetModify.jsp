@@ -1,14 +1,24 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
-<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>    
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet" />
+	<link href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" rel="stylesheet"/>  
+
 <script>
-	$(function() {
+	$(function(){
+		// 사이드바 활성화
+		$("#asstLink").prop("class", "active");
+
+		// 기존 설정
 		$("#assetUser").val("${model['assetVO']['assetUser']}").prop("selected", true);
 		$("#assetStatus").val("${model['assetVO']['assetStatus']}").prop("selected", true);
 		$("#assetOutStatus").val("${model['assetVO']['assetOutStatus']}").prop("selected", true);
@@ -17,11 +27,26 @@
 		$("#assetLocation").val("${model['assetVO']['assetLocation']}").prop("selected", true);
 		$("#uploadImage").on("change",handleImgFileSelect);
 			var windowHeight = window.innerHeight;
+
+		// 반응성 윈도우 사이즈	
 		$(".table-responsive").css("height", windowHeight-350);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
 			$(".table-responsive").css("height", windowHeight-300);
 		});
+
+		// 달력
+		$("#assetPurchaseDate").datepicker({
+			dateFormat : "yy-mm-dd",
+			dayNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
+			dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'], 
+			monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+			changeMonth: true, 
+			changeYear: true,
+			nextText: '다음 달',
+			prevText: '이전 달' 
+       });
+	
 	});
 			
 	function handleImgFileSelect(e){
@@ -85,7 +110,6 @@
 	}
 	
 	function submitCheck() {
-		
 		if (!confirm("수정하겠습니까?")) {
 			return false;
 		} else {
@@ -176,60 +200,70 @@
     function fn_press_han(obj)
     {
         //좌우 방향키, 백스페이스, 딜리트, 탭키에 대한 예외
-        if(event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39
-        || event.keyCode == 46 ){
+        if(event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 46 ){
             return;
         }
         obj.value = obj.value.replace(/[\ㄱ-ㅎㅏ-ㅣ가-힣]/g, '');
     }
     
-    $(function() {
-        $("#assetPurchaseDate").datepicker({
-        	 dateFormat : "yy-mm-dd",
-        	 dayNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
-             dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'], 
-             monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-        	 changeMonth: true, 
-             changeYear: true,
-             nextText: '다음 달',
-             prevText: '이전 달' 
-        });
-    });
-
 </script>
-<style>
-.form-controlmin {
-	  display: block;
-	  width: 60%;
-	  height: 32px;
-	  padding: 6px 12px;
-	  font-size: 14px;
-	  line-height: 1.42857143;
-	  color: #555;
-	  background-color: #fff;
-	  background-image: none;
-	  border: 1px solid #ccc;
-	  border-radius: 4px;
-	  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-	          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-	  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-	       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-	          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-	}
 
+<style>
+	.form-controlmin {
+		display: block;
+		height: 32px;
+		padding: 6px 12px;
+		font-size: 14px;
+		line-height: 1.42857143;
+		color: #555;
+		background-color: #fff;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+		        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+		-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+		     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+		        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	}
+	.container{
+		top:0;
+		left:0;
+		bottom:0;
+		right:0;
+		height:100%;
+		width:100%;
+		margin-top: 1%;
+	}
+	.main{
+		margin-left: 13%;
+		width: 76%;
+	}
+	th:nth-child(4n+1), th:nth-child(4n+3){
+		width: 25%;
+		font-weight: bold;
+	}
+	th:nth-child(4n+2), th:nth-child(4n+4){
+		width: 25%;
+		font-weight: normal;
+	}
+	hr {
+		height: 1px;
+		width: 100%;
+		border: 1;
+		background-color: gray;
+		background-image: linear-gradient(to right, #ccc, #333, #ccc);
+	}
 </style>
 </head>
 <body>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<form class="form" action="/assetmanager/assetModifySend"
-					id="modifySend" method="POST" enctype="multipart/form-data">
+				<form class="form" action="/assetmanager/assetModifySend" id="modifySend" method="POST" enctype="multipart/form-data">
 					<h1 class="page-header">
-						<b>자산 관리 > ${model['assetVO']['assetId']}의 자산 정보 수정</b>
+						<font size="6px"><b># 자산 정보 수정</b></font>
 					</h1>
-					<div class="table-responsive" id="inputDiv"
-						style="overflow: scroll; height: 500px;">
+					<div class="table-responsive" id="inputDiv"	style="overflow: scroll; height: 500px;">
 						<h3>자산 공통사항</h3>
 						<table class="table table-striped" id="assetTable">
 							<tr>
@@ -240,13 +274,13 @@
 									<select class="form-controlmin dropdown" name="assetUser" id="assetUser">
 										<option value="0">사용자를 선택하세요.</option>
 										<c:forEach items="${model['employeeNameList']}" var="employee">
-											<option value="${employee.employee_id}">${employee.employee_name}(${employee.employee_department_string})</option>
+											<option value="${employee.employee_id}">${employee.employee_name} (${employee.employee_department_string})</option>
 										</c:forEach>
 									</select>
 								</th>
 							</tr>
-								<input type="hidden" id="employeeId" name="employeeId" value='<%=session.getAttribute("Id")%>'>
-								<input type="hidden" id="assetCategory" name="assetCategory" value="${model['assetVO']['assetCategory']}">
+							<input type="hidden" id="employeeId" name="employeeId" value='<%=session.getAttribute("Id")%>'>
+							<input type="hidden" id="assetCategory" name="assetCategory" value="${model['assetVO']['assetCategory']}">
 							<tr>
 								<th>관리 번호</th>
 								<th>${model['assetVO']['assetId']}</th>
@@ -274,9 +308,10 @@
 										<option value="고장">고장</option>
 								</select></th>
 							</tr>
+							<input type="hidden" id="assetPurchaseDate" name="assetPurchaseDate" value="${model['assetVO']['assetPurchaseDate']}" >
 							<tr>
 								<th>구입일</th>
-								<th><input type="text" id="assetPurchaseDate" name="assetPurchaseDate" value="${model['assetVO']['assetPurchaseDate']}" readonly></th>
+								<th> ${model['assetVO']['assetPurchaseDate']}</th>
 								<th>제조사</th>
 								<th><input type="text" id="assetMaker" name="assetMaker" value="${model['assetVO']['assetMaker']}"></th>
 							</tr>
@@ -301,7 +336,7 @@
 								<th><select class="form-controlmin dropdown" name="assetManager" id="assetManager">
 										<option value="0">책임자를 선택하세요.</option>
 										<c:forEach items="${model['employeeNameList']}" var="employee">
-											<option value="${employee.employee_id}">${employee.employee_name}(${employee.employee_department_string})</option>
+											<option value="${employee.employee_id}">${employee.employee_name} (${employee.employee_department_string})</option>
 										</c:forEach>
 								</select></th>
 								<th>사용 위치</th>
@@ -312,20 +347,24 @@
 								</select></th>
 							</tr>
 						</table>
+						<hr>
 						<h3>자산 세부사항</h3>
 						<table class="table table-striped">
 							<c:forEach items="${model['assetDetailList']}" varStatus="i" step="2" end="${model['dSize']}">
 								<c:if test="${model['assetDetailList'][i.index+1]['assetItem'] !=null}">
+									<input type="hidden" id="assetItem" name="assetItem" value="${model['assetDetailList'][i.index]['assetItem']}">
+									<input type="hidden" id="assetItem" name="assetItem" value="${model['assetDetailList'][i.index+1]['assetItem']}">
 									<tr>
-										<th><input type="text" id="assetItem" name="assetItem" value="${model['assetDetailList'][i.index]['assetItem']}" readonly></th>
+										<th>${model['assetDetailList'][i.index]['assetItem']}</th>
 										<th><input type="text" id="assetItemDetail" name="assetItemDetail" value="${model['assetDetailList'][i.index]['assetItemDetail']}"></th>
-										<th><input type="text" id="assetItem" name="assetItem" value="${model['assetDetailList'][i.index+1]['assetItem']}" readonly></th>
+										<th>${model['assetDetailList'][i.index+1]['assetItem']}</th>
 										<th><input type="text" id="assetItemDetail" name="assetItemDetail" value="${model['assetDetailList'][i.index+1]['assetItemDetail']}"></th>
 									</tr>
 								</c:if>
 								<c:if test="${model['assetDetailList'][i.index+1]['assetItem'] ==null }">
+									<input type="hidden" id="assetItem" name="assetItem" value="${model['assetDetailList'][i.index]['assetItem']}">
 									<tr>
-										<th><input type="text" id="assetItem" name="assetItem" value="${model['assetDetailList'][i.index]['assetItem']}" readonly></th>
+										<th>${model['assetDetailList'][i.index]['assetItem']}</th>
 										<th><input type="text" id="assetItemDetail" name="assetItemDetail" value="${model['assetDetailList'][i.index]['assetItemDetail']}"></th>
 										<th></th>
 										<th></th>
@@ -335,6 +374,7 @@
 						</table>
 						<input type="hidden" id="items" name="items">
 					 	<input type="hidden" id="itemsDetail" name="itemsDetail">
+					 	<hr>
 						<div>
 							<c:if test="${assetData['assetVO']['assetReceiptUrl'] !=null && assetData['assetVO']['assetReceiptUrl'] != ''}">
 								<h3>기존 영수증 사진</h3><br>
@@ -349,6 +389,7 @@
 						<div class="img_wrap" style="display: flex;">
 							<img id="img" />
 						</div>
+						<hr>
 						<div style="margin-top:50px; margin-bottom:30px;">
 						<h3>자산 코멘트</h3>
 						<textArea name="assetComment" id="assetComment" style="resize: none; width: 600px; height: 200px" rows="10" cols="40" onKeyUp="javascript:byteCheck(this,'999')">${model['assetVO']['assetComment']}</textArea>
@@ -356,15 +397,15 @@
 						</div>
 					</div>
 				</form>
-			</div>
-			<form id="cancelForm" action="assetDetail" method="POST">
-				<input type="hidden" name="assetId" value="${model['assetVO']['assetId']}" />
-			</form>
-			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
-			<div style="display: flex; float: right">
-				<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="submitCheck();">수정</button>
-				<button class="btn btn-lg btn-primary" onclick="cancelConfirm();">취소</button>
-				<div class="mask"></div>
+				<form id="cancelForm" action="assetDetail" method="POST">
+					<input type="hidden" name="assetId" value="${model['assetVO']['assetId']}" />
+				</form>
+				<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
+				<div style="display: flex; float: right">
+					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="submitCheck();">수정</button>
+					<button class="btn btn-lg btn-primary" onclick="cancelConfirm();">취소</button>
+					<div class="mask"></div>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -70,7 +70,6 @@ public class PrintServiceImpl implements PrintService {
 			try {
 				vo = aDao.getAssetByAssetId(assetId);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			avoList.add(vo);
@@ -169,7 +168,6 @@ public class PrintServiceImpl implements PrintService {
 					try {
 						advoList = aDao.getAssetDetailByAssetId(vo.getAssetId());
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					for(AssetDetailVO advo: advoList) {
@@ -301,7 +299,6 @@ public class PrintServiceImpl implements PrintService {
 			try {
 				vo = aDao.getAssetByAssetId(assetId);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -423,7 +420,6 @@ public class PrintServiceImpl implements PrintService {
 			try {
 				advo = aDao.getAssetDetailByAssetId(assetId);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			int i = 0;
@@ -661,7 +657,6 @@ public class PrintServiceImpl implements PrintService {
 			try {
 				vo = aDao.getAssetByAssetId(assetId);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			

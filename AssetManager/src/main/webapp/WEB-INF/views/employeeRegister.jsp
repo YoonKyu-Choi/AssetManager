@@ -1,21 +1,27 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<meta name="description" content="">
-<meta name="author" content="">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>이에스이 자산관리시스템</title>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"></script>
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/signin.css" rel="stylesheet">
 
-<!-- Bootstrap core CSS -->
-<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
-<!-- Custom styles for this template -->
-<link href="${pageContext.request.contextPath}/resources/css/signin.css" rel="stylesheet">
-<script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
+<script>
+	$(function(){
+		// 권한별 버튼 보이기
+		var isAdmin = "<%=session.getAttribute("isAdmin") %>";
+		if(isAdmin == "TRUE"){
+			$(".admin").show();
+		}
+		
+		// 드롭다운 사이즈 조정
+		var left = $('#rank').height();
+		var right = $('.dropdown').height();
+		$('.dropdown').height(left);
+	});
 
-<script type="text/javascript">
 	function idCheck() {
 		var id = $('#employeeId').val();
 		$.ajax({
@@ -113,25 +119,17 @@
 			return false;
 		};
 	}
-	$(function(){
-		var isAdmin = "<%=session.getAttribute("isAdmin") %>";
-		if(isAdmin == "TRUE"){
-			$(".admin").show();
-		}
-	});
-	$(function(){
-		var left = $('#rank').height();
-		var right = $('.dropdown').height();
-		$('.dropdown').height(left);
-	});
+
 	function registerCancel(){
 		var isAdmin = "<%=session.getAttribute("isAdmin")%>"; 
-		if(isAdmin == "TRUE")
+		if(isAdmin == "TRUE"){
 			location.href='/assetmanager/userList';
-		else
+		} else{
 			location.href='/assetmanager/';
+		}
 	}
 </script>
+
 </head>
 
 <body>
@@ -172,22 +170,25 @@
 					<select class="form-control dropdown" id="employeeDepartment" name="employeeDepartment">
 						<option value="0">소속을 선택하세요</option>
 						<option value="1">이에스이</option>
-						<option value="2">　└ 경영전략기획실</option>
+						<option value="2">　└ 경영지원본부</option>
 						<option value="3">　　└ 관리팀</option>
-						<option value="4">　　└ 경영전략팀</option>
-						<option value="5">　└ 품질관리팀</option>
-						<option value="6">　└ 리노기술연구소</option>
-						<option value="7">　　└ 연구개발1팀</option>
-						<option value="8">　　└ 연구개발2팀</option>
-						<option value="9">　└ 스마트사업본부</option>
-						<option value="10">　　└ 전략사업TF</option>
-						<option value="11">　　└ 스마트시티팀</option>
-						<option value="12">　　└ 스마트타운팀</option>
-						<option value="13">　　└ 중국지사</option>
-						<option value="14">　└ 스마트TS본부</option>
-						<option value="15">　　└ TS1팀</option>
-						<option value="16">　　└ TS2팀</option>
-						<option value="17">　　└ TS3팀</option>
+						<option value="4">　└ 전략사업본부</option>
+						<option value="5">　　└ 본사</option>
+						<option value="6">　　└ 중국지사</option>
+						<option value="7">　└ 솔루션영업본부</option>
+						<option value="8">　　└ 영업팀</option>
+						<option value="9">　　└ 사업전략팀</option>
+						<option value="10">　└ 솔루션사업본부</option>
+						<option value="11">　　└ 기획팀</option>
+						<option value="12">　　└ 솔루션개발팀</option>
+						<option value="13">　　└ 사업수행팀</option>
+						<option value="14">　└ 기술연구소</option>
+						<option value="15">　　└ 연구1팀</option>
+						<option value="16">　　└ 연구2팀</option>
+						<option value="17">　　└ 품질관리팀</option>
+						<option value="18">　└ 개발사업본부</option>
+						<option value="19">　　└ 개발1팀</option>
+						<option value="20">　　└ 개발2팀</option>
 					</select> 
 					<select class="form-control dropdown" id="employeeLocation" name="employeeLocation">
 						<option value="0">위치를 선택하세요</option>

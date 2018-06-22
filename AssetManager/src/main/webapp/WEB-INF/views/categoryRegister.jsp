@@ -1,31 +1,29 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<meta name="description" content="">
-<meta name="author" content="">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>사용자 상세보기</title>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet">
 
-<!-- Bootstrap core CSS -->
-<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
-<!-- Custom styles for this template -->
-<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
-<script src="${pageContext.request.contextPath}/resources/js/jquery-2-1-1.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
-<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet" />
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 <script>
 	var plusCount = 0;
+	var codeChecked = false;
+
 	$(function(){
-		$(document).on("click", "#addItem", function(){
+		// 사이드바 활성화
+		$("#catgLink").prop("class", "active");
+		
+		// 세부사항 추가제거
+		$("#addItem").click(function(){
 			plusCount += 1;
 			if(plusCount % 2 == 1){
 				$("#itemTable tr:last td:last").before('<td style="width: 50%"><input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="width: 80%" value="" maxlength="33"/></td>');
@@ -36,7 +34,7 @@
 			}
 		});
 		
-		$(document).on("click", ".removeItem", function(event){
+		$(".removeItem").click(function(event){
 			plusCount -= 1;
 			var index = $("tr").index($(event.target).closest("tr"));
 			$(event.target).closest("td").remove();
@@ -47,9 +45,16 @@
 				$("tr:last").remove();
 			}
 		})
+
+		// 반응성 윈도우 사이즈
+		var windowHeight = window.innerHeight;
+		$(".table-responsive").css("height", windowHeight-400);
+		$(window).resize(function(){
+			windowHeight = $(window).height();
+			$(".table-responsive").css("height", windowHeight-400);
+		});
+
 	});
-	
-	var codeChecked = false;
 	
 	function categoryRegister(){
 		var items = [];
@@ -127,25 +132,27 @@
 	    var jung = ((cCode - jong) / 28) % 21;
 	    var cho = (((cCode - jong) / 28 ) - jung ) / 21;
 	    if(cho == 11){
-	    	if([0,1].includes(jung))
+	    	if([0,1].includes(jung)){
 	    		eCho[11] = 'A';
-	    	else if([2, 3, 6, 7, 12, 17].includes(jung))
+	    	} else if([2, 3, 6, 7, 12, 17].includes(jung)){
 	    		eCho[11] = 'Y';
-	    	else if([4, 13, 18, 19].includes(jung))
+	    	} else if([4, 13, 18, 19].includes(jung)){
 	    		eCho[11] = 'U';
-	    	else if(jung == 5)
+	    	} else if(jung == 5){
 	    		eCho[11] = 'E';
-	    	else if(jung == 8)
+	    	} else if(jung == 8){
 	    		eCho[11] = 'O';
-	    	else if([9, 10, 11, 14, 15, 16].includes(jung))
+	    	} else if([9, 10, 11, 14, 15, 16].includes(jung)){
 	    		eCho[11] = 'W';
-	    	else if(jung == 20)
+	    	} else if(jung == 20){
 	    		eCho[11] = 'I';
+	    	}
 	    }
-	    if(cCode < 0)
+	    if(cCode < 0){
 	    	return hCho[str.charCodeAt(0)];
-	    else
-	    	return eCho[cho]; 
+	    } else{
+	    	return eCho[cho];
+	    }
 	}
 	
 	function alphabetOnly(){
@@ -195,22 +202,32 @@
 
 	}
 	
-	$(function(){
-		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-400);
-		$(window).resize(function(){
-			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-400);
-		});
-	});
 </script>
+
+<style>
+	.container{
+		top:0;
+		left:0;
+		bottom:0;
+		right:0;
+		height:100%;
+		width:100%;
+		margin-top: 1%;
+	}
+	.main{
+		margin-left: 13%;
+		width: 76%;
+	}
+</style>
 
 </head>
 <body>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<h1 class="page-header"><b>분류 관리 > 새로운 분류 등록</b></h1>
+				<h1 class="page-header">
+					<font size="6px"><b># 분류 등록</b></font>
+				</h1>
 				<div style="margin-bottom: 10px">
 					<div style="float: left; display:inline-block;">
 						<form id="category" action="categoryRegisterSend" method="post">

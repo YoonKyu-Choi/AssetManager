@@ -1,7 +1,5 @@
 package com.eseict.controller;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -75,8 +73,15 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/logout")
-	public String logout(HttpSession session) {
-		session.invalidate();
-		return "redirect:/";
+	public String logout(RedirectAttributes redirectAttributes
+					   , HttpSession session
+					   , @RequestParam(value="logoutBtnClick", required=false) String logoutBtnClick) {
+		if(logoutBtnClick!=null && logoutBtnClick.equals("true")) {
+			session.invalidate();
+			return "redirect:/";
+		} else {
+			redirectAttributes.addFlashAttribute("msg", "잘못된 방식의 로그아웃입니다.");
+			return "redirect:/assetList";
+		}
 	}
 }
