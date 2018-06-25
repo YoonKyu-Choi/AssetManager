@@ -69,7 +69,7 @@
 
 		// 테이블이 비어있을 경우 클릭 불가
 		$(".table-responsive").on("click", ".table tbody tr", function(){
-			if(${disposalListData['assetCountByDispReady']} + ${disposalListData['assetCountByDisposal']} > 0){
+			if(Number("${disposalListData['assetCountByDispReady']}") + Number("${disposalListData['assetCountByDisposal']}") > 0){
 				if($(event.target).is(".chkbox")){
 					return;
 				}
@@ -361,84 +361,8 @@
 					<font size="4px">&nbsp;&nbsp;폐기 : </font><span class="badge">${disposalListData['assetCountByDisposal']}</span>
 				</div>
 
-				<div id="divHead">
-				<div class="table-responsive">
-					<table class="table table-striped" data-toggle="table" id="tableHead">
-						<thead>
-							<tr>
-								<th><input type="checkbox" style="transform:scale(1.5)" onclick="allClick();"/></th>
-								<th data-sortable="true" data-field="status">현재 상태</th>
-								<th data-sortable="true">관리번호</th>
-								<th data-sortable="true">자산 분류</th>
-								<th data-sortable="true">사용자</th>
-								<th data-sortable="true">반출</th>
-								<th data-sortable="true">SID</th>
-								<th data-sortable="true">구입일</th>
-								<th data-sortable="true">구입가</th>
-								<th data-sortable="true">구입처</th>
-								<th data-sortable="true">제조사</th>
-								<th data-sortable="true">모델명</th>
-								<th data-sortable="true">용도</th>
-								<th data-sortable="true">관리자</th>
-								<th data-sortable="true">위치</th>
-								<th data-sortable="true">추가사항</th>
-							</tr>
-						</thead>
-						
-						<tbody style="display:none">
-						</tbody>
-					</table>
-				</div>
-				</div>
-
-				<div class="table-responsive" id="divBody">
-					<table class="table table-striped" data-toggle="table" id="tableBody">
-						<thead>
-							<tr>
-								<th><input type="checkbox" style="transform:scale(1.5)" onclick="allClick();"/></th>
-								<th data-sortable="true" data-field="status">현재 상태</th>
-								<th data-sortable="true">관리번호</th>
-								<th data-sortable="true">자산 분류</th>
-								<th data-sortable="true">사용자</th>
-								<th data-sortable="true">반출</th>
-								<th data-sortable="true">SID</th>
-								<th data-sortable="true">구입일</th>
-								<th data-sortable="true">구입가</th>
-								<th data-sortable="true">구입처</th>
-								<th data-sortable="true">제조사</th>
-								<th data-sortable="true">모델명</th>
-								<th data-sortable="true">용도</th>
-								<th data-sortable="true">관리자</th>
-								<th data-sortable="true">위치</th>
-								<th data-sortable="true">추가사항</th>
-							</tr>
-						</thead>
-						
-						<tbody>
-						<%int index = 0; %>
-						<c:forEach items="${disposalListData['assetList']}" var="asset">
-							<tr class="clickable-row" data-href="${asset.assetId}">
-								<td><input type="checkBox" style="transform:scale(1.5)" class="chkbox" onclick="dis(this);"/></td>
-								<td>${asset.assetStatus}</td>
-								<td>${asset.assetId}</td>
-								<td>${asset.assetCategory}</td>
-								<td>${asset.assetUser}</td>
-								<td>${asset.assetOutStatus}</td>
-								<td>${asset.assetSerial}</td>
-								<td>${asset.assetPurchaseDate}</td>
-								<td>${asset.assetPurchasePrice}</td>
-								<td>${asset.assetPurchaseShop}</td>
-								<td>${asset.assetMaker}</td>
-								<td>${asset.assetModel}</td>
-								<td>${asset.assetUsage}</td>
-								<td>${asset.assetManager}</td>
-								<td>${asset.assetLocation}</td>
-								<td>${asset.assetComment}<input type="hidden" value="<%=index %>"></td>
-							</tr>
-							<%index += 1; %>
-						</c:forEach>
-						</tbody>
-					</table>
+				<div style="overflow: auto">
+				<table id="assetTable"></table>
 				</div>
 				
 				<form id="assetHistoryForm" action="assetHistory" method="post">
@@ -447,16 +371,10 @@
 				<form id="printForm" action="printList" method="post">
 					<input type="hidden" id="printArray" name="assetIdList"/>
 				</form>
-				<div style="display:flex; float: left; margin-top: 10px">
-					<button class="btn btn-lg btn-primary" onclick="printList();" >목록 출력</button>
-				</div>
 
 				<form id="printReportForm" action="printReport" method="post">
 					<input type="hidden" id="printReportArray" name="assetIdList"/>
 				</form>
-				<div style="display:flex; float: left; margin-top: 10px">
-					<button class="btn btn-lg btn-primary" onclick="printReport();" >보고서 출력</button>
-				</div>
 				
 				<form id="disposeForm" action="disposeAsset" method="post">
 					<input type="hidden" id="disposeArray" name="disposeArray"/>

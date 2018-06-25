@@ -10,12 +10,12 @@
 	<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
-    <script type="text/ecmascript" src="http://www.guriddo.net/demo/js/trirand/jquery.jqGrid.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery.jqGrid.min.js"></script>
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
-    <link rel="stylesheet" media="screen" href="http://www.guriddo.net/demo/css/jquery-ui.css" />
-    <link rel="stylesheet" media="screen" href="http://www.guriddo.net/demo/css/trirand/ui.jqgrid.css" />
+	<link href="${pageContext.request.contextPath}/resources/css/jquery-ui.css" rel="stylesheet"/>
+	<link href="${pageContext.request.contextPath}/resources/css/ui.jqgrid.css" rel="stylesheet"/>
 
 
 <script>
@@ -98,60 +98,6 @@
 			windowHeight = $(window).height();
 			$("#divBody").css("height", windowHeight-330);
 		});
-
-		// 검색
-		var isSearch = "${assetListData['search']}";
-		if(isSearch == "1"){
-			var keyword = "${assetListData['searchKeyword']}";
-			var mode = "${assetListData['searchMode']}";
-			var count = assetCount;
-			if(mode == "1"){		// 자산 분류
-				$("#assetTable tr td:nth-child(14n+3)").each(function(){
-					var index = $(this).closest("tr").find("input:eq(1)").val();
-					var name = $(this).text();
-					var match = name.match(new RegExp(keyword, 'g'));
-					alert(name);
-					if(match == null){
-						$(this).closest("tr").hide();
-						count -= 1;
-					}
-				});
-				alert(count+"개의 분류 검색됨.");
-			} else if(mode == "2"){	// 시리얼 번호
-				$("#assetTable tr td:nth-child(14n+6)").each(function(){
-					var index = $(this).closest("tr").find("input:eq(1)").val();
-					var name = $(this).text();
-					var match = name.match(new RegExp(keyword, 'g'));
-					if(match == null){
-						$(this).closest("tr").hide();
-						count -= 1;
-					}
-				});
-				alert(count+"개의 분류 검색됨.");
-			} else if(mode == "3"){	// 구입 년도
-				$("#assetTable tr td:nth-child(14n+7)").each(function(){
-					var index = $(this).closest("tr").find("input:eq(1)").val();
-					var name = $(this).text().slice(0,4);
-					var match = name.match(new RegExp(keyword, 'g'));
-					if(match == null){
-						$(this).closest("tr").hide();
-						count -= 1;
-					}
-				});
-				alert(count+"개의 분류 검색됨.");
-			} else if(mode == "4"){	// 관리 번호
-				$("#assetTable tr td:nth-child(14n+2)").each(function(){
-					var index = $(this).closest("tr").find("input:eq(1)").val();
-					var name = $(this).text();
-					var match = name.match(new RegExp(keyword, 'g'));
-					if(match == null){
-						$(this).closest("tr").hide();
-						count -= 1;
-					}
-				});
-				alert(count+"개의 분류 검색됨.");
-			}
-		}
 		
 		// 플래시 메시지
 		var flashmsg = "<c:out value='${msg}'/>";
@@ -159,24 +105,83 @@
 			alert(flashmsg);
 		}
 
+		
+		// 검색
+		var isSearch = "${assetListData['search']}";
+		var assetListData = [];
+		if(isSearch == "1"){
+			var keyword = "${assetListData['searchKeyword']}";
+			var mode = "${assetListData['searchMode']}";
+			var count = 0;
+			if(mode == "1"){		// 자산 분류
+				<c:forEach items="${assetListData['assetList']}" var="asset">
+					var name = "${asset.assetCategory}";
+					var match = name.match(new RegExp(keyword, 'g'));
+					if(match != null){
+						assetListData.push("${asset.assetId}");
+						count += 1;
+					}
+				</c:forEach>
+				alert(count+"개의 분류 검색됨.");
+			} else if(mode == "2"){	// 시리얼 번호
+				<c:forEach items="${assetListData['assetList']}" var="asset">
+					var name = "${asset.assetSerial}";
+					var match = name.match(new RegExp(keyword, 'g'));
+					if(match != null){
+						assetListData.push("${asset.assetId}");
+						count += 1;
+					}
+				</c:forEach>
+				alert(count+"개의 분류 검색됨.");
+			} else if(mode == "3"){	// 구입 년도
+				<c:forEach items="${assetListData['assetList']}" var="asset">
+					var name = "${asset.assetPurchaseDate}";
+					name = name.slice(0,4);
+					var match = name.match(new RegExp(keyword, 'g'));
+					if(match != null){
+						assetListData.push("${asset.assetId}");
+						count += 1;
+					}
+				</c:forEach>
+				alert(count+"개의 분류 검색됨.");
+			} else if(mode == "4"){	// 관리 번호
+				<c:forEach items="${assetListData['assetList']}" var="asset">
+					var name = "${asset.assetId}";
+					var match = name.match(new RegExp(keyword, 'g'));
+					if(match != null){
+						assetListData.push("${asset.assetId}");
+						count += 1;
+					}
+				</c:forEach>
+				alert(count+"개의 분류 검색됨.");
+			}
+		} else{
+			<c:forEach items="${assetListData['assetList']}" var="asset">
+				assetListData.push("${asset.assetId}");
+			</c:forEach>
+		}
+
+		
 		// jqGrid 포매팅
 		var myData = [];
 		<c:forEach items="${assetListData['assetList']}" var="asset">
 			var dic = {};
 			dic['assetId'] = "${asset.assetId}";
-			dic['assetCategory'] = "${asset.assetCategory}";
-			dic['assetUser'] = "${asset.assetUser}";
-			dic['assetStatus'] = "${asset.assetStatus}";
-			dic['assetSerial'] = "${asset.assetSerial}";
-			dic['assetPurchaseDate'] = "${asset.assetPurchaseDate}";
-			dic['assetPurchasePrice'] = "${asset.assetPurchasePrice}";
-			dic['assetPurchaseShop'] = "${asset.assetPurchaseShop}";
-			dic['assetMaker'] = "${asset.assetMaker}";
-			dic['assetModel'] = "${asset.assetModel}";
-			dic['assetUsage'] = "${asset.assetUsage}";
-			dic['assetManager'] = "${asset.assetManager}";
-			dic['assetLocation'] = "${asset.assetLocation}";
-			myData.push(dic);
+			if(assetListData.includes(dic['assetId'])){
+				dic['assetCategory'] = "${asset.assetCategory}";
+				dic['assetUser'] = "${asset.assetUser}";
+				dic['assetStatus'] = "${asset.assetStatus}";
+				dic['assetSerial'] = "${asset.assetSerial}";
+				dic['assetPurchaseDate'] = "${asset.assetPurchaseDate}";
+				dic['assetPurchasePrice'] = "${asset.assetPurchasePrice}";
+				dic['assetPurchaseShop'] = "${asset.assetPurchaseShop}";
+				dic['assetMaker'] = "${asset.assetMaker}";
+				dic['assetModel'] = "${asset.assetModel}";
+				dic['assetUsage'] = "${asset.assetUsage}";
+				dic['assetManager'] = "${asset.assetManager}";
+				dic['assetLocation'] = "${asset.assetLocation}";
+				myData.push(dic);
+			}
 		</c:forEach>
 
 		var isSelected = false;
@@ -224,6 +229,7 @@
 				}
 			}
 		});
+
 		
 	});
 	
