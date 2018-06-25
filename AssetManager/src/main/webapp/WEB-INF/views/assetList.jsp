@@ -233,19 +233,6 @@
 		
 	});
 	
-	
-	function depSort(a, b){
-		if(a.dep < b.dep) return -1;
-		if(a.dep > b.dep) return 1;
-		return 0;
-	}
-	
-	function rankSort(a, b){
-		if(a.rank < b.rank) return -1;
-		if(a.rank > b.rank) return 1;
-		return 0;
-	}
-	
 	function searchFunc(){
 		alert($("#searchByName").val());
 		$.ajax({
@@ -322,12 +309,12 @@
 			return false;
 		}else{
 			var printList = [];
-			$(".chkbox").each(function(){
-				if($(this).prop("checked")){
-					var id = $(this).closest("tr").find("td:eq(1)").text()
-					printList.push(id);
-				}
-			});
+			var arr = $("#assetTable").getGridParam('selarrrow');
+			for(i in arr){
+				var rowid = arr[Number(i)];
+				var assetId = $("#assetTable").getRowData(rowid)['assetId'];
+				printList.push(assetId);
+			}
 			
 			$("#dispReqArray").val(printList);
 			$("#assetDispForm").submit();

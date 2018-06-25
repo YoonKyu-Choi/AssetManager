@@ -65,9 +65,9 @@ public class UserController {
 	@RequestMapping(value = "/userDetail")
 	public ModelAndView userDetail(RedirectAttributes redirectAttributes
 								 , @RequestParam int employeeSeq) {
-		try {	System.out.println("hello");
-				EmployeeVO evo = eService.selectEmployeeByEmployeeSeq(employeeSeq);
-				return new ModelAndView("userDetail.tiles", "employeeVO", evo);
+		try {
+			EmployeeVO evo = eService.selectEmployeeByEmployeeSeq(employeeSeq);
+			return new ModelAndView("userDetail.tiles", "employeeVO", evo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

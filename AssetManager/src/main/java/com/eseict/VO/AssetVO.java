@@ -2,8 +2,6 @@ package com.eseict.VO;
 
 import java.sql.Date;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class AssetVO {
 	
 	private String assetId;

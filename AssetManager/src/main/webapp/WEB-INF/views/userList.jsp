@@ -10,9 +10,12 @@
 	<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery.jqGrid.min.js"></script>
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/jquery-ui.css" rel="stylesheet"/>
+	<link href="${pageContext.request.contextPath}/resources/css/ui.jqgrid.css" rel="stylesheet"/>
 	
 <script>
 	var trName = "";
@@ -24,14 +27,6 @@
     		}
     	}]
     });
-	var generalMenu = new BootstrapMenu('.container', {
-		actions: [{
-			name: '회원 추가',
-			onClick: function(){
-				location.href='/assetmanager/register';
-			}
-		}]
-	});
 
 	$(function(){
 		// 사이드바 활성화
@@ -39,10 +34,10 @@
 		
 		// 플래시 메시지
 		var refreshCount = 1;
-		
+		var userCount = Number("${userListData['userCount']}");
 		$(".table-responsive").on("click", ".table tbody tr", function(){
-			if(${userListData["userCount"]} > 0){
-				document.location.href='/assetmanager/userDetail?employeeSeq='+$(this).data("href");
+			if( userCount > 0){
+				document.location.href='/assetmanager/userDetail?employeeSeq='+trName;
 			}
 		});
 		var flashmsg = "<c:out value="${msg}"/>";
@@ -54,22 +49,6 @@
 			refreshCount -= 1;
 		}
 
-		// 소트 클릭, 스크롤 연결
-		$("#tableHead th").click(function(){
-			var index = $("#tableHead th").index($(event.target).closest("th"));
-			$("#tableBody th:eq("+index+") .sortable").click();
-		});
-		
-		$("#divBody").scroll(function(){
-			var scrollpos = $("#divBody").scrollLeft(); 
-			$("#divHead .fixed-table-body").scrollLeft(scrollpos);
-		});
-
-		// 우클릭 시 해당 행의 관리 번호를 저장
-		$("td").contextmenu(function(event){
-			trName = $(event.target).closest("tr").attr('data-href');
-		});
-
 		// 반응성 윈도우 사이즈
 		var windowHeight = window.innerHeight;
 		$(".table-responsive").css("height", windowHeight-400);
@@ -78,19 +57,52 @@
 			$(".table-responsive").css("height", windowHeight-400);
 		});
 
+		// 검색
+		// 이미 컨트롤러 단에서 검색해서 넘겨주게 구현됨
+		
+		// jqGrid 포매팅
+		var myData = [];
+		<c:forEach items="${userListData['employeeList']}" var="user">
+			var dic = {};
+			dic['employeeName'] = "${user.employeeName}";
+			dic['employeeSeq'] = "${user.employeeSeq}";
+			dic['employeeId'] = "${user.employeeId}";
+			dic['employeeRankString'] = "${user.rankVO.employeeRankString}";
+			dic['employeeDepartmentString'] = "${user.departmentVO.employeeDepartmentString}";
+			dic['employeeLocation'] = "${user.employeeLocation}";
+			dic['employeeEmail'] = "${user.employeeEmail}";
+			dic['employeePhone'] = "${user.employeePhone}";
+			dic['employeeStatus'] = "${user.employeeStatus}";
+			myData.push(dic);
+		</c:forEach>
+
+		var isSelected = false;
+		$("#userTable").jqGrid({
+			datatype: "local",
+			data: myData,
+			height: 250,
+			rowNum: userCount,
+			multiselect: false,
+			viewrecord: true,
+			colNames:['번호', '상태', '이름', '아이디', '소속', '직급', '위치', '이메일', '연락처'],
+			colModel:[
+				{name:'employeeSeq',index:'employeeSeq', width:60, hidden:true},
+				{name:'employeeStatus',index:'employeeStatus', width:60},
+				{name:'employeeName',index:'employeeName', width:80},
+				{name:'employeeId',index:'employeeId', width:100},
+				{name:'employeeDepartmentString',index:'employeeDepartmentString', width:160},
+				{name:'employeeRankString',index:'employeeRankString', width:100},
+				{name:'employeeLocation',index:'employeeLocation', width:60},
+				{name:'employeeEmail',index:'employeeEmail', width:160},
+				{name:'employeePhone',index:'employeePhone', width:120},
+			],
+			onRightClickRow: function(rowid){
+				trName = $("#userTable").getRowData(rowid)['employeeSeq'];
+			}
+		});
+
 	});
 	
-	function depSort(a, b){
-		if(a.dep < b.dep) return -1;
-		if(a.dep > b.dep) return 1;
-		return 0;
-	}
-	function rankSort(a, b){
-		if(a.rank < b.rank) return -1;
-		if(a.rank > b.rank) return 1;
-		return 0;
-	}
-		
 	function searchFunc(){
 		$.ajax({
 			"type": "GET",
@@ -131,21 +143,6 @@
 		margin-left: 13%;
 		width: 76%;
 	}
-	#divHead{
-		position: releative;
-		height: 40px;
-	}
-	#divBody{
-		z-index: -1;
-		overflow-y: scroll;
-	}
-	#tableBody{
-		overflow: auto;
-		position: absolute;
-	}
-	#tableBody thead{
-		visibility: collapse;
-	}
 </style>
 	
 </head>
@@ -168,72 +165,11 @@
 					<span class="badge">${userListData['userCount']}</span>
 				</div>
 				
-				<div id="divHead">
-				<div class="table-responsive">
-					<table class="table table-striped" data-toggle="table" id="tableHead">
-						<thead>
-							<tr>
-								<th data-sortable="true">상태</th>
-								<th data-sortable="true">이름</th>
-								<th data-sortable="true">아이디</th>
-								<th data-sortable="true" data-sorter="depSort" data-field="dep" data-sort-name="_dep_data">소속</th>
-								<th data-sortable="true" data-sorter="rankSort" data-field="rank" data-sort-name="_rank_data">직급</th>
-								<th data-sortable="true">위치</th>
-								<th data-sortable="true">이메일</th>
-								<th data-sortable="true">연락처</th>
-							</tr>
-						</thead>
-						<tbody style="visibility: collapse">
-						<c:forEach items="${userListData['employeeList']}" var="employee">
-							<input type="hidden" name='employeeSeq' value="${employee.employeeSeq}"/>
-							<tr class="clickable-row" data-href="${employee.employeeSeq}">
-								<td>${employee.employeeStatus}</td>
-								<td>${employee.employeeName}</td>
-								<td>${employee.employeeId}</td>
-								<td data-dep="${employee.departmentVO.employeeDepartment}">${employee.departmentVO.employeeDepartmentString}</td>
-								<td data-rank="${employee.rankVO.employeeRank}">${employee.rankVO.employeeRankString}</td>
-								<td>${employee.employeeLocation}</td>
-								<td>${employee.employeeEmail}</td>
-								<td>${employee.employeePhone}</td>
-							</tr>
-						</c:forEach>
-						</tbody>
-					</table>
+				<div style="overflow: auto">
+				<table id="userTable"></table>
 				</div>
-				</div>
-				
-				<div class="table-responsive" id="divBody">
-					<table class="table table-striped" data-toggle="table" id="tableBody">
-						<thead>
-							<tr>
-								<th data-sortable="true">상태</th>
-								<th data-sortable="true">이름</th>
-								<th data-sortable="true">아이디</th>
-								<th data-sortable="true" data-sorter="depSort" data-field="dep" data-sort-name="_dep_data">소속</th>
-								<th data-sortable="true" data-sorter="rankSort" data-field="rank" data-sort-name="_rank_data">직급</th>
-								<th data-sortable="true">위치</th>
-								<th data-sortable="true">이메일</th>
-								<th data-sortable="true">연락처</th>
-							</tr>
-						</thead>
-						
-						<tbody>
-						<c:forEach items="${userListData['employeeList']}" var="employee">
-							<input type="hidden" name='employeeSeq' value="${employee.employeeSeq}"/>
-							<tr class="clickable-row" data-href="${employee.employeeSeq}">
-								<td>${employee.employeeStatus}</td>
-								<td>${employee.employeeName}</td>
-								<td>${employee.employeeId}</td>
-								<td data-dep="${employee.departmentVO.employeeDepartment}">${employee.departmentVO.employeeDepartmentString}</td>
-								<td data-rank="${employee.rankVO.employeeRank}">${employee.rankVO.employeeRankString}</td>
-								<td>${employee.employeeLocation}</td>
-								<td>${employee.employeeEmail}</td>
-								<td>${employee.employeePhone}</td>
-							</tr>
-						</c:forEach>
-						</tbody>
-					</table>
-				</div>
+
+
 				<button class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='/assetmanager/register';">회원 추가</button>
 			</div>
 		</div>
