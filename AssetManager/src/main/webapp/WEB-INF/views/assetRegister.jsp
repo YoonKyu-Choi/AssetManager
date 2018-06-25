@@ -99,7 +99,7 @@
 				counts = a.length;
 				for(var i=0;i<a.length;i++){
 					if(plusCount % 2 == 1){
-						$("#assetDetailTable tr:last").after('<tr><input type="hidden" id="assetItem" name="assetItem" value="'+a[i]+'"><th>'+a[i]+'</th><th><input type="text" id="assetItemDetail" name="assetItemDetail"></th></tr>');
+						$("#assetDetailTable tr:last").after('<tr><th><input type="hidden" id="assetItem" name="assetItem" value="'+a[i]+'">'+a[i]+'</th><th><input type="text" id="assetItemDetail" name="assetItemDetail"></th></tr>');
 					} else{
 						$("#assetDetailTable tr:last th:last").after('<th><input type="hidden" id="assetItem" name="assetItem" value="'+a[i]+'">'+a[i]+'</th><th><input type="text" id="assetItemDetail" name="assetItemDetail"></th>');
 					}
@@ -368,7 +368,7 @@
 							<th>이름</th>
 							<th> <%=session.getAttribute("Id")%> </th>
 						</tr>
-					<input type="hidden" id="employeeId" name="employeeId" value='<%=session.getAttribute("Id")%>'>
+					<input type="hidden" id="employeeId" name="assetUser" value='<%=session.getAttribute("Id")%>'>
 					<tr>
 						<th>관리 번호</th>
 						<th>※ 자동 생성됩니다.</th>

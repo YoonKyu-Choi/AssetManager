@@ -106,10 +106,10 @@ public class AssetController {
 			avo.setAssetReceiptUrl(aService.uploadImageFile(request.getServletContext(), uploadImage));
 			
 			String assetUser = avo.getAssetUser();
-			
-			avo.setEmployeeSeq(eService.getEmployeeSeqByEmpId(assetUser));
+			System.out.println(assetUser);
 			avo.setAssetUser(eService.getEmployeeNameByEmpId(assetUser));
 			avo.setAssetManager(eService.getEmployeeNameByEmpId(avo.getAssetManager()));
+			avo.setEmployeeSeq(eService.getEmployeeSeqByEmpId(assetUser));
 			aService.insertAsset(avo);
 			
 			// 자산 세부사항 등록 
