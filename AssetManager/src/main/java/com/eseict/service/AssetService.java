@@ -26,8 +26,10 @@ public interface AssetService {
 	public List<String> getAssetIdListByCategory(String assetCategory) throws Exception;
 
 	public ModelAndView assetListMnV(String searchMode, String searchKeyword) throws Exception;
-
+	// assetId로 상세보기
 	public ModelAndView assetDetailMnV(String assetId) throws Exception;
+	// employeeSeq로 상세보기
+	public ModelAndView assetDetailMnV(int employeeSeqInt) throws Exception;
 	
 	public ModelAndView assetRegisterMnV() throws Exception;
 

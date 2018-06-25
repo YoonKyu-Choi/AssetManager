@@ -54,9 +54,15 @@ public class AssetController {
 	
 	@RequestMapping(value = "/assetDetail")
 	public ModelAndView assetDetail(RedirectAttributes redirectAttributes
-								  , @RequestParam String assetId) {
+								  , @RequestParam(required=false) String assetId
+								  , @RequestParam(required=false) String employeeSeq) {
 		try {
-			return aService.assetDetailMnV(assetId);
+			if(employeeSeq!=null) {
+				int employeeSeqInt = Integer.parseInt(employeeSeq);
+				aService.assetDetailMnV(employeeSeqInt);
+			}else {
+				return aService.assetDetailMnV(assetId);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

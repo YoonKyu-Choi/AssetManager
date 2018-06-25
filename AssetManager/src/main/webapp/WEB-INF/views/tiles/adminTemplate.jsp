@@ -82,7 +82,7 @@ li a:hover {
 		<li id="systemlogo"><font>자산관리시스템</font></li>
 		<li><a id="asstLink" href="/assetmanager/assetList">자산 관리</a></li>
 		<li><a id="myUserLink" href="userDetail?employeeSeq=<%=session.getAttribute("employeeSeq")%>">내 정보</a></li>
-		<li><a id="myAssetLink" href="/assetmanager/disposalList">My 자산</a></li>
+		<li><a id="myAssetLink" href="/assetDetail?employeeSeq=<%=session.getAttribute("employeeSeq")%>">My 자산</a></li>
 	</ul>
 	</c:if>
 	<div class="container">

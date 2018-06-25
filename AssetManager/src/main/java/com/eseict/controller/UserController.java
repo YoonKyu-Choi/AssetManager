@@ -65,7 +65,7 @@ public class UserController {
 	@RequestMapping(value = "/userDetail")
 	public ModelAndView userDetail(RedirectAttributes redirectAttributes
 								 , @RequestParam int employeeSeq) {
-		try {
+		try {	System.out.println("hello");
 				EmployeeVO evo = eService.selectEmployeeByEmployeeSeq(employeeSeq);
 				return new ModelAndView("userDetail.tiles", "employeeVO", evo);
 		} catch (Exception e) {
@@ -112,7 +112,7 @@ public class UserController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return new ModelAndView("redirect:/userList");
+		return new ModelAndView("redirect:/userDetail?employeeSeq="+employeeSeq);
 	}
 
 	// 사용자 수정
@@ -122,12 +122,12 @@ public class UserController {
 		try {
 			eService.updateEmployee(evo);
 			redirectAttributes.addFlashAttribute("msg", "수정되었습니다.");
-			return "redirect:/userList.tiles";
+			return "redirect:/userDetail?employeeSeq="+evo.getEmployeeSeq();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "redirect:/userList";
+		return "redirect:/userDetail?employeeSeq="+evo.getEmployeeSeq();
 	}
 
 }

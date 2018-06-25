@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <head>
 	<meta charset="utf-8">
 	
@@ -129,7 +131,15 @@
 		<div class="row">
 			<div class="main">
 				<h1 class="page-header">
+					
+					<c:if test='${sessionScope.isAdmin == "TRUE" }'>
 					<font size="6px"><b># 회원 정보</b></font>
+					</c:if>
+					
+					<c:if test='${sessionScope.isAdmin != "TRUE" }'>
+					<font size="6px"><b># 내 정보</b></font>
+					</c:if>
+					
 				</h1>
 
 				<div class="table-responsive">
@@ -173,11 +183,22 @@
 				<form id="modifyForm" action="userModify" method="POST">
 					<input type="hidden" name="employeeSeq" value=${requestScope.employeeVO.employeeSeq } />
 				</form>
-				<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/userList'" value="목록" />
-				<div style="display: flex; float: right">
-					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">회원 수정</button>
-					<button class="btn btn-lg btn-primary" id="delbtn" onclick="deleteConfirm();">회원 삭제</button>
 				
+				<c:if test='${sessionScope.isAdmin == "TRUE" }'>
+					<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/userList'" value="목록" />
+					<div style="display: flex; float: right">
+						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">회원 수정</button>
+						<button class="btn btn-lg btn-primary" id="delbtn" onclick="deleteConfirm();">회원 삭제</button>
+					</div>
+				</c:if>
+				
+				<c:if test='${sessionScope.isAdmin != "TRUE" }'>
+					<div style="display: flex; float: right">
+						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">내 정보 수정</button>
+					</div>
+				</c:if>
+					
+					
 					<div class="mask"></div>
 				    <div class="window">
 				    	<p>비밀번호를 입력해주세요.</p>
@@ -193,8 +214,6 @@
 
 				    </div>
 			    </div>
-				
 			</div>
 		</div>
-	</div>
 </body>

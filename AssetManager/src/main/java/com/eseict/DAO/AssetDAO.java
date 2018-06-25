@@ -71,4 +71,8 @@ public interface AssetDAO {
 	public List<Integer> getTakeOutHistorySeqByAssetId(String assetId) throws Exception;
 	// 자산 카테고리 검색
 	public List<String> getAssetCategoryByName(String assetCategory) throws Exception;
+	// 자산 EmployeeSeq로 상세보기 
+	public AssetVO getAssetByEmpSeq(int employeeSeqInt);
+	// 자산 EmployeeSeq로 세부사항 상세보기
+	public List<AssetDetailVO> getAssetDetailByEmpSeq(int employeeSeqInt);
 }
