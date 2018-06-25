@@ -40,6 +40,8 @@ public class LoginController {
 			if(check == 1) {
 				if (inputId.equals("admin")) {
 					session.setAttribute("isAdmin", "TRUE");
+				} else {
+					session.setAttribute("isAdmin", "FALSE");
 				}
 				session.setAttribute("isUser", "TRUE");
 				session.setAttribute("employeeSeq", eService.getEmployeeSeqByEmpId(inputId));

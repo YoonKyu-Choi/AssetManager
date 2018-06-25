@@ -93,10 +93,10 @@
 		
 		// 반응성 윈도우 크기
 		var windowHeight = window.innerHeight;
-		$("#divBody").css("height", windowHeight-330);
+		$(".table-responsive").css("height", windowHeight-330);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
-			$("#divBody").css("height", windowHeight-330);
+			$(".table-responsive").css("height", windowHeight-330);
 		});
 		
 		// 플래시 메시지
@@ -172,7 +172,11 @@
 				dic['assetUser'] = "${asset.assetUser}";
 				dic['assetStatus'] = "${asset.assetStatus}";
 				dic['assetSerial'] = "${asset.assetSerial}";
-				dic['assetPurchaseDate'] = "${asset.assetPurchaseDate}";
+				var assetPurchaseDate = "${asset.assetPurchaseDate}";
+				if(assetPurchaseDate == "9999-01-01"){
+					assetPurchaseDate = "미입력";
+				}
+				dic['assetPurchaseDate'] = assetPurchaseDate;
 				dic['assetPurchasePrice'] = "${asset.assetPurchasePrice}";
 				dic['assetPurchaseShop'] = "${asset.assetPurchaseShop}";
 				dic['assetMaker'] = "${asset.assetMaker}";
@@ -369,7 +373,7 @@
 					<font size="4px">&nbsp;&nbsp;총 자산 수 : </font><span class="badge">${assetListData['assetCount']}</span>
 				</div>
 				
-				<div style="overflow: auto">
+				<div class="table-responsive" style="overflow: auto">
 					<table id="assetTable"></table>
 				</div>
 
