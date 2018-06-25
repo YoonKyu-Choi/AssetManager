@@ -92,13 +92,39 @@ public class AssetServiceImpl implements AssetService {
 		}
 		return new ModelAndView("assetList.tiles", "assetListData", assetListData);
 	}
+	
+	@Override
+	public ModelAndView myAssetListMnV(String searchMode, String searchKeyword,int employeeSeq) throws Exception {
+		HashMap<String, Object> assetListData = new HashMap<String, Object>();
+
+		List<AssetVO> volist = aDao.getMyAssetList(employeeSeq);
+		int assetCount = aDao.getMyAssetCount(employeeSeq);
+
+		assetListData.put("assetList", volist);
+		assetListData.put("assetCount", assetCount);
+		
+		HashMap<AssetVO, List<String>> assetItemList = new HashMap<AssetVO, List<String>>();
+		for(AssetVO category: volist) {
+			assetItemList.put(category, aDao.getAssetCategoryByName(category.getAssetCategory()));
+		}
+		
+		assetListData.put("assetItemList", assetItemList);
+		assetListData.put("assetCount", volist.size());
+		
+		if(searchKeyword != null) {
+			assetListData.put("searchMode", searchMode);
+			assetListData.put("searchKeyword", searchKeyword);
+			assetListData.put("search", "1");
+		} else {
+			assetListData.put("search", "0");
+		}
+		return new ModelAndView("myAssetList.tiles", "assetListData", assetListData);
+	}
 
 	@Override
 	public ModelAndView assetDetailMnV(String assetId) throws Exception {
 		AssetVO avo = aDao.getAssetByAssetId(assetId);
-		avo.setAssetManager(eDao.getEmployeeNameByEmpId(avo.getAssetManager()));
 		List<AssetDetailVO> dlist = aDao.getAssetDetailByAssetId(assetId);
-		
 		HashMap<String, Object> assetData = new HashMap<String, Object>();
 		assetData.put("assetVO", avo);
 		assetData.put("assetDetailList", dlist);
@@ -147,7 +173,6 @@ public class AssetServiceImpl implements AssetService {
 		// Year,Month 한자리수일 때 형식에 맞게 수정
 		if(avo.getAssetPurchaseDate().getYear() % 100 <10) {
 			year = "0" + Integer.toString(avo.getAssetPurchaseDate().getYear() % 100); 
-			System.out.println(year);
 		} else {
 			year = Integer.toString(avo.getAssetPurchaseDate().getYear() % 100);
 		}

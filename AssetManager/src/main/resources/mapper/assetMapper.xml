@@ -73,6 +73,15 @@
 		FROM 
 			ASSET_COMMON_ITEM
 	</select>
+	
+	<select id="getMyAssetCount" resultType="integer">
+		SELECT 
+			COUNT(*)
+		FROM 
+			ASSET_COMMON_ITEM
+		WHERE
+			EMPLOYEE_SEQ = #{employeeSeq}
+	</select>
 
 	<select id="getAssetCountByDispReady" resultType="integer">
 		SELECT 
@@ -195,6 +204,7 @@
 		<set>
 			<if test="assetUser != null">ASSET_USER = #{assetUser},</if>
 			<if test="assetSerial != null">ASSET_SERIAL = #{assetSerial},</if>
+			<if test="assetStatus != null">EMPLOYEE_SEQ = #{employeeSeq},</if>
 			<if test="assetStatus != null">ASSET_STATUS = #{assetStatus},</if>
 			<if test="assetOutStatus != null">ASSET_OUT_STATUS = #{assetOutStatus},</if>
 			<if test="assetPurchaseDate != null">ASSET_PURCHASE_DATE = #{assetPurchaseDate},</if>
@@ -371,6 +381,18 @@
 		WHERE
 			ASSET_CATEGORY=#{assetCategory}
 	</select>
+	
+	<select id="getMyAssetList" parameterType="Integer" resultMap="AssetVO-result">
+		SELECT 
+			*
+		FROM
+			ASSET_COMMON_ITEM
+		WHERE 
+			EMPLOYEE_SEQ = #{employeeSeq}
+	</select>
+	
+	
+	
 	
 	<select id="getAssetByEmpSeq" parameterType="Integer" resultMap="AssetVO-result">
 		SELECT 

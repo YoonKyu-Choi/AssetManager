@@ -77,8 +77,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return new ModelAndView("userList.tiles", "userListData", userListData);
 	}
 
-	public int getEmployeeSeqByEmpId(String employeeId) throws Exception {
-		return dao.getEmployeeSeqByEmpId(employeeId);
+	public int getEmployeeSeqByEmpId(String assetUser) throws Exception {
+		return dao.getEmployeeSeqByEmpId(assetUser);
 	}
 
 	@Override

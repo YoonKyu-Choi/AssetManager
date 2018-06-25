@@ -40,7 +40,6 @@ public interface AssetDAO {
 	public List<AssetDetailVO> getAssetDetailByAssetId(String assetId) throws Exception;
 	// 자산 정보 수정
 	public int updateAsset(AssetVO avo) throws Exception;
-
 	public int updateAssetDetail(AssetDetailVO dvo) throws Exception;
 	// 해당 id의 자산 삭제
 	public int deleteAssetById(String assetId) throws Exception;
@@ -75,4 +74,8 @@ public interface AssetDAO {
 	public AssetVO getAssetByEmpSeq(int employeeSeqInt);
 	// 자산 EmployeeSeq로 세부사항 상세보기
 	public List<AssetDetailVO> getAssetDetailByEmpSeq(int employeeSeqInt);
+	// My자산 목록 조회
+	public List<AssetVO> getMyAssetList(int employeeSeq) throws Exception;
+	// My 자산 목록 수 
+	public int getMyAssetCount(int employeeSeq) throws Exception;
 }

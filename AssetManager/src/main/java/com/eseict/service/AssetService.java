@@ -56,4 +56,8 @@ public interface AssetService {
 	public int upateAssetTakeOutHistory(String assetId) throws Exception;
 	// 자산 등록 할 때 반출 중/수리 중 선택 시 자산 반출/수리 등록
 	public int insertAssetTakeOutHistoryWhenRegister(AssetTakeOutHistoryVO atouhvo) throws Exception;
+	// My 자산 목록 조회
+	public ModelAndView myAssetListMnV(String searchMode, String searchKeyword,int employeeSeq) throws Exception;
+	
 }
+
