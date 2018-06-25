@@ -105,6 +105,20 @@ public class AssetServiceImpl implements AssetService {
 
 		return new ModelAndView("assetDetail.tiles", "assetData", assetData);
 	}
+	// 여기 하던 중 My 자산 하는데 원래는 assetId로 가져오지만 employeeSeq로 가져오는걸 만들고 있다
+	// 아니면 그냥 employeeSeq로 가져와서 컨트롤러 안에서 employeeSeq로 자산 가져오기를 만들면 될거 같은데 
+	// 굳이 이렇게 새롭게 만들어야하나 ?
+	@Override
+	public ModelAndView assetDetailMnV(int employeeSeqInt) throws Exception {
+		AssetVO avo = aDao.getAssetByEmpSeq(employeeSeqInt);
+		avo.setAssetManager(eDao.getEmployeeNameByEmpId(avo.getAssetManager()));
+		List<AssetDetailVO> dlist = aDao.getAssetDetailByEmpSeq(employeeSeqInt);
+		HashMap<String, Object> assetData = new HashMap<String, Object>();
+		assetData.put("assetVO", avo);
+		assetData.put("assetDetailList", dlist);
+
+		return new ModelAndView("assetDetail.tiles", "assetData", assetData);
+	}
 
 	@Override
 	public ModelAndView assetRegisterMnV() throws Exception {

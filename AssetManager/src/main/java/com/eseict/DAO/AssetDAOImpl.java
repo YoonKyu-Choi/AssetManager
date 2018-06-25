@@ -175,5 +175,15 @@ public class AssetDAOImpl implements AssetDAO {
 		return sqlSession.selectList(namespace+"getAssetCategoryByName",assetCategory);
 	}
 
+	@Override
+	public AssetVO getAssetByEmpSeq(int employeeSeqInt) {
+		return sqlSession.selectOne(namespace+"getAssetByEmpSeq",employeeSeqInt);
+	}
+
+	@Override
+	public List<AssetDetailVO> getAssetDetailByEmpSeq(int employeeSeqInt) {
+		return sqlSession.selectList(namespace+"getAssetDetailByEmpSeq",employeeSeqInt);
+	}
+
 
 }
