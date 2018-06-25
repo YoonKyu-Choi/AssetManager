@@ -377,7 +377,7 @@
 				</div>
 				
 				<div style="overflow: auto">
-				<table id="assetTable"></table>
+					<table id="assetTable"></table>
 				</div>
 
 				<form id="assetHistoryForm" action="assetHistory" method="post">

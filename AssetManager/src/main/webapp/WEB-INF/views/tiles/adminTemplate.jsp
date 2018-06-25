@@ -69,21 +69,21 @@ li a:hover {
 		</div>
 	</header>
 	<c:if test='${sessionScope.isAdmin == "TRUE" }'>
-	<ul>
-		<li id="systemlogo"><font>자산관리시스템</font></li>
-		<li><a id="asstLink" href="/assetmanager/assetList">자산 관리</a></li>
-		<li><a id="userLink" href="/assetmanager/userList">회원 관리</a></li>
-		<li><a id="dispLink" href="/assetmanager/disposalList">폐기 관리</a></li>
-		<li><a id="catgLink" href="/assetmanager/categoryList">분류 관리</a></li>
-	</ul>
+		<ul>
+			<li id="systemlogo"><font>자산관리시스템</font></li>
+			<li><a id="asstLink" href="/assetmanager/assetList">자산 관리</a></li>
+			<li><a id="userLink" href="/assetmanager/userList">회원 관리</a></li>
+			<li><a id="dispLink" href="/assetmanager/disposalList">폐기 관리</a></li>
+			<li><a id="catgLink" href="/assetmanager/categoryList">분류 관리</a></li>
+		</ul>
 	</c:if>
 	<c:if test='${sessionScope.isAdmin != "TRUE" }'>
-	<ul>
-		<li id="systemlogo"><font>자산관리시스템</font></li>
-		<li><a id="asstLink" href="/assetmanager/assetList">자산 관리</a></li>
-		<li><a id="myUserLink" href="userDetail?employeeSeq=<%=session.getAttribute("employeeSeq")%>">내 정보</a></li>
-		<li><a id="myAssetLink" href="/assetDetail?employeeSeq=<%=session.getAttribute("employeeSeq")%>">My 자산</a></li>
-	</ul>
+		<ul>
+			<li id="systemlogo"><font>자산관리시스템</font></li>
+			<li><a id="asstLink" href="/assetmanager/assetList">자산 관리</a></li>
+			<li><a id="userLink" href="/assetmanager/userDetail?employeeSeq=<%=session.getAttribute("employeeSeq")%>">내 정보</a></li>
+			<li><a id="myAssetLink" href="/assetmanager/assetList?employeeSeq=<%=session.getAttribute("employeeSeq")%>">내 자산</a></li>
+		</ul>
 	</c:if>
 	<div class="container">
 		<tiles:insertAttribute name="content" />

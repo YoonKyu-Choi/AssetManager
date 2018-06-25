@@ -77,8 +77,8 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 	}
 
 	@Override
-	public int getEmployeeSeqByEmpId(String employeeId) throws Exception {
-		return sqlSession.selectOne(namespace+"getEmployeeSeqByEmpId",employeeId);
+	public int getEmployeeSeqByEmpId(String assetUser) throws Exception {
+		return sqlSession.selectOne(namespace+"getEmployeeSeqByEmpId",assetUser);
 	}
 
 	@Override

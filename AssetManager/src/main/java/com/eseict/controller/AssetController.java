@@ -37,11 +37,13 @@ public class AssetController {
 	public ModelAndView assetList(RedirectAttributes redirectAttributes
 								, @RequestParam(required = false) String searchMode
 								, @RequestParam(required = false) String searchKeyword
+								, @RequestParam(required = false) String employeeSeq
 								, HttpSession session) {
-
 		try {
 			if(searchKeyword != null) {
 				return aService.assetListMnV(searchMode, searchKeyword);
+			} else if(employeeSeq != null) {
+				return aService.myAssetListMnV(null, null, Integer.parseInt(employeeSeq));
 			} else {
 				return aService.assetListMnV(null, null);
 			}
@@ -104,10 +106,10 @@ public class AssetController {
 			avo.setAssetReceiptUrl(aService.uploadImageFile(request.getServletContext(), uploadImage));
 			
 			String assetUser = avo.getAssetUser();
-			// 동명이인 방지용 사원번호
-			// 아이디로 해당 이름을 저장하고 아이디로 EmployeeSeq를 조회, 아이디로 해도 되는데 처음부터 EmployeeSeq로 DB를 짜놔서 이렇게 
+			
 			avo.setEmployeeSeq(eService.getEmployeeSeqByEmpId(assetUser));
 			avo.setAssetUser(eService.getEmployeeNameByEmpId(assetUser));
+			avo.setAssetManager(eService.getEmployeeNameByEmpId(avo.getAssetManager()));
 			aService.insertAsset(avo);
 			
 			// 자산 세부사항 등록 
@@ -179,8 +181,6 @@ public class AssetController {
 			String assetId = avo.getAssetId();
 			String assetUser = avo.getAssetUser();
 			
-			// new는 새로운 사용자 사용자번호, empSeq는 이전 사용자 번호 
-			// -> 이 부분을 입력 받은 이름으로 해결하고 있는데 동명이인일 경우 문제 해결 필요
 			int newEmpSeq = eService.getEmployeeSeqByEmpId(assetUser);
 			int empSeq = eService.getEmployeeSeqByEmpId(beforeUser);
 			

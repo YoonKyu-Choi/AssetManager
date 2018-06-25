@@ -366,14 +366,7 @@
 							</select>
 						</th>
 							<th>이름</th>
-							<th>
-								<select class="form-controlmin dropdown" name="assetUser" id="assetUser">
-									<option value="0">사용자를 선택하세요.</option>
-									<c:forEach items="${list['employeeNameList']}" var="employee">
-										<option value="${employee.employee_id}">${employee.employee_name} (${employee.employee_department_string})</option>
-									</c:forEach>
-								</select>
-							</th>
+							<th> <%=session.getAttribute("Id")%> </th>
 						</tr>
 					<input type="hidden" id="employeeId" name="employeeId" value='<%=session.getAttribute("Id")%>'>
 					<tr>

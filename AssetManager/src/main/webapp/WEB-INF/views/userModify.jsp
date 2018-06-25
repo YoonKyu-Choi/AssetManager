@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -190,13 +192,21 @@
 							</tr>
 							<tr>
 								<th>상태</th>
-								<th>
-									<select class="form-controlmin dropdown admin" id="employeeStatus" name="employeeStatus">
-										<option value="재직" selected>재직</option>
-										<option value="휴직">휴직</option>
-										<option value="퇴사">퇴사</option>
-									</select>
-								</th>
+								<c:if test='${sessionScope.isAdmin == "TRUE" }'>
+									<th>
+										<select class="form-controlmin dropdown admin" id="employeeStatus" name="employeeStatus">
+											<option value="재직" selected>재직</option>
+											<option value="휴직">휴직</option>
+											<option value="퇴사">퇴사</option>
+										</select>
+									</th>
+								</c:if>
+								
+								<c:if test='${sessionScope.isAdmin != "TRUE" }'>
+									<th>${requestScope.employeeVO.employeeStatus}</th>
+									<input type="hidden" id="employeeStatus" name="employeeStatus" value="${requestScope.employeeVO.employeeStatus}"/>
+								</c:if>
+								
 							</tr>
 						</table>
 					</form>
