@@ -15,7 +15,9 @@
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet" />
 
 <script>
+	
 	var assetStatusStr = "${assetData['assetVO']['assetStatus']}";
+	var assetOutStatusStr = "${assetData['assetVO']['assetOutStatus']}";
 	var assetStatus = 0;
 	var generalMenu = new BootstrapMenu('.container', {
 		actionsGroups:[
@@ -121,7 +123,7 @@
 			windowHeight = $(window).height();
 			$(".table-responsive").css("height", windowHeight-250);
 		})
-
+		
 		// 현재 자산 상태
 		switch(assetStatusStr){
 		case '폐기 대기':
