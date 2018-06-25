@@ -7,6 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery.oLoader.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
@@ -17,9 +18,7 @@
 	<link href="${pageContext.request.contextPath}/resources/css/jquery-ui.css" rel="stylesheet"/>
 	<link href="${pageContext.request.contextPath}/resources/css/ui.jqgrid.css" rel="stylesheet"/>
 
-
 <script>
-
 	var trName = "";
 	var multiSelected = false;
 	var disposeActive = true;
@@ -81,7 +80,9 @@
 		}
 	});
 
+    
 	$(function(){
+		
 		// 사이드바 활성화
 		$("#asstLink").prop("class", "active");
 		
@@ -229,8 +230,6 @@
 				}
 			}
 		});
-
-		
 	});
 	
 	
@@ -405,7 +404,6 @@
 				<div style="display:flex; float:right; margin-top: 10px">
 					<button class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetRegister';">자산 등록</button>
 				</div>
-				
 			</div>
 		</div>
 	</div>
