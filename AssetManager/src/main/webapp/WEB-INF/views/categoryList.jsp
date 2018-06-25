@@ -12,9 +12,12 @@
 	<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery.jqGrid.min.js"></script>
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet"/>
 	<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/jquery-ui.css" rel="stylesheet"/>
+	<link href="${pageContext.request.contextPath}/resources/css/ui.jqgrid.css" rel="stylesheet"/>
 
 <script>
 	var trName = "";
@@ -46,79 +49,112 @@
 		// 사이드바 활성화
 		$("#catgLink").prop("class", "active");
 
-		// 테이블이 비어있을 경우 클릭 불가
-		$(".table-responsive").on("click", ".table tbody tr", function(){
-			if(${categoryListData["categoryCount"]} > 0){
-				document.location.href='/assetmanager/categoryDetail?categoryName='+$(this).data("href");
-			}
-		});
-
 		// 반응성 윈도우 사이즈
 		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-400);
-		var rightHeight = $("#wrapper").height()-55;
-		$("#divLeft").height(rightHeight);
-		var rightWidth = $("#divLeft").width();
-		$("#divHeadLeft").width(rightWidth);
+		$(".table-responsive").css("height", windowHeight-350);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-400);
-			rightHeight = $("#wrapper").height()-55;
-			$("#divLeft").height(rightHeight);
+			$(".table-responsive").css("height", windowHeight-350);
 		});
 
 		// 검색
 		var isSearch = "${categoryListData['search']}";
+		var categoryListData = [];
 		if(isSearch == "1"){
 			var keyword = "${categoryListData['searchKeyword']}";
 			var mode = "${categoryListData['searchMode']}";
-			var result = [];
+			var count = 0;
 			if(mode == "1"){		// 분류 이름
-				var count = "${categoryListData['categoryCount']}";
-				$("#tableBody tr:gt(0) td:nth-child("+"${categoryListData['columnSize']}"+1+"n+1)").each(function(){
-					var index = $(this).closest("tr").find("input").val();
-					var name = $(this).text();
-					var match = name.match(new RegExp(keyword, 'g'));
-					if(match == null){
-						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
-						$("#tableLeft").bootstrapTable('hideRow', {'index': index, isIdField: true});
-						count -= 1;
-					}
-				});
-				alert(count+"개의 분류 검색됨.");
-			}
-			else if(mode == "2"){	// 세부 항목
-				var count = "${categoryListData['categoryCount']}";
-				var checkary = [];
-				for(var i=0; i<count; i++){
-					checkary.push(false)
-				}
-				$("#tableBody tr:gt(0) td:not(:nth-child("+"${categoryListData['columnSize']}"+1+"n+1))").each(function(){
-					var index = $(this).closest("tr").find("input").val();
-
-					var name = $(this).text();
+				<c:forEach items="${categoryListData['categoryItemList']}" var="categoryItem">
+					var name = "${categoryItem.key.assetCategory}";
 					var match = name.match(new RegExp(keyword, 'g'));
 					if(match != null){
-						checkary[index] = true;
+						categoryListData.push("${categoryItem.key.assetCategoryCode}");
+						count += 1;
 					}
-				});
-				var count2 = count;
-				for(var i=0; i<count; i++){
-					if(checkary[i] == false){
-						$("#tableBody").bootstrapTable('hideRow', {'index': i, isIdField: true});
-						$("#tableLeft").bootstrapTable('hideRow', {'index': i, isIdField: true});
-						count2 -= 1;
-					}
-				}
-				alert(count2+"개의 분류 검색됨.");
-			}
+				</c:forEach>
+				alert(count+"개의 분류 검색됨.");
+			} else if(mode == "2"){	// 세부 항목
+				<c:forEach items="${categoryListData['categoryItemList']}" var="categoryItem">
+					var flag = false;
+					<c:forEach items="${categoryItem.value}" var="item">
+						if(!flag){
+							var name = "${item}";
+							var match = name.match(new RegExp(keyword, 'g'));
+							if(match != null){
+								categoryListData.push("${categoryItem.key.assetCategoryCode}");
+								count += 1;
+								flag = true;
+							}
+						}
+					</c:forEach>
+				</c:forEach>
+				alert(count+"개의 분류 검색됨.");
+			} 
+			
+		} else{
+			<c:forEach items="${categoryListData['categoryItemList']}" var="categoryItem">
+				categoryListData.push("${categoryItem.key.assetCategoryCode}");
+			</c:forEach>
 		}
-		
-		// 우클릭 시 해당 행의 관리 번호를 저장
-		$("td").contextmenu(function(event){
-			trName = $(event.target).closest("tr").find("td:eq(0)").text();
-		});
 
+		
+		// jqGrid 포매팅
+		var myData = [];
+		var maxIndex = 0;
+		<c:forEach items="${categoryListData['categoryItemList']}" var="categoryItem">
+			var dic = {};
+			dic['assetCategoryCode'] = "${categoryItem.key.assetCategoryCode}";
+			if(categoryListData.includes(dic['assetCategoryCode'])){
+				dic['assetCategory'] = "${categoryItem.key.assetCategory}";
+				var itemIndex = 0;
+				var indexName = '';
+				<c:forEach items="${categoryItem.value}" var="item">
+					itemIndex += 1;
+					indexName = '세부사항' + itemIndex;
+					dic[indexName] = "${item}";
+					if(maxIndex < itemIndex){
+						maxIndex = itemIndex;
+					}
+				</c:forEach>
+				myData.push(dic);
+			}
+		</c:forEach>
+
+		var colNameRow = [];
+		colNameRow.push('분류 코드');
+		colNameRow.push('분류 이름');
+		for(var j=1; j<=maxIndex; j++){
+			var colNameItem = '세부사항' + j;
+			colNameRow.push(colNameItem);
+		}
+		var colModelRow = [];
+		colModelRow.push({name:'assetCategoryCode', index:'assetCategoryCode', width:80, hidden:true, frozen:true});
+		colModelRow.push({name:'assetCategory', index:'assetCategory', width:80, frozen:true});
+		for(var j=1; j<=maxIndex; j++){
+			var colNameItem = '세부사항' + j;
+			var colModelItem = {name:colNameItem, index:colNameItem, width:80};
+			colModelRow.push(colModelItem);
+		}
+		debugger;
+		
+		
+		var isSelected = false;
+		$("#categoryTable").jqGrid({
+			datatype: "local",
+			data: myData,
+			height: 250,
+			rowNum: Number("${categoryListData.categoryCount}"),
+			multiselect: false,
+			viewrecord: true,
+			colNames: colNameRow,
+			colModel: colModelRow,
+			onRightClickRow: function(rowid){
+				trName = $("#categoryTable").getRowData(rowid)['assetCategory'];
+			}
+		});
+//		$("#categoryTable").jqGrid("setFrozenColumns");
+		
 		// 플래시 메시지
 		var flashmsg = "<c:out value='${msg}'/>";
 		
@@ -126,30 +162,7 @@
 			alert(flashmsg);
 		}
 
-		// 테이블 스크롤, 소트 클릭 연결
-		$("#tableHeadLeft th").click(function(){
-			var index = $("#tableHeadLeft th").index($(event.target).closest("th"));
-			$("#tableLeft th:eq("+index+") .sortable").click();
-			$("#tableBody th:eq("+index+") .sortable").click();
-		});
-		$("#divBody").scroll(function(){
-			var hscrollpos = $("#divBody").scrollLeft(); 
-			$("#divHead .fixed-table-body").scrollLeft(hscrollpos);
-			var vscrollpos = $("#divBody").scrollTop(); 
-			$("#divLeft").scrollTop(vscrollpos);
-		});
 	});
-	
-	function depSort(a, b){
-		if(a.dep < b.dep) return -1;
-		if(a.dep > b.dep) return 1;
-		return 0;
-	}
-	function rankSort(a, b){
-		if(a.rank < b.rank) return -1;
-		if(a.rank > b.rank) return 1;
-		return 0;
-	}
 
 </script>
 		
@@ -174,44 +187,7 @@
 		margin-left: 13%;
 		width: 76%;
 	}
-	#divHeadLeft{
-		z-index: 9999;
-		position: fixed;
-		height: 40px;
-	}
-	#divLeft{
-		z-index: 9999;
-		margin-top: 40px;
-		position: fixed;
-		background-color: white;
-		overflow-x: hidden;
-		overflow-y: hidden;
-	}
-	#divLeft thead{
-		visibility: collapse;
-	}
-	#divHead{
-		position: releative;
-		height: 40px;
-	}
-	#divBody{
-		overflow-y: scroll;
-	}
-	#tableBody{
-		overflow: auto;
-		position: absolute;
-	}
-	#tableBody thead{
-		visibility: collapse;
-	}
-	#box{
-		display: flex;
-	}
-	#wrapper{
-		flex: 1;
-		display: flex;
-		overflow: auto;
-	}
+	
 </style>
 		
 </head>
@@ -235,107 +211,9 @@
 					<font size="4px">&nbsp;&nbsp;분류 수 : </font>
 					<span class="badge">${categoryListData['categoryCount']}</span>
 				</div>
-				<% 
-				HashMap categoryListData = (HashMap)request.getAttribute("categoryListData");
-				int columnSize = (Integer)categoryListData.get("columnSize");
-				%>
 
-				<div id="wrapper">
-					<div id="box">
-						<div id="divHeadLeft">
-							<table class="table table-striped" data-toggle="table" id="tableHeadLeft">
-								<thead>
-									<tr>
-										<th data-sortable="true">분류 이름</th>
-									</tr>
-								</thead>
-							</table>
-						</div>
-					
-						<div id="divLeft">
-							<table class="table table-striped" data-toggle="table" id="tableLeft">
-								<thead>
-									<tr>
-										<th data-sortable="true">분류 이름</th>
-									</tr>
-								</thead>
-								
-								<tbody>
-								<c:forEach items="${categoryListData['categoryItemList']}" var="categoryItem">
-									<tr class="clickable-row" data-href="${categoryItem.key.assetCategory}">
-										<td>${categoryItem.key.assetCategory}</td>
-									</tr>
-								</c:forEach>
-								</tbody>
-							</table>
-						</div>
-
-						<div id="rightWrap">
-							<div id="divHead">
-							<div class="table-responsive">
-								<table class="table table-striped" data-toggle="table" id="tableHead">
-									<thead>
-										<tr>
-											<th data-sortable="true">분류 이름</th>
-											<%for(int i=0; i<columnSize; i++){%>
-											<th>세부사항 <%=i+1 %></th>
-											<%}%>
-										</tr>
-									</thead>
-									
-									<tbody style="visibility: collapse">
-									<c:forEach items="${categoryListData['categoryItemList']}" var="categoryItem">
-										<tr class="clickable-row" data-href="${categoryItem.key.assetCategory}">
-											<td>${categoryItem.key.assetCategory}</td>
-											<%int i=0; %>
-											<c:forEach items="${categoryItem.value}" var="item">
-											<td>${item}</td>
-											<%i += 1; %>
-											</c:forEach>
-											<%while(i<columnSize){
-												i += 1;%>
-											<td></td>
-											<%}%>
-										</tr>
-									</c:forEach>
-									</tbody>
-								</table>
-							</div>
-							</div>
-		
-							<div class="table-responsive" id="divBody">
-								<table class="table table-striped" data-toggle="table" id="tableBody">
-									<thead>
-										<tr>
-											<th data-sortable="true">분류 이름</th>
-											<%for(int i=0; i<columnSize; i++){%>
-											<th>세부사항 <%=i+1 %></th>
-											<%}%>
-										</tr>
-									</thead>
-									
-									<tbody>
-									<%int index = 0; %>
-									<c:forEach items="${categoryListData['categoryItemList']}" var="categoryItem">
-										<tr class="clickable-row" data-href="${categoryItem.key.assetCategory}">
-											<td>${categoryItem.key.assetCategory}<input type="hidden" value="<%=index %>"></td>
-											<%int i=0; %>
-											<c:forEach items="${categoryItem.value}" var="item">
-											<td>${item}</td>
-											<%i += 1; %>
-											</c:forEach>
-											<%while(i<columnSize){
-												i += 1;%>
-											<td></td>
-											<%}%>
-										</tr>
-										<%index += 1; %>
-									</c:forEach>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
+				<div class="table-responsive" style="overflow: auto">
+					<table id="categoryTable"></table>
 				</div>
 					
 				<div style="display:flex; float: right; margin-top: 10px">

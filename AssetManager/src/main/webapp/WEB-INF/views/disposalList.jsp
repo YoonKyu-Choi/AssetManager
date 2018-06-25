@@ -10,39 +10,44 @@
 	<script src="${pageContext.request.contextPath}/resources/js/moment-2-20-1.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-table.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery.jqGrid.min.js"></script>
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/jquery-ui.css" rel="stylesheet"/>
+	<link href="${pageContext.request.contextPath}/resources/css/ui.jqgrid.css" rel="stylesheet"/>
 
 <script>
-	var disableCount = 0;
-	var checkCount = 0;
 	var trName = "";
+	var multiSelected = false;
+	var disposeCount = Number("${disposalListData['assetCountByDispReady']}") + Number("${disposalListData['assetCountByDisposal']}");
 	var assetMenu = new BootstrapMenu('td', {
-    	actions: {
-    		assetDetail: {
+		actionsGroups: [
+			['assetDetail', 'assetHistory', 'assetDispose'],
+			['printList', 'printReport']
+		],
+		actions: {
+			assetDetail: {
 	    		name: '상세 보기',
 	    		onClick: function() {
 					isAsset();
 					document.location.href='/assetmanager/assetDetail?assetId=' + trName;
-	    		}
-    		},
-    		assetHistory: {
+	    		},
+			    isShown: function(){
+					return !multiSelected;
+				}
+			},
+			assetHistory: {
 	    		name: '이력 보기',
 	    		onClick: function() {
 					isAsset();
 					$("#assetHistoryForm input").val(trName); 
 					$("#assetHistoryForm").submit();
-	    		}
-    		}
-    	}
-    });
-	var generalMenu = new BootstrapMenu('.container', {
-		actionsGroups: [
-			['assetDispose'],
-			['printList', 'printReport']
-		],
-		actions: {
+	    		},
+			    isShown: function(){
+					return !multiSelected;
+				}
+			},
 			assetDispose: {
 				name: '폐기',
 				onClick: function(){
@@ -69,7 +74,7 @@
 
 		// 테이블이 비어있을 경우 클릭 불가
 		$(".table-responsive").on("click", ".table tbody tr", function(){
-			if(Number("${disposalListData['assetCountByDispReady']}") + Number("${disposalListData['assetCountByDisposal']}") > 0){
+			if(disposeCount > 0){
 				if($(event.target).is(".chkbox")){
 					return;
 				}
@@ -86,79 +91,128 @@
 
 		// 검색
 		var isSearch = "${disposalListData['search']}";
+		var assetListData = [];
 		if(isSearch == "1"){
 			var keyword = "${disposalListData['searchKeyword']}";
 			var mode = "${disposalListData['searchMode']}";
-			var result = [];
-			var count = Number("${disposalListData['assetCountByDispReady']}") + Number("${disposalListData['assetCountByDisposal']}");
-
-			if(mode == "1"){
-				$("tr:gt(0) td:nth-child(16n+4)").each(function(){
-					var index = $(this).closest("tr").find("input:eq(1)").val();
-					var name = $(this).text();
+			var count = 0;
+			if(mode == "1"){		// 자산 분류
+				<c:forEach items="${disposalListData['assetList']}" var="asset">
+					var name = "${asset.assetCategory}";
 					var match = name.match(new RegExp(keyword, 'g'));
-					if(match == null){
-						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
-						count -= 1;
+					if(match != null){
+						assetListData.push("${asset.assetId}");
+						count += 1;
 					}
-				});
+				</c:forEach>
+				alert(count+"개의 분류 검색됨.");
+			} else if(mode == "2"){	// 시리얼 번호
+				<c:forEach items="${disposalListData['assetList']}" var="asset">
+					var name = "${asset.assetSerial}";
+					var match = name.match(new RegExp(keyword, 'g'));
+					if(match != null){
+						assetListData.push("${asset.assetId}");
+						count += 1;
+					}
+				</c:forEach>
+				alert(count+"개의 분류 검색됨.");
+			} else if(mode == "3"){	// 구입 년도
+				<c:forEach items="${disposalListData['assetList']}" var="asset">
+					var name = "${asset.assetPurchaseDate}";
+					name = name.slice(0,4);
+					var match = name.match(new RegExp(keyword, 'g'));
+					if(match != null){
+						assetListData.push("${asset.assetId}");
+						count += 1;
+					}
+				</c:forEach>
+				alert(count+"개의 분류 검색됨.");
+			} else if(mode == "4"){	// 관리 번호
+				<c:forEach items="${disposalListData['assetList']}" var="asset">
+					var name = "${asset.assetId}";
+					var match = name.match(new RegExp(keyword, 'g'));
+					if(match != null){
+						assetListData.push("${asset.assetId}");
+						count += 1;
+					}
+				</c:forEach>
 				alert(count+"개의 분류 검색됨.");
 			}
-			else if(mode == "2"){
-				$("tr:gt(0) td:nth-child(16n+7)").each(function(){
-					var index = $(this).closest("tr").find("input:eq(1)").val();
-					var name = $(this).text();
-					var match = name.match(new RegExp(keyword, 'g'));
-					if(match == null){
-						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
-						count -= 1;
-					}
-				});
-				alert(count+"개의 분류 검색됨.");
-			}
-			else if(mode == "3"){
-				$("tr:gt(0) td:nth-child(16n+8)").each(function(){
-					var index = $(this).closest("tr").find("input:eq(1)").val();
-					var name = $(this).text().slice(0,4);
-					var match = name.match(new RegExp(keyword, 'g'));
-					if(match == null){
-						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
-						count -= 1;
-					}
-				});
-				alert(count+"개의 분류 검색됨.");
-			}
-			else if(mode == "4"){
-				$("#tableBody tr:gt(0) td:nth-child(16n+3)").each(function(){
-					var id = $(this).closest("tr").find("td:nth-child(16n+3)").text();
-					var index = $(this).closest("tr").find("input:eq(1)").val();
-					var name = $(this).text();
-					var match = name.match(new RegExp(keyword, 'g'));
-					if(match == null){
-						$("#tableBody").bootstrapTable('hideRow', {'index': index, isIdField: true});
-						count -= 1;
-					}
-				});
-				alert(count+"개의 분류 검색됨.");
-			}
+		} else{
+			<c:forEach items="${disposalListData['assetList']}" var="asset">
+				assetListData.push("${asset.assetId}");
+			</c:forEach>
 		}
-		
-		// 소트 클릭, 스크롤 연결
-		$("#tableHead th").click(function(){
-			var index = $("#tableHead th").index($(event.target).closest("th"));
-			$("#tableBody th:eq("+index+") .sortable").click();
-		});
-		
-		$("#divBody").scroll(function(){
-			var scrollpos = $("#divBody").scrollLeft(); 
-			$("#divHead .fixed-table-body").scrollLeft(scrollpos);
-		});
-		
-		// 우클릭 시 해당 행의 관리 번호를 저장
-		$("td").contextmenu(function(event){
-			trName = $(event.target).closest("tr").find("td:eq(2)").text();
-		});
 
+		
+		// jqGrid 포매팅
+		var myData = [];
+		<c:forEach items="${disposalListData['assetList']}" var="asset">
+			var dic = {};
+			dic['assetId'] = "${asset.assetId}";
+			if(assetListData.includes(dic['assetId'])){
+				dic['assetCategory'] = "${asset.assetCategory}";
+				dic['assetUser'] = "${asset.assetUser}";
+				dic['assetStatus'] = "${asset.assetStatus}";
+				dic['assetSerial'] = "${asset.assetSerial}";
+				dic['assetPurchaseDate'] = "${asset.assetPurchaseDate}";
+				dic['assetPurchasePrice'] = "${asset.assetPurchasePrice}";
+				dic['assetPurchaseShop'] = "${asset.assetPurchaseShop}";
+				dic['assetMaker'] = "${asset.assetMaker}";
+				dic['assetModel'] = "${asset.assetModel}";
+				dic['assetUsage'] = "${asset.assetUsage}";
+				dic['assetManager'] = "${asset.assetManager}";
+				dic['assetLocation'] = "${asset.assetLocation}";
+				myData.push(dic);
+			}
+		</c:forEach>
+
+		var isSelected = false;
+		$("#assetTable").jqGrid({
+			datatype: "local",
+			data: myData,
+			height: 250,
+			rowNum: disposeCount,
+			multiselect: true,
+			viewrecord: true,
+			colNames:['관리 번호', '자산 분류', '사용자', '상태', '시리얼 번호', '구매 날짜', '구매 가격', '구매처', '제조사', '모델명', '용도', '책임자', '위치'],
+			colModel:[
+				{name:'assetId',index:'assetId', width:100},
+				{name:'assetCategory',index:'assetCategory', width:80},
+				{name:'assetUser',index:'assetUser', width:60},
+				{name:'assetStatus',index:'assetStatus', width:80},
+				{name:'assetSerial',index:'assetSerial', width:120},
+				{name:'assetPurchaseDate',index:'assetPurchaseDate', width:100},
+				{name:'assetPurchasePrice',index:'assetPurchasePrice', width:100},
+				{name:'assetPurchaseShop',index:'assetPurchaseShop', width:120},
+				{name:'assetMaker',index:'assetMaker', width:120},
+				{name:'assetModel',index:'assetModel', width:120},
+				{name:'assetUsage',index:'assetUsage', width:60},
+				{name:'assetManager',index:'assetManager', width:60},
+				{name:'assetLocation',index:'assetLocation', width:40}
+			],
+			onRightClickRow: function(rowid){
+				trName = $("#assetTable").getRowData(rowid)['assetId'];
+				isSelected = $("#assetTable").find("input[type=checkbox]:eq("+(rowid-1)+")").prop("checked");
+				if(isSelected == false){
+					$("#assetTable").find("tr:eq("+rowid+")").click();
+				}
+				var selarrrow = $("#assetTable").getGridParam('selarrrow'); 
+				if(selarrrow.length > 1){
+					multiSelected = true;
+				} else{
+					multiSelected = false;
+				}
+				disposeActive = true;
+				for(i in selarrrow){
+					var assetStatus = $("#assetTable").getRowData(selarrrow[i])['assetStatus'];
+					if(assetStatus == "폐기 대기" || assetStatus == "폐기"){
+						disposeActive = false;
+					}
+				}
+			}
+		});
+		
 		// 반응성 윈도우 사이즈
 		var windowHeight = window.innerHeight;
 		$(".table-responsive").css("height", windowHeight-400);
@@ -169,118 +223,56 @@
 
 	});
 	
-
-	function depSort(a, b){
-		if(a.dep < b.dep) return -1;
-		if(a.dep > b.dep) return 1;
-		return 0;
-	}
-	function rankSort(a, b){
-		if(a.rank < b.rank) return -1;
-		if(a.rank > b.rank) return 1;
-		return 0;
-	}
-	
-	function dis(chkbox){
-		var status = $(chkbox).closest("tr").find("td:eq(1)").text();
-		if(status == "폐기"){
-               if(chkbox.checked == true){
-                      $("#disposalButton").prop("disabled", true);
-                   disableCount += 1;
-                   checkCount += 1;
-               }
-               else{
-                   disableCount -= 1;
-                   checkCount -= 1;
-                   if(disableCount == 0){
-                       $("#disposalButton").prop("disabled", false);
-                   }
-               }
-		}
-		else if(status =="폐기 대기"){
-			if(chkbox.checked == true){
-				checkCount += 1;
-			}
-			else{
-				checkCount -= 1;
-			}
-		}
-	}
-	
-	function allClick(){
-		$(".chkbox").each(function(){
-			$(this).click();
-		});
-	}
-
 	function disposeAsset(){
-		if(checkCount == 0){
-			alert("자산을 선택해주세요.");
+		if(!confirm('선택한 자산을 폐기하겠습니까?')){
 			return false;
-		}
-		else{
-			if(!confirm('선택한 자산을 폐기하겠습니까?')){
-				return false;
-			}else{
-				var disposeList = [];
-				$(".chkbox").each(function(){
-					if($(this).prop("checked")){
-						var id = $(this).closest("tr").find("td:eq(2)").text()
-						disposeList.push(id);
-					}
-				});
-				$("#disposeArray").val(disposeList);
-				$("#disposeForm").submit();
+		}else{
+			var disposeList = [];
+			var arr = $("#assetTable").getGridParam('selarrrow');
+			for(i in arr){
+				var rowid = arr[Number(i)];
+				var assetId = $("#assetTable").getRowData(rowid)['assetId'];
+				disposeList.push(assetId);
 			}
+
+			$("#disposeArray").val(disposeList);
+			$("#disposeForm").submit();
 		}
 	}
 	
 	function printList(){
-		if(checkCount == 0){
-			alert("자산을 선택해주세요.");
+		if(!confirm('선택한 자산의 목록을 출력하겠습니까?')){
 			return false;
-		}
-		else{
-			if(!confirm('선택한 자산의 목록을 출력하겠습니까?')){
-				return false;
-			}else{
-				var printList = [];
-				$(".chkbox").each(function(){
-					if($(this).prop("checked")){
-						var id = $(this).closest("tr").find("td:eq(2)").text()
-						printList.push(id);
-					}
-				});
-				
-				$("#printArray").val(printList);
-				$("#printForm").submit();
-				
+		}else{
+			var printList = [];
+			var arr = $("#assetTable").getGridParam('selarrrow');
+			for(i in arr){
+				var rowid = arr[Number(i)];
+				var assetId = $("#assetTable").getRowData(rowid)['assetId'];
+				printList.push(assetId);
 			}
+			
+			$("#printArray").val(printList);
+			$("#printForm").submit();
+			
 		}
 	}
 	
 	function printReport(){
-		if(checkCount == 0){
-			alert("자산을 선택해주세요.");
+		if(!confirm('선택한 자산의 보고서를 출력하겠습니까?')){
 			return false;
-		}
-		else{
-			if(!confirm('선택한 자산의 보고서를 출력하겠습니까?')){
-				return false;
-			}else{
-				var printList = [];
-				$(".chkbox").each(function(){
-					if($(this).prop("checked")){
-						var id = $(this).closest("tr").find("td:eq(2)").text()
-						printList.push(id);
-					}
-				});
-				
-				$("#printReportArray").val(printList);
-				console.log($("#printReportArray").val());
-				$("#printReportForm").submit();
-				
+		}else{
+			var printList = [];
+			var arr = $("#assetTable").getGridParam('selarrrow');
+			for(i in arr){
+				var rowid = arr[Number(i)];
+				var assetId = $("#assetTable").getRowData(rowid)['assetId'];
+				printList.push(assetId);
 			}
+			
+			$("#printReportArray").val(printList);
+			$("#printReportForm").submit();
+			
 		}
 	}
 	
@@ -348,7 +340,7 @@
 					<label style="float:right; margin-top: 20px">
 						<select id="searchMode" name="searchMode">
 							<option value="1">자산 분류</option>
-							<option value="2">SID</option>
+							<option value="2">시리얼 번호</option>
 							<option value="3">구입년도</option>
 							<option value="4">관리번호</option>
 						</select>
