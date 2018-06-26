@@ -23,7 +23,7 @@ public interface AssetDAO {
 	// 관리번호로 상세보기
 	public AssetVO getAssetByAssetId(String assetId) throws Exception;
 	// 자산 등록
-	public void insertAsset(AssetVO avo) throws Exception;
+	public int insertAsset(AssetVO avo) throws Exception;
 	// 카테고리별 자산 수 
 	public int getAssetCountByCategory(String assetCategory);
 	// 카테고리 이름으로 항목 조회
@@ -70,10 +70,7 @@ public interface AssetDAO {
 	public List<Integer> getTakeOutHistorySeqByAssetId(String assetId) throws Exception;
 	// 자산 카테고리 검색
 	public List<String> getAssetCategoryByName(String assetCategory) throws Exception;
-	// 자산 EmployeeSeq로 상세보기 
-	public AssetVO getAssetByEmpSeq(int employeeSeqInt);
-	// 자산 EmployeeSeq로 세부사항 상세보기
-	public List<AssetDetailVO> getAssetDetailByEmpSeq(int employeeSeqInt);
+
 	// My자산 목록 조회
 	public List<AssetVO> getMyAssetList(int employeeSeq) throws Exception;
 	// My 자산 목록 수 

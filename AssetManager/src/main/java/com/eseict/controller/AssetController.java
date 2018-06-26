@@ -56,15 +56,9 @@ public class AssetController {
 	
 	@RequestMapping(value = "/assetDetail")
 	public ModelAndView assetDetail(RedirectAttributes redirectAttributes
-								  , @RequestParam(required=false) String assetId
-								  , @RequestParam(required=false) String employeeSeq) {
+								  , @RequestParam String assetId) {
 		try {
-			if(employeeSeq!=null) {
-				int employeeSeqInt = Integer.parseInt(employeeSeq);
-				aService.assetDetailMnV(employeeSeqInt);
-			}else {
 				return aService.assetDetailMnV(assetId);
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -106,7 +100,6 @@ public class AssetController {
 			avo.setAssetReceiptUrl(aService.uploadImageFile(request.getServletContext(), uploadImage));
 			
 			String assetUser = avo.getAssetUser();
-			System.out.println(assetUser);
 			avo.setAssetUser(eService.getEmployeeNameByEmpId(assetUser));
 			avo.setAssetManager(eService.getEmployeeNameByEmpId(avo.getAssetManager()));
 			avo.setEmployeeSeq(eService.getEmployeeSeqByEmpId(assetUser));
@@ -120,15 +113,15 @@ public class AssetController {
 			// 자산 등록 시 반출,수리 중이면 입력
 			if(!assetOutObjective.isEmpty() && !assetOutPurpose.isEmpty() && !assetOutCost.isEmpty() 
 					&& assetOutObjective != null && assetOutPurpose != null && assetOutCost != null) {
-			AssetTakeOutHistoryVO atouhvo = new AssetTakeOutHistoryVO();
-			atouhvo.setAssetId(assetId);
-			atouhvo.setAssetOutStatus(avo.getAssetOutStatus());
-			atouhvo.setAssetOutObjective(assetOutObjective);
-			atouhvo.setAssetOutPurpose(assetOutPurpose);
-			atouhvo.setAssetOutStartDate(new java.sql.Date(new java.util.Date().getTime()));
-			atouhvo.setAssetOutCost(assetOutCost);
-			atouhvo.setAssetOutComment(assetOutComment);
-			aService.insertAssetTakeOutHistoryWhenRegister(atouhvo);
+				AssetTakeOutHistoryVO atouhvo = new AssetTakeOutHistoryVO();
+				atouhvo.setAssetId(assetId);
+				atouhvo.setAssetOutStatus(avo.getAssetOutStatus());
+				atouhvo.setAssetOutObjective(assetOutObjective);
+				atouhvo.setAssetOutPurpose(assetOutPurpose);
+				atouhvo.setAssetOutStartDate(new java.sql.Date(new java.util.Date().getTime()));
+				atouhvo.setAssetOutCost(assetOutCost);
+				atouhvo.setAssetOutComment(assetOutComment);
+				aService.insertAssetTakeOutHistoryWhenRegister(atouhvo);
 			}
 			
 			return "redirect:/assetList";
@@ -180,21 +173,23 @@ public class AssetController {
 		try {
 			String assetId = avo.getAssetId();
 			String assetUser = avo.getAssetUser();
+			String UserEmpName = eService.getEmployeeNameByEmpId(assetUser); 
 			
+			// 아이디로 EmpSeq 구하기
 			int newEmpSeq = eService.getEmployeeSeqByEmpId(assetUser);
 			int empSeq = eService.getEmployeeSeqByEmpId(beforeUser);
 			
 			// 이미지 업로드
 			avo.setAssetReceiptUrl(aService.uploadImageFile(request.getServletContext(), uploadImage));
 			
-			avo.setAssetUser(eService.getEmployeeNameByEmpId(assetUser));
+			avo.setAssetUser(UserEmpName);
 			avo.setEmployeeSeq(newEmpSeq);
 			aService.updateAsset(avo);
 			aService.updateAssetDetail(assetId, items, itemsDetail);
 			
 			// 자산 수정 시 자산 이력 자동 입력
 			if(newEmpSeq != empSeq) {
-				aService.updateAssetHistory(assetId, assetUser, empSeq, newEmpSeq);
+				aService.updateAssetHistory(assetId, UserEmpName, empSeq, newEmpSeq);
 			}
 			return "redirect:/assetDetail?assetId="+assetId;
 		} catch (Exception e) {

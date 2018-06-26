@@ -99,6 +99,7 @@
 				$("#divBody").css("height", windowHeight-330);
 			});
 	
+			<%-- 
 			// 검색
 			var isSearch = "${assetListData['search']}";
 			if(isSearch == "1"){
@@ -152,7 +153,7 @@
 					alert(count+"개의 분류 검색됨.");
 				}
 			}
-			
+			--%>
 			// 플래시 메시지
 			var flashmsg = "<c:out value='${msg}'/>";
 			if(flashmsg != ""){
@@ -167,8 +168,13 @@
 				dic['assetCategory'] = "${asset.assetCategory}";
 				dic['assetUser'] = "${asset.assetUser}";
 				dic['assetStatus'] = "${asset.assetStatus}";
+				dic['assetOutStatus'] = "${asset.assetOutStatus}";
 				dic['assetSerial'] = "${asset.assetSerial}";
-				dic['assetPurchaseDate'] = "${asset.assetPurchaseDate}";
+				var assetPurchaseDate = "${asset.assetPurchaseDate}";
+				if(assetPurchaseDate == "9999-01-01"){
+					assetPurchaseDate = "미입력";
+				}
+				dic['assetPurchaseDate'] = assetPurchaseDate;
 				dic['assetPurchasePrice'] = "${asset.assetPurchasePrice}";
 				dic['assetPurchaseShop'] = "${asset.assetPurchaseShop}";
 				dic['assetMaker'] = "${asset.assetMaker}";
@@ -187,12 +193,13 @@
 				rowNum: assetCount,
 				multiselect: true,
 				viewrecord: true,
-				colNames:['관리 번호', '자산 분류', '사용자', '상태', '시리얼 번호', '구매 날짜', '구매 가격', '구매처', '제조사', '모델명', '용도', '책임자', '위치'],
+				colNames:['관리 번호', '자산 분류', '사용자', '상태', '반출 상태', '시리얼 번호', '구매 날짜', '구매 가격', '구매처', '제조사', '모델명', '용도', '책임자', '위치'],
 				colModel:[
 					{name:'assetId',index:'assetId', width:100},
 					{name:'assetCategory',index:'assetCategory', width:80},
 					{name:'assetUser',index:'assetUser', width:60},
 					{name:'assetStatus',index:'assetStatus', width:80},
+					{name:'assetOutStatus',index:'assetOutStatus', width:80},
 					{name:'assetSerial',index:'assetSerial', width:120},
 					{name:'assetPurchaseDate',index:'assetPurchaseDate', width:100},
 					{name:'assetPurchasePrice',index:'assetPurchasePrice', width:100},
@@ -360,6 +367,7 @@
 			<div class="main">
 				<form class="page-header" id="searchForm" action="assetList">
 					<font size="6px"><b># 내 자산 관리</b></font>
+					<!-- 
 					<label style="float:right; margin-top: 20px">
 						<select id="searchMode" name="searchMode">
 							<option value="1">자산 분류</option>
@@ -370,6 +378,7 @@
 						<input type="text" id="searchKeyword" name="searchKeyword">
 						<input type="submit" value="검색">
 					</label>
+					 -->
 				</form>
 				<div style="margin-bottom: 10px">
 					<font size="4px">&nbsp;&nbsp;총 자산 수 : </font><span class="badge">${assetListData['assetCount']}</span>

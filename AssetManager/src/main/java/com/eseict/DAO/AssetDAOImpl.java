@@ -48,8 +48,8 @@ public class AssetDAOImpl implements AssetDAO {
 	}
 
 	@Override
-	public void insertAsset(AssetVO avo) throws Exception {
-		sqlSession.selectOne(namespace + "insertAsset", avo);
+	public int insertAsset(AssetVO avo) throws Exception {
+		return sqlSession.selectOne(namespace + "insertAsset", avo);
 	}
 
 	@Override
@@ -173,16 +173,6 @@ public class AssetDAOImpl implements AssetDAO {
 	@Override
 	public List<String> getAssetCategoryByName(String assetCategory) throws Exception {
 		return sqlSession.selectList(namespace+"getAssetCategoryByName",assetCategory);
-	}
-
-	@Override
-	public AssetVO getAssetByEmpSeq(int employeeSeqInt) {
-		return sqlSession.selectOne(namespace+"getAssetByEmpSeq",employeeSeqInt);
-	}
-
-	@Override
-	public List<AssetDetailVO> getAssetDetailByEmpSeq(int employeeSeqInt) {
-		return sqlSession.selectList(namespace+"getAssetDetailByEmpSeq",employeeSeqInt);
 	}
 
 	@Override

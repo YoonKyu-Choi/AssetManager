@@ -123,7 +123,7 @@
 			windowHeight = $(window).height();
 			$(".table-responsive").css("height", windowHeight-250);
 		})
-		
+		debugger;
 		// 현재 자산 상태
 		switch(assetStatusStr){
 		case '폐기 대기':
@@ -132,13 +132,21 @@
 		case '폐기':
 			assetStatus = 2;
 			break;
-		
+		case '사용 중':
+		case '사용 가능':
+		case '사용 불가':
+			switch(assetOutStatusStr){
+				case '반출 중':
+				case '수리 중':
+					assetStatus = 3;
+					break;
+				default:
+					assetStatus =4;
+					break;
+			}
+			break;
 		default:
 			assetStatus = 4;
-			if(!assetOutStatusStr == '반출X'){
-				alert(assetOutStatusStr);
-				return assetStatus = 3;
-			}
 			break;
 		}
 

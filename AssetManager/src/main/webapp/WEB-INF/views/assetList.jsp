@@ -172,6 +172,7 @@
 				dic['assetCategory'] = "${asset.assetCategory}";
 				dic['assetUser'] = "${asset.assetUser}";
 				dic['assetStatus'] = "${asset.assetStatus}";
+				dic['assetOutStatus'] = "${asset.assetOutStatus}";
 				dic['assetSerial'] = "${asset.assetSerial}";
 				var assetPurchaseDate = "${asset.assetPurchaseDate}";
 				if(assetPurchaseDate == "9999-01-01"){
@@ -197,12 +198,13 @@
 			rowNum: assetCount,
 			multiselect: true,
 			viewrecord: true,
-			colNames:['관리 번호', '자산 분류', '사용자', '상태', '시리얼 번호', '구매 날짜', '구매 가격', '구매처', '제조사', '모델명', '용도', '책임자', '위치'],
+			colNames:['관리 번호', '자산 분류', '사용자', '상태', '반출 상태', '시리얼 번호', '구매 날짜', '구매 가격', '구매처', '제조사', '모델명', '용도', '책임자', '위치'],
 			colModel:[
 				{name:'assetId',index:'assetId', width:100},
 				{name:'assetCategory',index:'assetCategory', width:80},
 				{name:'assetUser',index:'assetUser', width:60},
 				{name:'assetStatus',index:'assetStatus', width:80},
+				{name:'assetOutStatus',index:'assetOutStatus', width:100},
 				{name:'assetSerial',index:'assetSerial', width:120},
 				{name:'assetPurchaseDate',index:'assetPurchaseDate', width:100},
 				{name:'assetPurchasePrice',index:'assetPurchasePrice', width:100},

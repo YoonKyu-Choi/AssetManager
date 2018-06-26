@@ -14,7 +14,7 @@ import com.eseict.VO.CategoryVO;
 public interface AssetService {
 
 	// 자산 등록
-	public void insertAsset(AssetVO avo) throws Exception;
+	public int insertAsset(AssetVO avo) throws Exception;
 	// 카테고리 이름으로 항목 조회
 	public List<CategoryVO> getCategoryDetailItem(String assetCategory) throws Exception;
 	// 자산 정보 수정
@@ -28,8 +28,6 @@ public interface AssetService {
 	public ModelAndView assetListMnV(String searchMode, String searchKeyword) throws Exception;
 	// assetId로 상세보기
 	public ModelAndView assetDetailMnV(String assetId) throws Exception;
-	// employeeSeq로 상세보기
-	public ModelAndView assetDetailMnV(int employeeSeqInt) throws Exception;
 	
 	public ModelAndView assetRegisterMnV() throws Exception;
 
