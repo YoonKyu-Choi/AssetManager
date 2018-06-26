@@ -186,6 +186,7 @@
 				dic['assetUsage'] = "${asset.assetUsage}";
 				dic['assetManager'] = "${asset.assetManager}";
 				dic['assetLocation'] = "${asset.assetLocation}";
+				dic['employeeSeq'] = "${asset.employeeSeq}";
 				myData.push(dic);
 			}
 		</c:forEach>
@@ -198,22 +199,23 @@
 			rowNum: assetCount,
 			multiselect: true,
 			viewrecord: true,
-			colNames:['관리 번호', '자산 분류', '사용자', '상태', '반출 상태', '시리얼 번호', '구매 날짜', '구매 가격', '구매처', '제조사', '모델명', '용도', '책임자', '위치'],
+			colNames:['관리 번호', '자산 분류', '사용자', '상태', '반출 상태', '시리얼 번호', '구매 날짜', '구매 가격', '구매처', '제조사', '모델명', '용도', '책임자', '위치', '사용자 번호'],
 			colModel:[
-				{name:'assetId',index:'assetId', width:100},
-				{name:'assetCategory',index:'assetCategory', width:80},
-				{name:'assetUser',index:'assetUser', width:60},
-				{name:'assetStatus',index:'assetStatus', width:80},
-				{name:'assetOutStatus',index:'assetOutStatus', width:100},
-				{name:'assetSerial',index:'assetSerial', width:120},
-				{name:'assetPurchaseDate',index:'assetPurchaseDate', width:100},
-				{name:'assetPurchasePrice',index:'assetPurchasePrice', width:100},
-				{name:'assetPurchaseShop',index:'assetPurchaseShop', width:120},
-				{name:'assetMaker',index:'assetMaker', width:120},
-				{name:'assetModel',index:'assetModel', width:120},
-				{name:'assetUsage',index:'assetUsage', width:60},
-				{name:'assetManager',index:'assetManager', width:60},
-				{name:'assetLocation',index:'assetLocation', width:40}
+				{name:'assetId',index:'assetId', width:100, align:'center'},
+				{name:'assetCategory',index:'assetCategory', width:80, align:'center'},
+				{name:'assetUser',index:'assetUser', width:60, align:'center'},
+				{name:'assetStatus',index:'assetStatus', width:80, align:'center'},
+				{name:'assetOutStatus',index:'assetOutStatus', width:100, align:'center'},
+				{name:'assetSerial',index:'assetSerial', width:120, align:'center'},
+				{name:'assetPurchaseDate',index:'assetPurchaseDate', width:100, align:'center'},
+				{name:'assetPurchasePrice',index:'assetPurchasePrice', width:100, align:'center'},
+				{name:'assetPurchaseShop',index:'assetPurchaseShop', width:120, align:'center'},
+				{name:'assetMaker',index:'assetMaker', width:120, align:'center'},
+				{name:'assetModel',index:'assetModel', width:120, align:'center'},
+				{name:'assetUsage',index:'assetUsage', width:60, align:'center'},
+				{name:'assetManager',index:'assetManager', width:60, align:'center'},
+				{name:'assetLocation',index:'assetLocation', width:40, align:'center'},
+				{name:'employeeSeq',index:'employeeSeq', hidden : 'true'}
 			],
 			onRightClickRow: function(rowid){
 				trName = $("#assetTable").getRowData(rowid)['assetId'];
@@ -230,8 +232,14 @@
 				disposeActive = true;
 				for(i in selarrrow){
 					var assetStatus = $("#assetTable").getRowData(selarrrow[i])['assetStatus'];
+
 					if(assetStatus == "폐기 대기" || assetStatus == "폐기"){
 						disposeActive = false;
+					} 
+					if(<%=session.getAttribute("employeeSeq")%> != $("#assetTable").getRowData(selarrrow[i])['employeeSeq']){
+						disposeActive = false;
+					} else {
+						disposeActive = true;
 					}
 				}
 			}
