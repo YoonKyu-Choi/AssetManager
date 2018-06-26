@@ -15,7 +15,9 @@
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet" />
 
 <script>
-	
+	var assetUserId = "${assetData['assetUserId']}";
+	var loginId = '<%=session.getAttribute("Id") %>';
+	var isAdmin = "<%=session.getAttribute("isAdmin")%>";
 	var assetStatusStr = "${assetData['assetVO']['assetStatus']}";
 	var assetOutStatusStr = "${assetData['assetVO']['assetOutStatus']}";
 	var assetStatus = 0;
@@ -37,7 +39,15 @@
 					modifyConfirm();
 				},
 				isShown: function(){
-					return ((assetStatus==1) || (assetStatus==4));
+					if (isAdmin == "TRUE"){
+						return ((assetStatus==1) || (assetStatus==4));
+					} else if(isAdmin != "TRUE"){
+						if(loginId == assetUserId){
+							return ((assetStatus==1) || (assetStatus==4));
+						}else {
+							return false;
+						}
+					}
 				}
 			},
 			assetDelete: {
@@ -46,7 +56,15 @@
 					deleteConfirm();
 				},
 				isShown: function(){
-					return (assetStatus == 2);
+					if (isAdmin == "TRUE"){
+						return (assetStatus == 2);
+					} else if(isAdmin != "TRUE"){
+						if(loginId == assetUserId){
+							return (assetStatus == 2);
+						}else {
+							return false;
+						}
+					}
 				}
 			},
 			assetPay: {
@@ -55,7 +73,15 @@
 					payConfirm();
 				},
 				isShown: function(){
-					return assetStatus==3;
+					if (isAdmin == "TRUE"){
+						return assetStatus==3;
+					} else if(isAdmin != "TRUE"){
+						if(loginId == assetUserId){
+							return assetStatus==3;
+						}else {
+							return false;
+						}
+					}
 				}
 			},
 			assetTakeout: {
@@ -64,7 +90,15 @@
 					$("#pop").show();
 				},
 				isShown: function(){
-					return assetStatus==4;
+					if (isAdmin == "TRUE"){
+						return assetStatus==4;
+					} else if(isAdmin != "TRUE"){
+						if(loginId == assetUserId){
+							return assetStatus==4;
+						}else {
+							return false;
+						}
+					}
 				}
 			},
 			assetDisposeRequest: {
@@ -73,7 +107,15 @@
 					dispReqConfirm();
 				},
 				isShown: function(){
-					return assetStatus==4;
+					if (isAdmin == "TRUE"){
+						return assetStatus==4;
+					} else if(isAdmin != "TRUE"){
+						if(loginId == assetUserId){
+							return assetStatus==4;
+						}else {
+							return false;
+						}
+					}
 				}
 			},
 			assetList: {
@@ -123,7 +165,6 @@
 			windowHeight = $(window).height();
 			$(".table-responsive").css("height", windowHeight-250);
 		})
-		debugger;
 		// 현재 자산 상태
 		switch(assetStatusStr){
 		case '폐기 대기':

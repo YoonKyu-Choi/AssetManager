@@ -124,15 +124,13 @@ public class AssetServiceImpl implements AssetService {
 	@Override
 	public ModelAndView assetDetailMnV(String assetId) throws Exception {
 		AssetVO avo = aDao.getAssetByAssetId(assetId);
-		System.out.println(avo.getEmployeeSeq());
 		List<AssetDetailVO> dlist = aDao.getAssetDetailByAssetId(assetId);
 		HashMap<String, Object> assetData = new HashMap<String, Object>();
 		assetData.put("assetVO", avo);
 		assetData.put("assetDetailList", dlist);
-		assetData.put("loginId",eDao.getEmployeeIdByEmpSeq(avo.getEmployeeSeq()));
+		assetData.put("assetUserId",eDao.getEmployeeIdByEmpSeq(avo.getEmployeeSeq()));
 		return new ModelAndView("assetDetail.tiles", "assetData", assetData);
 	}
-	
 	
 	@Override
 	public ModelAndView assetRegisterMnV() throws Exception {
