@@ -62,7 +62,7 @@ public class UserController {
 	}
 
 	// 사용자 상세보기
-	@RequestMapping(value = "/userDetail")
+	@RequestMapping(value = "/userDetail", method = RequestMethod.POST)
 	public ModelAndView userDetail(RedirectAttributes redirectAttributes
 								 , @RequestParam int employeeSeq) {
 		try {

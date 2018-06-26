@@ -130,10 +130,10 @@
 		}
 		var colModelRow = [];
 		colModelRow.push({name:'assetCategoryCode', index:'assetCategoryCode', width:80, hidden:true, frozen:true});
-		colModelRow.push({name:'assetCategory', index:'assetCategory', width:80, frozen:true});
+		colModelRow.push({name:'assetCategory', index:'assetCategory', width:80, frozen:true, align:'center'});
 		for(var j=1; j<=maxIndex; j++){
 			var colNameItem = '세부사항' + j;
-			var colModelItem = {name:colNameItem, index:colNameItem, width:80};
+			var colModelItem = {name:colNameItem, index:colNameItem, width:80, align:'center'};
 			colModelRow.push(colModelItem);
 		}
 		debugger;

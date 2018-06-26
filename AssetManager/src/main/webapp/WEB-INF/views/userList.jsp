@@ -23,7 +23,7 @@
     	actions: [{
     		name: '상세 보기',
     		onClick: function() {
-				document.location.href='/assetmanager/userDetail?employeeSeq=' + trName;
+    			$("#userDetailForm").submit();
     		}
     	}]
     });
@@ -87,17 +87,18 @@
 			colNames:['번호', '상태', '이름', '아이디', '소속', '직급', '위치', '이메일', '연락처'],
 			colModel:[
 				{name:'employeeSeq',index:'employeeSeq', width:60, hidden:true},
-				{name:'employeeStatus',index:'employeeStatus', width:60},
-				{name:'employeeName',index:'employeeName', width:80},
-				{name:'employeeId',index:'employeeId', width:100},
-				{name:'employeeDepartmentString',index:'employeeDepartmentString', width:160},
-				{name:'employeeRankString',index:'employeeRankString', width:100},
-				{name:'employeeLocation',index:'employeeLocation', width:60},
-				{name:'employeeEmail',index:'employeeEmail', width:160},
-				{name:'employeePhone',index:'employeePhone', width:120},
+				{name:'employeeStatus',index:'employeeStatus', width:60, align:'center'},
+				{name:'employeeName',index:'employeeName', width:80, align:'center'},
+				{name:'employeeId',index:'employeeId', width:100, align:'center'},
+				{name:'employeeDepartmentString',index:'employeeDepartmentString', width:160, align:'center'},
+				{name:'employeeRankString',index:'employeeRankString', width:100, align:'center'},
+				{name:'employeeLocation',index:'employeeLocation', width:60, align:'center'},
+				{name:'employeeEmail',index:'employeeEmail', width:160, align:'center'},
+				{name:'employeePhone',index:'employeePhone', width:120, align:'center'},
 			],
 			onRightClickRow: function(rowid){
 				trName = $("#userTable").getRowData(rowid)['employeeSeq'];
+				$("#employeeSeq").val(trName);
 			}
 		});
 
@@ -144,7 +145,7 @@
 		width: 76%;
 	}
 </style>
-	
+
 </head>
 <body>
 	<div class="container-fluid">
@@ -168,7 +169,10 @@
 				<div style="overflow: auto">
 				<table id="userTable"></table>
 				</div>
-
+				
+				<form id="userDetailForm" action="userDetail" method="post">
+					<input type="hidden" id="employeeSeq" name="employeeSeq"/>
+				</form>
 
 				<button class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='/assetmanager/register';">회원 추가</button>
 			</div>
