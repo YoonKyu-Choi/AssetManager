@@ -7,6 +7,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap-menu.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"></script>
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
 
 <script>
 	var generalMenu = new BootstrapMenu('.container', {

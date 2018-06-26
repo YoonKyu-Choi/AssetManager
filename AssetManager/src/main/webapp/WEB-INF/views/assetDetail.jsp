@@ -132,12 +132,13 @@
 		case '폐기':
 			assetStatus = 2;
 			break;
-		case '반출 중':
-		case '수리 중':
-			assetStatus = 3;
-			break;
+		
 		default:
 			assetStatus = 4;
+			if(!assetOutStatusStr == '반출X'){
+				alert(assetOutStatusStr);
+				return assetStatus = 3;
+			}
 			break;
 		}
 
