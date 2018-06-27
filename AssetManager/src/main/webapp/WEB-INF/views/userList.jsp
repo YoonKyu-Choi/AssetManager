@@ -51,10 +51,11 @@
 
 		// 반응성 윈도우 사이즈
 		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-400);
+		$(".table-responsive").css("height", windowHeight-330);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-400);
+			$(".table-responsive").css("height", windowHeight-330);
+			$("#assetTable").setGridHeight(window.innerHeight-380, true);
 		});
 
 		// 검색
@@ -80,10 +81,11 @@
 		$("#userTable").jqGrid({
 			datatype: "local",
 			data: myData,
-			height: 250,
+			height: window.innerHeight-380,
 			rowNum: userCount,
 			multiselect: false,
 			viewrecord: true,
+			autowidth: true,
 			colNames:['번호', '상태', '이름', '아이디', '소속', '직급', '위치', '이메일', '연락처'],
 			colModel:[
 				{name:'employeeSeq',index:'employeeSeq', width:60, hidden:true},
@@ -166,8 +168,8 @@
 					<span class="badge">${userListData['userCount']}</span>
 				</div>
 				
-				<div style="overflow: auto">
-				<table id="userTable"></table>
+				<div class="table-responsive" style="overflow: auto">
+					<table id="userTable"></table>
 				</div>
 				
 				<form id="userDetailForm" action="userDetail" method="post">

@@ -51,10 +51,11 @@
 
 		// 반응성 윈도우 사이즈
 		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-350);
+		$(".table-responsive").css("height", windowHeight-330);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-350);
+			$(".table-responsive").css("height", windowHeight-330);
+			$("#assetTable").setGridHeight(window.innerHeight-380, true);
 		});
 
 		// 검색
@@ -142,7 +143,7 @@
 		$("#categoryTable").jqGrid({
 			datatype: "local",
 			data: myData,
-			height: 250,
+			height: window.innerHeight-380,
 			rowNum: Number("${categoryListData.categoryCount}"),
 			multiselect: false,
 			viewrecord: true,

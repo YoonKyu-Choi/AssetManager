@@ -98,6 +98,7 @@
 		$(window).resize(function(){
 			windowHeight = $(window).height();
 			$(".table-responsive").css("height", windowHeight-330);
+			$("#assetTable").setGridHeight(window.innerHeight-380, true);
 		});
 		
 		// 플래시 메시지
@@ -203,7 +204,7 @@
 		$("#assetTable").jqGrid({
 			datatype: "local",
 			data: myData,
-			height: 250,
+			height: window.innerHeight-380,
 			rowNum: assetCount,
 			multiselect: true,
 			viewrecord: true,

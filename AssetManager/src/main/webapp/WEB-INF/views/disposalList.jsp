@@ -182,7 +182,7 @@
 		$("#assetTable").jqGrid({
 			datatype: "local",
 			data: myData,
-			height: 250,
+			height: window.innerHeight-380,
 			rowNum: disposeCount,
 			multiselect: true,
 			viewrecord: true,
@@ -226,10 +226,11 @@
 		
 		// 반응성 윈도우 사이즈
 		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-400);
+		$(".table-responsive").css("height", windowHeight-330);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-400);
+			$(".table-responsive").css("height", windowHeight-330);
+			$("#assetTable").setGridHeight(window.innerHeight-380, true);
 		})
 
 	});
