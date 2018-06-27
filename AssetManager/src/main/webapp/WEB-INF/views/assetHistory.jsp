@@ -38,10 +38,10 @@
 	
 		// 반응성 윈도우 사이즈
 		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-400);
+		$(".table-responsive").css("height", windowHeight-300);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-400);
+			$(".table-responsive").css("height", windowHeight-300);
 		});
 	});
 	
@@ -69,6 +69,22 @@
 		margin-left: 13%;
 		width: 76%;
 	}
+	hr {
+		height: 1px;
+		width: 100%;
+		background-color: gray;
+		background-image: linear-gradient(to right, #ccc, #333, #ccc);
+	}
+	#button{
+		color: black;
+		border-color: #999;
+		background-color: #aaa;
+		font-weight: bold;
+	}
+	#button:hover {
+		color: white;
+		background-color: #333;
+	}
 </style>
 
 </head>
@@ -77,7 +93,7 @@
 		<div class="row">
 			<div class="main">
 				<h1 class="page-header">
-					<b>자산 관리 > ${model['assetId']}의 자산 이력 정보</b>
+					<b># ${model['assetId']}의 자산 이력</b>
 				</h1>
 				<div class="table-responsive" id="inputDiv" style="overflow: scroll; height: 500px;">
 					
@@ -97,7 +113,7 @@
 					<c:if test="${model['AssetFormerUserList'].size() ==0 }">
 						<h3>자산 이전 사용자가 없습니다.</h3>
 					</c:if>
-					
+					<hr>
 					<h3>자산 반출/수리 이력</h3>
 					<c:if test="${model['AssetHistoryList'].size() != 0 }">						
 					<table class="table table-striped" id="clickTable">
@@ -126,13 +142,17 @@
 					<c:if test="${model['AssetHistoryList'].size() ==0 }">
 						<h3>자산 반출/수리 이력이 없습니다.</h3>
 					</c:if>
-						<h3>자산 이력 코멘트</h3>
+					<hr>
+					<h3>자산 이력 코멘트</h3>
 					<div> 자산 반출/수리 이력를 클릭하시면 해당 이력을 확인 할 수 있습니다.<br>
 					<input type="text" id="assetOutComment" style="width:500px;height:120px" readonly/>
 					</div>
 				</div>
-			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
-			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetDetail?assetId=${model['assetId']}'" value="상세보기로 이동" />
+				<div style="display: flex; float: right; margin-top: 10px">
+					<input type="button" id="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="button" id="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetDetail?assetId=${model['assetId']}'" value="상세보기로 이동" />
+				</div>
 			</div>
 		</div>
 	</div>

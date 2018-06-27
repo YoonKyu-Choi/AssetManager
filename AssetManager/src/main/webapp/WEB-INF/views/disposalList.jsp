@@ -52,6 +52,9 @@
 				name: '폐기',
 				onClick: function(){
 					disposeAsset();
+				},
+				isEnabled: function(){
+					return disposeActive;
 				}
 			},
 			printList: {
@@ -218,7 +221,7 @@
 				disposeActive = true;
 				for(i in selarrrow){
 					var assetStatus = $("#assetTable").getRowData(selarrrow[i])['assetStatus'];
-					if( assetStatus == "폐기 대기" || assetStatus == "폐기"){
+					if(assetStatus == "폐기"){
 						disposeActive = false;
 					} 
 				}
@@ -325,24 +328,21 @@
 		margin-left: 13%;
 		width: 76%;
 	}
-	#divHead{
-		position: releative;
-		height: 40px;
-		overflow-y: scroll; 
+	#button{
+		color: black;
+		border-color: #999;
+		background-color: #aaa;
+		font-weight: bold;
 	}
-	#tableHead{
-		overflow-y: scroll; 
+	#button:hover {
+		color: white;
+		background-color: #333;
 	}
-	#divBody{
-		overflow-y: scroll;
+	.ui-jqgrid .ui-jqgrid-labels th.ui-th-column {
+		background-color: #555;
+		background-image: none;
 	}
-	#tableBody{
-		overflow: auto;
-		position: absolute;
-	}
-	#tableBody thead{
-		visibility: collapse;
-	}
+
 </style>
 		
 </head>
@@ -370,7 +370,7 @@
 					<font size="4px">&nbsp;&nbsp;폐기 : </font><span class="badge">${disposalListData['assetCountByDisposal']}</span>
 				</div>
 
-				<div style="overflow: auto">
+				<div class="table-responsive" style="overflow: auto">
 				<table id="assetTable"></table>
 				</div>
 				
@@ -393,7 +393,7 @@
 				</form>
 				
 				<div style="display:flex; float: right; margin-top: 10px">
-					<button class="btn btn-lg btn-primary" id="disposalButton" onclick="disposeAsset();" >폐기</button>
+					<button id="button" class="btn btn-lg btn-primary" id="disposalButton" onclick="disposeAsset();" >폐기</button>
 				</div>
 			</div>
 		</div>

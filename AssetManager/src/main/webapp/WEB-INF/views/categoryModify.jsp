@@ -67,10 +67,10 @@
 
 		// 반응성 윈도우 사이즈
 		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-350);
+		$(".table-responsive").css("height", windowHeight-330);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-350);
+			$(".table-responsive").css("height", windowHeight-330);
 		});
 
 	});
@@ -154,6 +154,16 @@
 		margin-left: 13%;
 		width: 76%;
 	}
+	#button, #delbtn{
+		color: black;
+		border-color: #999;
+		background-color: #aaa;
+		font-weight: bold;
+	}
+	#button:hover, #delbtn:hover {
+		color: white;
+		background-color: #333;
+	}
 </style>
 
 </head>
@@ -198,9 +208,10 @@
 						</tr>
 					</table>
 				</div>
-				<div style="display: flex; float: right">
-					<input type="button" class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="categoryModify();" value="수정"/>
-					<input type="button" class="btn btn-lg btn-primary" onclick="cancelConfirm();" value="취소"/>
+				<div style="display: flex; float: right; margin-top: 10px">
+					<input type="button" id="button" class="btn btn-lg btn-primary" onclick="categoryModify();" value="수정"/>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="button" id="button" class="btn btn-lg btn-primary" onclick="cancelConfirm();" value="취소"/>
 				</div>
 			</div>
 		</div>

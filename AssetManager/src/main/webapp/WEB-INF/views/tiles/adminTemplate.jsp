@@ -38,6 +38,7 @@ ul {
 	margin: 0;
 	padding: 0;
 	width: 12.5%;
+	min-width: 100px;
 	text-align: center;
 	background-color: #666;
 	position: fixed;

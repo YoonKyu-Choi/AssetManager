@@ -146,6 +146,21 @@
 		margin-left: 13%;
 		width: 76%;
 	}
+	#button{
+		color: black;
+		border-color: #999;
+		background-color: #aaa;
+		font-weight: bold;
+	}
+	#button:hover {
+		color: white;
+		background-color: #333;
+	}
+	.ui-jqgrid .ui-jqgrid-labels th.ui-th-column {
+		background-color: #555;
+		background-image: none;
+	}
+
 </style>
 
 </head>
@@ -176,7 +191,7 @@
 					<input type="hidden" id="employeeSeq" name="employeeSeq"/>
 				</form>
 
-				<button class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='/assetmanager/register';">회원 추가</button>
+				<button id="button" class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='/assetmanager/register';">회원 추가</button>
 			</div>
 		</div>
 	</div>

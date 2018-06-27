@@ -343,6 +343,16 @@
 		background-color: gray;
 		background-image: linear-gradient(to right, #ccc, #333, #ccc);
 	}
+	#button, #registerBtn{
+		color: black;
+		border-color: #999;
+		background-color: #aaa;
+		font-weight: bold;
+	}
+	#button:hover, #registerBtn:hover {
+		color: white;
+		background-color: #333;
+	}
 </style>
 </head>
 
@@ -498,10 +508,10 @@
 		</form>
 		
 				
-		<div style="display: flex; float: right">
-			<input type="button" class="btn btn-lg btn-primary btn-block" onclick="location.href='/assetmanager/assetList'" value="취소" />
-			<label style="opacity: 0; margin: 10px"></label>
-			<input type="button" class="btn btn-lg btn-primary btn-block" id="registerBtn" onclick="submitCheck();" value="자산 등록" /> 
+		<div style="display: flex; float: right; margin-top: 10px">
+			<input type="button" class="btn btn-lg btn-primary" id="registerBtn" onclick="submitCheck();" value="자산 등록" /> 
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="button" id="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="취소" />
 		</div>
 	</div>
 </body>
