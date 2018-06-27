@@ -48,8 +48,8 @@ public class AssetDAOImpl implements AssetDAO {
 	}
 
 	@Override
-	public int insertAsset(AssetVO avo) throws Exception {
-		return sqlSession.selectOne(namespace + "insertAsset", avo);
+	public void insertAsset(AssetVO avo) throws Exception {
+		sqlSession.selectOne(namespace + "insertAsset", avo);
 	}
 
 	@Override

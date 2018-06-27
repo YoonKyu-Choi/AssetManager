@@ -17,8 +17,9 @@ body { background-color: "darkblue"}
 		<div class="row">
 			<div class="col-md-12">
 				<div class="error-template">
-					<h1>Oops!</h1>
-					<h2><c:out value='${msg}' /></h2>
+					<h1>Oops! 에러 발생 !</h1>
+					<h2><c:out value="${msg}" /></h2>
+					<div class="error-details">죄송합니다. 에러가 발생하여 요청하신 페이지를 찾지 못 했습니다.</div>
 					<div class="error-details">Sorry, an error has occured, Requested page not found!</div>
 					<div class="error-actions">
 						<a href="javascript:history.back();" class="btn btn-primary btn-lg">

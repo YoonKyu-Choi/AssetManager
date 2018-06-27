@@ -14,7 +14,7 @@ import com.eseict.VO.CategoryVO;
 public interface AssetService {
 
 	// 자산 등록
-	public int insertAsset(AssetVO avo) throws Exception;
+	public void insertAsset(AssetVO avo) throws Exception;
 	// 카테고리 이름으로 항목 조회
 	public List<CategoryVO> getCategoryDetailItem(String assetCategory) throws Exception;
 	// 자산 정보 수정

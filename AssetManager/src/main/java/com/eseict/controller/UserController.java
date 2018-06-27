@@ -58,7 +58,7 @@ public class UserController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return new ModelAndView("redirect:/userList");
+		return new ModelAndView("error.tiles");
 	}
 
 	// 사용자 상세보기
@@ -72,7 +72,7 @@ public class UserController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return new ModelAndView("redirect:/userList");
+		return new ModelAndView("error.tiles");
 	}
 
 	@RequestMapping(value = "/loginGet", method = RequestMethod.GET)
@@ -98,7 +98,7 @@ public class UserController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "redirect:/userList";
+		return "error.tiles";
 	}
 
 	// 사용자 수정 페이지 이동

@@ -22,7 +22,9 @@ public class DisposalController {
 
 		try {
 			if(searchKeyword != null) {
+				if((Integer.parseInt(searchMode)>=1 && (Integer.parseInt(searchMode)<=4))) {
 				return dService.disposalListMnV(searchMode, searchKeyword);
+				}
 			} else {
 				return dService.disposalListMnV(null, null);
 			}
@@ -30,7 +32,7 @@ public class DisposalController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return new ModelAndView("redirect:/disposalList");
+		return new ModelAndView("error.tiles");
 	}
 	
 	@RequestMapping(value="/disposeAsset", method=RequestMethod.POST)
@@ -45,7 +47,7 @@ public class DisposalController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "redirect:/disposalList";
+		return "error.tiles";
 	}
 	
 	@RequestMapping(value="/disposeAssetOne", method=RequestMethod.POST)
@@ -59,6 +61,6 @@ public class DisposalController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "redirect:/disposalList";
+		return "error.tiles";
 	}
 }
