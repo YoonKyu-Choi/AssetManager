@@ -395,7 +395,6 @@
 	hr {
 		height: 1px;
 		width: 100%;
-		border: 1;
 		background-color: gray;
 		background-image: linear-gradient(to right, #ccc, #333, #ccc);
 	}

@@ -98,6 +98,7 @@
 		$(window).resize(function(){
 			windowHeight = $(window).height();
 			$(".table-responsive").css("height", windowHeight-330);
+			$("#assetTable").setGridHeight(window.innerHeight-380, true);
 		});
 		
 		// 플래시 메시지
@@ -203,7 +204,7 @@
 		$("#assetTable").jqGrid({
 			datatype: "local",
 			data: myData,
-			height: 250,
+			height: window.innerHeight-380,
 			rowNum: assetCount,
 			multiselect: true,
 			viewrecord: true,
@@ -242,12 +243,11 @@
 				for(i in selarrrow){
 					var assetStatus = $("#assetTable").getRowData(selarrrow[i])['assetStatus'];
 
-					if(assetStatus == "폐기 대기" || assetStatus == "폐기"){
+					if((assetStatus == "폐기 대기") || (assetStatus == "폐기")){
 						disposeActive = false;
-					} else if(<%=session.getAttribute("employeeSeq")%> != $("#assetTable").getRowData(selarrrow[i])['employeeSeq']){
+					} else if((<%=session.getAttribute("employeeSeq")%> != $("#assetTable").getRowData(selarrrow[i])['employeeSeq'])
+							&& (<%=session.getAttribute("Id")%> != "admin")){
 						disposeActive = false;
-					} else {
-						disposeActive = true;
 					}
 				}
 			}
@@ -370,6 +370,20 @@
 		margin-left: 13%;
 		width: 76%;
 	}
+	#button{
+		color: black;
+		border-color: #999;
+		background-color: #aaa;
+		font-weight: bold;
+	}
+	#button:hover {
+		color: white;
+		background-color: #333;
+	}
+	.ui-jqgrid .ui-jqgrid-labels th.ui-th-column {
+		background-color: #555;
+		background-image: none;
+	}
 </style>
 </head>
 <body>
@@ -417,7 +431,7 @@
 				</form>
 
 				<div style="display:flex; float:right; margin-top: 10px">
-					<button class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetRegister';">자산 등록</button>
+					<button class="btn btn-lg btn-primary" id="button" onclick="location.href='/assetmanager/assetRegister';">자산 등록</button>
 				</div>
 			</div>
 		</div>

@@ -51,10 +51,11 @@
 
 		// 반응성 윈도우 사이즈
 		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-400);
+		$(".table-responsive").css("height", windowHeight-330);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-400);
+			$(".table-responsive").css("height", windowHeight-330);
+			$("#assetTable").setGridHeight(window.innerHeight-380, true);
 		});
 
 		// 검색
@@ -80,10 +81,11 @@
 		$("#userTable").jqGrid({
 			datatype: "local",
 			data: myData,
-			height: 250,
+			height: window.innerHeight-380,
 			rowNum: userCount,
 			multiselect: false,
 			viewrecord: true,
+			autowidth: true,
 			colNames:['번호', '상태', '이름', '아이디', '소속', '직급', '위치', '이메일', '연락처'],
 			colModel:[
 				{name:'employeeSeq',index:'employeeSeq', width:60, hidden:true},
@@ -144,6 +146,21 @@
 		margin-left: 13%;
 		width: 76%;
 	}
+	#button{
+		color: black;
+		border-color: #999;
+		background-color: #aaa;
+		font-weight: bold;
+	}
+	#button:hover {
+		color: white;
+		background-color: #333;
+	}
+	.ui-jqgrid .ui-jqgrid-labels th.ui-th-column {
+		background-color: #555;
+		background-image: none;
+	}
+
 </style>
 
 </head>
@@ -166,15 +183,15 @@
 					<span class="badge">${userListData['userCount']}</span>
 				</div>
 				
-				<div style="overflow: auto">
-				<table id="userTable"></table>
+				<div class="table-responsive" style="overflow: auto">
+					<table id="userTable"></table>
 				</div>
 				
 				<form id="userDetailForm" action="userDetail" method="post">
 					<input type="hidden" id="employeeSeq" name="employeeSeq"/>
 				</form>
 
-				<button class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='/assetmanager/register';">회원 추가</button>
+				<button id="button" class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='/assetmanager/register';">회원 추가</button>
 			</div>
 		</div>
 	</div>

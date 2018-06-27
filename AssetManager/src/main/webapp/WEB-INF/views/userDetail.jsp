@@ -38,10 +38,10 @@
 
 	    // 반응성 윈도우 사이즈
 		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-350);
+		$(".table-responsive").css("height", windowHeight-300);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-350);
+			$(".table-responsive").css("height", windowHeight-300);
 		});
 
 	});
@@ -122,6 +122,16 @@
 		width: 75%;
 		font-weight: normal;
 	}
+	#button, #delbtn{
+		color: black;
+		border-color: #999;
+		background-color: #aaa;
+		font-weight: bold;
+	}
+	#button:hover, #delbtn:hover {
+		color: white;
+		background-color: #333;
+	}
 </style>
 
 </head>
@@ -185,10 +195,11 @@
 				</form>
 				
 				<c:if test='${sessionScope.isAdmin == "TRUE" }'>
-					<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/userList'" value="목록" />
-					<div style="display: flex; float: right">
-						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">회원 수정</button>
-						<button class="btn btn-lg btn-primary" id="delbtn" onclick="deleteConfirm();">회원 삭제</button>
+<!-- 				<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/userList'" value="목록" />	-->
+					<div style="display: flex; float: right; margin-top: 10px">
+						<button class="btn btn-lg btn-primary" id="button" onclick="modifyConfirm();">수정</button>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<button class="btn btn-lg btn-primary" id="delbtn" onclick="deleteConfirm();">삭제</button>
 					</div>
 				</c:if>
 				

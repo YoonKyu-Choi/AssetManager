@@ -28,7 +28,7 @@
 			var windowHeight = window.innerHeight;
 
 		// 반응성 윈도우 사이즈	
-		$(".table-responsive").css("height", windowHeight-350);
+		$(".table-responsive").css("height", windowHeight-300);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
 			$(".table-responsive").css("height", windowHeight-300);
@@ -267,6 +267,16 @@
 		background-color: gray;
 		background-image: linear-gradient(to right, #ccc, #333, #ccc);
 	}
+	#button{
+		color: black;
+		border-color: #999;
+		background-color: #aaa;
+		font-weight: bold;
+	}
+	#button:hover {
+		color: white;
+		background-color: #333;
+	}
 </style>
 </head>
 <body>
@@ -414,10 +424,10 @@
 				<form id="cancelForm" action="assetDetail" method="POST">
 					<input type="hidden" name="assetId" value="${model['assetVO']['assetId']}" />
 				</form>
-				<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
-				<div style="display: flex; float: right">
-					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="submitCheck();">수정</button>
-					<button class="btn btn-lg btn-primary" onclick="cancelConfirm();">취소</button>
+<!-- 			<input type="button" id="button" style="margin-top: 10px" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />	-->
+				<div style="display: flex; float: right; margin-top: 10px">
+					<button id="button" class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="submitCheck();">수정</button>
+					<button id="button" class="btn btn-lg btn-primary" onclick="cancelConfirm();">취소</button>
 					<div class="mask"></div>
 				</div>
 			</div>

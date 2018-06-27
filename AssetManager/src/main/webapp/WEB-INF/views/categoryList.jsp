@@ -51,10 +51,11 @@
 
 		// 반응성 윈도우 사이즈
 		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-350);
+		$(".table-responsive").css("height", windowHeight-330);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-350);
+			$(".table-responsive").css("height", windowHeight-330);
+			$("#assetTable").setGridHeight(window.innerHeight-380, true);
 		});
 
 		// 검색
@@ -142,7 +143,7 @@
 		$("#categoryTable").jqGrid({
 			datatype: "local",
 			data: myData,
-			height: 250,
+			height: window.innerHeight-380,
 			rowNum: Number("${categoryListData.categoryCount}"),
 			multiselect: false,
 			viewrecord: true,
@@ -186,7 +187,21 @@
 		margin-left: 13%;
 		width: 76%;
 	}
-	
+	#button{
+		color: black;
+		border-color: #999;
+		background-color: #aaa;
+		font-weight: bold;
+	}
+	#button:hover {
+		color: white;
+		background-color: #333;
+	}
+	.ui-jqgrid .ui-jqgrid-labels th.ui-th-column {
+		background-color: #555;
+		background-image: none;
+	}
+
 </style>
 		
 </head>
@@ -216,7 +231,7 @@
 				</div>
 					
 				<div style="display:flex; float: right; margin-top: 10px">
-					<button class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/categoryRegister';">등록</button>
+					<button id="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/categoryRegister';">등록</button>
 				</div>
 			</div>
 		</div>

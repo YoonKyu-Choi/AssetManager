@@ -41,10 +41,10 @@
 
 	    // 반응성 윈도우 사이즈
 		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-400);
+		$(".table-responsive").css("height", windowHeight-380);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-400);
+			$(".table-responsive").css("height", windowHeight-380);
 		});
 
 	});
@@ -117,6 +117,16 @@
 		margin-left: 13%;
 		width: 76%;
 	}
+	#button, #delbtn{
+		color: black;
+		border-color: #999;
+		background-color: #aaa;
+		font-weight: bold;
+	}
+	#button:hover, #delbtn:hover {
+		color: white;
+		background-color: #333;
+	}
 </style>
 
 </head>
@@ -147,10 +157,11 @@
 				<form id="modifyForm" action="categoryModify" method="POST">
  					<input type="hidden" name="categoryName" value=${categoryData["name"]} />
 				</form>
-				<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/categoryList'" value="목록" />
-				<div style="display: flex; float: right">
-					<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">분류 수정</button>
-					<button class="btn btn-lg btn-primary" id="delbtn" onclick="deleteConfirm();">분류 삭제</button>
+<!-- 			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/categoryList'" value="목록" />	-->
+				<div style="display: flex; float: right; margin-top: 10px">
+					<button class="btn btn-lg btn-primary" id="button" onclick="modifyConfirm();">수정</button>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<button class="btn btn-lg btn-primary" id="delbtn" onclick="deleteConfirm();">삭제</button>
 				
 					<div class="mask"></div>
 				    <div class="window">

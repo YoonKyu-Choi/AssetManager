@@ -24,10 +24,10 @@
 
 		// 반응성 윈도우 사이즈
 		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-400);
+		$(".table-responsive").css("height", windowHeight-300);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-400);
+			$(".table-responsive").css("height", windowHeight-300);
 		});
 	});
 
@@ -152,7 +152,16 @@
 		width: 75%;
 		font-weight: normal;
 	}
-}
+	#button{
+		color: black;
+		border-color: #999;
+		background-color: #aaa;
+		font-weight: bold;
+	}
+	#button:hover {
+		color: white;
+		background-color: #333;
+	}
 </style>
 </head>
 <body>
@@ -258,12 +267,13 @@
 						</table>
 					</form>
 				</div>
+				<div style="display: flex; float: right; margin-top: 10px">
+					<input type="button" id="button" class="btn btn-lg btn-primary" onclick="modifyConfirm();" value="확인" />
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="button" id="button" class="btn btn-lg btn-primary" onclick="cancelConfirm();" value="취소" />
+				</div>
 			</div>
 		</div>
-	</div>
-	<div style="display: flex; float: right">
-		<input type="button" class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();" value="확인" />
-		<input type="button" class="btn btn-lg btn-primary" onclick="cancelConfirm();" value="취소" />
 	</div>
 	<form id="idForm" action="userDetail" method="POST">
 		<input type="hidden" name="employeeSeq"	value=${requestScope.employeeVO.employeeSeq } />
