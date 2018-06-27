@@ -33,8 +33,9 @@
 			},
 			"beforeSend" : function() {
 				var flag = idInputCheck();
-				if (flag == false)
+				if (flag == false){
 					return false;
+				}
 			},
 			"success" : function(message) {
 				if (message == 'new') {
@@ -59,8 +60,27 @@
 
 	}
 
+	function isEmail(email) {
+		var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+		return regex.test(email);
+	}
+
+	function isPhone(phone) {
+		var regex = /\d{3}[\-]\d{4}[\-]\d{4}/;
+		return regex.test(phone);
+	}
+
 	function submitCheck() {
-		if ($("#idInputCheck").val() == 'false') {
+		nameInputCheck();
+		if(!isEmail($("#employeeEmail").val())){
+			alert("이메일 형식이 올바르지 않습니다. 다시 입력해주세요. (example@exm.com)");
+			$("#employeeEmail").focus();
+			return false;
+		} else if(!isPhone($("#employeePhone").val())){
+			alert("연락처 형식이 올바르지 않습니다. 다시 입력해주세요. (010-1234-5678)");
+			$("#employeePhone").focus();
+			return false;
+		} else if ($("#idInputCheck").val() == 'false') {
 			alert("아이디 중복확인을 체크해주세요.");			
 			return false;
 		} else if($("#employeeName").val()==''){
@@ -88,12 +108,11 @@
 			alert("연락처를 입력해주세요.");
 			$("#employeePhone").focus();
 			return false;
-		}
-		else {
+		} else {
 			$("#registerSend").submit();
 		}
 	};
-
+	
 	function idInputCheck() {
 		var str = $("#employeeId").val();
 		var pattern1 = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; // 한글 x
@@ -107,7 +126,7 @@
 			return false;
 		}
 		if (pattern2.test(str)) {
-			alert("아이디는 특수문자를 사용할 수 없습니다");
+			alert("아이디는 특수문자를 사용할 수 없습니다.");
 			$("#employeeId").val("");
 			$("#employeeId").focus();
 			return false;
@@ -118,6 +137,18 @@
 			$("#employeeId").focus();
 			return false;
 		};
+	}
+
+	function nameInputCheck() {
+		var str = $("#employeeName").val();
+		var pattern2 = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자 x
+
+		if (pattern2.test(str)) {
+			alert("이름에 특수문자를 사용할 수 없습니다.");
+			$("#employeeName").val("");
+			$("#employeeName").focus();
+			return false;
+		}
 	}
 
 	function registerCancel(){

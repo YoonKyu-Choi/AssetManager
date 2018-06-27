@@ -181,7 +181,22 @@
 						return false;
 					}
 				}
-				
+				if(($("#assetUser").val() == "${model['assetVO']['assetUser']}")
+					&& ($("#assetSerial").val() == "${model['assetVO']['assetSerial']}")
+					&& ($("#assetStatus").val() == "${model['assetVO']['assetStatus']}")
+					&& ($("#assetOutStatus").val() == "${model['assetVO']['assetOutStatus']}")
+					&& ($("#assetPurchaseDate").val() == "${model['assetVO']['assetPurchaseDate']}")
+					&& ($("#assetMaker").val() == "${model['assetVO']['assetMaker']}")
+					&& ($("#assetPurchasePrice").val() == "${model['assetVO']['assetPurchasePrice']}")
+					&& ($("#assetModel").val() == "${model['assetVO']['assetModel']}")
+					&& ($("#assetPurchaseShop").val() == "${model['assetVO']['assetPurchaseShop']}")
+					&& ($("#assetUsage").val() == "${model['assetVO']['assetUsage']}")
+					&& ($("#assetManager").val() == "${model['assetVO']['assetManager']}")
+					&& ($("#assetLocation").val() == "${model['assetVO']['assetLocation']}")){
+					alert("수정 사항이 없습니다.");
+					return false;
+				}
+					
 				$("#modifySend").submit();
 			}
 		}

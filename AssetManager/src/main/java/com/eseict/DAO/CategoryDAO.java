@@ -26,6 +26,8 @@ public interface CategoryDAO {
 	
 	public int isCategory(String categoryName) throws Exception;
 
+	public int existsCategory(String categoryName) throws Exception;
+
 	public int existsCode(String code) throws Exception;
 	
 	public int newCode(String categoryName, String codeName) throws Exception;

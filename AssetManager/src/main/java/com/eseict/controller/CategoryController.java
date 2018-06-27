@@ -156,6 +156,22 @@ public class CategoryController {
 		return "redirect:/categoryList";
 	}
 
+	@RequestMapping(value = "/checkName")
+	@ResponseBody
+	public String checkName(@RequestParam(value = "name", required = false) String inputName
+						, HttpServletResponse response) {
+		try {
+			if (!inputName.isEmpty()) {
+				return String.valueOf(cService.existsCategory(inputName));
+			} else {
+				return "empty";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "error";
+	}
+	
 	@RequestMapping(value = "/checkCode")
 	@ResponseBody
 	public String checkId(@RequestParam(value = "code", required = false) String inputCode
@@ -171,4 +187,4 @@ public class CategoryController {
 		}
 		return "error";
 	}
-}
+	}
