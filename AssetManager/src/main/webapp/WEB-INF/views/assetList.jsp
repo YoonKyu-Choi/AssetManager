@@ -174,12 +174,20 @@
 				dic['assetStatus'] = "${asset.assetStatus}";
 				dic['assetOutStatus'] = "${asset.assetOutStatus}";
 				dic['assetSerial'] = "${asset.assetSerial}";
+
 				var assetPurchaseDate = "${asset.assetPurchaseDate}";
 				if(assetPurchaseDate == "9999-01-01"){
 					assetPurchaseDate = "미입력";
 				}
 				dic['assetPurchaseDate'] = assetPurchaseDate;
-				dic['assetPurchasePrice'] = "${asset.assetPurchasePrice}";
+
+				var assetPurchasePrice = "${asset.assetPurchasePrice}";
+				if(assetPurchasePrice=="미입력"){
+					assetPurchasePrice == "미입력";
+				} else {
+					assetPurchasePrice = numberWithCommas("${asset.assetPurchasePrice}")+" 원";	
+				}
+				dic['assetPurchasePrice'] = assetPurchasePrice;
 				dic['assetPurchaseShop'] = "${asset.assetPurchaseShop}";
 				dic['assetMaker'] = "${asset.assetMaker}";
 				dic['assetModel'] = "${asset.assetModel}";
@@ -208,7 +216,7 @@
 				{name:'assetOutStatus',index:'assetOutStatus', width:100, align:'center'},
 				{name:'assetSerial',index:'assetSerial', width:120, align:'center'},
 				{name:'assetPurchaseDate',index:'assetPurchaseDate', width:100, align:'center'},
-				{name:'assetPurchasePrice',index:'assetPurchasePrice', width:100, align:'center'},
+				{name:'assetPurchasePrice',index:'assetPurchasePrice', width:100, align:'right'},
 				{name:'assetPurchaseShop',index:'assetPurchaseShop', width:120, align:'center'},
 				{name:'assetMaker',index:'assetMaker', width:120, align:'center'},
 				{name:'assetModel',index:'assetModel', width:120, align:'center'},
@@ -342,6 +350,9 @@
 		}
 	}
 	
+	function numberWithCommas(x) {
+	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
 
 </script>
 	

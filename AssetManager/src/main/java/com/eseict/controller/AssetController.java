@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,13 +38,10 @@ public class AssetController {
 	public ModelAndView assetList(RedirectAttributes redirectAttributes
 								, @RequestParam(required = false) String searchMode
 								, @RequestParam(required = false) String searchKeyword
-								, @RequestParam(required = false) String employeeSeq
 								, HttpSession session) {
 		try {
 			if(searchKeyword != null) {
 				return aService.assetListMnV(searchMode, searchKeyword);
-			} else if(employeeSeq != null) {
-				return aService.myAssetListMnV(null, null, Integer.parseInt(employeeSeq));
 			} else {
 				return aService.assetListMnV(null, null);
 			}
@@ -54,7 +52,20 @@ public class AssetController {
 		return new ModelAndView("redirect:/assetList");
 	}
 	
-	@RequestMapping(value = "/assetDetail")
+	@RequestMapping(value="/myAssetList", method = RequestMethod.POST)
+	public ModelAndView myAssetList(RedirectAttributes redirectAttributes
+								, @RequestParam String employeeSeq
+								, HttpSession session) {
+		try {
+				return aService.myAssetListMnV(null, null, Integer.parseInt(employeeSeq));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
+		return new ModelAndView("redirect:/assetList");
+	}
+	
+	@RequestMapping(value = "/assetDetail", method = RequestMethod.POST)
 	public ModelAndView assetDetail(RedirectAttributes redirectAttributes
 								  , @RequestParam String assetId) {
 		try {

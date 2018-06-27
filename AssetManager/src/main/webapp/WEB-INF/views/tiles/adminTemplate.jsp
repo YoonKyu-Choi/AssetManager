@@ -10,6 +10,19 @@
 
 	<title>ESE 자산관리시스템</title>
 	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"></script>
+
+<script>
+	function userDetail(){
+		$("#employeeSeq").val(<%=session.getAttribute("employeeSeq") %>);
+		$("#userDetailForm").submit();
+	}
+	
+	function myAssetDetail(){
+		$("#assetEmployeeSeq").val(<%=session.getAttribute("employeeSeq") %>);
+		$("#myAssetForm").submit();
+	}
+</script>
+
 <style>
 
 footer {
@@ -81,13 +94,19 @@ li a:hover {
 		<ul>
 			<li id="systemlogo"><font>자산관리시스템</font></li>
 			<li><a id="asstLink" href="/assetmanager/assetList">자산 관리</a></li>
-			<li><a id="userLink" href="/assetmanager/userDetail?employeeSeq=<%=session.getAttribute("employeeSeq")%>">내 정보</a></li>
-			<li><a id="myAssetLink" href="/assetmanager/assetList?employeeSeq=<%=session.getAttribute("employeeSeq")%>">내 자산</a></li>
+			<li><a id="userLink" href="javascript:userDetail();">내 정보</a></li>
+			<li><a id="myAssetLink" href="javascript:myAssetDetail();">내 자산</a></li>
 		</ul>
 	</c:if>
 	<div class="container">
 		<tiles:insertAttribute name="content" />
 	</div>
+	<form id="userDetailForm" action="userDetail" method="post">
+		<input type="hidden" id="employeeSeq" name="employeeSeq"/>
+	</form>
+	<form id="myAssetForm" action="myAssetList" method="post">
+		<input type="hidden" id="assetEmployeeSeq" name="employeeSeq"/>
+	</form>
 
 	<footer class="container-fluid text-left" >
 		<div class="footer-container">
@@ -97,3 +116,4 @@ li a:hover {
 </body>
 
 </html>
+

@@ -155,8 +155,19 @@
 				dic['assetUser'] = "${asset.assetUser}";
 				dic['assetStatus'] = "${asset.assetStatus}";
 				dic['assetSerial'] = "${asset.assetSerial}";
-				dic['assetPurchaseDate'] = "${asset.assetPurchaseDate}";
-				dic['assetPurchasePrice'] = "${asset.assetPurchasePrice}";
+				var assetPurchaseDate = "${asset.assetPurchaseDate}";
+				if(assetPurchaseDate == "9999-01-01"){
+					assetPurchaseDate = "미입력";
+				}
+				dic['assetPurchaseDate'] = assetPurchaseDate;
+
+				var assetPurchasePrice = "${asset.assetPurchasePrice}";
+				if(assetPurchasePrice=="미입력"){
+					assetPurchasePrice == "미입력";
+				} else {
+					assetPurchasePrice = numberWithCommas("${asset.assetPurchasePrice}")+" 원";	
+				}
+				dic['assetPurchasePrice'] = assetPurchasePrice;
 				dic['assetPurchaseShop'] = "${asset.assetPurchaseShop}";
 				dic['assetMaker'] = "${asset.assetMaker}";
 				dic['assetModel'] = "${asset.assetModel}";
@@ -177,19 +188,19 @@
 			viewrecord: true,
 			colNames:['관리 번호', '자산 분류', '사용자', '상태', '시리얼 번호', '구매 날짜', '구매 가격', '구매처', '제조사', '모델명', '용도', '책임자', '위치'],
 			colModel:[
-				{name:'assetId',index:'assetId', width:100},
-				{name:'assetCategory',index:'assetCategory', width:80},
-				{name:'assetUser',index:'assetUser', width:60},
-				{name:'assetStatus',index:'assetStatus', width:80},
-				{name:'assetSerial',index:'assetSerial', width:120},
-				{name:'assetPurchaseDate',index:'assetPurchaseDate', width:100},
-				{name:'assetPurchasePrice',index:'assetPurchasePrice', width:100},
-				{name:'assetPurchaseShop',index:'assetPurchaseShop', width:120},
-				{name:'assetMaker',index:'assetMaker', width:120},
-				{name:'assetModel',index:'assetModel', width:120},
-				{name:'assetUsage',index:'assetUsage', width:60},
-				{name:'assetManager',index:'assetManager', width:60},
-				{name:'assetLocation',index:'assetLocation', width:40}
+				{name:'assetId',index:'assetId', width:100, align:'center'},
+				{name:'assetCategory',index:'assetCategory', width:80, align:'center'},
+				{name:'assetUser',index:'assetUser', width:60, align:'center'},
+				{name:'assetStatus',index:'assetStatus', width:80, align:'center'},
+				{name:'assetSerial',index:'assetSerial', width:120, align:'center'},
+				{name:'assetPurchaseDate',index:'assetPurchaseDate', width:100, align:'center'},
+				{name:'assetPurchasePrice',index:'assetPurchasePrice', width:100, align:'right'},
+				{name:'assetPurchaseShop',index:'assetPurchaseShop', width:120, align:'center'},
+				{name:'assetMaker',index:'assetMaker', width:120, align:'center'},
+				{name:'assetModel',index:'assetModel', width:120, align:'center'},
+				{name:'assetUsage',index:'assetUsage', width:60, align:'center'},
+				{name:'assetManager',index:'assetManager', width:60, align:'center'},
+				{name:'assetLocation',index:'assetLocation', width:40, align:'center'}
 			],
 			onRightClickRow: function(rowid){
 				trName = $("#assetTable").getRowData(rowid)['assetId'];
@@ -282,6 +293,10 @@
 			alert("해당 자산이 없습니다.");
 			return;
 		}
+	}
+	
+	function numberWithCommas(x) {
+	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
     
 </script>
