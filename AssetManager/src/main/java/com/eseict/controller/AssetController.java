@@ -69,9 +69,16 @@ public class AssetController {
 	
 	@RequestMapping(value = "/assetDetail", method = RequestMethod.POST)
 	public ModelAndView assetDetail(RedirectAttributes redirectAttributes
-								  , @RequestParam String assetId) {
-		try {
-				return aService.assetDetailMnV(assetId);
+								  , HttpServletRequest request
+								  , @RequestParam(required=false) String assetId) {
+		try {	System.out.println("gg");
+				if(assetId == null) {
+					String assetIdRedirect = (String)request.getAttribute("assetId");
+					System.out.println("맞지"+assetIdRedirect);
+					return aService.assetDetailMnV(assetIdRedirect);
+				}else {
+					return aService.assetDetailMnV(assetId);
+				}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -105,7 +112,7 @@ public class AssetController {
 							  , HttpServletRequest request){
 
 		try {
-			
+			System.out.println(assetOutObjective+assetOutPurpose+assetOutCost+assetOutComment);
 			// 관리 번호 생성
 			String assetId = aService.generateAssetId(avo);
 			avo.setAssetId(assetId);
@@ -206,7 +213,7 @@ public class AssetController {
 			if(newEmpSeq != empSeq) {
 				aService.updateAssetHistory(assetId, UserEmpName, empSeq, newEmpSeq);
 			}
-			return "redirect:/assetDetail?assetId="+assetId;
+			return "assetDetail";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

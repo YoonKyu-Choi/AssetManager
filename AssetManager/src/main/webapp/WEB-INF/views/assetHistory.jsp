@@ -45,6 +45,10 @@
 		});
 	});
 	
+	function goAssetDetail(){
+		$("#assetDetailForm").submit();		
+	}
+	
 </script>
 <style>
 	.orange{
@@ -132,8 +136,12 @@
 					</div>
 				</div>
 			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
-			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetDetail?assetId=${model['assetId']}'" value="상세보기로 이동" />
+			<input type="button" class="btn btn-lg btn-primary" onclick="goAssetDetail();" value="상세보기로 이동" />
+			
 			</div>
+			<form id="assetDetailForm" action="assetDetail" method="post">
+				<input type="hidden" id="assetId" name="assetId" value='${model["assetId"]}'/>
+			</form>
 		</div>
 	</div>
 </body>

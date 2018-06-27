@@ -39,9 +39,10 @@
 		});
 		
 		$('#popClose').click(function() {
-			$("#assetOutObjective").val("");
-			$("#assetOutPurpose").val("");
-			$("#assetOutCost").val("");
+			$("#assetOutObjective").val(null);
+			$("#assetOutPurpose").val(null);
+			$("#assetOutCost").val(null);
+			$("#assetOutComment").val(null);
 		    $('#pop').hide();
 		});
 
