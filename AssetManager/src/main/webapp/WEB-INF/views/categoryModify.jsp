@@ -32,7 +32,7 @@
 			$("tr:last").remove();
 		}
 		
-		$("#addItem").click(function(){
+		$(document).on("click", "#addItem", function(){		// .click("") style로 바꾸지 말 것. deprecated됨.
 			if(plusCount % 2 == 0){
 				$("#itemTable tr:last td:last").before('<td style="width: 50%"><input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="width: 80%" value=""/></td>');
 			} else if(plusCount % 2 == 1){
@@ -43,7 +43,7 @@
 			plusCount += 1;
 		});
 		
-		$(".deleteItem").click(function(event){
+		$(document).on("click", ".deleteItem", function(event){
 			if(!$(event.target).hasClass("deleteItemCancel")){
 				$(event.target).closest("td").find("input:last").prop("readonly", true).css('background', 'gray');
 				$(event.target).addClass("deleteItemCancel");
@@ -83,6 +83,11 @@
 			var isEmpty = false;
 			for(var i=0; i<plusCount; i++){
 				var item = $("td input[type='text']:eq("+i+")").val();
+				var pattern2 = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자 x
+				if (pattern2.test(item)) {
+					alert("세부사항에 특수문자를 사용할 수 없습니다.");
+					return false;
+				}
 				items.push(item);
 				if(item == ""){
 					isEmpty = true;
@@ -90,11 +95,12 @@
 			}
 			$("#items").val(items);
 			
-			if($("#categoryName").val() != $("#categoryOriName").val()){
+/*			if($("#categoryName").val() != $("#categoryOriName").val()){
 				if(!confirm("분류 이름을 수정하면 해당 분류의 모든 자산 정보가 변경됩니다. 계속할까요?")){
 					return false;
 				}
 			}
+*/
 			for(var i=0; i<itemSize; i++){
 				if($("td:eq("+i+")").find("input:last").prop("readonly")){
 					deleteItems.push(i);
@@ -113,6 +119,11 @@
 */			
 			if(isEmpty){
 				alert("빈 칸은 자동으로 제외하고 등록됩니다.");
+			}
+			
+			if((items.length == itemSize) && (deleteItems.length == 0)){
+				alert("수정 사항이 없습니다.");
+				return false;
 			}
 			$("#category").submit();
 
@@ -157,7 +168,7 @@
 					<div style="float: left; display:inline-block;">
 						<form id="category" action="categoryModifySend" method="post">
 							<input type="hidden" id="categoryOriName" name="categoryOriName" value="${categoryData['name']}" />
-							분류 이름: <input type="text" id="categoryName" name="categoryName" value="${categoryData['name']}" />
+							분류 이름: <input type="text" id="categoryName" name="categoryName" value="${categoryData['name']}" style="background:lightgray" readonly/>
 							<input type="hidden" id="items" name="items"/>
 							<input type="hidden" id="deleteItems" name="deleteItems"/>
 						</form>

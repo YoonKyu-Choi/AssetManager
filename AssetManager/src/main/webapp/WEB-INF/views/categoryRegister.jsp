@@ -16,6 +16,7 @@
 
 <script>
 	var plusCount = 0;
+	var nameChecked = false;
 	var codeChecked = false;
 
 	$(function(){
@@ -23,7 +24,7 @@
 		$("#catgLink").prop("class", "active");
 		
 		// 세부사항 추가제거
-		$("#addItem").click(function(){
+		$(document).on("click", "#addItem", function(){		// .click("") style로 바꾸지 말 것. deprecated됨.
 			plusCount += 1;
 			if(plusCount % 2 == 1){
 				$("#itemTable tr:last td:last").before('<td style="width: 50%"><input type="button" class="removeItem" value="-"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="width: 80%" value="" maxlength="33"/></td>');
@@ -34,7 +35,7 @@
 			}
 		});
 		
-		$(".removeItem").click(function(event){
+		$(document).on("click", ".removeItem", function(event){
 			plusCount -= 1;
 			var index = $("tr").index($(event.target).closest("tr"));
 			$(event.target).closest("td").remove();
@@ -44,14 +45,14 @@
 			if(plusCount % 2 == 0){
 				$("tr:last").remove();
 			}
-		})
+		});
 
 		// 반응성 윈도우 사이즈
 		var windowHeight = window.innerHeight;
-		$(".table-responsive").css("height", windowHeight-400);
+		$(".table-responsive").css("height", windowHeight-350);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
-			$(".table-responsive").css("height", windowHeight-400);
+			$(".table-responsive").css("height", windowHeight-350);
 		});
 
 	});
@@ -61,6 +62,11 @@
 		var isEmpty = false;
 		for(var i=0; i<plusCount+1; i++){
 			var item = $("td input[type='text']:eq("+i+")").val();
+			var pattern2 = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자 x
+			if (pattern2.test(item)) {
+				alert("세부사항에 특수문자를 사용할 수 없습니다.");
+				return false;
+			}
 			items.push(item);
 			if(item == ""){
 				isEmpty = true;
@@ -71,6 +77,9 @@
 		
 		if($("#categoryName").val() == ""){
 			alert("분류 이름을 입력해주세요.");
+			return false;
+		} else if(!nameChecked){
+			alert("분류 이름 중복 확인을 체크해주세요.");
 			return false;
 		} else if(!codeChecked){
 			alert("분류 코드 중복 확인을 체크해주세요.");
@@ -163,6 +172,31 @@
 		}
 	}
 	
+	function nameCheck() {
+		var name = $('#categoryName').val();
+		$.ajax({
+			"type" : "POST",
+			"url" : "checkName",
+			"dataType" : "text",
+			"data" : {
+				name : name
+			},
+			"success" : function(message) {
+				if (message == '0'){
+					alert("사용 가능한 이름입니다.");
+					nameChecked = true;
+					$("#categoryName").css("background", "lightgray").prop("readonly", true);
+				} else if (message == '1') {
+					alert("중복된 이름입니다.");
+				}
+			},
+			"error" : function(request, status, error) {
+				alert("code:" + request.status + "\nmessage:"
+						+ request.responseText + "\nerror:" + error);
+			}
+		});
+	}
+		
 	function codeCheck() {
 		var code = $('#categoryCodeName').val();
 		if(code == ""){
@@ -176,19 +210,10 @@
 			"data" : {
 				code : code
 			},
-//			"beforeSend" : function() {
-//				var flag = idInputCheck();
-//				if (flag == false)
-//					return false;
-//			},
 			"success" : function(message) {
-				if (message == 'empty') {
-					alert("사용할 아이디를 입력해주세요.");
-					$("#idInputCheck").val("false");
-				} else if (message == '0'){
+				if (message == '0'){
 					alert("사용 가능한 코드입니다.");
 					codeChecked = true;
-					$("#categoryName").css("background", "lightgray").prop("readonly", true);
 					$("#categoryCodeName").css("background", "lightgray").prop("readonly", true);
 				} else if (message == '1') {
 					alert("중복된 코드입니다.");
@@ -232,10 +257,11 @@
 					<div style="float: left; display:inline-block;">
 						<form id="category" action="categoryRegisterSend" method="post">
 							분류 이름: <input type="text" id="categoryName" name="categoryName" maxlength="33" onkeyup="codeGen()"/>
-							<input type="hidden" id="items" name="items"/>
-							<input type="hidden" id="code" name="code"/>
+							<input type="button" class="btn" onclick="nameCheck();" value="중복 검사"/>
 						</form>
 					</div>
+					<input type="hidden" id="items" name="items"/>
+					<input type="hidden" id="code" name="code"/>
 					<div style="float: right; display:inline-block;">
 						<form id="categoryCode">
 							분류 식별 코드: <input type="text" id="categoryCodeName" name="categoryCodeName" maxlength="2" onkeyup="alphabetOnly();"/>

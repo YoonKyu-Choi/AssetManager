@@ -31,6 +31,11 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
+	public int existsCategory(String categoryName) throws Exception{
+		return dao.existsCategory(categoryName);
+	}
+
+	@Override
 	public int existsCode(String code) throws Exception{
 		return dao.existsCode(code);
 	}

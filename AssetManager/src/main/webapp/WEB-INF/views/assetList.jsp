@@ -215,7 +215,7 @@
 				{name:'assetUsage',index:'assetUsage', width:60, align:'center'},
 				{name:'assetManager',index:'assetManager', width:60, align:'center'},
 				{name:'assetLocation',index:'assetLocation', width:40, align:'center'},
-				{name:'employeeSeq',index:'employeeSeq', hidden : 'true'}
+				{name:'employeeSeq',index:'employeeSeq', hidden : true}
 			],
 			onRightClickRow: function(rowid){
 				trName = $("#assetTable").getRowData(rowid)['assetId'];

@@ -136,7 +136,6 @@
 			var colModelItem = {name:colNameItem, index:colNameItem, width:80};
 			colModelRow.push(colModelItem);
 		}
-		debugger;
 		
 		
 		var isSelected = false;

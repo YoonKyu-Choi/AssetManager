@@ -79,6 +79,11 @@ public class CategoryDAOImpl implements CategoryDAO{
 	}
 
 	@Override
+	public int existsCategory(String categoryName) throws Exception{
+		return sqlSession.selectOne(namespace+"existsCategory", categoryName);
+	}
+
+	@Override
 	public int existsCode(String code) throws Exception{
 		return sqlSession.selectOne(namespace+"existsCode", code);
 	}

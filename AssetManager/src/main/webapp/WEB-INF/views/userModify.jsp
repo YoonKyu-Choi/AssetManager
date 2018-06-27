@@ -38,11 +38,58 @@
 			$("#idForm").submit();
 		}
 	}
+
+	function isEmail(email) {
+		var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+		return regex.test(email);
+	}
+
+	function isPhone(phone) {
+		var regex = /\d{3}[\-]\d{4}[\-]\d{4}/;
+		return regex.test(phone);
+	}
+	
 	function modifyConfirm() {
 		if (!confirm("수정하겠습니까?")) {
 			return false;
 		} else {
-			$("#modifySend").submit();
+			if($("#employeePw").val() == ""){
+				alert("비밀번호를 입력해주세요.");
+				return false;
+			} else if($("#employeeRank").val() == "0"){
+				alert("직급을 선택해주세요.");
+				return false;
+			} else if($("#employeeDepartment").val() == "0"){
+				alert("소속을 입력해주세요.");
+				return false;
+			} else if($("#employeeLocation").val() == "0"){
+				alert("위치를 선택해주세요.");
+				return false;
+			} else if($("#employeeEmail").val() == ""){
+				alert("이메일을 입력해주세요.");
+				return false;
+			} else if($("#employeePhone").val() == ""){
+				alert("연락처를 입력해주세요.");
+				return false;
+			} else if(!isEmail($("#employeeEmail").val())){
+				alert("이메일 형식이 올바르지 않습니다. 다시 입력해주세요. (example@exm.com)");
+				$("#employeeEmail").focus();
+				return false;
+			} else if(!isPhone($("#employeePhone").val())){
+				alert("연락처 형식이 올바르지 않습니다. 다시 입력해주세요. (010-1234-5678)");
+				$("#employeePhone").focus();
+				return false;
+			} else if(($("#employeePw").val() == "${requestScope.employeeVO.employeePw}")
+					&& ($("#employeeRank").val() == "${requestScope.employeeVO.employeeRank}")
+					&& ($("#employeeDepartment").val() == "${requestScope.employeeVO.employeeDepartment}")
+					&& ($("#employeeLocation").val() == "${requestScope.employeeVO.employeeLocation}")
+					&& ($("#employeeEmail").val() == "${requestScope.employeeVO.employeeEmail}")
+					&& ($("#employeePhone").val() == "${requestScope.employeeVO.employeePhone}")){
+				alert("수정 사항이 없습니다.");
+				return false;
+			} else{
+				$("#modifySend").submit();
+			}
 		}
 	}
 	
@@ -127,7 +174,7 @@
 							</tr>
 							<tr>
 								<th>비밀번호</th>
-								<th><input type="password" name="employeePw" value="${requestScope.employeeVO.employeePw}"></th>
+								<th><input type="password" id="employeePw" name="employeePw" value="${requestScope.employeeVO.employeePw}"></th>
 							</tr>
 							<tr>
 								<th>직급</th>
@@ -184,11 +231,11 @@
 							</tr>
 							<tr>
 								<th>이메일</th>
-								<th><input type="text" name="employeeEmail" value="${requestScope.employeeVO.employeeEmail}"></th>
+								<th><input type="text" id="employeeEmail" name="employeeEmail" value="${requestScope.employeeVO.employeeEmail}"></th>
 							</tr>
 							<tr>
 								<th>연락처</th>
-								<th><input type="text" name="employeePhone" value="${requestScope.employeeVO.employeePhone}"></th>
+								<th><input type="text" id="employeePhone" name="employeePhone" value="${requestScope.employeeVO.employeePhone}"></th>
 							</tr>
 							<tr>
 								<th>상태</th>

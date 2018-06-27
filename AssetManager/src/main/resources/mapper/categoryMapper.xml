@@ -119,6 +119,15 @@
 			ASSET_CATEGORY=#{categoryName}
 	</select>
 
+	<select id="existsCategory" parameterType="String" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM
+			CATEGORY_CODE
+		WHERE
+			ASSET_CATEGORY=#{categoryName}
+	</select>
+
 	<select id="existsCode" parameterType="String" resultType="Integer">
 		SELECT
 			COUNT(*)
