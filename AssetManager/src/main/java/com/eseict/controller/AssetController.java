@@ -213,7 +213,7 @@ public class AssetController {
 			if(newEmpSeq != empSeq) {
 				aService.updateAssetHistory(assetId, UserEmpName, empSeq, newEmpSeq);
 			}
-			return "assetDetail";
+			return "redirect:/assetList";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -277,7 +277,8 @@ public class AssetController {
 			// 자산 반출/수리 이력 입력
 			atouhvo.setAssetOutStartDate(new java.sql.Date(new java.util.Date().getTime()));
 			aService.insertAssetTakeOutHistory(atouhvo);
-			return "redirect:/assetDetail?assetId="+atouhvo.getAssetId();
+//			return "redirect:/assetDetail?assetId="+atouhvo.getAssetId();
+			return "rediect:/assetList";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -291,7 +292,8 @@ public class AssetController {
 		try {
 			// 자산 납입 
 			aService.upateAssetTakeOutHistory(assetId);
-			return "redirect:/assetDetail?assetId="+assetId;
+			return "rediect:/assetList";
+//			return "redirect:/assetDetail?assetId="+assetId;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
