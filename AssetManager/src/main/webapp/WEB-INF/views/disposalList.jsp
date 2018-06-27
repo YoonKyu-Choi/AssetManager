@@ -31,7 +31,7 @@
 	    		name: '상세 보기',
 	    		onClick: function() {
 					isAsset();
-					document.location.href='/assetmanager/assetDetail?assetId=' + trName;
+					$("#assetDetailForm").submit();
 	    		},
 			    isShown: function(){
 					return !multiSelected;
@@ -204,6 +204,7 @@
 			],
 			onRightClickRow: function(rowid){
 				trName = $("#assetTable").getRowData(rowid)['assetId'];
+				$("#assetId").val(trName);
 				isSelected = $("#assetTable").find("input[type=checkbox]:eq("+(rowid-1)+")").prop("checked");
 				if(isSelected == false){
 					$("#assetTable").find("tr:eq("+rowid+")").click();
@@ -217,9 +218,9 @@
 				disposeActive = true;
 				for(i in selarrrow){
 					var assetStatus = $("#assetTable").getRowData(selarrrow[i])['assetStatus'];
-					if(assetStatus == "폐기 대기" || assetStatus == "폐기"){
+					if( assetStatus == "폐기 대기" || assetStatus == "폐기"){
 						disposeActive = false;
-					}
+					} 
 				}
 			}
 		});
@@ -386,6 +387,10 @@
 				<form id="disposeForm" action="disposeAsset" method="post">
 					<input type="hidden" id="disposeArray" name="disposeArray"/>
 				</form>
+				<form id="assetDetailForm" action="assetDetail" method="post">
+					<input type="hidden" id="assetId" name="assetId"/>
+				</form>
+				
 				<div style="display:flex; float: right; margin-top: 10px">
 					<button class="btn btn-lg btn-primary" id="disposalButton" onclick="disposeAsset();" >폐기</button>
 				</div>

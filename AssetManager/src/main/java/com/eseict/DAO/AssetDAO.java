@@ -23,7 +23,7 @@ public interface AssetDAO {
 	// 관리번호로 상세보기
 	public AssetVO getAssetByAssetId(String assetId) throws Exception;
 	// 자산 등록
-	public int insertAsset(AssetVO avo) throws Exception;
+	public void insertAsset(AssetVO avo) throws Exception;
 	// 카테고리별 자산 수 
 	public int getAssetCountByCategory(String assetCategory);
 	// 카테고리 이름으로 항목 조회

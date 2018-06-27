@@ -190,7 +190,13 @@
 			assetStatus = 4;
 			break;
 		}
-
+		// 구입가 포맷 
+		if( "${assetData['assetVO']['assetPurchasePrice']}" != "미입력"){
+			$("#assetPurchasePrice").text(numberWithCommas(${assetData['assetVO']['assetPurchasePrice']})+" 원");
+		} else{
+			$("#assetPurchasePrice").text("${assetData['assetVO']['assetPurchasePrice']}");
+		}
+		
 	});
 	
 	function submitCheck() {
@@ -324,6 +330,10 @@
 		}
 	}
 	
+	function numberWithCommas(x) {
+	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+	
 </script>
 <style>
 	.mask {
@@ -431,7 +441,7 @@
 						</tr>
 						<tr>
 							<th>구입가(원)</th>
-							<th>${assetData['assetVO']['assetPurchasePrice']}</th>
+							<th id="assetPurchasePrice"></th>
 							<th>모델명</th>
 							<th>${assetData['assetVO']['assetModel']}</th>
 						</tr>

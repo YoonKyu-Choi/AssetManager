@@ -40,16 +40,18 @@ public class AssetController {
 								, @RequestParam(required = false) String searchKeyword
 								, HttpSession session) {
 		try {
-			if(searchKeyword != null) {
-				return aService.assetListMnV(searchMode, searchKeyword);
-			} else {
-				return aService.assetListMnV(null, null);
-			}
+				if(searchKeyword != null) {
+					if((Integer.parseInt(searchMode)>=1 && (Integer.parseInt(searchMode)<=4))) {
+						return aService.assetListMnV(searchMode, searchKeyword);
+					}
+				} else {
+					return aService.assetListMnV(null, null);
+				}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return new ModelAndView("redirect:/assetList");
+		return new ModelAndView("error.tiles");
 	}
 	
 	@RequestMapping(value="/myAssetList", method = RequestMethod.POST)
@@ -62,7 +64,7 @@ public class AssetController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return new ModelAndView("redirect:/assetList");
+		return new ModelAndView("error.tiles");
 	}
 	
 	@RequestMapping(value = "/assetDetail", method = RequestMethod.POST)
@@ -74,7 +76,7 @@ public class AssetController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return new ModelAndView("redirect:/assetList");
+		return new ModelAndView("error.tiles");
 
 	}
 
@@ -86,7 +88,7 @@ public class AssetController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return new ModelAndView("redirect:/assetList");
+		return new ModelAndView("error.tiles");
 	}
 	
 	@Transactional
@@ -141,7 +143,7 @@ public class AssetController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "redirect:/assetList";
+		return "error.tiles";
 	}
 	
 	@RequestMapping(value = "/getCategoryDetailItem")
@@ -167,7 +169,7 @@ public class AssetController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return new ModelAndView("redirect:/assetList");
+		return new ModelAndView("error.tiles");
 	}
 	
 	// 자산 수정 Send
@@ -209,7 +211,7 @@ public class AssetController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "redirect:/assetList";
+		return "error.tiles";
 	}
 	
 	@RequestMapping(value="/assetDisposal")	
@@ -222,7 +224,7 @@ public class AssetController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "redirect:/assetList";
+		return "error.tiles";
 	}
 	
 	@RequestMapping(value="/assetHistory")
@@ -234,7 +236,7 @@ public class AssetController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return new ModelAndView("redirect:/assetList");
+		return new ModelAndView("error.tiles");
 
 	}
 	
@@ -258,7 +260,7 @@ public class AssetController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "redirect:/assetList";
+		return "error.tiles";
 	}
 	
 	@RequestMapping(value="/assetTakeOutHistory")
@@ -273,7 +275,7 @@ public class AssetController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "redirect:/assetList";
+		return "error.tiles";
 	}
 	
 	@RequestMapping(value="/assetPayment")
@@ -287,6 +289,6 @@ public class AssetController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "redirect:/assetList";
+		return "error.tiles";
 	}
 }

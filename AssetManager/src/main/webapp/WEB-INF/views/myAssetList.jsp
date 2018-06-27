@@ -34,7 +34,7 @@
 		    		name: '상세 보기',
 		    		onClick: function() {
 						isAsset();
-						document.location.href='/assetmanager/assetDetail?assetId=' + trName;
+						$("#myAssetDetailForm").submit();
 		    		},
 				    isShown: function(){
 						return !multiSelected;
@@ -163,6 +163,7 @@
 				],
 				onRightClickRow: function(rowid){
 					trName = $("#assetTable").getRowData(rowid)['assetId'];
+					$("#assetId").val(trName);
 					isSelected = $("#assetTable").find("input[type=checkbox]:eq("+(rowid-1)+")").prop("checked");
 					if(isSelected == false){
 						$("#assetTable").find("tr:eq("+rowid+")").click();
@@ -323,18 +324,6 @@
 			<div class="main">
 				<form class="page-header" id="searchForm" action="assetList">
 					<font size="6px"><b># 내 자산 관리</b></font>
-					<!-- 
-					<label style="float:right; margin-top: 20px">
-						<select id="searchMode" name="searchMode">
-							<option value="1">자산 분류</option>
-							<option value="2">시리얼 번호</option>
-							<option value="3">구입 년도</option>
-							<option value="4">관리 번호</option>
-						</select>
-						<input type="text" id="searchKeyword" name="searchKeyword">
-						<input type="submit" value="검색">
-					</label>
-					 -->
 				</form>
 				<div style="margin-bottom: 10px">
 					<font size="4px">&nbsp;&nbsp;총 자산 수 : </font><span class="badge">${assetListData['assetCount']}</span>
@@ -359,7 +348,9 @@
 				<form id="assetDispForm" action="assetDisposal" method="post">
 					<input type="hidden" id="dispReqArray" name="assetIdList"/>
 				</form>
-
+				<form id="myAssetDetailForm" action="assetDetail" method="post">
+					<input type="hidden" id="assetId" name="assetId"/>
+				</form>
 				<div style="display:flex; float:right; margin-top: 10px">
 					<button class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetRegister';">자산 등록</button>
 				</div>

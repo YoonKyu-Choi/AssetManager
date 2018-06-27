@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,8 +36,8 @@ public class AssetServiceImpl implements AssetService {
 	private CategoryDAO cDao;
 
 	@Override
-	public int insertAsset(AssetVO avo) throws Exception {
-		return aDao.insertAsset(avo);
+	public void insertAsset(AssetVO avo) throws Exception {
+		aDao.insertAsset(avo);
 	}
 
 	@Override
@@ -126,6 +127,7 @@ public class AssetServiceImpl implements AssetService {
 		AssetVO avo = aDao.getAssetByAssetId(assetId);
 		List<AssetDetailVO> dlist = aDao.getAssetDetailByAssetId(assetId);
 		HashMap<String, Object> assetData = new HashMap<String, Object>();
+		Logger.getLogger(assetId);
 		assetData.put("assetVO", avo);
 		assetData.put("assetDetailList", dlist);
 		assetData.put("assetUserId",eDao.getEmployeeIdByEmpSeq(avo.getEmployeeSeq()));

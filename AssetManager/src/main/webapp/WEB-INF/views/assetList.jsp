@@ -33,7 +33,7 @@
 	    		name: '상세 보기',
 	    		onClick: function() {
 					isAsset();
-					document.location.href='/assetmanager/assetDetail?assetId=' + trName;
+					$("#assetDetailForm").submit();
 	    		},
 			    isShown: function(){
 					return !multiSelected;
@@ -227,6 +227,7 @@
 			],
 			onRightClickRow: function(rowid){
 				trName = $("#assetTable").getRowData(rowid)['assetId'];
+				$("#assetId").val(trName);
 				isSelected = $("#assetTable").find("input[type=checkbox]:eq("+(rowid-1)+")").prop("checked");
 				if(isSelected == false){
 					$("#assetTable").find("tr:eq("+rowid+")").click();
@@ -243,8 +244,7 @@
 
 					if(assetStatus == "폐기 대기" || assetStatus == "폐기"){
 						disposeActive = false;
-					} 
-					if(<%=session.getAttribute("employeeSeq")%> != $("#assetTable").getRowData(selarrrow[i])['employeeSeq']){
+					} else if(<%=session.getAttribute("employeeSeq")%> != $("#assetTable").getRowData(selarrrow[i])['employeeSeq']){
 						disposeActive = false;
 					} else {
 						disposeActive = true;
@@ -411,6 +411,9 @@
 				</form>
 				<form id="assetDispForm" action="assetDisposal" method="post">
 					<input type="hidden" id="dispReqArray" name="assetIdList"/>
+				</form>
+				<form id="assetDetailForm" action="assetDetail" method="post">
+					<input type="hidden" id="assetId" name="assetId"/>
 				</form>
 
 				<div style="display:flex; float:right; margin-top: 10px">
