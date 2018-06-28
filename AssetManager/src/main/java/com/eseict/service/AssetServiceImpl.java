@@ -230,11 +230,17 @@ public class AssetServiceImpl implements AssetService {
 	@Override
 	public int insertAssetHistory(String assetId, String assetUser) throws Exception {
 		int ret = 0;
-		
+		int employeeSeq = 0;
 		AssetHistoryVO ahvo = new AssetHistoryVO();
 		java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 		ahvo.setAssetId(assetId);
-		int employeeSeq = eDao.getEmployeeSeqByEmpId(assetUser);
+		
+		
+		if(assetUser == "사용자 없음") {
+			employeeSeq = 0;
+		}else {
+			employeeSeq = eDao.getEmployeeSeqByEmpId(assetUser);
+		}
 		ahvo.setEmployeeSeq(employeeSeq);
 		ahvo.setAssetOccupiedDate(now);
 		ret += aDao.insertAssetHistory(ahvo);
@@ -242,7 +248,11 @@ public class AssetServiceImpl implements AssetService {
 		AssetFormerUserVO afuvo = new AssetFormerUserVO();
 		afuvo.setAssetId(assetId);
 		afuvo.setEmployeeSeq(employeeSeq);
-		afuvo.setAssetUser(eDao.getEmployeeNameByEmpId(assetUser));
+		if(afuvo.getAssetUser() == null) {
+			afuvo.setAssetUser("사용자 없음");
+		} else {
+			afuvo.setAssetUser(eDao.getEmployeeNameByEmpId(assetUser));
+		}
 		afuvo.setAssetStartDate(now);
 		ret += aDao.insertAssetFormerUser(afuvo);
 
@@ -295,8 +305,12 @@ public class AssetServiceImpl implements AssetService {
 		String beforeUser = eDao.getEmployeeIdByEmpSeq(avo.getEmployeeSeq());
 		
 		// Detail 때문에 DB에 저장을 이름으로 저장하고 다시 뽑아갈 때는 ID로 뽑아간다.
-		avo.setAssetUser(eDao.getEmployeeIdByEmpSeq(avo.getEmployeeSeq()));
-		avo.setAssetManager(eDao.getEmployeeIdByEmpName(avo.getAssetManager()));
+		if(avo.getAssetUser() == "사용자 없음") {
+			avo.setAssetUser("NoUser");
+		} else {
+			avo.setAssetUser(eDao.getEmployeeIdByEmpSeq(avo.getEmployeeSeq()));
+		}
+		avo.setAssetManager(eDao.getEmployeeIdByEmpSeq(avo.getAssetManagerSeq()));
 		model.put("beforeUser",beforeUser);
 		model.put("assetVO",avo);
 		model.put("assetDetailList",dlist);

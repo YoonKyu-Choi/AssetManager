@@ -18,6 +18,7 @@
 		<result column="ASSET_MODEL" property="assetModel" />
 		<result column="ASSET_USAGE" property="assetUsage" />
 		<result column="ASSET_MANAGER" property="assetManager" />
+		<result column="ASSET_MANAGER_SEQ" property="assetManagerSeq" />
 		<result column="ASSET_LOCATION" property="assetLocation" />
 		<result column="ASSET_RECEIPT_URL" property="assetReceiptUrl" />
 		<result column="ASSET_COMMENT" property="assetComment" />
@@ -138,6 +139,7 @@
 			,#{assetModel}
 			,#{assetUsage}
 			,#{assetManager}
+			,#{assetManagerSeq}
 			,#{assetLocation}
 			,#{assetReceiptUrl}
 			,#{assetComment}
