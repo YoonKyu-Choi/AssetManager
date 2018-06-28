@@ -152,8 +152,8 @@
 					<input type="text" id="assetOutComment" style="width:500px;height:120px" readonly/>
 					</div>
 				</div>
-			<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
-			<input type="button" class="btn btn-lg btn-primary" onclick="goAssetDetail();" value="상세보기로 이동" />
+			<input type="button" id="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
+			<input type="button" id="button" class="btn btn-lg btn-primary" onclick="goAssetDetail();" value="상세보기로 이동" />
 			
 			</div>
 			<form id="assetDetailForm" action="assetDetail" method="post">

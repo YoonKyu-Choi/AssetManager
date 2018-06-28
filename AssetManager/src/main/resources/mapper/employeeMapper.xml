@@ -169,7 +169,7 @@
 			EMPLOYEE_ID = #{employeeId}
 	</select>
 	
-	<select id="getEmployeeIdByEmpName" parameterType="Integer" resultType="String">
+	<select id="getEmployeeIdByEmpSeq" parameterType="Integer" resultType="String">
 		SELECT
 			EMPLOYEE_ID
 		FROM 
@@ -178,15 +178,13 @@
 			EMPLOYEE_SEQ = #{employeeSeq}
 	</select>
 	
-	<!-- 추후 사용할 일 없으면 지우기 
-	<select id="getEmployeeSeqByEmpName" parameterType="hashmap" resultType="Integer">
+	<select id="getEmployeeIdByEmpName" parameterType="String" resultType="String">
 		SELECT
-			EMPLOYEE_SEQ
+			EMPLOYEE_ID
 		FROM 
 			EMPLOYEE
 		WHERE
 			EMPLOYEE_NAME = #{employeeName}
 	</select>
-	 -->
 	
 </mapper>

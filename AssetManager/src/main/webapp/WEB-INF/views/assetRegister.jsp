@@ -43,6 +43,7 @@
 			$("#assetOutPurpose").val(null);
 			$("#assetOutCost").val(null);
 			$("#assetOutComment").val(null);
+			$("#assetOutStatus option:eq(0)").attr("selected","selected");
 		    $('#pop').hide();
 		});
 
@@ -377,9 +378,19 @@
 							</select>
 						</th>
 							<th>이름</th>
-							<th> <%=session.getAttribute("Id")%> </th>
-						</tr>
-					<input type="hidden" id="employeeId" name="assetUser" value='<%=session.getAttribute("Id")%>'>
+							<c:if test="${sessionScope.isAdmin != 'TRUE' }">
+								<th><%=session.getAttribute("employeeName")%></th>
+							</c:if>
+							<c:if test="${sessionScope.isAdmin == 'TRUE' }">
+								<th>
+									<select class="form-controlmin dropdown" name="assetUser" id="assetUser">
+										<option value="0">책임자를 선택하세요.</option>
+										<c:forEach items="${list['employeeNameList']}" var="employee">
+											<option value="${employee.employee_id}">${employee.employee_name}(${employee.employee_department_string})</option>
+										</c:forEach>
+									</select>
+								</th>
+							</c:if>
 					<tr>
 						<th>관리 번호</th>
 						<th>※ 자동 생성됩니다.</th>

@@ -195,11 +195,11 @@
 		}
 		
 		// 구입가 포맷 
-		var assetPurchasePrice = ${assetData['assetVO']['assetPurchasePrice']};
-		if( "assetPurchasePrice" != "미입력"){
+		var assetPurchasePrice = "${assetData['assetVO']['assetPurchasePrice']}";
+		if( assetPurchasePrice != "미입력"){
 			$("#assetPurchasePrice").text(numberWithCommas(assetPurchasePrice)+" 원");
 		} else{
-			$("#assetPurchasePrice").text("assetPurchasePrice");
+			$("#assetPurchasePrice").text(assetPurchasePrice);
 		}
 		
 	});
@@ -315,7 +315,7 @@
 	
 	    // css 스타일을 변경합니다.
 	    $('.window').css({'left':left,'top':top, 'position':'absolute'});
-	
+	 
 	    // 레이어 팝업을 띄웁니다.
 	    $('.window').show();
 	}
