@@ -525,6 +525,20 @@
 					<input type="hidden" name="assetUser" value=${assetData['assetVO']['assetUser'] } />
 				</form>
 				
+				<div class="mask"></div>
+				    <div class="window">
+				    	<p>비밀번호를 입력해주세요.</p>
+
+						<form id="assetDeleteForm" action="assetDelete" method="POST">
+							<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
+							<input type="password" name="checkAdminPw" autofocus/>
+				        	<div style="margin-top: 20px">
+					        	<button class="btn btn-lg btn-primary" type="submit">제출</button>
+					        	<input class="btn btn-lg btn-primary close" type="button" value="취소"/>
+				        	</div>
+						</form>
+				    </div>
+				
 				<!-- 반출/수리 레이어 팝업 -->
 				<form id="pop" action="assetTakeOutHistory" method="post">
 					<table style="margin-top:100px;margin-left:20px;">

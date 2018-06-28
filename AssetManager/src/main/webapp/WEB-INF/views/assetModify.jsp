@@ -20,7 +20,6 @@
 		// 사이드바 활성화
 		$("#asstLink").prop("class", "active");
 		
-		
 		// 기존 설정
 		$("#assetUser").val("${model['assetVO']['assetUser']}").prop("selected", true);
 		$("#assetStatus").val("${model['assetVO']['assetStatus']}").prop("selected", true);
@@ -57,8 +56,6 @@
 			nextText: '다음 달',
 			prevText: '이전 달' 
        });
-		
-			
 	
 	});
 		
