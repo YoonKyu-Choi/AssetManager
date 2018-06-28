@@ -248,7 +248,7 @@ public class AssetServiceImpl implements AssetService {
 		AssetFormerUserVO afuvo = new AssetFormerUserVO();
 		afuvo.setAssetId(assetId);
 		afuvo.setEmployeeSeq(employeeSeq);
-		if(afuvo.getAssetUser() == null) {
+		if(assetUser == null) {
 			afuvo.setAssetUser("사용자 없음");
 		} else {
 			afuvo.setAssetUser(eDao.getEmployeeNameByEmpId(assetUser));
@@ -302,7 +302,13 @@ public class AssetServiceImpl implements AssetService {
 		AssetHistoryVO ahvo = aDao.getAssetHistoryByAssetId(assetId);
 		List<AssetFormerUserVO> afuvo = aDao.getAssetFormerUserByAssetId(assetId);
 		int detailSize = dlist.size();
-		String beforeUser = eDao.getEmployeeIdByEmpSeq(avo.getEmployeeSeq());
+		
+		String beforeUser = null;
+		if(avo.getEmployeeSeq() == 0 ) {
+			beforeUser = null;
+		} else {
+			beforeUser = eDao.getEmployeeIdByEmpSeq(avo.getEmployeeSeq());
+		}
 		
 		// Detail 때문에 DB에 저장을 이름으로 저장하고 다시 뽑아갈 때는 ID로 뽑아간다.
 		if(avo.getAssetUser() == "사용자 없음") {
@@ -311,6 +317,7 @@ public class AssetServiceImpl implements AssetService {
 			avo.setAssetUser(eDao.getEmployeeIdByEmpSeq(avo.getEmployeeSeq()));
 		}
 		avo.setAssetManager(eDao.getEmployeeIdByEmpSeq(avo.getAssetManagerSeq()));
+		
 		model.put("beforeUser",beforeUser);
 		model.put("assetVO",avo);
 		model.put("assetDetailList",dlist);

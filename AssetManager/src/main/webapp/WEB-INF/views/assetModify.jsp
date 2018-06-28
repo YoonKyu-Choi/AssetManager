@@ -64,7 +64,7 @@
 		
 	// 등록, 수정 시 자산 상태를 사용 가능,불가능,폐기으로 했을 경우 -> 이름 disabled, 사용자없음 
 	function changeFunc(){
-		var count 		
+		var count = 0; // 사용자가 없는 자산 상태가 아닌것 끼리 변경 할 때 오류 방지 
 		if($("#assetStatus option:selected").val() == "사용 가능"
 				|| $("#assetStatus option:selected").val() == "사용 불가"
 				|| $("#assetStatus option:selected").val() == "폐기"){
@@ -72,8 +72,12 @@
 			$("#assetUser").val("NoUser").prop("selected",true);
 			$("#assetUser").prop("disabled",true).css("background-color","#99CCFF"); 
 		} else{
+			if($("#assetUser").val()=="NoUser"){
 				$("#assetUser option:first").remove();
-			if("${model['assetVO']['assetUser']}" == ){
+			}
+			if("${model['assetVO']['assetUser']}" == "NoUser"
+					|| "${model['assetVO']['assetUser']}" == ""
+					|| "${model['assetVO']['assetUser']}" == null){
 				alert("hello");
 				$("#assetUser option:eq[0]").prop("selected", true);
 			}else{
@@ -229,7 +233,6 @@
 					&& ($("#assetUsage").val() == "${model['assetVO']['assetUsage']}")
 					&& ($("#assetManager").val() == "${model['assetVO']['assetManager']}")
 					&& ($("#assetLocation").val() == "${model['assetVO']['assetLocation']}")){
-					&& ($("#assetComment").val() == "${model['assetVO']['assetComment']}")){
 					alert("수정 사항이 없습니다.");
 					return false;
 				}
@@ -313,9 +316,6 @@
 	#button:hover {
 		color: white;
 		background-color: #333;
-	}
-	.dropdown, input:not([type="button"]){
-		width: 200px
 	}
 </style>
 </head>
