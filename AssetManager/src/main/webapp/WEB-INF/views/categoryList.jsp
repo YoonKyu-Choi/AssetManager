@@ -31,7 +31,7 @@
 						alert("해당 분류가 없습니다.");
 						return;
 					}
-					document.location.href='/assetmanager/categoryDetail?categoryName=' + trName;
+					$("#categoryDetailForm").submit();
 	    		}
     		}
     	}
@@ -151,6 +151,7 @@
 			colModel: colModelRow,
 			onRightClickRow: function(rowid){
 				trName = $("#categoryTable").getRowData(rowid)['assetCategory'];
+				$("#categoryName").val(trName);
 			}
 		});
 //		$("#categoryTable").jqGrid("setFrozenColumns");
@@ -232,6 +233,10 @@
 				<div class="table-responsive" style="overflow: auto">
 					<table id="categoryTable"></table>
 				</div>
+				
+				<form id="categoryDetailForm" action="categoryDetail" method="post">
+					<input type="hidden" id="categoryName" name="categoryName"/>
+				</form>
 					
 				<div style="display:flex; float: right; margin-top: 10px">
 					<button id="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/categoryRegister';">등록</button>

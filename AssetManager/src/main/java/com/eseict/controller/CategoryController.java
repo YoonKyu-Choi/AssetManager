@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -46,7 +47,7 @@ public class CategoryController {
 		return new ModelAndView("error.tiles");
 	}
 
-	@RequestMapping(value = "/categoryDetail")
+	@RequestMapping(value = "/categoryDetail", method = RequestMethod.POST)
 	public ModelAndView categoryDetail(RedirectAttributes redirectAttributes, @RequestParam String categoryName) {
 		try {
 			return cService.categoryDetailMnV(categoryName);
