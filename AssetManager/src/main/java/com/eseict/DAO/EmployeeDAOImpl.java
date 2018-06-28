@@ -82,18 +82,18 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 	}
 
 	@Override
-	public int getEmployeeSeqByEmpName(String beforeUser) {
-		return sqlSession.selectOne(namespace+"getEmployeeSeqByEmpName",beforeUser);
-	}
-
-	@Override
 	public String getEmployeeNameByEmpId(String assetUser) {
 		return sqlSession.selectOne(namespace+"getEmployeeNameByEmpId",assetUser);
 	}
 
 	@Override
 	public String getEmployeeIdByEmpSeq(int employeeSeq) {
-		return sqlSession.selectOne(namespace+"getEmployeeIdByEmpName",employeeSeq);
+		return sqlSession.selectOne(namespace+"getEmployeeIdByEmpSeq",employeeSeq);
+	}
+
+	@Override
+	public String getEmployeeIdByEmpName(String assetManager) {
+		return sqlSession.selectOne(namespace+"getEmployeeIdByEmpName",assetManager);
 	}
 
 }

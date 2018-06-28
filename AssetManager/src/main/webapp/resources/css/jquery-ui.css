@@ -1003,7 +1003,7 @@ a.ui-button:active,
 .ui-widget-content .ui-state-highlight,
 .ui-widget-header .ui-state-highlight {
 	border: 1px solid #fcd113;
-	background: #f8da4e url("images/ui-bg_glass_55_f8da4e_1x400.png") 50% 50% repeat-x;
+	background: #f8da4e 50% 50% repeat-x;
 	color: #915608;
 }
 .ui-state-checked {

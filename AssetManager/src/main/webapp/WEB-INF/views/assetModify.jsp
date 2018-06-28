@@ -45,6 +45,10 @@
 			nextText: '다음 달',
 			prevText: '이전 달' 
        });
+		
+		if($("#assetStatus").val("사용 가능")){
+			alert("hello");
+		};
 	
 	});
 			

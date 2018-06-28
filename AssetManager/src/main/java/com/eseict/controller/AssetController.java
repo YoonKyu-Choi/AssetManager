@@ -69,9 +69,9 @@ public class AssetController {
 	
 	@RequestMapping(value = "/assetDetail", method = RequestMethod.POST)
 	public ModelAndView assetDetail(RedirectAttributes redirectAttributes
-								  , @RequestParam String assetId) {
-		try {
-				return aService.assetDetailMnV(assetId);
+								  , @RequestParam(required=false) String assetId) {
+		try {	
+					return aService.assetDetailMnV(assetId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -105,7 +105,6 @@ public class AssetController {
 							  , HttpServletRequest request){
 
 		try {
-			
 			// 관리 번호 생성
 			String assetId = aService.generateAssetId(avo);
 			avo.setAssetId(assetId);
@@ -199,6 +198,7 @@ public class AssetController {
 			
 			avo.setAssetUser(UserEmpName);
 			avo.setEmployeeSeq(newEmpSeq);
+			avo.setAssetManager(eService.getEmployeeNameByEmpId(avo.getAssetManager()));
 			aService.updateAsset(avo);
 			aService.updateAssetDetail(assetId, items, itemsDetail);
 			
@@ -206,7 +206,7 @@ public class AssetController {
 			if(newEmpSeq != empSeq) {
 				aService.updateAssetHistory(assetId, UserEmpName, empSeq, newEmpSeq);
 			}
-			return "redirect:/assetDetail?assetId="+assetId;
+			return "redirect:/assetList";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -270,7 +270,8 @@ public class AssetController {
 			// 자산 반출/수리 이력 입력
 			atouhvo.setAssetOutStartDate(new java.sql.Date(new java.util.Date().getTime()));
 			aService.insertAssetTakeOutHistory(atouhvo);
-			return "redirect:/assetDetail?assetId="+atouhvo.getAssetId();
+//			return "redirect:/assetDetail?assetId="+atouhvo.getAssetId();
+			return "redirect:/assetList";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -284,7 +285,8 @@ public class AssetController {
 		try {
 			// 자산 납입 
 			aService.upateAssetTakeOutHistory(assetId);
-			return "redirect:/assetDetail?assetId="+assetId;
+			return "redirect:/assetList";
+//			return "redirect:/assetDetail?assetId="+assetId;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -242,7 +242,7 @@ public class AssetServiceImpl implements AssetService {
 		AssetFormerUserVO afuvo = new AssetFormerUserVO();
 		afuvo.setAssetId(assetId);
 		afuvo.setEmployeeSeq(employeeSeq);
-		afuvo.setAssetUser(assetUser);
+		afuvo.setAssetUser(eDao.getEmployeeNameByEmpId(assetUser));
 		afuvo.setAssetStartDate(now);
 		ret += aDao.insertAssetFormerUser(afuvo);
 
@@ -296,7 +296,7 @@ public class AssetServiceImpl implements AssetService {
 		
 		// Detail 때문에 DB에 저장을 이름으로 저장하고 다시 뽑아갈 때는 ID로 뽑아간다.
 		avo.setAssetUser(eDao.getEmployeeIdByEmpSeq(avo.getEmployeeSeq()));
-		
+		avo.setAssetManager(eDao.getEmployeeIdByEmpName(avo.getAssetManager()));
 		model.put("beforeUser",beforeUser);
 		model.put("assetVO",avo);
 		model.put("assetDetailList",dlist);

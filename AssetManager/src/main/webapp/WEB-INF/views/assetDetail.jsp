@@ -142,7 +142,10 @@
 			submitCheck();
 		});
 		$('#popClose').click(function() {
-			$('#pop').hide();
+			$("form").each(function() {  
+                if(this.id == "pop") this.reset();  
+             });
+			$("#pop").hide();
 		});
 
 		// 삭제 확인 마스크 
@@ -190,11 +193,13 @@
 			assetStatus = 4;
 			break;
 		}
+		
 		// 구입가 포맷 
-		if( "${assetData['assetVO']['assetPurchasePrice']}" != "미입력"){
-			$("#assetPurchasePrice").text(numberWithCommas(${assetData['assetVO']['assetPurchasePrice']})+" 원");
+		var assetPurchasePrice = "${assetData['assetVO']['assetPurchasePrice']}";
+		if( assetPurchasePrice != "미입력"){
+			$("#assetPurchasePrice").text(numberWithCommas(assetPurchasePrice)+" 원");
 		} else{
-			$("#assetPurchasePrice").text("${assetData['assetVO']['assetPurchasePrice']}");
+			$("#assetPurchasePrice").text(assetPurchasePrice);
 		}
 		
 	});
@@ -310,7 +315,7 @@
 	
 	    // css 스타일을 변경합니다.
 	    $('.window').css({'left':left,'top':top, 'position':'absolute'});
-	
+	 
 	    // 레이어 팝업을 띄웁니다.
 	    $('.window').show();
 	}
@@ -498,39 +503,7 @@
 					<h3>자산 코멘트</h3>
 					<textArea style="resize: none; width:600px; height:200px" readonly>${assetData['assetVO']['assetComment']}</textArea>
 				</div>
-
-<!-- 
-					<div style="display:flex; float: left; margin-top: 10px">
-						<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
-						<button class="btn btn-lg btn-primary" onclick="printReport();" >보고서 출력</button>
-					</div>
-
-					<div style="display: flex; float: right">
-						<c:choose>
-							<c:when test="${assetData['assetVO']['assetStatus'] == '폐기 대기'}">
-								<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
-								<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">수정</button>
-							</c:when>
-							
-							<c:when test="${assetData['assetVO']['assetStatus'] == '폐기'}">
-								<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
-								<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="deleteConfirm();">자산 삭제</button>
-							</c:when>
-							
-							<c:when test="${assetData['assetVO']['assetOutStatus'] == '반출 중' || assetData['assetVO']['assetOutStatus'] == '수리 중'}">
-								<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="payConfirm();">납입</button>
-								<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
-							</c:when>
-							
-							<c:otherwise>	
-								<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">수정</button>
-								<button class="btn btn-lg btn-primary" id="outBtn" onclick='$("#pop").show();'>반출/수리</button>
-								<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="dispReqConfirm();">폐기 신청</button>
-								<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="historyConfirm();">자산 이력</button>
-								<div class="mask"></div>
-							</c:otherwise>
-						</c:choose>
- -->						
+	
 				<!-- 컨트롤러 이동 form -->
 				<form id="printReportForm" action="printReport" method="post">
 					<input type="hidden" id="printReportArray" name="assetIdList"/>

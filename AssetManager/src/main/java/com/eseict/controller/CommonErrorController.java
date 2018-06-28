@@ -33,7 +33,7 @@ public class CommonErrorController {
 	public String pageError400(HttpServletRequest request, Model model) {
 		logger.info("page error code 400");
 		pageErrorLog(request);
-		model.addAttribute("msg","잘못된 요청입니다.");
+		model.addAttribute("msg","404 에러, 잘못된 요청입니다.");
 		return "error.tiles";
 	}
 	
@@ -41,7 +41,7 @@ public class CommonErrorController {
 	public String pageError403(HttpServletRequest request, Model model) {
 		logger.info("page error code 403");
 		pageErrorLog(request);
-		model.addAttribute("msg","접금이 금지되었습니다.");
+		model.addAttribute("msg","403 에러, 접금이 금지되었습니다.");
 		return "error.tiles";
 	}
 	
@@ -49,7 +49,7 @@ public class CommonErrorController {
 	public String pageError404(HttpServletRequest request, Model model) {
 		logger.info("page error code 404");
 		pageErrorLog(request);
-		model.addAttribute("msg","요청하신 페이지가 없습니다.");
+		model.addAttribute("msg","404 에러, 요청하신 페이지가 없습니다.");
 		return "error.tiles";
 	}
 	
@@ -57,7 +57,7 @@ public class CommonErrorController {
 	public String pageError405(HttpServletRequest request, Model model) {
 		logger.info("page error code 405");
 		pageErrorLog(request);
-		model.addAttribute("msg","요청된 메소드가 허용되지 않습니다.");
+		model.addAttribute("msg","405 에러, 요청된 메소드가 허용되지 않습니다.");
 		return "error.tiles";
 	}
 	
@@ -65,7 +65,7 @@ public class CommonErrorController {
 	public String pageError500(HttpServletRequest request, Model model) {
 		logger.info("page error code 500");
 		pageErrorLog(request);
-		model.addAttribute("msg","서버에 오류가 발생하였습니다.");
+		model.addAttribute("msg","500 에러, 서버에 오류가 발생하였습니다.");
 		return "error.tiles";
 	}
 	
@@ -73,7 +73,7 @@ public class CommonErrorController {
 	public String pageError503(HttpServletRequest request, Model model) {
 		logger.info("page error code 503");
 		pageErrorLog(request);
-		model.addAttribute("msg","서비스를 사용할 수 없습니다..");
+		model.addAttribute("msg","503 에러, 서비스를 사용할 수 없습니다..");
 		return "error.tiles";
 	}
 	

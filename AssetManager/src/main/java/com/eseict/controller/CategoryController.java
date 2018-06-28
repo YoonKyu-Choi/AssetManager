@@ -18,61 +18,57 @@ import com.eseict.service.EmployeeService;
 
 @Controller
 public class CategoryController {
-	
+
 	@Autowired
 	private AssetService aService;
-	
+
 	@Autowired
 	private CategoryService cService;
-	
+
 	@Autowired
 	private EmployeeService eService;
 
-	@RequestMapping(value="/categoryList")
-	public ModelAndView categoryList(RedirectAttributes redirectAttributes
-								   , @RequestParam(required = false) String searchMode
-								   , @RequestParam(required = false) String searchKeyword) {
+	@RequestMapping(value = "/categoryList")
+	public ModelAndView categoryList(RedirectAttributes redirectAttributes,
+			@RequestParam(required = false) String searchMode, @RequestParam(required = false) String searchKeyword) {
 		try {
-			if(searchKeyword != null) {
-				return cService.categoryListMnV(searchMode, searchKeyword);
+			if (searchKeyword != null) {
+				if ((Integer.parseInt(searchMode) >= 1 && (Integer.parseInt(searchMode) <= 2))) {
+					return cService.categoryListMnV(searchMode, searchKeyword);
+				}
 			} else {
 				return cService.categoryListMnV(null, null);
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return new ModelAndView("redirect:/categoryList");
+		return new ModelAndView("error.tiles");
 	}
 
-	
-	@RequestMapping(value="/categoryDetail")
-	public ModelAndView categoryDetail(RedirectAttributes redirectAttributes
-									 , @RequestParam String categoryName) {
+	@RequestMapping(value = "/categoryDetail")
+	public ModelAndView categoryDetail(RedirectAttributes redirectAttributes, @RequestParam String categoryName) {
 		try {
 			return cService.categoryDetailMnV(categoryName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return new ModelAndView("redirect:/categoryList");
+		return new ModelAndView("error.tiles");
 	}
-	
-	
-	@RequestMapping(value="/categoryRegister")
+
+	@RequestMapping(value = "/categoryRegister")
 	public String categoryRegister() {
 		return "categoryRegister.tiles";
 	}
-	
-	@RequestMapping(value="/categoryRegisterSend")
-	public String categoryRegisterSend(RedirectAttributes redirectAttributes
-									 , @RequestParam String categoryName
-									 , @RequestParam String[] items
-									 , @RequestParam String code) {
-		boolean  dup;
+
+	@RequestMapping(value = "/categoryRegisterSend")
+	public String categoryRegisterSend(RedirectAttributes redirectAttributes, @RequestParam String categoryName,
+			@RequestParam String[] items, @RequestParam String code) {
+		boolean dup;
 		try {
 			dup = cService.categoryRegisterSend(categoryName, items);
-			if(dup) {
+			if (dup) {
 				redirectAttributes.addFlashAttribute("msg", "이미 존재하는 분류이므로 해당 분류에 추가되었습니다.");
 			} else {
 				cService.newCode(categoryName, code);
@@ -84,19 +80,18 @@ public class CategoryController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "redirect:/categoryList";
+		return "error.tiles";
 	}
-	
-	@RequestMapping(value="/categoryDelete")
-	public String categoryDelete(RedirectAttributes redirectAttributes
-							   , @RequestParam String categoryName
-							   , @RequestParam("checkAdminPw") String checkAdminPw) {
+
+	@RequestMapping(value = "/categoryDelete")
+	public String categoryDelete(RedirectAttributes redirectAttributes, @RequestParam String categoryName,
+			@RequestParam("checkAdminPw") String checkAdminPw) {
 		try {
 			int check = eService.checkRegistered("admin", checkAdminPw);
 			if (check == 1) {
 				cService.deleteCategory(categoryName);
 				int assetDel = 0;
-				for(String assetId: aService.getAssetIdListByCategory(categoryName)) {
+				for (String assetId : aService.getAssetIdListByCategory(categoryName)) {
 					assetDel += aService.deleteAssetById(assetId);
 				}
 				cService.deleteCode(categoryName);
@@ -109,57 +104,53 @@ public class CategoryController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "redirect:/categoryList";
+		return "error.tiles";
 	}
-	
-	@RequestMapping(value="/categoryModify")
-	public ModelAndView categoryModify(RedirectAttributes redirectAttributes
-									 , @RequestParam String categoryName) {
+
+	@RequestMapping(value = "/categoryModify")
+	public ModelAndView categoryModify(RedirectAttributes redirectAttributes, @RequestParam String categoryName) {
 		try {
 			return cService.categoryModifyMnV(categoryName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return new ModelAndView("redirect:/categoryList");
+		return new ModelAndView("error.tiles");
 	}
-	
-	@RequestMapping(value="/categoryModifySend")
-	public String categoryModifySend(RedirectAttributes redirectAttributes
-								   , @RequestParam String categoryOriName
-								   , @RequestParam String categoryName
-								   , @RequestParam String[] items
-								   , @RequestParam String[] deleteItems) {
+
+	@RequestMapping(value = "/categoryModifySend")
+	public String categoryModifySend(RedirectAttributes redirectAttributes, @RequestParam String categoryOriName,
+			@RequestParam String categoryName, @RequestParam String[] items, @RequestParam String[] deleteItems) {
 		try {
 			String msg = "";
 			int checkName = cService.categoryModifyCheckName(categoryOriName, categoryName);
-			if(checkName > 0) {
+			if (checkName > 0) {
 				msg += "분류의 이름이 변경되었습니다. ";
 			}
-			int categoryDel = cService.categoryModifyItemDelete(categoryName, deleteItems);	
+			int categoryDel = cService.categoryModifyItemDelete(categoryName, deleteItems);
 			msg += (categoryDel + " 개의 세부사항이 삭제되었습니다. ");
 
 			ArrayList<Integer> deleteItemsList = new ArrayList<Integer>();
-			for(String s: deleteItems) {
+			for (String s : deleteItems) {
 				deleteItemsList.add(Integer.parseInt(s));
 			}
 
 			int categoryChange = cService.categoryModifyItemUpdate(categoryName, items, deleteItemsList);
 			msg += (categoryChange + " 개의 세부사항이 변경/추가되었습니다.");
-			
+
 			redirectAttributes.addFlashAttribute("msg", msg);
 			return "redirect:/categoryList";
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "redirect:/categoryList";
+		return "error.tiles";
 	}
 
 	@RequestMapping(value = "/checkName")
 	@ResponseBody
-	public String checkName(@RequestParam(value = "name", required = false) String inputName
-						, HttpServletResponse response) {
+	public String checkName(@RequestParam(value = "name", required = false) String inputName,
+			HttpServletResponse response) {
 		try {
 			if (!inputName.isEmpty()) {
 				return String.valueOf(cService.existsCategory(inputName));
@@ -169,13 +160,13 @@ public class CategoryController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "error";
+		return "error.tiles";
 	}
-	
+
 	@RequestMapping(value = "/checkCode")
 	@ResponseBody
-	public String checkId(@RequestParam(value = "code", required = false) String inputCode
-						, HttpServletResponse response) {
+	public String checkId(@RequestParam(value = "code", required = false) String inputCode,
+			HttpServletResponse response) {
 		try {
 			if (!inputCode.isEmpty()) {
 				return String.valueOf(cService.existsCode(inputCode));
@@ -185,6 +176,6 @@ public class CategoryController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "error";
+		return "error.tiles";
 	}
-	}
+}
