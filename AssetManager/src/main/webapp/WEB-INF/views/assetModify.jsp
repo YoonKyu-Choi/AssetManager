@@ -193,6 +193,7 @@
 					&& ($("#assetUsage").val() == "${model['assetVO']['assetUsage']}")
 					&& ($("#assetManager").val() == "${model['assetVO']['assetManager']}")
 					&& ($("#assetLocation").val() == "${model['assetVO']['assetLocation']}")){
+					&& ($("#assetComment").val() == "${model['assetVO']['assetComment']}")){
 					alert("수정 사항이 없습니다.");
 					return false;
 				}
@@ -276,6 +277,9 @@
 	#button:hover {
 		color: white;
 		background-color: #333;
+	}
+	.dropdown, input:not([type="button"]){
+		width: 200px
 	}
 </style>
 </head>

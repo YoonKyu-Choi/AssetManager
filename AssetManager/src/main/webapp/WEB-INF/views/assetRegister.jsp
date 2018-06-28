@@ -99,9 +99,9 @@
 				counts = a.length;
 				for(var i=0;i<a.length;i++){
 					if(plusCount % 2 == 1){
-						$("#assetDetailTable tr:last").after('<tr><th><input type="hidden" id="assetItem" name="assetItem" value="'+a[i]+'">'+a[i]+'</th><th><input type="text" id="assetItemDetail" name="assetItemDetail"></th></tr>');
+						$("#assetDetailTable tr:last").after('<tr><th><input type="hidden" id="assetItem" name="assetItem" value="'+a[i]+'">'+a[i]+'</th><th><input type="text" id="assetItemDetail" name="assetItemDetail" maxlength="33"></th></tr>');
 					} else{
-						$("#assetDetailTable tr:last th:last").after('<th><input type="hidden" id="assetItem" name="assetItem" value="'+a[i]+'">'+a[i]+'</th><th><input type="text" id="assetItemDetail" name="assetItemDetail"></th>');
+						$("#assetDetailTable tr:last th:last").after('<th><input type="hidden" id="assetItem" name="assetItem" value="'+a[i]+'">'+a[i]+'</th><th><input type="text" id="assetItemDetail" name="assetItemDetail" maxlength="33"></th>');
 					}
 						
 						plusCount += 1;
@@ -183,7 +183,7 @@
 			// 세부사항 유효성 검사
 			for(var i=0;i<counts;i++){
 				if($("th input[id='assetItemDetail']:eq("+i+")").val() ==''){
-					alert(i+1+"번째 세부사항을 전부 입력해주세요.");
+					alert(i+1+"번째 세부사항을 입력해주세요.");
 					return false;
 				}
 			}
@@ -260,8 +260,7 @@
     
     function fn_press_han(obj)  {
         //좌우 방향키, 백스페이스, 딜리트, 탭키에 대한 예외
-        if(event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39
-        || event.keyCode == 46 ){
+        if(event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 46 ){
             return;
         }
         obj.value = obj.value.replace(/[\ㄱ-ㅎㅏ-ㅣ가-힣]/g, '');
@@ -352,6 +351,9 @@
 	#button:hover, #registerBtn:hover {
 		color: white;
 		background-color: #333;
+	}
+	.dropdown, input:not([type="button"]){
+		width: 200px
 	}
 </style>
 </head>
@@ -479,27 +481,27 @@
 			</div>
 			<!-- 반출/수리 레이어 팝업 -->
 			<div id="pop">
-				<table style="margin-top:100px;margin-left:30px;" id="popTable">
+				<table style="margin-top:-10px;margin-left:30px;" id="popTable">
 					<tr style="text-align:center;">
 						<th>날짜</th>
 						<th style="color:white;">&nbsp;&nbsp;오늘 날짜로 등록됩니다.</th>
 					</tr>
 					<tr>
 						<th>대상</th>
-						<th class="popInput"><input type="text" name="assetOutObjective" id="assetOutObjective"/></th>
+						<th class="popInput"><input type="text" name="assetOutObjective" id="assetOutObjective" maxlength="33"/></th>
 					</tr>
 					<tr>
 						<th>목적</th>
-						<th class="popInput"><input type="text" name="assetOutPurpose" id="assetOutPurpose"/></th>
+						<th class="popInput"><input type="text" name="assetOutPurpose" id="assetOutPurpose" maxlength="33"/></th>
 					</tr>
 					
 					<tr>
 						<th>비용</th>
-						<th class="popInput"><input type="text" name="assetOutCost" id="assetOutCost"/></th>
+						<th class="popInput"><input type="text" name="assetOutCost" id="assetOutCost" maxlength="15" onkeypress="return fn_press(event, 'numbers');" onkeydown="fn_press_han(this);"/></th>
 					</tr>
 					<tr>
 						<th>자산 반출/수리 이력 COMMENT</th>
-						<th class="popInput"><textArea name="assetOutComment" id="assetOutComment" maxlength="100" cols="20" style="height:150px; resize:none;"></textArea></th>
+						<th class="popInput"><textArea name="assetOutComment" id="assetOutComment" maxlength="1000" cols="20" style="height:150px; resize:none;"></textArea></th>
 					</tr>
 				</table>
 				<input type="button" id="popSubmit" style="margin:30px; background:#3d3d3d" value="등록"/>
@@ -509,7 +511,7 @@
 		
 				
 		<div style="display: flex; float: right; margin-top: 10px">
-			<input type="button" class="btn btn-lg btn-primary" id="registerBtn" onclick="submitCheck();" value="자산 등록" /> 
+			<input type="button" class="btn btn-lg btn-primary" id="registerBtn" onclick="submitCheck();" value="등록" /> 
 			&nbsp;&nbsp;&nbsp;&nbsp;
 			<input type="button" id="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="취소" />
 		</div>

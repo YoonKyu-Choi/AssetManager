@@ -268,10 +268,10 @@
 						<form id="category" action="categoryRegisterSend" method="post">
 							분류 이름: <input type="text" id="categoryName" name="categoryName" maxlength="33" onkeyup="codeGen()"/>
 							<input type="button" class="btn" onclick="nameCheck();" value="중복 검사"/>
+							<input type="hidden" id="items" name="items"/>
+							<input type="hidden" id="code" name="code"/>
 						</form>
 					</div>
-					<input type="hidden" id="items" name="items"/>
-					<input type="hidden" id="code" name="code"/>
 					<div style="float: right; display:inline-block;">
 						<form id="categoryCode">
 							분류 식별 코드: <input type="text" id="categoryCodeName" name="categoryCodeName" maxlength="2" onkeyup="alphabetOnly();"/>

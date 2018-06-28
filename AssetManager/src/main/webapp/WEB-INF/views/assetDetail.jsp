@@ -334,6 +334,23 @@
 	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
 	
+	// 입력 키 숫자/한글 판정
+	function fn_press(event, type) {
+        if(type == "numbers") {
+            if(event.keyCode < 48 || event.keyCode > 57){
+                return false;
+            }
+        }
+    }
+    
+    function fn_press_han(obj)  {
+        //좌우 방향키, 백스페이스, 딜리트, 탭키에 대한 예외
+        if(event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 46 ){
+            return;
+        }
+        obj.value = obj.value.replace(/[\ㄱ-ㅎㅏ-ㅣ가-힣]/g, '');
+    }
+	
 </script>
 <style>
 	.mask {
@@ -555,19 +572,19 @@
 						</tr>
 						<tr>
 							<th>대상</th>
-							<th class="popInput"><input type="text" name="assetOutObjective" id="assetOutObjective"/></th>
+							<th class="popInput"><input type="text" name="assetOutObjective" id="assetOutObjective" maxlength="33"/></th>
 						</tr>
 						<tr>
 							<th>목적</th>
-							<th class="popInput"><input type="text" name="assetOutPurpose" id="assetOutPurpose"/></th>
+							<th class="popInput"><input type="text" name="assetOutPurpose" id="assetOutPurpose" maxlength="33"/></th>
 						</tr>
 						<tr>
 							<th>비용</th>
-							<th class="popInput"><input type="text" name="assetOutCost" id="assetOutCost"/></th>
+							<th class="popInput"><input type="text" name="assetOutCost" id="assetOutCost" maxlength="15" onkeypress="return fn_press(event, 'numbers');" onkeydown="fn_press_han(this);"/></th>
 						</tr>
 						<tr>
 							<th>자산 반출/수리 이력 COMMENT</th>
-							<th class="popInput"><textArea name="assetOutComment" id="assetOutComment" maxlength="100"></textArea></th>
+							<th class="popInput"><textArea name="assetOutComment" id="assetOutComment" maxlength="1000"></textArea></th>
 						</tr>
 					</table>
 						<input type="hidden" id="assetId" name="assetId" value="${assetData['assetVO']['assetId'] }"/>

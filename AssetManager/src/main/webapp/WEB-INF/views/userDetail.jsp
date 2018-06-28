@@ -198,8 +198,10 @@
 <!-- 				<input type="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/userList'" value="목록" />	-->
 					<div style="display: flex; float: right; margin-top: 10px">
 						<button class="btn btn-lg btn-primary" id="button" onclick="modifyConfirm();">수정</button>
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						<button class="btn btn-lg btn-primary" id="delbtn" onclick="deleteConfirm();">삭제</button>
+						<c:if test='${requestScope.employeeVO.employeeId != "admin"}'>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button class="btn btn-lg btn-primary" id="delbtn" onclick="deleteConfirm();">삭제</button>
+						</c:if>
 					</div>
 				</c:if>
 				
