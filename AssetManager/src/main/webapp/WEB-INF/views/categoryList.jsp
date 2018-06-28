@@ -130,11 +130,11 @@
 			colNameRow.push(colNameItem);
 		}
 		var colModelRow = [];
-		colModelRow.push({name:'assetCategoryCode', index:'assetCategoryCode', width:80, hidden:true, frozen:true});
-		colModelRow.push({name:'assetCategory', index:'assetCategory', width:80, frozen:true, align:'center'});
+		colModelRow.push({name:'assetCategoryCode', index:'assetCategoryCode', width:120, hidden:true, frozen:true});
+		colModelRow.push({name:'assetCategory', index:'assetCategory', width:120, frozen:true, align:'center'});
 		for(var j=1; j<=maxIndex; j++){
 			var colNameItem = '세부사항' + j;
-			var colModelItem = {name:colNameItem, index:colNameItem, width:80, align:'center'};
+			var colModelItem = {name:colNameItem, index:colNameItem, width:120, align:'center'};
 			colModelRow.push(colModelItem);
 		}
 		
@@ -201,7 +201,10 @@
 		background-color: #555;
 		background-image: none;
 	}
-
+	.ui-jqgrid {
+		font-size: 1.0em;
+	}
+	
 </style>
 		
 </head>

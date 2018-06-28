@@ -51,8 +51,9 @@
 
 <body>
 	<div style="width: 100%">
+	<!-- 	<img alt="" src="${pageContext.request.contextPath}/resources/logo.jpg" style="display: block; margin-left: auto; margin-right: auto;">-->
 		<form class="form-signin" onsubmit="return loginCheck();" method="POST">
-			<h2 class="form-signin-heading" style="text-align: center">로그인 정보 입력</h2>
+			<h2 class="form-signin-heading" style="text-align: center"></h2>
             	<div style="display: flex; margin-left:80px">
                 	<p>
                 		<label class="form-control" style="border: 1; background: transparent; margin-bottom: -1px">USER ID</label>

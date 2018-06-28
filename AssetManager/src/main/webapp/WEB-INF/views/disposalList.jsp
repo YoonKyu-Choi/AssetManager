@@ -24,7 +24,7 @@
 	var assetMenu = new BootstrapMenu('td', {
 		actionsGroups: [
 			['assetDetail', 'assetHistory', 'assetDispose'],
-			['printList', 'printReport']
+			['printList', 'printReport', 'printLabel']
 		],
 		actions: {
 			assetDetail: {
@@ -67,6 +67,12 @@
 				name: '보고서 출력',
 				onClick: function(){
 					printReport();
+				}
+			},
+			printLabel: {
+				name: '라벨 출력',
+				onClick: function(){
+					printLabel();
 				}
 			}
 		}
@@ -292,6 +298,24 @@
 		}
 	}
 	
+	function printLabel(){
+		if(!confirm('선택한 자산들의 라벨을 출력하겠습니까?')){
+			return false;
+		}else{
+			var printList = [];
+			var arr = $("#assetTable").getGridParam('selarrrow');
+			for(i in arr){
+				var rowid = arr[Number(i)];
+				var assetId = $("#assetTable").getRowData(rowid)['assetId'];
+				printList.push(assetId);
+			}
+			
+			$("#printLabelArray").val(printList);
+			$("#printLabelForm").submit();
+			
+		}
+	}
+	
 	function isAsset(){
 		var assetnum = ${disposalListData['assetCountByDispReady']} + ${disposalListData['assetCountByDisposal']};
 		if(assetnum == 0){
@@ -342,7 +366,10 @@
 		background-color: #555;
 		background-image: none;
 	}
-
+	.ui-jqgrid {
+		font-size: 1.0em;
+	}
+	
 </style>
 		
 </head>
@@ -383,6 +410,10 @@
 
 				<form id="printReportForm" action="printReport" method="post">
 					<input type="hidden" id="printReportArray" name="assetIdList"/>
+				</form>
+
+				<form id="printLabelForm" action="printLabel" method="post">
+					<input type="hidden" id="printLabelArray" name="assetIdList"/>
 				</form>
 				
 				<form id="disposeForm" action="disposeAsset" method="post">

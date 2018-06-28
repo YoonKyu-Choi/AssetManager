@@ -384,6 +384,10 @@
 		background-color: #555;
 		background-image: none;
 	}
+	.ui-jqgrid {
+		font-size: 1.0em;
+	}
+	
 </style>
 </head>
 <body>
