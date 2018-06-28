@@ -11,12 +11,16 @@
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-table.css" rel="stylesheet" />
+	<link href="${pageContext.request.contextPath}/resources/css/jquery-ui-1-12-1.min.css" rel="stylesheet"/>  
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-ui-1-12-1.min.js"></script>
 
 <script>
+
 	$(function(){
 		// 사이드바 활성화
 		$("#asstLink").prop("class", "active");
-
+		
+		
 		// 기존 설정
 		$("#assetUser").val("${model['assetVO']['assetUser']}").prop("selected", true);
 		$("#assetStatus").val("${model['assetVO']['assetStatus']}").prop("selected", true);
@@ -27,6 +31,14 @@
 		$("#uploadImage").on("change",handleImgFileSelect);
 			var windowHeight = window.innerHeight;
 
+		if($("#assetStatus option:selected").val() == "사용 가능"
+				|| $("#assetStatus option:selected").val() == "사용 불가"
+				|| $("#assetStatus option:selected").val() == "폐기"){
+			$("#assetUser").prepend("<option value='NoUser'>사용자 없음</option>");
+			$("#assetUser").val("NoUser").prop("selected",true);
+			$("#assetUser").prop("disabled",true).css("background-color","#99CCFF"); 
+		}
+		
 		// 반응성 윈도우 사이즈	
 		$(".table-responsive").css("height", windowHeight-300);
 		$(window).resize(function(){
@@ -46,12 +58,32 @@
 			prevText: '이전 달' 
        });
 		
-		if($("#assetStatus").val("사용 가능")){
-			alert("hello");
-		};
+			
 	
 	});
-			
+		
+	// 등록, 수정 시 자산 상태를 사용 가능,불가능,폐기으로 했을 경우 -> 이름 disabled, 사용자없음 
+	function changeFunc(){
+		var count 		
+		if($("#assetStatus option:selected").val() == "사용 가능"
+				|| $("#assetStatus option:selected").val() == "사용 불가"
+				|| $("#assetStatus option:selected").val() == "폐기"){
+			$("#assetUser").prepend("<option value='NoUser'>사용자 없음</option>");
+			$("#assetUser").val("NoUser").prop("selected",true);
+			$("#assetUser").prop("disabled",true).css("background-color","#99CCFF"); 
+		} else{
+				$("#assetUser option:first").remove();
+			if("${model['assetVO']['assetUser']}" == ){
+				alert("hello");
+				$("#assetUser option:eq[0]").prop("selected", true);
+			}else{
+				alert("bye");
+				$("#assetUser").val("${model['assetVO']['assetUser']}").prop("selected", true);
+			}
+			$("#assetUser").prop("disabled",false).css("background-color","white");
+		}
+	}
+	
 	function handleImgFileSelect(e){
 		
 		var files = e.target.files;
@@ -323,7 +355,7 @@
 								<input type="hidden" id="beforeUser" name="beforeUser" value="${model['beforeUser']}">
 							<tr>
 								<th>자산 상태</th>
-								<th><select class="form-controlmin dropdown" id="assetStatus" name="assetStatus">
+								<th><select class="form-controlmin dropdown" id="assetStatus" name="assetStatus" onchange="changeFunc();">
 										<option value="0">상태를 선택하세요.</option>
 										<option value="사용 중">사용 중</option>
 										<option value="사용 가능">사용 가능</option>
@@ -343,7 +375,7 @@
 							<input type="hidden" id="assetPurchaseDate" name="assetPurchaseDate" value="${model['assetVO']['assetPurchaseDate']}" >
 							<tr>
 								<th>구입일</th>
-								<th> ${model['assetVO']['assetPurchaseDate']}</th>
+								<th><input type="text" id="assetPurchaseDate" name="assetPurchaseDate" value="${model['assetVO']['assetPurchaseDate']}"></th>
 								<th>제조사</th>
 								<th><input type="text" id="assetMaker" name="assetMaker" value="${model['assetVO']['assetMaker']}"></th>
 							</tr>

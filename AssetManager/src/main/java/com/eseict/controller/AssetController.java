@@ -107,21 +107,34 @@ public class AssetController {
 		try {
 			// 관리 번호 생성
 			String assetId = aService.generateAssetId(avo);
-			avo.setAssetId(assetId);
+			String assetUser = null;
 			
+			
+			avo.setAssetId(assetId);
 			// 이미지 업로드
 			avo.setAssetReceiptUrl(aService.uploadImageFile(request.getServletContext(), uploadImage));
+
 			
-			String assetUser = avo.getAssetUser();
-			avo.setAssetUser(eService.getEmployeeNameByEmpId(assetUser));
+			if(avo.getAssetUser() == null || avo.getAssetUser() == "NoUser") {
+				avo.setAssetUser("사용자 없음");
+				avo.setEmployeeSeq(0);
+			}else {
+				assetUser = avo.getAssetUser();
+				avo.setAssetUser(eService.getEmployeeNameByEmpId(assetUser));
+				avo.setEmployeeSeq(eService.getEmployeeSeqByEmpId(assetUser));
+			}
+			avo.setAssetManagerSeq(eService.getEmployeeSeqByEmpId(avo.getAssetManager()));
 			avo.setAssetManager(eService.getEmployeeNameByEmpId(avo.getAssetManager()));
-			avo.setEmployeeSeq(eService.getEmployeeSeqByEmpId(assetUser));
 			aService.insertAsset(avo);
 			
 			// 자산 세부사항 등록 
 			aService.insertAssetDetail(assetId, items, itemsDetail);
 			// 자산 이력 등록
-			aService.insertAssetHistory(assetId, assetUser);
+			if(avo.getAssetUser() == "사용자 없음") {
+				aService.insertAssetHistory(assetId,"사용자 없음");
+			}else {
+				aService.insertAssetHistory(assetId, assetUser);
+			}
 			
 			// 자산 등록 시 반출,수리 중이면 입력
 			if(!assetOutObjective.isEmpty() && !assetOutPurpose.isEmpty() && !assetOutCost.isEmpty() 
@@ -187,25 +200,34 @@ public class AssetController {
 		try {
 			String assetId = avo.getAssetId();
 			String assetUser = avo.getAssetUser();
-			String UserEmpName = eService.getEmployeeNameByEmpId(assetUser); 
+			String UserEmpName = eService.getEmployeeNameByEmpId(assetUser);
+			int newEmpSeq = 0;
+			int empSeq = 0;
 			
 			// 아이디로 EmpSeq 구하기
-			int newEmpSeq = eService.getEmployeeSeqByEmpId(assetUser);
-			int empSeq = eService.getEmployeeSeqByEmpId(beforeUser);
-			
+			if(avo.getAssetUser() == "NoUser" || avo.getAssetUser() == null) {
+				avo.setAssetUser("사용자 없음");
+				avo.setEmployeeSeq(0);
+				newEmpSeq = 0;
+				empSeq = 0;
+			}else {
+				newEmpSeq = eService.getEmployeeSeqByEmpId(assetUser);
+				empSeq = eService.getEmployeeSeqByEmpId(beforeUser);
+				avo.setAssetUser(UserEmpName);
+				avo.setEmployeeSeq(newEmpSeq);
+			}
 			// 이미지 업로드
 			avo.setAssetReceiptUrl(aService.uploadImageFile(request.getServletContext(), uploadImage));
-			
-			avo.setAssetUser(UserEmpName);
-			avo.setEmployeeSeq(newEmpSeq);
+			avo.setAssetManagerSeq(eService.getEmployeeSeqByEmpId(avo.getAssetManager()));
 			avo.setAssetManager(eService.getEmployeeNameByEmpId(avo.getAssetManager()));
 			aService.updateAsset(avo);
 			aService.updateAssetDetail(assetId, items, itemsDetail);
 			
 			// 자산 수정 시 자산 이력 자동 입력
+			
 			if(newEmpSeq != empSeq) {
 				aService.updateAssetHistory(assetId, UserEmpName, empSeq, newEmpSeq);
-			}
+			} 
 			return "redirect:/assetList";
 		} catch (Exception e) {
 			e.printStackTrace();

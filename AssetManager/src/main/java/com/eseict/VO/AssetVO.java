@@ -18,6 +18,7 @@ public class AssetVO {
 	private String assetModel;
 	private String assetUsage;
 	private String assetManager;
+	private int assetManagerSeq;
 	private String assetLocation;
 	private String assetReceiptUrl;
 	private String assetComment;
@@ -27,7 +28,7 @@ public class AssetVO {
 	public AssetVO(String assetId, String assetCategory, int employeeSeq, String assetUser, String assetStatus,
 			String assetOutStatus, String assetSerial, Date assetPurchaseDate, String assetPurchasePrice,
 			String assetPurchaseShop, String assetMaker, String assetModel, String assetUsage, String assetManager,
-			String assetLocation, String assetReceiptUrl, String assetComment) {
+			int assetManagerSeq, String assetLocation, String assetReceiptUrl, String assetComment) {
 		super();
 		this.assetId = assetId;
 		this.assetCategory = assetCategory;
@@ -43,6 +44,7 @@ public class AssetVO {
 		this.assetModel = assetModel;
 		this.assetUsage = assetUsage;
 		this.assetManager = assetManager;
+		this.assetManagerSeq = assetManagerSeq;
 		this.assetLocation = assetLocation;
 		this.assetReceiptUrl = assetReceiptUrl;
 		this.assetComment = assetComment;
@@ -160,6 +162,14 @@ public class AssetVO {
 		this.assetManager = assetManager;
 	}
 
+	public int getAssetManagerSeq() {
+		return assetManagerSeq;
+	}
+
+	public void setAssetManagerSeq(int assetManagerSeq) {
+		this.assetManagerSeq = assetManagerSeq;
+	}
+
 	public String getAssetLocation() {
 		return assetLocation;
 	}
@@ -194,6 +204,7 @@ public class AssetVO {
 		result = prime * result + ((assetLocation == null) ? 0 : assetLocation.hashCode());
 		result = prime * result + ((assetMaker == null) ? 0 : assetMaker.hashCode());
 		result = prime * result + ((assetManager == null) ? 0 : assetManager.hashCode());
+		result = prime * result + assetManagerSeq;
 		result = prime * result + ((assetModel == null) ? 0 : assetModel.hashCode());
 		result = prime * result + ((assetOutStatus == null) ? 0 : assetOutStatus.hashCode());
 		result = prime * result + ((assetPurchaseDate == null) ? 0 : assetPurchaseDate.hashCode());
@@ -204,6 +215,7 @@ public class AssetVO {
 		result = prime * result + ((assetStatus == null) ? 0 : assetStatus.hashCode());
 		result = prime * result + ((assetUsage == null) ? 0 : assetUsage.hashCode());
 		result = prime * result + ((assetUser == null) ? 0 : assetUser.hashCode());
+		result = prime * result + employeeSeq;
 		return result;
 	}
 
@@ -245,6 +257,8 @@ public class AssetVO {
 			if (other.assetManager != null)
 				return false;
 		} else if (!assetManager.equals(other.assetManager))
+			return false;
+		if (assetManagerSeq != other.assetManagerSeq)
 			return false;
 		if (assetModel == null) {
 			if (other.assetModel != null)
@@ -295,6 +309,8 @@ public class AssetVO {
 			if (other.assetUser != null)
 				return false;
 		} else if (!assetUser.equals(other.assetUser))
+			return false;
+		if (employeeSeq != other.employeeSeq)
 			return false;
 		return true;
 	}

@@ -38,15 +38,6 @@
 				}			 
 		});
 		
-		$('#popClose').click(function() {
-			$("#assetOutObjective").val(null);
-			$("#assetOutPurpose").val(null);
-			$("#assetOutCost").val(null);
-			$("#assetOutComment").val(null);
-			$("#assetOutStatus option:eq(0)").attr("selected","selected");
-		    $('#pop').hide();
-		});
-
 		// 권한별 버튼 보이기
 		var isAdmin = "<%=session.getAttribute("isAdmin")%>";
 		if (isAdmin == "TRUE") {
@@ -268,6 +259,30 @@
         obj.value = obj.value.replace(/[\ㄱ-ㅎㅏ-ㅣ가-힣]/g, '');
     }
     
+    function popCloseBtn(){
+    	$("#assetOutObjective").val(null);
+		$("#assetOutPurpose").val(null);
+		$("#assetOutCost").val(null);
+		$("#assetOutComment").val(null);
+		$("#assetOutStatus option:eq(0)").prop("selected",true);
+	    $('#pop').hide();
+    }
+    
+	// 등록, 수정 시 자산 상태를 사용 가능,불가능,폐기으로 했을 경우 -> 이름 disabled, 사용자없음 
+	function changeFunc(){
+		if($("#assetStatus option:selected").val() == "사용 가능"
+				|| $("#assetStatus option:selected").val() == "사용 불가"
+				|| $("#assetStatus option:selected").val() == "폐기"){
+			$("#assetUser").prepend("<option value='NoUser'>사용자 없음</option>");
+			$("#assetUser").val("NoUser").prop("selected",true);
+			$("#assetUser").prop("disabled",true).css("background-color","#99CCFF"); 
+		} else{
+			$("#assetUser option:first").remove();
+			$("#assetUser option:eq(0)").prop("selected", true);
+			$("#assetUser").prop("disabled",false).css("background-color","white");
+		}
+	}
+    
 </script>
 <style>
 	#pop{
@@ -326,6 +341,8 @@
 		margin-left: 13%;
 		width: 76%;
 	}
+	
+	th:not(".ui-datepicker-week-end")
 	th {
 		height: 50px;
 		width: 25%;
@@ -402,7 +419,7 @@
 					<tr>
 						<th>자산 상태</th>
 						<th>
-							<select class="form-controlmin dropdown" id="assetStatus" name="assetStatus">
+							<select class="form-controlmin dropdown" id="assetStatus" name="assetStatus" onchange="changeFunc();">
 								<option value="0">상태를 선택하세요.</option>
 								<option value="사용 중">사용 중</option>
 								<option value="사용 가능">사용 가능</option>
@@ -517,7 +534,7 @@
 					</tr>
 				</table>
 				<input type="button" id="popSubmit" style="margin:30px; background:#3d3d3d" value="등록"/>
-				<input type="button" id="popClose" style="margin:30px; background:#3d3d3d" value="취소"/>											
+				<input type="button" id="popClose" style="margin:30px; background:#3d3d3d" onclick="popCloseBtn();" value="취소"/>											
 			</div>
 		</form>
 		
