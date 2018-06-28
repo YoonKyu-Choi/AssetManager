@@ -162,6 +162,9 @@
 		color: white;
 		background-color: #333;
 	}
+	.dropdown, input:not([type="button"]){
+		width: 200px
+	}
 </style>
 </head>
 <body>

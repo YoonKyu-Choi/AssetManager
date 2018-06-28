@@ -17,6 +17,7 @@
 	var itemSize = Number("<c:out value="${categoryData.itemSize}"/>");
 	var plusCount = itemSize;
 	var deleteItems = [];
+	var origItems = [];
 
 	$(function(){
 		// 사이드바 활성화
@@ -79,6 +80,10 @@
 		if (!confirm("이대로 수정하겠습니까?")) {
 			return false;
 		} else {
+			<c:forEach items="${categoryData.items}" var="categoryItem">
+				origItems.push("${categoryItem}");
+			</c:forEach>
+
 			var items = [];
 			var isEmpty = false;
 			for(var i=0; i<plusCount; i++){
@@ -120,10 +125,18 @@
 			if(isEmpty){
 				alert("빈 칸은 자동으로 제외하고 등록됩니다.");
 			}
-			
 			if((items.length == itemSize) && (deleteItems.length == 0)){
-				alert("수정 사항이 없습니다.");
-				return false;
+				var isSame = true;
+				for(var i=0; i<itemSize; i++){
+					if(items[i] != origItems[i]){
+						isSame = false;
+						break;
+				    }
+				}
+				if(isSame){
+					alert("수정 사항이 없습니다.");
+					return false;
+				}
 			}
 			$("#category").submit();
 
