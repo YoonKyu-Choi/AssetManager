@@ -38,6 +38,10 @@
 			$("#assetUser").prop("disabled",true).css("background-color","#99CCFF"); 
 		}
 		
+		if(${model['assetVO']['assetPurchaseDate']} == "9997"){
+			$("#assetPurchaseDate").val("미입력");
+		}
+		
 		// 반응성 윈도우 사이즈	
 		$(".table-responsive").css("height", windowHeight-300);
 		$(window).resize(function(){
@@ -262,20 +266,29 @@
 
 <style>
 	.form-controlmin {
-		display: block;
+		width: 60%;
 		height: 32px;
 		padding: 6px 12px;
 		font-size: 14px;
 		line-height: 1.42857143;
 		color: #555;
 		background-color: #fff;
+		background-image: none;
 		border: 1px solid #ccc;
 		border-radius: 4px;
 		-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-		        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-		-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-		     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-		        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+		box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+		-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow
+			ease-in-out .15s;
+		-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out
+			.15s;
+		transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	}
+	.img_wrap {
+		margin-top: 50px;
+	}
+	.img_wrap img {
+		max-width: 100%;
 	}
 	.container{
 		top:0;
@@ -290,12 +303,17 @@
 		margin-left: 13%;
 		width: 76%;
 	}
-	th:nth-child(4n+1), th:nth-child(4n+3){
+	
+	th:not(".ui-datepicker-week-end")
+	th {
+		height: 50px;
 		width: 25%;
+		vertical-align: middle;
+	}
+	th:nth-child(4n+1), th:nth-child(4n+3){
 		font-weight: bold;
 	}
 	th:nth-child(4n+2), th:nth-child(4n+4){
-		width: 25%;
 		font-weight: normal;
 	}
 	hr {
@@ -305,15 +323,18 @@
 		background-color: gray;
 		background-image: linear-gradient(to right, #ccc, #333, #ccc);
 	}
-	#button{
+	#button, #registerBtn{
 		color: black;
 		border-color: #999;
 		background-color: #aaa;
 		font-weight: bold;
 	}
-	#button:hover {
+	#button:hover, #registerBtn:hover {
 		color: white;
 		background-color: #333;
+	}
+	.dropdown, input:not([type="button"]){
+		width: 200px
 	}
 </style>
 </head>
@@ -370,10 +391,9 @@
 										<option value="고장">고장</option>
 								</select></th>
 							</tr>
-							<input type="hidden" id="assetPurchaseDate" name="assetPurchaseDate" value="${model['assetVO']['assetPurchaseDate']}" >
 							<tr>
 								<th>구입일</th>
-								<th><input type="text" id="assetPurchaseDate" name="assetPurchaseDate" value="${model['assetVO']['assetPurchaseDate']}"></th>
+								<th><input type="text" id="assetPurchaseDate" name="assetPurchaseDate" value="${model['assetVO']['assetPurchaseDate']}" readonly></th>
 								<th>제조사</th>
 								<th><input type="text" id="assetMaker" name="assetMaker" value="${model['assetVO']['assetMaker']}"></th>
 							</tr>
