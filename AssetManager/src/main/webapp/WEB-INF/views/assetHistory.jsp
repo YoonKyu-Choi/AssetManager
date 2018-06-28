@@ -152,9 +152,10 @@
 					<input type="text" id="assetOutComment" style="width:500px;height:120px" readonly/>
 					</div>
 				</div>
-			<input type="button" id="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />
-			<input type="button" id="button" class="btn btn-lg btn-primary" onclick="goAssetDetail();" value="상세보기로 이동" />
-			
+<!-- 		<input type="button" id="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />		-->
+			<div style="display: flex; float: right; margin-top: 10px">
+				<input type="button" id="button" class="btn btn-lg btn-primary" onclick="goAssetDetail();" value="자산 상세" />
+			</div>
 			</div>
 			<form id="assetDetailForm" action="assetDetail" method="post">
 				<input type="hidden" id="assetId" name="assetId" value='${model["assetId"]}'/>

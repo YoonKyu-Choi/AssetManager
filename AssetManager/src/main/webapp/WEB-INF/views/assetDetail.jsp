@@ -307,7 +307,7 @@
 	    // fade 애니메이션 : 1초 동안 검게 됐다가 80%의 불투명으로 변합니다.
 	    $('.mask').fadeTo("slow",0.8);
 	
-		var position = $("#delbtn").offset();
+		var position = $("#hiddenBtn").offset();
 		
 	    // 레이어 팝업을 가운데로 띄우기 위해 화면의 높이와 너비의 가운데 값과 스크롤 값을 더하여 변수로 만듭니다.
 	    var left = $(window).scrollLeft() +position['left'];
@@ -444,7 +444,7 @@
 						<tr>
 							<th>자산 상태</th>
 							<th>${assetData['assetVO']['assetStatus']}</th>
-							<th>반출 상태</th>
+							<th id="hiddenBtn">반출 상태</th>
 							<th>${assetData['assetVO']['assetOutStatus']}</th>
 						</tr>
 						<tr>
@@ -536,10 +536,10 @@
 							<th>용도</th>
 							<th class="popInput">
 								<select class="form-controlmin dropdown" id="assetOutStatus" name="assetOutStatus">
-										<option value="0">용도를 선택하세요.</option>
-										<option value="반출 중">반출 중</option>
-										<option value="수리 중">수리 중</option>
-										<option value="고장">고장</option> 
+									<option value="0">용도를 선택하세요.</option>
+									<option value="반출 중">반출 중</option>
+									<option value="수리 중">수리 중</option>
+									<option value="고장">고장</option> 
 								</select>
 							</th>
 						</tr>
@@ -560,9 +560,9 @@
 							<th class="popInput"><textArea name="assetOutComment" id="assetOutComment" maxlength="1000"></textArea></th>
 						</tr>
 					</table>
-						<input type="hidden" id="assetId" name="assetId" value="${assetData['assetVO']['assetId'] }"/>
-						<input type="button" id="popSubmit" style="margin:30px; background:#3d3d3d" value="submit"/>
-						<input type="button" id="popClose" style="margin:30px; background:#3d3d3d" value="close"/>											
+					<input type="hidden" id="assetId" name="assetId" value="${assetData['assetVO']['assetId'] }"/>
+					<input type="button" id="popSubmit" style="margin:30px; background:#3d3d3d" value="submit"/>
+					<input type="button" id="popClose" style="margin:30px; background:#3d3d3d" value="close"/>											
 				</form>
 				
 		    </div>
