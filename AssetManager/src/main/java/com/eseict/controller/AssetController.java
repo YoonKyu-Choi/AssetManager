@@ -109,18 +109,16 @@ public class AssetController {
 			String assetId = aService.generateAssetId(avo);
 			String assetUser = null;
 			
-			
 			avo.setAssetId(assetId);
 			// 이미지 업로드
 			avo.setAssetReceiptUrl(aService.uploadImageFile(request.getServletContext(), uploadImage));
-
 			if(avo.getAssetUser() == null || avo.getAssetUser() == "NoUser") {
 				avo.setAssetUser("사용자 없음");
 				avo.setEmployeeSeq(0);
 			}else {
 				assetUser = avo.getAssetUser();
-				avo.setAssetUser(eService.getEmployeeNameByEmpId(assetUser));
 				avo.setEmployeeSeq(eService.getEmployeeSeqByEmpId(assetUser));
+				avo.setAssetUser(eService.getEmployeeNameByEmpId(assetUser));
 			}
 			avo.setAssetManagerSeq(eService.getEmployeeSeqByEmpId(avo.getAssetManager()));
 			avo.setAssetManager(eService.getEmployeeNameByEmpId(avo.getAssetManager()));
@@ -231,6 +229,7 @@ public class AssetController {
 			if(newEmpSeq != empSeq) {
 				aService.updateAssetHistory(assetId, UserEmpName, empSeq, newEmpSeq);
 			} 
+			
 			return "redirect:/assetList";
 		} catch (Exception e) {
 			e.printStackTrace();

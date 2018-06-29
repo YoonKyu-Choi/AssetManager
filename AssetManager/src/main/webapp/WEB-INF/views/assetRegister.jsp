@@ -18,6 +18,9 @@
 	$(function(){
 		// 사이드바 활성화
 		$("#asstLink").prop("class", "active");
+		
+		$("#assetUser").val("${sessionScope.Id}").prop("selected", true).css("background-color","#99CCFF");
+		
 
 		// 이미지 업로드
 		$("#uploadImage").on("change", handleImgFileSelect);
@@ -180,7 +183,7 @@
 					return false;
 				}
 			}
-			
+				$("#assetUser").prop("disabled",false);
 				$("#registerSend").submit();
 			}
 		}
@@ -270,9 +273,11 @@
     
 	// 등록, 수정 시 자산 상태를 사용 가능,불가능,폐기으로 했을 경우 -> 이름 disabled, 사용자없음 
 	function changeFunc(){
+		alert("hello");
 		if($("#assetStatus option:selected").val() == "사용 가능"
 				|| $("#assetStatus option:selected").val() == "사용 불가"
 				|| $("#assetStatus option:selected").val() == "폐기"){
+			alert("음 ?");
 			$("#assetUser").prepend("<option value='NoUser'>사용자 없음</option>");
 			$("#assetUser").val("NoUser").prop("selected",true);
 			$("#assetUser").prop("disabled",true).css("background-color","#99CCFF"); 
@@ -396,20 +401,29 @@
 								</c:forEach>
 							</select>
 						</th>
-							<th>이름</th>
-							<c:if test="${sessionScope.isAdmin != 'TRUE' }">
-								<th><%=session.getAttribute("employeeName")%></th>
+						<c:if test="${sessionScope.isAdmin != 'TRUE' }">
+							<th>이름(변경불가)</th>
+							<th>
+								<select class="form-controlmin dropdown" name="assetUser" id="assetUser" disabled>
+									<option value="0">책임자를 선택하세요.</option>
+									<c:forEach items="${list['employeeNameList']}" var="employee">
+										<option value="${employee.employee_id}">${employee.employee_name}(${employee.employee_department_string})</option>
+									</c:forEach>
+								</select>
+							</th>
 							</c:if>
 							<c:if test="${sessionScope.isAdmin == 'TRUE' }">
-								<th>
-									<select class="form-controlmin dropdown" name="assetUser" id="assetUser">
-										<option value="0">책임자를 선택하세요.</option>
-										<c:forEach items="${list['employeeNameList']}" var="employee">
-											<option value="${employee.employee_id}">${employee.employee_name}(${employee.employee_department_string})</option>
-										</c:forEach>
-									</select>
-								</th>
+							<th>이름</th>
+							<th>
+								<select class="form-controlmin dropdown" name="assetUser" id="assetUser">
+									<option value="0">책임자를 선택하세요.</option>
+									<c:forEach items="${list['employeeNameList']}" var="employee">
+										<option value="${employee.employee_id}">${employee.employee_name}(${employee.employee_department_string})</option>
+									</c:forEach>
+								</select>
+							</th>
 							</c:if>
+						</tr>
 					<tr>
 						<th>관리 번호</th>
 						<th>※ 자동 생성됩니다.</th>
@@ -418,16 +432,22 @@
 					</tr>
 					<tr>
 						<th>자산 상태</th>
-						<th>
-							<select class="form-controlmin dropdown" id="assetStatus" name="assetStatus" onchange="changeFunc();">
-								<option value="0">상태를 선택하세요.</option>
-								<option value="사용 중">사용 중</option>
-								<option value="사용 가능">사용 가능</option>
-								<option value="사용 불가">사용 불가</option>
-								<option value="폐기 대기">폐기 대기</option>
-								<option value="폐기">폐기</option>
-							</select>
-						</th>
+							<th>
+						<c:if test="${sessionScope.isAdmin == 'TRUE' }">
+								<select class="form-controlmin dropdown" id="assetStatus" name="assetStatus" onchange="changeFunc();">
+									<option value="0">상태를 선택하세요.</option>
+									<option value="사용 중">사용 중</option>
+									<option value="사용 가능">사용 가능</option>
+									<option value="사용 불가">사용 불가</option>
+									<option value="폐기 대기">폐기 대기</option>
+									<option value="폐기">폐기</option>
+								</select>
+						</c:if>
+						<c:if test="${sessionScope.isAdmin != 'TRUE' }">
+							사용 중
+							<input type="hidden" id="assetStatus" name="assetStatus" value="사용 중"/>
+						</c:if>
+							</th>
 						<th>자산 반출 상태</th>
 						<th>
 							<select class="form-controlmin dropdown" id="assetOutStatus" name="assetOutStatus">

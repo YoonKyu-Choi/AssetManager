@@ -122,12 +122,13 @@ public class UserController {
 		try {
 			eService.updateEmployee(evo);
 			redirectAttributes.addFlashAttribute("msg", "수정되었습니다.");
-			return "redirect:/userDetail?employeeSeq="+evo.getEmployeeSeq();
+			// 임시로 만듬 곧 수정 예
+			return "redirect:/userList";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "redirect:/userDetail?employeeSeq="+evo.getEmployeeSeq();
+		return "redirect:/userDetail";
 	}
 
 }
