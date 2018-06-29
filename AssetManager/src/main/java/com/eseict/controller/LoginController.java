@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -20,15 +19,20 @@ public class LoginController {
 	private EmployeeService eService;
 	
 	@RequestMapping(value = "/")
-	public String login(HttpSession session) {
+	public String login(HttpSession session
+						, RedirectAttributes redirectAttributes) {
 		if (session.getAttribute("isUser") == "TRUE") {
+			if(session.getAttribute("loginMsg") == "TRUE") {
+				redirectAttributes.addFlashAttribute("msg", "로그인 되었습니다.");
+				session.setAttribute("loginMsg", "FALSE");
+			}
 			return "redirect:/assetList";
 		} else {
 			return "login";
 		}
 	}
 
-	@RequestMapping(value = "/loginSubmit", method = RequestMethod.POST)
+	@RequestMapping(value = "/loginSubmit")
 	@ResponseBody
 	public String loginSubmit(RedirectAttributes redirectAttributes
 							, HttpSession session
@@ -47,6 +51,7 @@ public class LoginController {
 				session.setAttribute("employeeSeq", eService.getEmployeeSeqByEmpId(inputId));
 				session.setAttribute("employeeName", eService.getEmployeeNameByEmpId(inputId));
 			}
+			session.setAttribute("loginMsg", "TRUE");
 			session.setAttribute("Id", inputId);
 			return Integer.toString(check);
 		} catch (Exception e) {

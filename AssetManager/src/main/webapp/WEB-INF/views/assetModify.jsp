@@ -344,7 +344,7 @@
 			<div class="main">
 				<form class="form" action="/assetmanager/assetModifySend" id="modifySend" method="POST" enctype="multipart/form-data">
 					<h1 class="page-header">
-						<font size="6px"><b># 자산 정보 수정</b></font>
+						<font size="6px"><b>자산 정보 수정</b></font>
 					</h1>
 					<div class="table-responsive" id="inputDiv"	style="overflow: scroll; height: 500px;">
 						<h3>자산 공통사항</h3>

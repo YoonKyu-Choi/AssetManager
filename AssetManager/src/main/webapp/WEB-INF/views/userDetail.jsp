@@ -143,11 +143,11 @@
 				<h1 class="page-header">
 					
 					<c:if test='${sessionScope.isAdmin == "TRUE" }'>
-					<font size="6px"><b># 회원 정보</b></font>
+					<font size="6px"><b>회원 정보</b></font>
 					</c:if>
 					
 					<c:if test='${sessionScope.isAdmin != "TRUE" }'>
-					<font size="6px"><b># 내 정보</b></font>
+					<font size="6px"><b>내 정보</b></font>
 					</c:if>
 					
 				</h1>
@@ -207,7 +207,7 @@
 				
 				<c:if test='${sessionScope.isAdmin != "TRUE" }'>
 					<div style="display: flex; float: right">
-						<button class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">내 정보 수정</button>
+						<button id="button" class="btn btn-lg btn-primary" style="margin-right: 10px" onclick="modifyConfirm();">내 정보 수정</button>
 					</div>
 				</c:if>
 					

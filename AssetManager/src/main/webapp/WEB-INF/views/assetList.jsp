@@ -106,6 +106,7 @@
 		if(flashmsg != ""){
 			alert(flashmsg);
 		}
+		debugger;
 
 		
 		// 검색
@@ -395,7 +396,7 @@
 		<div class="row">
 			<div class="main">
 				<form class="page-header" id="searchForm" action="assetList">
-					<font size="6px"><b># 자산 관리</b></font>
+					<font size="6px"><b>자산 관리</b></font>
 					<label style="float:right; margin-top: 20px">
 						<select id="searchMode" name="searchMode">
 							<option value="1">자산 분류</option>

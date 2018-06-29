@@ -29,7 +29,7 @@
 			data	: {inputId:id, inputPw:pw},
 			success	: function(result){
 				if(result == "1"){
-					alert("로그인되었습니다.");
+//					alert("로그인 되었습니다.");
 				} else if(result=="2"){
 					alert("퇴사된 상태라 로그인 할 수 없습니다. 관리자에게 문의하세요");
 				} else{
@@ -46,12 +46,44 @@
    	}
 	
 </script>
+<style>
+	#button{
+		color: black;
+		border-color: #999;
+		background-color: #aaa;
+		font-weight: bold;
+	}
+	#button:hover {
+		color: white;
+		background-color: #333;
+	}
+	.logo{
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 20px;
+		margin-bottom: 90px;
+	}
+	.subLogo{
+		margin-bottom:-15px;
+		font-size:20px;
+		line-height:120%;
+		font-weight:bold;
+		text-align:center;
+		color:#4c4c4c;
+		font-family: "nanumB", "NanumGothicBold", "Nanum Gothic";
+	}
+</style>
 
 </head>
 
 <body>
 	<div style="width: 100%">
-	<!-- 	<img alt="" src="${pageContext.request.contextPath}/resources/logo.jpg" style="display: block; margin-left: auto; margin-right: auto;">-->
+	 	<img class="logo" alt="" src="${pageContext.request.contextPath}/resources/logoCmp_login.png">
+	 	<div class="subLogo">
+			ESE 이에스이㈜ 	자산관리시스템
+		</div>
+	 	
 		<form class="form-signin" onsubmit="return loginCheck();" method="POST">
 			<h2 class="form-signin-heading" style="text-align: center"></h2>
             	<div style="display: flex; margin-left:80px">
@@ -63,9 +95,9 @@
 						<input type="text" id="inputId" name="inputId" class="form-control" placeholder="ID" required autofocus>
 						<input type="password" id="inputPw" name="inputPw" class="form-control" placeholder="Password" required>
 					</p>
-					<button class="btn btn-lg btn-primary" style="margin-bottom: 15px">로그인</button>
+					<button class="btn btn-lg btn-primary" id="button" style="margin-bottom: 15px">로그인</button>
                </div>
 		</form>
-		<button class="btn btn-lg btn-primary btn-block" style="width: 15%; margin:auto" onclick="location.href='/assetmanager/register'">회원가입</button>
+		<button class="btn btn-lg btn-primary btn-block" id="button" style="width: 15%; margin:auto" onclick="location.href='/assetmanager/register'">회원가입</button>
 	</div> 
 </body>

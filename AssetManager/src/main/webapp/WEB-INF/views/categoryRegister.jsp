@@ -261,7 +261,7 @@
 		<div class="row">
 			<div class="main">
 				<h1 class="page-header">
-					<font size="6px"><b># 분류 등록</b></font>
+					<font size="6px"><b>분류 등록</b></font>
 				</h1>
 				<div style="margin-bottom: 10px">
 					<div style="float: left; display:inline-block;">

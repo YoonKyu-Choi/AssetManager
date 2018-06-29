@@ -161,6 +161,19 @@
 	}
 </script>
 
+<style>
+	#button{
+		color: black;
+		border-color: #999;
+		background-color: #aaa;
+		font-weight: bold;
+	}
+	#button:hover {
+		color: white;
+		background-color: #333;
+	}
+
+</style>
 </head>
 
 <body>
@@ -237,14 +250,14 @@
 
 				<p style="margin-left: 10px">
 					<label class="form-control" style="opacity: 0; margin-bottom: -1px">위치</label>
-					<input type="button" class="btn btn-lg btn-primary btn-block" onclick="idCheck();" value="중복확인" />
+					<input type="button" id="button" class="btn btn-lg btn-primary btn-block" onclick="idCheck();" value="중복확인" />
 				</p>
 			</div>
 			
 			<div style="display: flex; width: 300px; margin-left: 90px">
-				<input type="button" class="btn btn-lg btn-primary btn-block" id="registerBtn" onclick="submitCheck();" value="회원가입" />
+				<input type="button" id="button" class="btn btn-lg btn-primary btn-block" id="registerBtn" onclick="submitCheck();" value="회원가입" />
 				<label style="opacity: 0; margin: 10px"></label>
-				<input type="button" class="btn btn-lg btn-primary btn-block" onclick="registerCancel();" value="취소" />
+				<input type="button" id="button" class="btn btn-lg btn-primary btn-block" onclick="registerCancel();" value="취소" />
 			</div>
 		</form>
 	</div>

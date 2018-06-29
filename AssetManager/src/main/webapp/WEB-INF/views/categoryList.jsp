@@ -215,7 +215,7 @@
 		<div class="row">
 			<div class="main">
 				<form class="page-header" id="searchForm" action="categoryList">
-					<font size="6px"><b># 분류 관리</b></font>&nbsp;&nbsp;&nbsp;&nbsp;
+					<font size="6px"><b>분류 관리</b></font>&nbsp;&nbsp;&nbsp;&nbsp;
 					<label style="float:right; margin-top: 20px">
 						<select id="searchMode" name="searchMode">
 							<option value="1">분류 이름</option>

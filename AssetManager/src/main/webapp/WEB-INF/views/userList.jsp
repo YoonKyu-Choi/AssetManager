@@ -172,7 +172,7 @@
 		<div class="row">
 			<div class="main">
 				<form class="page-header" id="listRefresh">
-					<font size="6px"><b># 회원 관리</b></font>
+					<font size="6px"><b>회원 관리</b></font>
 					<label style="float: right; margin-top: 20px">
 						<select>
 							<option>회원 이름</option>

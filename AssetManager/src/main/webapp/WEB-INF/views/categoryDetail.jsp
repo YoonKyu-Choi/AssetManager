@@ -136,10 +136,10 @@
 		<div class="row">
 			<div class="main">
 				<h1 class="page-header">
-					<font size="6px"><b># 분류 정보</b></font>
+					<font size="6px"><b>분류 정보</b></font>
 				</h1>
 				
-				<h3>분류 이름: ${categoryData["name"]} &nbsp&nbsp&nbsp&nbsp 분류 코드: ${categoryData["code"]}</h3>
+				<h3>분류 이름: ${categoryData["name"]} &nbsp;&nbsp;&nbsp;&nbsp; 분류 코드: ${categoryData["code"]}</h3>
 				<br>
 				<h5>세부 사항</h5>
 				<div class="table-responsive">

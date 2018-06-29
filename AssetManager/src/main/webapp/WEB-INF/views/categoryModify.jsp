@@ -185,7 +185,7 @@
 		<div class="row">
 			<div class="main">
 				<h1 class="page-header">
-					<font size="6px"><b># 분류 수정</b></font>
+					<font size="6px"><b>분류 수정</b></font>
 				</h1>
 				<div>
 					<div style="float: left; display:inline-block;">

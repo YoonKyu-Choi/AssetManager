@@ -379,7 +379,7 @@
 		<div class="row">
 			<div class="main">
 				<form class="page-header" id="searchForm" action="disposalList">
-					<font size="6px"><b># 폐기 관리</b></font>
+					<font size="6px"><b>폐기 관리</b></font>
 					<span class="badge">${disposalListData['categoryCount']}</span>
 					<label style="float:right; margin-top: 20px">
 						<select id="searchMode" name="searchMode">

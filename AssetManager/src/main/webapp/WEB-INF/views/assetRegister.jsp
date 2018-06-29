@@ -385,7 +385,7 @@
 	<div class="main">
 		<form class="form" action="/assetmanager/assetRegisterSend" id="registerSend" method="POST" enctype="multipart/form-data">
 			<div class="page-header">
-				<font size="6px"><b># 자산 등록</b></font>
+				<font size="6px"><b>자산 등록</b></font>
 			</div>
 			<div class="table-responsive" style="overflow: scroll;">
 				<h3>자산 공통사항</h3>

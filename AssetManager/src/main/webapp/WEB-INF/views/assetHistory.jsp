@@ -97,7 +97,7 @@
 		<div class="row">
 			<div class="main">
 				<h1 class="page-header">
-					<b># ${model['assetId']}의 자산 이력</b>
+					<b>${model['assetId']}의 자산 이력</b>
 				</h1>
 				<div class="table-responsive" id="inputDiv" style="overflow: scroll; height: 500px;">
 					

@@ -85,6 +85,7 @@
 					&& ($("#employeeLocation").val() == "${requestScope.employeeVO.employeeLocation}")
 					&& ($("#employeeEmail").val() == "${requestScope.employeeVO.employeeEmail}")
 					&& ($("#employeePhone").val() == "${requestScope.employeeVO.employeePhone}")){
+					&& ($("#employeeStatus").val() == "${requestScope.employeeVO.employeeStatus}")){
 				alert("수정 사항이 없습니다.");
 				return false;
 			} else{
@@ -171,7 +172,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
-				<h1 class="page-header"><b># 회원 정보 수정</b></h1>
+				<h1 class="page-header"><b>회원 정보 수정</b></h1>
 				<div class="table-responsive">
 					<form id="modifySend" method="POST" action="/assetmanager/userModifyConfirm">
 						<input type="hidden" name="employeeSeq" value="${requestScope.employeeVO.employeeSeq}"/>
