@@ -12,7 +12,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 		try {
 			if(request.getSession().getAttribute("isUser") == "TRUE" && request.getSession().getAttribute("isAdmin") != "TRUE"){
 				System.out.println("Admin Intercepted " + request.getRequestURI());
-				response.sendRedirect("/assetmanager/loginGet");
+				response.sendRedirect("/assetmanager/error");
 				return false;
 			}
 		} catch(Exception e) {

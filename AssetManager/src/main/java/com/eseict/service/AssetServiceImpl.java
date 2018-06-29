@@ -127,7 +127,6 @@ public class AssetServiceImpl implements AssetService {
 		AssetVO avo = aDao.getAssetByAssetId(assetId);
 		List<AssetDetailVO> dlist = aDao.getAssetDetailByAssetId(assetId);
 		HashMap<String, Object> assetData = new HashMap<String, Object>();
-		Logger.getLogger(assetId);
 		assetData.put("assetVO", avo);
 		assetData.put("assetDetailList", dlist);
 		assetData.put("assetUserId",eDao.getEmployeeIdByEmpSeq(avo.getEmployeeSeq()));
@@ -340,7 +339,6 @@ public class AssetServiceImpl implements AssetService {
 	@Override
 	public ModelAndView assetHistoryMnV(String assetId) throws Exception {
 		HashMap<String, Object> model = new HashMap<String, Object>();
-
 		AssetHistoryVO ahvo = aDao.getAssetHistoryByAssetId(assetId);
 		List<AssetFormerUserVO> afulist = aDao.getAssetFormerUserByAssetId(assetId);
 		List<AssetTakeOutHistoryVO> atohList = aDao.getAssetTakeOutHistoryByAssetId(assetId);

@@ -19,7 +19,7 @@
 		// 사이드바 활성화
 		$("#asstLink").prop("class", "active");
 		
-		$("#assetUser").val("${sessionScope.Id}").prop("selected", true).css("background-color","#99CCFF");
+		$("#assetUser").val("${sessionScope.Id}").prop("selected", true);
 		
 
 		// 이미지 업로드
@@ -273,7 +273,6 @@
     
 	// 등록, 수정 시 자산 상태를 사용 가능,불가능,폐기으로 했을 경우 -> 이름 disabled, 사용자없음 
 	function changeFunc(){
-		alert("hello");
 		if($("#assetStatus option:selected").val() == "사용 가능"
 				|| $("#assetStatus option:selected").val() == "사용 불가"
 				|| $("#assetStatus option:selected").val() == "폐기"){
@@ -404,7 +403,7 @@
 						<c:if test="${sessionScope.isAdmin != 'TRUE' }">
 							<th>이름(변경불가)</th>
 							<th>
-								<select class="form-controlmin dropdown" name="assetUser" id="assetUser" disabled>
+								<select class="form-controlmin dropdown" style="background-color:#99CCFF;" name="assetUser" id="assetUser" disabled>
 									<option value="0">책임자를 선택하세요.</option>
 									<c:forEach items="${list['employeeNameList']}" var="employee">
 										<option value="${employee.employee_id}">${employee.employee_name}(${employee.employee_department_string})</option>

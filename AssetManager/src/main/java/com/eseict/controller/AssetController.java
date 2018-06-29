@@ -93,7 +93,7 @@ public class AssetController {
 	
 	@Transactional
 	@RequestMapping(value = "/assetRegisterSend")
-	public String assetRegister(RedirectAttributes redirectAttributes
+	public ModelAndView assetRegister(RedirectAttributes redirectAttributes
 							  , @ModelAttribute AssetVO avo
 							  , @RequestParam(required=false) String assetOutObjective
 							  , @RequestParam(required=false) String assetOutPurpose
@@ -147,12 +147,12 @@ public class AssetController {
 				aService.insertAssetTakeOutHistoryWhenRegister(atouhvo);
 			}
 			
-			return "redirect:/assetList";
+			return new ModelAndView("assetBridge","assetId",assetId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "error.tiles";
+		return new ModelAndView("error.tiles");
 	}
 	
 	@RequestMapping(value = "/getCategoryDetailItem")
@@ -184,7 +184,7 @@ public class AssetController {
 	// 자산 수정 Send
 	@Transactional
 	@RequestMapping(value = "/assetModifySend")
-	public String userModifySend(RedirectAttributes redirectAttributes
+	public ModelAndView userModifySend(RedirectAttributes redirectAttributes
 							   , @ModelAttribute AssetVO avo
 							   , @ModelAttribute AssetDetailVO dvo
 							   , @ModelAttribute AssetHistoryVO ahvo
@@ -230,12 +230,12 @@ public class AssetController {
 				aService.updateAssetHistory(assetId, UserEmpName, empSeq, newEmpSeq);
 			} 
 			
-			return "redirect:/assetList";
+			return new ModelAndView("assetBridge","assetId",avo.getAssetId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "error.tiles";
+		return new ModelAndView("error.tiles");
 	}
 	
 	@RequestMapping(value="/assetDisposal")	
@@ -288,33 +288,31 @@ public class AssetController {
 	}
 	
 	@RequestMapping(value="/assetTakeOutHistory")
-	public String assetTakeOutHistory(RedirectAttributes redirectAttributes
+	public ModelAndView assetTakeOutHistory(RedirectAttributes redirectAttributes
 									, @ModelAttribute AssetTakeOutHistoryVO atouhvo) {
 		try {
 			// 자산 반출/수리 이력 입력
 			atouhvo.setAssetOutStartDate(new java.sql.Date(new java.util.Date().getTime()));
 			aService.insertAssetTakeOutHistory(atouhvo);
-//			return "redirect:/assetDetail?assetId="+atouhvo.getAssetId();
-			return "redirect:/assetList";
+			return new ModelAndView("assetHistoryBridge","assetId",atouhvo.getAssetId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "error.tiles";
+		return new ModelAndView("error.tiles");
 	}
 	
 	@RequestMapping(value="/assetPayment")
-	public String assetPayment(RedirectAttributes redirectAttributes
+	public ModelAndView assetPayment(RedirectAttributes redirectAttributes
 							 , @RequestParam String assetId) {
 		try {
 			// 자산 납입 
 			aService.upateAssetTakeOutHistory(assetId);
-			return "redirect:/assetList";
-//			return "redirect:/assetDetail?assetId="+assetId;
+			return new ModelAndView("assetHistoryBridge","assetId",assetId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "error.tiles";
+		return new ModelAndView("error.tiles");
 	}
 }

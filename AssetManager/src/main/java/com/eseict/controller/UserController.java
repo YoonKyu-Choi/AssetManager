@@ -112,23 +112,23 @@ public class UserController {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return new ModelAndView("redirect:/userDetail?employeeSeq="+employeeSeq);
+		return new ModelAndView("error.tiles");
 	}
 
 	// 사용자 수정
 	@RequestMapping(value = "/userModifyConfirm")
-	public String userModifyConfirm(RedirectAttributes redirectAttributes
+	public ModelAndView userModifyConfirm(RedirectAttributes redirectAttributes
 								  , @ModelAttribute EmployeeVO evo) {
 		try {
 			eService.updateEmployee(evo);
 			redirectAttributes.addFlashAttribute("msg", "수정되었습니다.");
 			// 임시로 만듬 곧 수정 예
-			return "redirect:/userList";
+			return new ModelAndView("userBridge", "employeeSeq", evo.getEmployeeSeq());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		redirectAttributes.addFlashAttribute("msg", "에러 발생!");
-		return "redirect:/userDetail";
+		return new ModelAndView("error.tiles");
 	}
 
 }

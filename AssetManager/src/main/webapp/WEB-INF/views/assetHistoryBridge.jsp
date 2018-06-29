@@ -27,7 +27,7 @@
 		<h1>로딩 중</h1>
 	</div>
 
-	<form id="bridgeForm" action="userDetail" method="POST">
-		<input type="hidden" name="employeeSeq" value=${requestScope.employeeSeq } />
+	<form id="bridgeForm" action="assetHistory" method="POST">
+		<input type="hidden" name="assetId" value=${requestScope.assetId } />
 	</form>
 </body>
