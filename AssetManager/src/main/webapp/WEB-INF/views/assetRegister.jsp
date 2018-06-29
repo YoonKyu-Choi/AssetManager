@@ -28,7 +28,13 @@
 		// 반출수리 팝업
 		$("#popSubmit").click(function(){
 			$("#pop").hide();
-			$("#popTable tr:last").after('<tr><th><input type="hidden" id="assetOutStatus" name="assetOutStatus" value="'+$("#assetOutStatus option:selected").val()+'"></th></tr>');
+			$("#assetOutStatus").closest("tr").after('<tr><th>반출/수리 대상</th><th id="newOutObjective"></th><th>반출/수리 목적</th><th id="newOutPurpose"></th></tr><tr><th>반출/수리 비용</th><th id="newOutCost"></th><th>반출/수리 주석</th><th id="newOutComment"></th></tr>');
+//			$("#popTable tr:last").after('<tr><th><input type="hidden" id="assetOutStatus" name="assetOutStatus" value="'+$("#assetOutStatus option:selected").val()+'"></th></tr>');
+			$("#newOutObjective").text($("#assetOutObjective").val());
+			$("#newOutPurpose").text($("#assetOutPurpose").val());
+			$("#newOutCost").text($("#assetOutCost").val());
+			$("#newOutComment").text($("#assetOutComment").val());
+			$("#assetOutStatus").css("background","lightgray");
 			$("#assetOutStatus").attr("disabled",true);
 		});
 		
@@ -184,6 +190,7 @@
 				}
 			}
 				$("#assetUser").prop("disabled",false);
+				$("#assetOutStatus").prop("disabled",false);
 				$("#registerSend").submit();
 			}
 		}
@@ -276,7 +283,6 @@
 		if($("#assetStatus option:selected").val() == "사용 가능"
 				|| $("#assetStatus option:selected").val() == "사용 불가"
 				|| $("#assetStatus option:selected").val() == "폐기"){
-			alert("음 ?");
 			$("#assetUser").prepend("<option value='NoUser'>사용자 없음</option>");
 			$("#assetUser").val("NoUser").prop("selected",true);
 			$("#assetUser").prop("disabled",true).css("background-color","#99CCFF"); 
@@ -301,7 +307,10 @@
 		border : 2px solid #000;
 		display : none;
 	}
-	
+	#popTable{
+		margin-top: 40px;
+		margin-left: 0px; 
+	}
 	.popInput{
 		color : #3d3d3d;
 		width : 50px;
@@ -401,7 +410,7 @@
 							</select>
 						</th>
 						<c:if test="${sessionScope.isAdmin != 'TRUE' }">
-							<th>이름(변경불가)</th>
+							<th>사용자 (변경불가)</th>
 							<th>
 								<select class="form-controlmin dropdown" style="background-color:#99CCFF;" name="assetUser" id="assetUser" disabled>
 									<option value="0">책임자를 선택하세요.</option>
@@ -412,7 +421,7 @@
 							</th>
 							</c:if>
 							<c:if test="${sessionScope.isAdmin == 'TRUE' }">
-							<th>이름</th>
+							<th>사용자</th>
 							<th>
 								<select class="form-controlmin dropdown" name="assetUser" id="assetUser">
 									<option value="0">책임자를 선택하세요.</option>
@@ -465,7 +474,7 @@
 						<th><input type="text" id="assetMaker" name="assetMaker"></th>
 					</tr>
 					<tr>
-						<th>구입가(원)</th>
+						<th>구입가 (원)</th>
 						<th><input type="text" id="assetPurchasePrice" name="assetPurchasePrice" maxlength="10" onkeypress="return fn_press(event, 'numbers');" onkeydown="fn_press_han(this);"></th>
 						<th>모델명</th>
 						<th><input type="text" id="assetModel" name="assetModel"></th>
@@ -529,7 +538,7 @@
 			</div>
 			<!-- 반출/수리 레이어 팝업 -->
 			<div id="pop">
-				<table style="margin-top:-10px;margin-left:30px;" id="popTable">
+				<table id="popTable">
 					<tr style="text-align:center;">
 						<th>날짜</th>
 						<th style="color:white;">&nbsp;&nbsp;오늘 날짜로 등록됩니다.</th>

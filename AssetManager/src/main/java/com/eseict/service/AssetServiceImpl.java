@@ -235,7 +235,7 @@ public class AssetServiceImpl implements AssetService {
 		ahvo.setAssetId(assetId);
 		
 		
-		if(assetUser == "사용자 없음") {
+		if(assetUser == null) {
 			employeeSeq = 0;
 		}else {
 			employeeSeq = eDao.getEmployeeSeqByEmpId(assetUser);

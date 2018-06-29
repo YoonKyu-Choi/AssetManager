@@ -5,6 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
+	<title>ESE 자산관리시스템</title>
 	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"></script>
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/resources/css/signin.css" rel="stylesheet">

@@ -101,14 +101,6 @@
 			$("#assetTable").setGridHeight(window.innerHeight-380, true);
 		});
 		
-		// 플래시 메시지
-		var flashmsg = "<c:out value='${msg}'/>";
-		if(flashmsg != ""){
-			alert(flashmsg);
-		}
-		debugger;
-
-		
 		// 검색
 		var isSearch = "${assetListData['search']}";
 		var assetListData = [];
@@ -219,8 +211,8 @@
 				{name:'assetSerial',index:'assetSerial', width:120, align:'center'},
 				{name:'assetPurchaseDate',index:'assetPurchaseDate', width:120, align:'center'},
 				{name:'assetPurchasePrice',index:'assetPurchasePrice', width:120, align:'right'},
-				{name:'assetPurchaseShop',index:'assetPurchaseShop', width:100, align:'center'},
-				{name:'assetMaker',index:'assetMaker', width:80, align:'center'},
+				{name:'assetPurchaseShop',index:'assetPurchaseShop', width:120, align:'center'},
+				{name:'assetMaker',index:'assetMaker', width:120, align:'center'},
 				{name:'assetModel',index:'assetModel', width:120, align:'center'},
 				{name:'assetUsage',index:'assetUsage', width:80, align:'center'},
 				{name:'assetManager',index:'assetManager', width:100, align:'center'},
@@ -253,6 +245,13 @@
 				}
 			}
 		});
+		
+		// 플래시 메시지
+		var flashmsg = "<c:out value='${msg}'/>";
+		if(flashmsg != ""){
+			alert(flashmsg);
+		}
+		
 	});
 	
 	function searchFunc(){

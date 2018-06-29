@@ -54,7 +54,7 @@
 			}
 		});
 	
-		$(".removeItem").click(function(event){
+		$(document).on("click", ".removeItem", function(event){
 			var index = $("tr").index($(event.target).closest("tr"));
 			$(event.target).closest("td").remove();
 			$("tr:gt("+index+") td:nth-child(2n+1)").each(function(){

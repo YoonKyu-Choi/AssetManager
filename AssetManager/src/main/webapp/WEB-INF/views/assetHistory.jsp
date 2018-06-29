@@ -89,6 +89,9 @@
 		color: white;
 		background-color: #333;
 	}
+	th {
+		font-weight: normal;
+	}
 </style>
 
 </head>

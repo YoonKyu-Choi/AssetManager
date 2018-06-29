@@ -84,7 +84,7 @@
 					&& ($("#employeeDepartment").val() == "${requestScope.employeeVO.employeeDepartment}")
 					&& ($("#employeeLocation").val() == "${requestScope.employeeVO.employeeLocation}")
 					&& ($("#employeeEmail").val() == "${requestScope.employeeVO.employeeEmail}")
-					&& ($("#employeePhone").val() == "${requestScope.employeeVO.employeePhone}")){
+					&& ($("#employeePhone").val() == "${requestScope.employeeVO.employeePhone}")
 					&& ($("#employeeStatus").val() == "${requestScope.employeeVO.employeeStatus}")){
 				alert("수정 사항이 없습니다.");
 				return false;

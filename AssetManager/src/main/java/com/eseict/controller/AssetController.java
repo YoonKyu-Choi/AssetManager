@@ -112,7 +112,7 @@ public class AssetController {
 			avo.setAssetId(assetId);
 			// 이미지 업로드
 			avo.setAssetReceiptUrl(aService.uploadImageFile(request.getServletContext(), uploadImage));
-			if(avo.getAssetUser() == null || avo.getAssetUser() == "NoUser") {
+			if(avo.getAssetUser() == null || avo.getAssetUser().equals("NoUser")) {
 				avo.setAssetUser("사용자 없음");
 				avo.setEmployeeSeq(0);
 			}else {
@@ -127,8 +127,8 @@ public class AssetController {
 			// 자산 세부사항 등록 
 			aService.insertAssetDetail(assetId, items, itemsDetail);
 			// 자산 이력 등록
-			if(avo.getAssetUser() == "사용자 없음") {
-				aService.insertAssetHistory(assetId,null);
+			if(avo.getAssetUser().equals("사용자 없음")) {
+				aService.insertAssetHistory(assetId, null);
 			}else {
 				aService.insertAssetHistory(assetId, assetUser);
 			}

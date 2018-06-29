@@ -24,6 +24,7 @@
 		$("#assetUser").val("${model['assetVO']['assetUser']}").prop("selected", true);
 		$("#assetStatus").val("${model['assetVO']['assetStatus']}").prop("selected", true);
 		$("#assetOutStatus").val("${model['assetVO']['assetOutStatus']}").prop("selected", true);
+		$("#assetOutStatus").prop("disabled", true);
 		$("#assetUsage").val("${model['assetVO']['assetUsage']}").prop("selected", true);
 		$("#assetManager").val("${model['assetVO']['assetManager']}").prop("selected", true);
 		$("#assetLocation").val("${model['assetVO']['assetLocation']}").prop("selected", true);
@@ -79,10 +80,8 @@
 			if("${model['assetVO']['assetUser']}" == "NoUser"
 					|| "${model['assetVO']['assetUser']}" == ""
 					|| "${model['assetVO']['assetUser']}" == null){
-				alert("hello");
 				$("#assetUser option:eq[0]").prop("selected", true);
 			}else{
-				alert("bye");
 				$("#assetUser").val("${model['assetVO']['assetUser']}").prop("selected", true);
 			}
 			$("#assetUser").prop("disabled",false).css("background-color","white");
@@ -238,7 +237,8 @@
 					alert("수정 사항이 없습니다.");
 					return false;
 				}
-					
+
+				$("#assetOutStatus").prop("disabled", false);
 				$("#modifySend").submit();
 			}
 		}
