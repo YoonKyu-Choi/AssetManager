@@ -19,6 +19,8 @@
 	<link href="${pageContext.request.contextPath}/resources/css/ui.jqgrid.css" rel="stylesheet"/>
 
 <script>
+	var loginId = '<%=session.getAttribute("employeeName") %>';
+	var isAdmin = "<%=session.getAttribute("isAdmin")%>";
 	var trName = "";
 	var multiSelected = false;
 	var disposeActive = true;
@@ -235,16 +237,27 @@
 				disposeActive = true;
 				for(i in selarrrow){
 					var assetStatus = $("#assetTable").getRowData(selarrrow[i])['assetStatus'];
-
+					var assetEmployeeName = $("#assetTable").getRowData(selarrrow[i])['assetUser']; 
+					
 					if((assetStatus == "폐기 대기") || (assetStatus == "폐기")){
 						disposeActive = false;
 					} else if((<%=session.getAttribute("employeeSeq")%> != $("#assetTable").getRowData(selarrrow[i])['employeeSeq'])
-							&& (<%=session.getAttribute("Id")%> != "admin")){
+							&& (isAdmin != "admin")){
 						disposeActive = false;
+					}
+					
+					if (isAdmin == "TRUE"){
+						disposeActive = true;
+					} else if(isAdmin != "TRUE"){
+						if(assetEmployeeName == employeeName){
+							disposeActive = false;
+						}else {
+							disposeActive = true;
+						}
 					}
 				}
 			}
-		});
+		})
 		
 		// 플래시 메시지
 		var flashmsg = "<c:out value='${msg}'/>";

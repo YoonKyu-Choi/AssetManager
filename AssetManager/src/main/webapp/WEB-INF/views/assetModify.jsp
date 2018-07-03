@@ -21,7 +21,7 @@
 		$("#asstLink").prop("class", "active");
 		
 		// 기존 설정
-		$("#assetUser").val("${model['assetVO']['assetUser']}").prop("selected", true);
+		$("#assetUser").val("${sessionScope.Id}").prop("selected", true);
 		$("#assetStatus").val("${model['assetVO']['assetStatus']}").prop("selected", true);
 		$("#assetOutStatus").val("${model['assetVO']['assetOutStatus']}").prop("selected", true);
 		$("#assetOutStatus").prop("disabled", true);
@@ -239,6 +239,7 @@
 				}
 
 				$("#assetOutStatus").prop("disabled", false);
+				$("#assetUser").prop("disabled",false);
 				$("#modifySend").submit();
 			}
 		}
@@ -352,15 +353,28 @@
 							<tr>
 								<th>분류</th>
 								<th>${model['assetVO']['assetCategory']}</th>
-								<th>이름</th>
-								<th>
-									<select class="form-controlmin dropdown" name="assetUser" id="assetUser">
-										<option value="0">사용자를 선택하세요.</option>
-										<c:forEach items="${model['employeeNameList']}" var="employee">
-											<option value="${employee.employee_id}">${employee.employee_name} (${employee.employee_department_string})</option>
-										</c:forEach>
-									</select>
-								</th>
+								<c:if test="${sessionScope.isAdmin != 'TRUE' }">
+									<th>사용자 (변경불가)</th>
+									<th>
+										<select class="form-controlmin dropdown" style="background-color:#99CCFF;" name="assetUser" id="assetUser" disabled>
+											<option value="0">책임자를 선택하세요.</option>
+											<c:forEach items="${model['employeeNameList']}" var="employee">
+												<option value="${employee.employee_id}">${employee.employee_name} (${employee.employee_department_string})</option>
+											</c:forEach>
+										</select>
+									</th>
+									</c:if>
+									<c:if test="${sessionScope.isAdmin == 'TRUE' }">
+									<th>사용자</th>
+									<th>
+										<select class="form-controlmin dropdown" name="assetUser" id="assetUser">
+											<option value="0">책임자를 선택하세요.</option>
+											<c:forEach items="${model['employeeNameList']}" var="employee">
+												<option value="${employee.employee_id}">${employee.employee_name} (${employee.employee_department_string})</option>
+											</c:forEach>
+										</select>
+									</th>
+									</c:if>
 							</tr>
 							<input type="hidden" id="employeeId" name="employeeId" value='<%=session.getAttribute("Id")%>'>
 							<input type="hidden" id="assetCategory" name="assetCategory" value="${model['assetVO']['assetCategory']}">
