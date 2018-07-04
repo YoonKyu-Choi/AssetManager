@@ -164,6 +164,10 @@
 		font-size: 1.0em;
 	}
 	
+	#searchMode, #searchByName, #searchBtn{
+		height : 27 px;
+		vertical-align:middle;
+    }
 </style>
 
 </head>
@@ -174,11 +178,11 @@
 				<form class="page-header" id="listRefresh">
 					<font size="6px"><b>회원 관리</b></font>
 					<label style="float: right; margin-top: 20px">
-						<select>
+						<select id="searchMode" style="height:27px">
 							<option>회원 이름</option>
 						</select>
 						<input type="text" id="searchByName" name="employeeName">
-						<input type="submit" value="검색" onclick="searchFunc();">
+						<input type="submit" id="searchBtn" value="검색" onclick="searchFunc();">
 					</label>
 				</form>
 				<div style="margin-bottom: 10px">

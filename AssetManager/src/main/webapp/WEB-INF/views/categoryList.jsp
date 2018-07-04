@@ -205,6 +205,10 @@
 	.ui-jqgrid {
 		font-size: 1.0em;
 	}
+	#searchMode, #searchKeyword, #searchBtn{
+    	height:27px;
+		vertical-align:middle
+    }
 	
 </style>
 		
@@ -217,12 +221,12 @@
 				<form class="page-header" id="searchForm" action="categoryList">
 					<font size="6px"><b>분류 관리</b></font>&nbsp;&nbsp;&nbsp;&nbsp;
 					<label style="float:right; margin-top: 20px">
-						<select id="searchMode" name="searchMode">
+						<select id="searchMode" name="searchMode" style="height:27px">
 							<option value="1">분류 이름</option>
 							<option value="2">세부 항목</option>
 						</select>
 						<input type="text" id="searchKeyword" name="searchKeyword">
-						<input type="submit" value="검색">
+						<input type="submit" id="searchBtn" value="검색">
 					</label>
 				</form>
 				<div style="margin-bottom: 10px">

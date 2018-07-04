@@ -151,7 +151,7 @@
 					</c:if>
 					<hr>
 					<h3>자산 이력 코멘트</h3>
-					<div> 자산 반출/수리 이력를 클릭하시면 해당 이력을 확인 할 수 있습니다.<br>
+					<div> 자산 반출/수리 이력을 클릭하시면 해당 이력을 확인 할 수 있습니다.<br>
 					<input type="text" id="assetOutComment" style="width:500px;height:120px" readonly/>
 					</div>
 				</div>

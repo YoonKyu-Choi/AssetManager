@@ -221,8 +221,8 @@
 										<option value="9">　　└ 사업전략팀</option>
 										<option value="10">　└ 솔루션사업본부</option>
 										<option value="11">　　└ 기획팀</option>
-										<option value="12">　　└ 솔루션개발팀</option>
-										<option value="13">　　└ 사업수행팀</option>
+										<option value="12">　　└ 솔루션개발1팀</option>
+										<option value="13">　　└ 솔루션개발2팀</option>
 										<option value="14">　└ 기술연구소</option>
 										<option value="15">　　└ 연구1팀</option>
 										<option value="16">　　└ 연구2팀</option>

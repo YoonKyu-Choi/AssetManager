@@ -122,7 +122,6 @@ public class UserController {
 		try {
 			eService.updateEmployee(evo);
 			redirectAttributes.addFlashAttribute("msg", "수정되었습니다.");
-			// 임시로 만듬 곧 수정 예
 			return new ModelAndView("userBridge", "employeeSeq", evo.getEmployeeSeq());
 		} catch (Exception e) {
 			e.printStackTrace();

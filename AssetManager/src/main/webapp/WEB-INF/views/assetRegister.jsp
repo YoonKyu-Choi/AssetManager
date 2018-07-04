@@ -21,7 +21,6 @@
 		
 		$("#assetUser").val("${sessionScope.Id}").prop("selected", true);
 		
-
 		// 이미지 업로드
 		$("#uploadImage").on("change", handleImgFileSelect);
 		
