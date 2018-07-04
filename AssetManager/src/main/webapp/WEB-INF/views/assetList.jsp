@@ -411,6 +411,13 @@
 	.ui-jqgrid .ui-jqgrid-labels th.ui-th-column {
 		background-color: #555;
 		background-image: none;
+		border: #555;
+	}
+	.ui-widget-content{
+		border: #555
+	}
+	.ui-widget.ui-widget-content{
+		border-color: #555
 	}
 	.ui-jqgrid {
 		font-size: 1.0em;
