@@ -377,6 +377,11 @@
 		font-size: 1.0em;
 	}
 	
+	 #searchMode, #searchKeyword, #searchBtn{
+    	height:27px;
+		vertical-align:middle
+    }
+	
 </style>
 		
 </head>
@@ -389,14 +394,14 @@
 					<font size="6px"><b>폐기 관리</b></font>
 					<span class="badge">${disposalListData['categoryCount']}</span>
 					<label style="float:right; margin-top: 20px">
-						<select id="searchMode" name="searchMode">
+						<select id="searchMode" name="searchMode" style="height:27px">
 							<option value="1">자산 분류</option>
 							<option value="2">시리얼 번호</option>
 							<option value="3">구입년도</option>
 							<option value="4">관리번호</option>
 						</select>
 						<input type="text" id="searchKeyword" name="searchKeyword">
-						<input type="submit" value="검색">
+						<input type="submit" id="searchBtn" value="검색">
 					</label>
 				</form>
 				<div style="margin-bottom: 10px">

@@ -84,7 +84,22 @@
 
     
 	$(function(){
-		
+		/*
+		$.ajax({
+			"type" : "GET",
+			"url":"assetList",
+			"dataType":"text",
+			"beforeSend" : function(){
+				$('.wrap-loading').removeClass('display-none');
+			},
+			"complete":function(){
+				$('.wrap-loading').addClass('display-none');
+			},
+			"error" : function(e){
+				alert("오류 발생 : "+e.responseText);
+			}
+		});
+		*/
 		// 사이드바 활성화
 		$("#asstLink").prop("class", "active");
 		
@@ -408,6 +423,33 @@
 		font-size: 1.0em;
 	}
 	
+	.wrap-loading{ 
+    position: fixed;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    background: rgba(0,0,0,0.2); /*not in ie */
+    filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000', endColorstr='#20000000');    /* ie */
+    z-index: 99999;
+	}
+    .wrap-loading div{ 
+        position: fixed;
+        top:50%;
+        left:50%;
+        margin-left: -21px;
+        margin-top: -21px;
+    }
+    .display-none{ 
+        display:none;
+    }
+    
+    #searchMode, #searchKeyword, #searchBtn{
+    	height:27px;
+		vertical-align:middle
+    }
+    
+   
 </style>
 </head>
 <body>
@@ -417,14 +459,14 @@
 				<form class="page-header" id="searchForm" action="assetList">
 					<font size="6px"><b>자산 관리</b></font>
 					<label style="float:right; margin-top: 20px">
-						<select id="searchMode" name="searchMode">
+						<select id="searchMode" name="searchMode" style="height:27px">
 							<option value="1">자산 분류</option>
 							<option value="2">시리얼 번호</option>
 							<option value="3">구입 년도</option>
 							<option value="4">관리 번호</option>
 						</select>
 						<input type="text" id="searchKeyword" name="searchKeyword">
-						<input type="submit" value="검색">
+						<input type="submit" id="searchBtn" value="검색">
 					</label>
 				</form>
 				<div style="margin-bottom: 10px">
@@ -453,7 +495,12 @@
 				<form id="assetDetailForm" action="assetDetail" method="post">
 					<input type="hidden" id="assetId" name="assetId"/>
 				</form>
-
+				
+				<!-- 로딩 화면 
+				<div class="wrap-loading display-none">
+			    	<div><img src="${pageContext.request.contextPath}/resources/loader1.gif" /></div>
+				</div>
+				    -->
 				<div style="display:flex; float:right; margin-top: 10px">
 					<button class="btn btn-lg btn-primary" id="button" onclick="location.href='/assetmanager/assetRegister';">자산 등록</button>
 				</div>

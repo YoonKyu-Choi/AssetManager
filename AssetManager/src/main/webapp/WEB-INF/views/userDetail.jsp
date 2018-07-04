@@ -18,7 +18,7 @@
 		$("#userLink").prop("class", "active");
 
 		// 플래시 메시지
-		var flashmsg = "${msg}";
+		var flashmsg = "<c:out value='${msg}'/>";
 		if(flashmsg != ""){
 			alert(flashmsg);
 		}

@@ -162,6 +162,11 @@
 				{name:'assetManager',index:'assetManager', width:60, align:'center'},
 				{name:'assetLocation',index:'assetLocation', width:40, align:'center'}
 			],
+			loadComplete:function(){
+				if(assetCount == 0){
+					$("#assetTable >tbody").append("<tr><td id='' align='center' colspan='14'>검색 결과가 없습니다.</td></tr>")
+				}
+			},
 			onRightClickRow: function(rowid){
 				trName = $("#assetTable").getRowData(rowid)['assetId'];
 				$("#assetId").val(trName);
@@ -184,9 +189,7 @@
 				}
 			}
 		});
-		
 	});
-	
 	
 	function depSort(a, b){
 		if(a.dep < b.dep) return -1;
