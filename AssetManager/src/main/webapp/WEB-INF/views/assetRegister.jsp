@@ -396,10 +396,10 @@
 				<font size="6px"><b>자산 등록</b></font>
 			</div>
 			<div class="table-responsive" style="overflow: scroll;">
-				<h3>자산 공통사항</h3>
+				<h3>자산 공통사항</h3><h5>( * : 필수 입력 사항 )</h5>
 				<table class="table table-striped" id="assetTable">
 					<tr>
-						<th>분류</th>
+						<th>분류 *</th>
 						<th>
 							<select class="form-controlmin dropdown" id="assetCategory" name="assetCategory" onchange="getCategoryDetailItem();">
 								<option value="0" selected>분류를 선택하세요.</option>
@@ -420,7 +420,7 @@
 							</th>
 							</c:if>
 							<c:if test="${sessionScope.isAdmin == 'TRUE' }">
-							<th>사용자</th>
+							<th>사용자 *</th>
 							<th>
 								<select class="form-controlmin dropdown" name="assetUser" id="assetUser">
 									<option value="0">책임자를 선택하세요.</option>
@@ -434,11 +434,11 @@
 					<tr>
 						<th>관리 번호</th>
 						<th>※ 자동 생성됩니다.</th>
-						<th>시리얼 번호</th>
+						<th>시리얼 번호 *</th>
 						<th><input type="text" id="assetSerial" name="assetSerial"/></th>
 					</tr>
 					<tr>
-						<th>자산 상태</th>
+						<th>자산 상태 *</th>
 							<th>
 						<c:if test="${sessionScope.isAdmin == 'TRUE' }">
 								<select class="form-controlmin dropdown" id="assetStatus" name="assetStatus" onchange="changeFunc();">
@@ -455,7 +455,7 @@
 							<input type="hidden" id="assetStatus" name="assetStatus" value="사용 중"/>
 						</c:if>
 							</th>
-						<th>자산 반출 상태</th>
+						<th>자산 반출 상태 *</th>
 						<th>
 							<select class="form-controlmin dropdown" id="assetOutStatus" name="assetOutStatus">
 								<option value="0">반출 상태를 선택하세요.</option>
@@ -469,19 +469,19 @@
 					<tr>
 						<th>구입일</th>
 						<th><input type="text" id="assetPurchaseDate" name="assetPurchaseDate" readonly></th>
-						<th>제조사</th>
+						<th>제조사 *</th>
 						<th><input type="text" id="assetMaker" name="assetMaker"></th>
 					</tr>
 					<tr>
 						<th>구입가 (원)</th>
 						<th><input type="text" id="assetPurchasePrice" name="assetPurchasePrice" maxlength="10" onkeypress="return fn_press(event, 'numbers');" onkeydown="fn_press_han(this);"></th>
-						<th>모델명</th>
+						<th>모델명 *</th>
 						<th><input type="text" id="assetModel" name="assetModel"></th>
 					</tr>
 					<tr>
 						<th>구입처</th>
 						<th><input type="text" id="assetPurchaseShop" name="assetPurchaseShop"></th>
-						<th>용도</th>
+						<th>용도 *</th>
 						<th>
 							<select class="form-controlmin dropdown" id="assetUsage" name="assetUsage">
 								<option value="0">용도를 선택하세요.</option>
@@ -491,7 +491,7 @@
 						</th>
 					</tr>
 					<tr>
-						<th>책임자</th>
+						<th>책임자 *</th>
 						<th>
 							<select class="form-controlmin dropdown" name="assetManager" id="assetManager">
 								<option value="0">책임자를 선택하세요.</option>
@@ -500,7 +500,7 @@
 								</c:forEach>
 							</select>
 						</th>
-						<th>사용 위치</th>
+						<th>사용 위치 *</th>
 						<th>
 							<select class="form-controlmin dropdown" id="assetLocation" name="assetLocation">
 								<option value="0">위치를 선택하세요.</option>
@@ -511,7 +511,7 @@
 					</tr>
 				</table>
 				<hr>
-				<h3>자산 세부사항</h3>
+				<h3>자산 세부사항</h3><h5>( 모두 필수 입력 )</h5>
 				<table class="table table-striped" id="assetDetailTable">
 					<tr>
 						<th>항목</th>

@@ -23,13 +23,13 @@
 		// 기존 설정
 		$("#assetUser").val("${sessionScope.Id}").prop("selected", true).css("background-color","lightgray");
 		$("#assetStatus").val("${model['assetVO']['assetStatus']}").prop("selected", true);
-		$("#assetOutStatus").val("${model['assetVO']['assetOutStatus']}").prop("selected", true);
+		$("#assetOutStatus").val("${model['assetVO']['assetOutStatus']}").prop("selected", true).css("background-color","lightgray");
 		$("#assetOutStatus").prop("disabled", true);
 		$("#assetUsage").val("${model['assetVO']['assetUsage']}").prop("selected", true);
 		$("#assetManager").val("${model['assetVO']['assetManager']}").prop("selected", true);
 		$("#assetLocation").val("${model['assetVO']['assetLocation']}").prop("selected", true);
 		$("#uploadImage").on("change",handleImgFileSelect);
-			var windowHeight = window.innerHeight;
+		var windowHeight = window.innerHeight;
 
 		if($("#assetStatus option:selected").val() == "사용 가능"
 				|| $("#assetStatus option:selected").val() == "사용 불가"
@@ -37,11 +37,11 @@
 			$("#assetUser").prepend("<option value='NoUser'>사용자 없음</option>");
 			$("#assetUser").val("NoUser").prop("selected",true);
 			$("#assetUser").prop("disabled",true).css("background-color","lightgray"); 
-		}
+		};
 		
-		if(${model['assetVO']['assetPurchaseDate']} == "9997"){
+		if("${model['assetVO']['assetPurchaseDate']}" == "9997"){
 			$("#assetPurchaseDate").val("미입력");
-		}
+		};
 		
 		// 반응성 윈도우 사이즈	
 		$(".table-responsive").css("height", windowHeight-300);
@@ -86,7 +86,7 @@
 			}
 			$("#assetUser").prop("disabled",true).css("background-color","lightgray"); 
 		}
-	}
+	};
 	
 	function handleImgFileSelect(e){
 		
@@ -108,7 +108,7 @@
 		reader.readAsDataURL(f);
 		
 		});
-	}
+	};
 	
 	function byteCheck(obj,maxByte){
 		
@@ -138,7 +138,7 @@
 		}else {
 			document.getElementById('byteInfo').innerText = rbyte;
 		}
-	}
+	};
 	
 	function cancelConfirm() {
 		if (!confirm("취소하겠습니까?")) {
@@ -146,7 +146,7 @@
 		} else {
 			$("#cancelForm").submit();
 		}
-	}
+	};
 	
 	function submitCheck() {
 		if (!confirm("수정하겠습니까?")) {
@@ -237,7 +237,6 @@
 					alert("수정 사항이 없습니다.");
 					return false;
 				}
-
 				$("#assetOutStatus").prop("disabled", false);
 				$("#assetUser").prop("disabled",false);
 				$("#modifySend").submit();
@@ -252,16 +251,15 @@
                 return false;
             }
         }
-    }
+    };
     
-    function fn_press_han(obj)
-    {
+    function fn_press_han(obj){
         //좌우 방향키, 백스페이스, 딜리트, 탭키에 대한 예외
         if(event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 46 ){
             return;
         }
         obj.value = obj.value.replace(/[\ㄱ-ㅎㅏ-ㅣ가-힣]/g, '');
-    }
+    };
     
 </script>
 
@@ -348,7 +346,7 @@
 						<font size="6px"><b>자산 정보 수정</b></font>
 					</h1>
 					<div class="table-responsive" id="inputDiv"	style="overflow: scroll; height: 500px;">
-						<h3>자산 공통사항</h3>
+						<h3>자산 공통사항</h3> 
 						<table class="table table-striped" id="assetTable">
 							<tr>
 								<th>분류</th>

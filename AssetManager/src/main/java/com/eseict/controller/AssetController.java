@@ -225,11 +225,9 @@ public class AssetController {
 			aService.updateAssetDetail(assetId, items, itemsDetail);
 			
 			// 자산 수정 시 자산 이력 자동 입력
-			
 			if(newEmpSeq != empSeq) {
 				aService.updateAssetHistory(assetId, UserEmpName, empSeq, newEmpSeq);
 			} 
-			
 			return new ModelAndView("assetBridge","assetId",avo.getAssetId());
 		} catch (Exception e) {
 			e.printStackTrace();
