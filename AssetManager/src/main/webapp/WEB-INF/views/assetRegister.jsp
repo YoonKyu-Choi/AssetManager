@@ -284,9 +284,11 @@
 				|| $("#assetStatus option:selected").val() == "폐기"){
 			$("#assetUser").prepend("<option value='NoUser'>사용자 없음</option>");
 			$("#assetUser").val("NoUser").prop("selected",true);
-			$("#assetUser").prop("disabled",true).css("background-color","#99CCFF"); 
+			$("#assetUser").prop("disabled",true).css("background-color","lightgray"); 
 		} else{
-			$("#assetUser option:first").remove();
+			if($("#assetUser").val()=="NoUser"){
+				$("#assetUser option:first").remove();
+			}
 			$("#assetUser option:eq(0)").prop("selected", true);
 			$("#assetUser").prop("disabled",false).css("background-color","white");
 		}
