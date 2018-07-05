@@ -146,13 +146,13 @@
 		margin-left: 13%;
 		width: 76%;
 	}
-	#button{
+	#button, #searchBtn{
 		color: black;
 		border-color: #999;
 		background-color: #aaa;
 		font-weight: bold;
 	}
-	#button:hover {
+	#button:hover, #searchBtn:hover {
 		color: white;
 		background-color: #333;
 	}
@@ -192,6 +192,9 @@
 		height : 27 px;
 		vertical-align:middle;
     }
+    #searchBtn{
+    	padding-top: 3px;
+    }
 </style>
 
 </head>
@@ -206,7 +209,7 @@
 							<option>회원 이름</option>
 						</select>
 						<input type="text" id="searchByName" name="employeeName">
-						<input type="submit" id="searchBtn" value="검색" onclick="searchFunc();">
+						<input type="submit" class="btn btn-primary" id="searchBtn" value="검색" onclick="searchFunc();">
 					</label>
 				</form>
 				<div style="margin-bottom: 10px">

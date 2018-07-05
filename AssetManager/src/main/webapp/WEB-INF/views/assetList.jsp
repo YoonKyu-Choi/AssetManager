@@ -398,13 +398,13 @@
 		margin-left: 13%;
 		width: 76%;
 	}
-	#button{
+	#button, #searchBtn{
 		color: black;
 		border-color: #999;
 		background-color: #aaa;
 		font-weight: bold;
 	}
-	#button:hover {
+	#button:hover, #searchBtn:hover {
 		color: white;
 		background-color: #333;
 	}
@@ -465,7 +465,9 @@
     	height:27px;
 		vertical-align:middle
     }
-    
+    #searchBtn{
+    	padding-top: 3px;
+    }
    
 </style>
 </head>
@@ -483,7 +485,7 @@
 							<option value="4">관리 번호</option>
 						</select>
 						<input type="text" id="searchKeyword" name="searchKeyword">
-						<input type="submit" id="searchBtn" value="검색">
+						<input type="submit" class="btn btn-primary" id="searchBtn" value="검색">
 					</label>
 				</form>
 				<div style="margin-bottom: 10px">
