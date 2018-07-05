@@ -84,22 +84,7 @@
 
     
 	$(function(){
-		/*
-		$.ajax({
-			"type" : "GET",
-			"url":"assetList",
-			"dataType":"text",
-			"beforeSend" : function(){
-				$('.wrap-loading').removeClass('display-none');
-			},
-			"complete":function(){
-				$('.wrap-loading').addClass('display-none');
-			},
-			"error" : function(e){
-				alert("오류 발생 : "+e.responseText);
-			}
-		});
-		*/
+		
 		// 사이드바 활성화
 		$("#asstLink").prop("class", "active");
 		
@@ -440,26 +425,6 @@
 	.ui-state-default, .ui-widget-content .ui-state-default{
 		border: white;
 	}
-	.wrap-loading{ 
-	    position: fixed;
-	    left:0;
-	    right:0;
-	    top:0;
-	    bottom:0;
-	    background: rgba(0,0,0,0.2); /*not in ie */
-	    filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000', endColorstr='#20000000');    /* ie */
-	    z-index: 99999;
-	}
-    .wrap-loading div{ 
-        position: fixed;
-        top:50%;
-        left:50%;
-        margin-left: -21px;
-        margin-top: -21px;
-    }
-    .display-none{ 
-        display:none;
-    }
     
     #searchMode, #searchKeyword, #searchBtn{
     	height:27px;
@@ -515,11 +480,6 @@
 					<input type="hidden" id="assetId" name="assetId"/>
 				</form>
 				
-				<!-- 로딩 화면 
-				<div class="wrap-loading display-none">
-			    	<div><img src="${pageContext.request.contextPath}/resources/loader1.gif" /></div>
-				</div>
-				    -->
 				<div style="display:flex; float:right; margin-top: 10px">
 					<button class="btn btn-lg btn-primary" id="button" onclick="location.href='/assetmanager/assetRegister';">자산 등록</button>
 				</div>

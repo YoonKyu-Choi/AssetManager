@@ -310,7 +310,7 @@ public class AssetServiceImpl implements AssetService {
 		}
 		
 		// Detail 때문에 DB에 저장을 이름으로 저장하고 다시 뽑아갈 때는 ID로 뽑아간다.
-		if(avo.getAssetUser() == "사용자 없음") {
+		if(avo.getAssetUser().equals("사용자 없음")) {
 			avo.setAssetUser("NoUser");
 		} else {
 			avo.setAssetUser(eDao.getEmployeeIdByEmpSeq(avo.getEmployeeSeq()));

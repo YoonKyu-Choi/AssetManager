@@ -21,7 +21,7 @@
 		$("#asstLink").prop("class", "active");
 		
 		// 기존 설정
-		$("#assetUser").val("${sessionScope.Id}").prop("selected", true);
+		$("#assetUser").val("${sessionScope.Id}").prop("selected", true).css("background-color","lightgray");
 		$("#assetStatus").val("${model['assetVO']['assetStatus']}").prop("selected", true);
 		$("#assetOutStatus").val("${model['assetVO']['assetOutStatus']}").prop("selected", true);
 		$("#assetOutStatus").prop("disabled", true);
@@ -36,7 +36,7 @@
 				|| $("#assetStatus option:selected").val() == "폐기"){
 			$("#assetUser").prepend("<option value='NoUser'>사용자 없음</option>");
 			$("#assetUser").val("NoUser").prop("selected",true);
-			$("#assetUser").prop("disabled",true).css("background-color","#99CCFF"); 
+			$("#assetUser").prop("disabled",true).css("background-color","lightgray"); 
 		}
 		
 		if(${model['assetVO']['assetPurchaseDate']} == "9997"){
@@ -72,7 +72,7 @@
 				|| $("#assetStatus option:selected").val() == "폐기"){
 			$("#assetUser").prepend("<option value='NoUser'>사용자 없음</option>");
 			$("#assetUser").val("NoUser").prop("selected",true);
-			$("#assetUser").prop("disabled",true).css("background-color","#99CCFF"); 
+			$("#assetUser").prop("disabled",true).css("background-color","lightgray"); 
 		} else{
 			if($("#assetUser").val()=="NoUser"){
 				$("#assetUser option:first").remove();
@@ -84,7 +84,7 @@
 			}else{
 				$("#assetUser").val("${model['assetVO']['assetUser']}").prop("selected", true);
 			}
-			$("#assetUser").prop("disabled",false).css("background-color","white");
+			$("#assetUser").prop("disabled",true).css("background-color","lightgray"); 
 		}
 	}
 	
@@ -356,7 +356,7 @@
 								<c:if test="${sessionScope.isAdmin != 'TRUE' }">
 									<th>사용자 (변경불가)</th>
 									<th>
-										<select class="form-controlmin dropdown" style="background-color:#99CCFF;" name="assetUser" id="assetUser" disabled>
+										<select class="form-controlmin dropdown" name="assetUser" id="assetUser" disabled>
 											<option value="0">책임자를 선택하세요.</option>
 											<c:forEach items="${model['employeeNameList']}" var="employee">
 												<option value="${employee.employee_id}">${employee.employee_name} (${employee.employee_department_string})</option>

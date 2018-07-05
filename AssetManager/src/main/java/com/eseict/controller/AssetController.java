@@ -202,7 +202,7 @@ public class AssetController {
 			int empSeq = 0;
 			
 			// 아이디로 EmpSeq 구하기
-			if(avo.getAssetUser() == "NoUser" || avo.getAssetUser() == null) {
+			if(avo.getAssetUser().equals("NoUser") || avo.getAssetUser() == null) {
 				avo.setAssetUser("사용자 없음");
 				avo.setEmployeeSeq(0);
 				newEmpSeq = 0;
