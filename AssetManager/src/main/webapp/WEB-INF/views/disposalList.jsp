@@ -231,6 +231,11 @@
 						disposeActive = false;
 					} 
 				}
+			},
+			ondblClickRow: function(rowid) {
+				trName = $("#assetTable").getRowData(rowid)['assetId'];
+				$("#assetId").val(trName);
+				$("#assetDetailForm").submit();
 			}
 		});
 		
@@ -455,6 +460,10 @@
 					<input type="hidden" id="assetId" name="assetId"/>
 				</form>
 				
+				<div style="display: flex; float: left; margin-top: 5px; bottom: 60px; position: absolute">
+					<img src="${pageContext.request.contextPath}/resources/mouseRightClick.png" width="25px" height="25px">
+					&nbsp;&nbsp;Menu
+				</div>
 				<div style="display:flex; float: right; margin-top: 10px">
 					<button id="button" class="btn btn-lg btn-primary" id="disposalButton" onclick="disposeAsset();" >폐기</button>
 				</div>

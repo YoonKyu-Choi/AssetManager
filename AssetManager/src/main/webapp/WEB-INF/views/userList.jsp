@@ -101,6 +101,11 @@
 			onRightClickRow: function(rowid){
 				trName = $("#userTable").getRowData(rowid)['employeeSeq'];
 				$("#employeeSeq").val(trName);
+			},
+			ondblClickRow: function(rowid){
+				trName = $("#userTable").getRowData(rowid)['employeeSeq'];
+				$("#employeeSeq").val(trName);
+    			$("#userDetailForm").submit();
 			}
 		});
 
@@ -225,6 +230,10 @@
 					<input type="hidden" id="employeeSeq" name="employeeSeq"/>
 				</form>
 
+				<div style="display: flex; float: left; margin-top: 5px; bottom: 60px; position: absolute">
+					<img src="${pageContext.request.contextPath}/resources/mouseRightClick.png" width="25px" height="25px">
+					&nbsp;&nbsp;Menu
+				</div>
 				<button id="button" class="btn btn-lg btn-primary" style="float:right; margin-top: 10px" onclick="location.href='/assetmanager/register';">회원 추가</button>
 			</div>
 		</div>

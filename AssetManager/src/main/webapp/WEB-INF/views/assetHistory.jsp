@@ -156,6 +156,10 @@
 					</div>
 				</div>
 <!-- 		<input type="button" id="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetList'" value="목록" />		-->
+			<div style="display: flex; float: left; margin-top: 5px; bottom: 60px; position: absolute">
+				<img src="${pageContext.request.contextPath}/resources/mouseRightClick.png" width="25px" height="25px">
+				&nbsp;&nbsp;Menu
+			</div>
 			<div style="display: flex; float: right; margin-top: 10px">
 				<input type="button" id="button" class="btn btn-lg btn-primary" onclick="goAssetDetail();" value="자산 상세" />
 			</div>

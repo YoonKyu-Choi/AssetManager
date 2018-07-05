@@ -39,9 +39,13 @@
 	    // 반응성 윈도우 사이즈
 		var windowHeight = window.innerHeight;
 		$(".table-responsive").css("height", windowHeight-300);
+		$(".window").css("top", (window.innerHeight-250)/2);
+		$(".window").css("right", (window.innerWidth-300)/2);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
 			$(".table-responsive").css("height", windowHeight-300);
+			$(".window").css("top", (window.innerHeight-250)/2);
+			$(".window").css("right", (window.innerWidth-300)/2);
 		});
 
 	});
@@ -70,16 +74,16 @@
 	    $('.mask').css({'width':maskWidth,'height':maskHeight});
 	
 	    // fade 애니메이션 : 1초 동안 검게 됐다가 80%의 불투명으로 변합니다.
-	    $('.mask').fadeTo("slow",0.8);
+	    $('.mask').fadeTo("slow",0.5);
 	
-		var position = $("#delbtn").offset();
+// 		var position = $("#delbtn").offset();
 		
 	    // 레이어 팝업을 가운데로 띄우기 위해 화면의 높이와 너비의 가운데 값과 스크롤 값을 더하여 변수로 만듭니다.
-	    var left = $(window).scrollLeft() +position['left'];
-	    var top = $(window).scrollLeft() +position['top'];
+// 	    var left = $(window).scrollLeft() +position['left'];
+// 	    var top = $(window).scrollLeft() +position['top'];
 	
 	    // css 스타일을 변경합니다.
-	    $('.window').css({'left':left,'top':top, 'position':'absolute'});
+// 	    $('.window').css({'left':left,'top':top, 'position':'absolute'});
 	
 	    // 레이어 팝업을 띄웁니다.
 	    $('.window').show();
@@ -97,9 +101,15 @@
 		display:none;
 	}
 	.window {
-		display: none;
-		background-color: #ffffff;
-		z-index:99999;
+		z-index: 99999;
+		width : 300px;
+		height : 250px;
+		background : white;
+		color : black;
+		position: absolute;
+		text-align : center;
+		border : 2px solid #000;
+		display : none;
 	}
 	.container{
 		top:0;
@@ -214,14 +224,15 @@
 					
 					<div class="mask"></div>
 				    <div class="window">
+				    	<h3 class="page-header" style="margin-top: 30px;"><b>사용자 삭제</b></h3>
 				    	<p>비밀번호를 입력해주세요.</p>
 
 						<form id="idForm" action="userDelete" method="POST">
 							<input type="hidden" name="employeeSeq" value=${requestScope.employeeVO.employeeSeq } />
 							<input type="password" name="checkAdminPw" autofocus/>
 				        	<div style="margin-top: 20px">
-					        	<button class="btn btn-lg btn-primary" type="submit">제출</button>
-					        	<input class="btn btn-lg btn-primary close" type="button" value="취소"/>
+					        	<button id="button" class="btn btn-lg btn-primary" type="submit" style="margin-right: 20px">제출</button>
+					        	<input id="button" class="btn btn-lg btn-primary" type="button" style="margin-left: 20px" value="취소" onclick="$('.mask').click();"/>
 				        	</div>
 						</form>
 

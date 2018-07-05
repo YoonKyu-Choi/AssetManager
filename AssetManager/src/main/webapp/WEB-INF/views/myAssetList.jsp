@@ -187,6 +187,11 @@
 						disposeActive = false;
 					}
 				}
+			},
+			ondblClickRow: function(rowid) {
+				trName = $("#assetTable").getRowData(rowid)['assetId'];
+				$("#assetId").val(trName);
+				$("#myAssetDetailForm").submit();
 			}
 		});
 	});
@@ -329,12 +334,37 @@
 		color: white;
 		background-color: #333;
 	}
+	.ui-jqgrid-hbox{
+		background-color: #555;
+	}
 	.ui-jqgrid .ui-jqgrid-labels th.ui-th-column {
 		background-color: #555;
 		background-image: none;
+		border: #555;
+	}
+	.ui-widget-content{
+		border: #555
+	}
+	.ui-state-highlight, .ui-widget-content .ui-state-highlight{
+		color: black;
+		border: black;
+	}
+	.ui-widget-content .ui-state-hover {
+		background-color: #777;
+		color: white;
+		border: white;
+	}
+	.ui-jqgrid-hdiv .ui-state-hover {
+		font-weight: bold;
+	}
+	.ui-widget.ui-widget-content{
+		border-color: #555
 	}
 	.ui-jqgrid {
 		font-size: 1.0em;
+	}
+	.ui-state-default, .ui-widget-content .ui-state-default{
+		border: white;
 	}
 </style>
 </head>
@@ -372,6 +402,11 @@
 				<form id="myAssetDetailForm" action="assetDetail" method="post">
 					<input type="hidden" id="assetId" name="assetId"/>
 				</form>
+
+				<div style="display: flex; float: left; margin-top: 5px; bottom: 60px; position: absolute">
+					<img src="${pageContext.request.contextPath}/resources/mouseRightClick.png" width="25px" height="25px">
+					&nbsp;&nbsp;Menu
+				</div>
 				<div style="display:flex; float:right; margin-top: 10px">
 					<button id="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/assetRegister';">자산 등록</button>
 				</div>
