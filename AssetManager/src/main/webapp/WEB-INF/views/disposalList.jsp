@@ -362,6 +362,9 @@
 		color: white;
 		background-color: #333;
 	}
+	.ui-jqgrid-hbox{
+		background-color: #555;
+	}
 	.ui-jqgrid .ui-jqgrid-labels th.ui-th-column {
 		background-color: #555;
 		background-image: none;
@@ -370,13 +373,27 @@
 	.ui-widget-content{
 		border: #555
 	}
+	.ui-state-highlight, .ui-widget-content .ui-state-highlight{
+		color: black;
+		border: black;
+	}
+	.ui-widget-content .ui-state-hover {
+		background-color: #777;
+		color: white;
+		border: white;
+	}
+	.ui-jqgrid-hdiv .ui-state-hover {
+		font-weight: bold;
+	}
 	.ui-widget.ui-widget-content{
 		border-color: #555
 	}
 	.ui-jqgrid {
 		font-size: 1.0em;
 	}
-	
+	.ui-state-default, .ui-widget-content .ui-state-default{
+		border: white;
+	}
 	 #searchMode, #searchKeyword, #searchBtn{
     	height:27px;
 		vertical-align:middle

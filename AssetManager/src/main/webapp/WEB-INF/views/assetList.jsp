@@ -408,6 +408,9 @@
 		color: white;
 		background-color: #333;
 	}
+	.ui-jqgrid-hbox{
+		background-color: #555;
+	}
 	.ui-jqgrid .ui-jqgrid-labels th.ui-th-column {
 		background-color: #555;
 		background-image: none;
@@ -416,22 +419,36 @@
 	.ui-widget-content{
 		border: #555
 	}
+	.ui-state-highlight, .ui-widget-content .ui-state-highlight{
+		color: black;
+		border: black;
+	}
+	.ui-widget-content .ui-state-hover {
+		background-color: #777;
+		color: white;
+		border: white;
+	}
+	.ui-jqgrid-hdiv .ui-state-hover {
+		font-weight: bold;
+	}
 	.ui-widget.ui-widget-content{
 		border-color: #555
 	}
 	.ui-jqgrid {
 		font-size: 1.0em;
 	}
-	
+	.ui-state-default, .ui-widget-content .ui-state-default{
+		border: white;
+	}
 	.wrap-loading{ 
-    position: fixed;
-    left:0;
-    right:0;
-    top:0;
-    bottom:0;
-    background: rgba(0,0,0,0.2); /*not in ie */
-    filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000', endColorstr='#20000000');    /* ie */
-    z-index: 99999;
+	    position: fixed;
+	    left:0;
+	    right:0;
+	    top:0;
+	    bottom:0;
+	    background: rgba(0,0,0,0.2); /*not in ie */
+	    filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000', endColorstr='#20000000');    /* ie */
+	    z-index: 99999;
 	}
     .wrap-loading div{ 
         position: fixed;
