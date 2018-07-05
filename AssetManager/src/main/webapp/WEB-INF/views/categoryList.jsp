@@ -152,6 +152,11 @@
 			onRightClickRow: function(rowid){
 				trName = $("#categoryTable").getRowData(rowid)['assetCategory'];
 				$("#categoryName").val(trName);
+			},
+			ondblClickRow: function(rowid){
+				trName = $("#categoryTable").getRowData(rowid)['assetCategory'];
+				$("#categoryName").val(trName);
+				$("#categoryDetailForm").submit();
 			}
 		});
 //		$("#categoryTable").jqGrid("setFrozenColumns");
@@ -269,7 +274,11 @@
 				<form id="categoryDetailForm" action="categoryDetail" method="post">
 					<input type="hidden" id="categoryName" name="categoryName"/>
 				</form>
-					
+
+				<div style="display: flex; float: left; margin-top: 5px; bottom: 60px; position: absolute">
+					<img src="${pageContext.request.contextPath}/resources/mouseRightClick.png" width="25px" height="25px">
+					&nbsp;&nbsp;Menu
+				</div>
 				<div style="display:flex; float: right; margin-top: 10px">
 					<button id="button" class="btn btn-lg btn-primary" onclick="location.href='/assetmanager/categoryRegister';">등록</button>
 				</div>

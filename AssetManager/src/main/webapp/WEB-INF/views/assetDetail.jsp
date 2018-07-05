@@ -87,7 +87,8 @@
 			assetTakeout: {
 				name: '반출/수리',
 				onClick: function(){
-					$("#pop").show();
+					wrapWindowByMask();
+//					$("#pop").show();
 				},
 				isShown: function(){
 					if (isAdmin == "TRUE"){
@@ -146,6 +147,7 @@
                 if(this.id == "pop") this.reset();  
              });
 			$("#pop").hide();
+			$(".mask").hide();
 		});
 
 		// 삭제 확인 마스크 
@@ -156,17 +158,21 @@
 	    });
 
 	    // 뒤 검은 마스크를 클릭시에도 모두 제거하도록 처리합니다.
-        $('.mask').click(function () {
-            $(this).hide();
-            $('.window').hide();
-        });	
+//        $('.mask').click(function () {
+//            $(this).hide();
+//             $('.window').hide();
+//         });	
 	    
 	    // 반응성 윈도우 사이즈
 		var windowHeight = window.innerHeight;
 		$(".table-responsive").css("height", windowHeight-250);
+		$("#pop").css("top", (window.innerHeight-450)/2);
+		$("#pop").css("right", (window.innerWidth-400)/2);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
 			$(".table-responsive").css("height", windowHeight-250);
+			$("#pop").css("top", (window.innerHeight-450)/2);
+			$("#pop").css("right", (window.innerWidth-400)/2);
 		})
 		// 현재 자산 상태
 		switch(assetStatusStr){
@@ -305,19 +311,19 @@
 	    // 마스크의 높이와 너비를 화면의 높이와 너비 변수로 설정합니다.
 	    $('.mask').css({'width':maskWidth,'height':maskHeight});
 	    // fade 애니메이션 : 1초 동안 검게 됐다가 80%의 불투명으로 변합니다.
-	    $('.mask').fadeTo("slow",0.8);
+	    $('.mask').fadeTo("slow",0.5);
 	
-		var position = $("#hiddenBtn").offset();
+		//var position = $("#hiddenBtn").offset();
 		
 	    // 레이어 팝업을 가운데로 띄우기 위해 화면의 높이와 너비의 가운데 값과 스크롤 값을 더하여 변수로 만듭니다.
-	    var left = $(window).scrollLeft() +position['left'];
-	    var top = $(window).scrollLeft() +position['top'];
+	    //var left = $(window).scrollLeft() +position['left'];
+	    //var top = $(window).scrollLeft() +position['top'];
 	
 	    // css 스타일을 변경합니다.
-	    $('.window').css({'left':left,'top':top, 'position':'absolute'});
+	    //$('.window').css({'left':left,'top':top, 'position':'absolute'});
 	 
 	    // 레이어 팝업을 띄웁니다.
-	    $('.window').show();
+	    $('#pop').show();
 	}
 	
 	
@@ -362,7 +368,7 @@
 		position:absolute;
 		left:0;
 		top:0;
-		z-index:9999;
+		z-index:999;
 		background-color:#000;
 		display:none;
 	}
@@ -372,19 +378,18 @@
 		z-index:99999;
 	}
 	#pop{
+		z-index: 99999;
 		width : 400px;
-		height : 400px;
-		background : #3d3d3d;
-		color : #fff;
+		height : 450px;
+		background : white;
+		color : black;
 		position: absolute;
-		top : 200px;
-		right : 350px;
 		text-align : center;
 		border : 2px solid #000;
 		display : none;
 	}
 	.popInput{
-		color : #3d3d3d;
+		color : #white;
 		width : 50px;
 		table-layout: fixed;
 	}
@@ -414,6 +419,19 @@
 		width: 100%;
 		background-color: gray;
 		background-image: linear-gradient(to right, #ccc, #333, #ccc);
+	}
+	#popSubmit, #popClose{
+		color: black;
+		border-color: #999;
+		background-color: #aaa;
+		font-weight: bold;
+	}
+	#popSubmit:hover, #popClose:hover {
+		color: white;
+		background-color: #333;
+	}
+	.dropdown, input:not([type="button"]), textArea{
+		width: 180px
 	}
 </style>
 
@@ -526,7 +544,7 @@
 				</form>
 				
 				<div class="mask"></div>
-				    <div class="window">
+<!--				    <div class="window">
 				    	<p>비밀번호를 입력해주세요.</p>
 
 						<form id="assetDeleteForm" action="assetDelete" method="POST">
@@ -538,47 +556,53 @@
 				        	</div>
 						</form>
 				    </div>
-				
+-->				
 				<!-- 반출/수리 레이어 팝업 -->
 				<form id="pop" action="assetTakeOutHistory" method="post">
-					<table style="margin-top:100px;margin-left:20px;">
-						<tr>
-							<th>신청날짜</th>
-							<th>는 현재날짜로 등록됩니다.</th>
-						</tr>
-						<tr>
-							<th>용도</th>
-							<th class="popInput">
-								<select class="form-controlmin dropdown" id="assetOutStatus" name="assetOutStatus">
-									<option value="0">용도를 선택하세요.</option>
-									<option value="반출 중">반출 중</option>
-									<option value="수리 중">수리 중</option>
-									<option value="고장">고장</option> 
-								</select>
-							</th>
-						</tr>
-						<tr>
-							<th>대상</th>
-							<th class="popInput"><input type="text" name="assetOutObjective" id="assetOutObjective" maxlength="33"/></th>
-						</tr>
-						<tr>
-							<th>목적</th>
-							<th class="popInput"><input type="text" name="assetOutPurpose" id="assetOutPurpose" maxlength="33"/></th>
-						</tr>
-						<tr>
-							<th>비용</th>
-							<th class="popInput"><input type="text" name="assetOutCost" id="assetOutCost" maxlength="15" onkeypress="return fn_press(event, 'numbers');" onkeydown="fn_press_han(this);"/></th>
-						</tr>
-						<tr>
-							<th>자산 반출/수리 이력 COMMENT</th>
-							<th class="popInput"><textArea name="assetOutComment" id="assetOutComment" maxlength="1000"></textArea></th>
-						</tr>
-					</table>
+					<h3 class="page-header" style="margin-top: 30px;"><b>반출/수리 신청</b></h3>
+					<div style="padding-left: 10px; padding-right: 10px">
+						<table style="margin-top: 30px;" class="table table-striped">
+							<tr>
+								<th>신청날짜</th>
+								<th>현재날짜로 등록됩니다.</th>
+							</tr>
+							<tr>
+								<th>용도</th>
+								<th class="popInput">
+									<select class="form-controlmin dropdown" id="assetOutStatus" name="assetOutStatus">
+										<option value="0">용도를 선택하세요.</option>
+										<option value="반출 중">반출 중</option>
+										<option value="수리 중">수리 중</option>
+										<option value="고장">고장</option> 
+									</select>
+								</th>
+							</tr>
+							<tr>
+								<th>대상</th>
+								<th class="popInput"><input type="text" name="assetOutObjective" id="assetOutObjective" maxlength="33"/></th>
+							</tr>
+							<tr>
+								<th>목적</th>
+								<th class="popInput"><input type="text" name="assetOutPurpose" id="assetOutPurpose" maxlength="33"/></th>
+							</tr>
+							<tr>
+								<th>비용</th>
+								<th class="popInput"><input type="text" name="assetOutCost" id="assetOutCost" maxlength="15" onkeypress="return fn_press(event, 'numbers');" onkeydown="fn_press_han(this);"/></th>
+							</tr>
+							<tr>
+								<th>반출/수리 이력<br>COMMENT</th>
+								<th class="popInput"><textArea name="assetOutComment" id="assetOutComment" maxlength="1000"></textArea></th>
+							</tr>
+						</table>
+					</div>
 					<input type="hidden" id="assetId" name="assetId" value="${assetData['assetVO']['assetId'] }"/>
-					<input type="button" id="popSubmit" style="margin:30px; background:#3d3d3d" value="submit"/>
-					<input type="button" id="popClose" style="margin:30px; background:#3d3d3d" value="close"/>											
+					<input type="button" class="btn btn-primary" id="popSubmit" style="margin-right:20px;" value="제출"/>
+					<input type="button" class="btn btn-primary" id="popClose" style="margin-left:20px;" value="닫기"/>											
 				</form>
-				
+				<div style="display: flex; float: left; margin-top: 5px; bottom: 60px; position: absolute">
+					<img src="${pageContext.request.contextPath}/resources/mouseRightClick.png" width="25px" height="25px">
+					&nbsp;&nbsp;Menu
+				</div>
 		    </div>
 	    </div>
 	</div>

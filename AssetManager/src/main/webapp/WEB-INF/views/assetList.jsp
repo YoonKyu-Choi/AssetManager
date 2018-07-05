@@ -236,6 +236,11 @@
 				{name:'assetLocation',index:'assetLocation', width:40, align:'center'},
 				{name:'employeeSeq',index:'employeeSeq', hidden : true}
 			],
+			ondblClickRow: function(rowid){
+				trName = $("#assetTable").getRowData(rowid)['assetId'];
+				$("#assetId").val(trName);
+				$("#assetDetailForm").submit();
+			},
 			onRightClickRow: function(rowid){
 				trName = $("#assetTable").getRowData(rowid)['assetId'];
 				$("#assetId").val(trName);
@@ -520,6 +525,10 @@
 			    	<div><img src="${pageContext.request.contextPath}/resources/loader1.gif" /></div>
 				</div>
 				    -->
+				<div style="display: flex; float: left; margin-top: 5px; bottom: 60px; position: absolute">
+					<img src="${pageContext.request.contextPath}/resources/mouseRightClick.png" width="25px" height="25px">
+					&nbsp;&nbsp;Menu
+				</div>
 				<div style="display:flex; float:right; margin-top: 10px">
 					<button class="btn btn-lg btn-primary" id="button" onclick="location.href='/assetmanager/assetRegister';">자산 등록</button>
 				</div>
