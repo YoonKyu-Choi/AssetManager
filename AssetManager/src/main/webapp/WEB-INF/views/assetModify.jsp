@@ -84,7 +84,7 @@
 			}else{
 				$("#assetUser").val("${model['assetVO']['assetUser']}").prop("selected", true);
 			}
-			$("#assetUser").prop("disabled",true).css("background-color","lightgray"); 
+			$("#assetUser").prop("disabled",false).css("background-color","white"); 
 		}
 	};
 	
