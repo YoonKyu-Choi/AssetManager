@@ -286,7 +286,9 @@
 			$("#assetUser").val("NoUser").prop("selected",true);
 			$("#assetUser").prop("disabled",true).css("background-color","lightgray"); 
 		} else{
-			$("#assetUser option:first").remove();
+			if($("#assetUser").val()=="NoUser"){
+				$("#assetUser option:first").remove();
+			}
 			$("#assetUser option:eq(0)").prop("selected", true);
 			$("#assetUser").prop("disabled",false).css("background-color","white");
 		}

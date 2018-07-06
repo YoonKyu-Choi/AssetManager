@@ -59,11 +59,7 @@
 					if (isAdmin == "TRUE"){
 						return (assetStatus == 2);
 					} else if(isAdmin != "TRUE"){
-						if(loginId == assetUserId){
-							return (assetStatus == 2);
-						}else {
-							return false;
-						}
+						return false;
 					}
 				}
 			},
@@ -153,27 +149,33 @@
 		// 삭제 확인 마스크 
 	    // 닫기(close)를 눌렀을 때 작동합니다.
 	    $('.window .close').click(function (e) {
-	        e.preventDefault();
+	    	alert("hello");
+	    	e.preventDefault();
 	        $('.mask, .window').hide();
 	    });
 
 	    // 뒤 검은 마스크를 클릭시에도 모두 제거하도록 처리합니다.
-//        $('.mask').click(function () {
-//            $(this).hide();
-//             $('.window').hide();
-//         });	
+         $('.mask').click(function () {
+           $(this).hide();
+           $('.window').hide();
+         });	
 	    
 	    // 반응성 윈도우 사이즈
 		var windowHeight = window.innerHeight;
 		$(".table-responsive").css("height", windowHeight-250);
 		$("#pop").css("top", (window.innerHeight-450)/2);
 		$("#pop").css("right", (window.innerWidth-400)/2);
+		$(".window").css("top", (window.innerHeight-250)/2);
+		$(".window").css("right", (window.innerWidth-300)/2);
 		$(window).resize(function(){
 			windowHeight = $(window).height();
 			$(".table-responsive").css("height", windowHeight-250);
 			$("#pop").css("top", (window.innerHeight-450)/2);
 			$("#pop").css("right", (window.innerWidth-400)/2);
+			$(".window").css("top", (window.innerHeight-250)/2);
+			$(".window").css("right", (window.innerWidth-300)/2)
 		})
+		
 		// 현재 자산 상태
 		switch(assetStatusStr){
 		case '폐기 대기':
@@ -283,7 +285,7 @@
 		if (!confirm("자산을 정말 삭제하시겠습니까?")) {
 			return false;
 		} else {
-			wrapWindowByMask();
+			DwrapWindowByMask();
 		}
 	}
 	
@@ -324,6 +326,19 @@
 	 
 	    // 레이어 팝업을 띄웁니다.
 	    $('#pop').show();
+	}
+	
+	function DwrapWindowByMask(){
+	    // 화면의 높이와 너비를 변수로 만듭니다.
+	    var MaskHeight = $(window).height();
+	    var MaskWidth = $(window).width();
+	
+	    // 마스크의 높이와 너비를 화면의 높이와 너비 변수로 설정합니다.
+	    $('.mask').css({'width':MaskWidth,'height':MaskHeight});
+	    // fade 애니메이션 : 1초 동안 검게 됐다가 80%의 불투명으로 변합니다.
+	    $('.mask').fadeTo("slow",0.5);
+	
+	    $('.window').show();
 	}
 	
 	
@@ -373,9 +388,15 @@
 		display:none;
 	}
 	.window {
-		display: none;
-		background-color: #ffffff;
-		z-index:99999;
+		z-index: 99999;
+		width : 300px;
+		height : 250px;
+		background : white;
+		color : black;
+		position: absolute;
+		text-align : center;
+		border : 2px solid #000;
+		display : none;
 	}
 	#pop{
 		z-index: 99999;
@@ -420,7 +441,7 @@
 		background-color: gray;
 		background-image: linear-gradient(to right, #ccc, #333, #ccc);
 	}
-	#popSubmit, #popClose{
+	#popSubmit, #popClose, #deleteSubmit, #deleteBtn{
 		color: black;
 		border-color: #999;
 		background-color: #aaa;
@@ -433,6 +454,7 @@
 	.dropdown, input:not([type="button"]), textArea{
 		width: 180px
 	}
+	
 </style>
 
 </head>
@@ -543,20 +565,21 @@
 					<input type="hidden" name="assetUser" value=${assetData['assetVO']['assetUser'] } />
 				</form>
 				
+				<!-- 삭제 비밀번호 -->				    
 				<div class="mask"></div>
-<!--				    <div class="window">
-				    	<p>비밀번호를 입력해주세요.</p>
-
-						<form id="assetDeleteForm" action="assetDelete" method="POST">
-							<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
-							<input type="password" name="checkAdminPw" autofocus/>
-				        	<div style="margin-top: 20px">
-					        	<button class="btn btn-lg btn-primary" type="submit">제출</button>
-					        	<input class="btn btn-lg btn-primary close" type="button" value="취소"/>
-				        	</div>
-						</form>
+				<div class="window">
+					<h3 class="page-header" style="margin-top: 30px;"><b>자산 삭제</b></h3>
+			    	<p>비밀번호를 입력해주세요.</p>
+					<form id="assetDeleteCheckForm" action="assetDelete" method="POST">
+					<input type="hidden" name="assetId" value=${assetData['assetVO']['assetId'] } />
+					<input type="password" name="checkAdminPw" autofocus/>
+				    <div style="margin-top: 20px">
+					 	<button class="btn btn-lg btn-primary" id="deleteSubmit" type="submit" style="margin-right: 20px">제출</button>
+					  	<input class="btn btn-lg btn-primary" type="button" id="deleteBtn" style="margin-left: 20px" value="취소" onclick="$('.mask').click();"/>
 				    </div>
--->				
+					</form>
+				</div>
+				
 				<!-- 반출/수리 레이어 팝업 -->
 				<form id="pop" action="assetTakeOutHistory" method="post">
 					<h3 class="page-header" style="margin-top: 30px;"><b>반출/수리 신청</b></h3>

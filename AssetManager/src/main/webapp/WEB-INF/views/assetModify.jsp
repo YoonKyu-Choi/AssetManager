@@ -392,7 +392,9 @@
 										<option value="사용 가능">사용 가능</option>
 										<option value="사용 불가">사용 불가</option>
 										<option value="폐기 대기">폐기 대기</option>
+										<c:if test="${sessionScope.isAdmin == 'TRUE' }">
 										<option value="폐기">폐기</option>
+										</c:if>
 								</select></th>
 								<th>자산 반출 상태</th>
 								<th><select class="form-controlmin dropdown" id="assetOutStatus" name="assetOutStatus">
