@@ -210,7 +210,7 @@
 				{name:'assetUser',index:'assetUser', width:100, align:'center'},
 				{name:'assetStatus',index:'assetStatus', width:80, align:'center'},
 				{name:'assetOutStatus',index:'assetOutStatus', width:80, align:'center'},
-				{name:'assetSerial',index:'assetSerial', width:120, align:'center'},
+				{name:'assetSerial',index:'assetSerial', width:160, align:'center'},
 				{name:'assetPurchaseDate',index:'assetPurchaseDate', width:120, align:'center'},
 				{name:'assetPurchasePrice',index:'assetPurchasePrice', width:120, align:'right'},
 				{name:'assetPurchaseShop',index:'assetPurchaseShop', width:120, align:'center'},

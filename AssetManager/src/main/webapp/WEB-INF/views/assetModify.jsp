@@ -21,7 +21,11 @@
 		$("#asstLink").prop("class", "active");
 		
 		// 기존 설정
-		$("#assetUser").val("${sessionScope.Id}").prop("selected", true).css("background-color","lightgray");
+		if(${sessionScope.isAdmin != 'TRUE' }){
+			$("#assetUser").val("${sessionScope.Id}").prop("selected", true).css("background-color","lightgray");
+		}else if(${sessionScope.isAdmin == 'TRUE' }){
+			$("#assetUser").val("${model['assetVO']['assetUser']}").prop("selected", true).css("background-color","white");
+		}
 		$("#assetStatus").val("${model['assetVO']['assetStatus']}").prop("selected", true);
 		$("#assetOutStatus").val("${model['assetVO']['assetOutStatus']}").prop("selected", true).css("background-color","lightgray");
 		$("#assetOutStatus").prop("disabled", true);
@@ -84,7 +88,12 @@
 			}else{
 				$("#assetUser").val("${model['assetVO']['assetUser']}").prop("selected", true);
 			}
-			$("#assetUser").prop("disabled",false).css("background-color","white"); 
+			if(${sessionScope.isAdmin == 'TRUE' }){
+				$("#assetUser").prop("disabled",false).css("background-color","white");
+			}else if(${sessionScope.isAdmin != 'TRUE' }){
+				$("#assetUser").prop("disabled",true).css("background-color","lightgray");
+			}
+			
 		}
 	};
 	

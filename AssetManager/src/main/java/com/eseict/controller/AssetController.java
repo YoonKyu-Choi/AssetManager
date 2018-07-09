@@ -203,10 +203,10 @@ public class AssetController {
 			
 			// 아이디로 EmpSeq 구하기
 			if(avo.getAssetUser().equals("NoUser") || avo.getAssetUser() == null) {
+				newEmpSeq = 0;
+				empSeq = eService.getEmployeeSeqByEmpId(beforeUser);;
 				avo.setAssetUser("사용자 없음");
 				avo.setEmployeeSeq(0);
-				newEmpSeq = 0;
-				empSeq = 0;
 			}else {
 				newEmpSeq = eService.getEmployeeSeqByEmpId(assetUser);
 				if(beforeUser != "" && beforeUser != null && !beforeUser.isEmpty()) {
@@ -225,9 +225,9 @@ public class AssetController {
 			aService.updateAssetDetail(assetId, items, itemsDetail);
 			
 			// 자산 수정 시 자산 이력 자동 입력
-			if(newEmpSeq != empSeq) {
+//			if(newEmpSeq != empSeq) {
 				aService.updateAssetHistory(assetId, UserEmpName, empSeq, newEmpSeq);
-			} 
+//			} 
 			return new ModelAndView("assetBridge","assetId",avo.getAssetId());
 		} catch (Exception e) {
 			e.printStackTrace();

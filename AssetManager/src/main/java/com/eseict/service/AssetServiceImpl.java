@@ -277,7 +277,11 @@ public class AssetServiceImpl implements AssetService {
 		AssetFormerUserVO newAfuvo = new AssetFormerUserVO();
 		newAfuvo.setAssetId(assetId);
 		newAfuvo.setEmployeeSeq(newEmpSeq);
-		newAfuvo.setAssetUser(assetUser);
+		if(assetUser == null || assetUser.equals("사용자 없음")) {
+			newAfuvo.setAssetUser("사용자 없음");
+		}else {
+			newAfuvo.setAssetUser(assetUser);
+		}
 		newAfuvo.setAssetStartDate(now);
 		ret += aDao.insertAssetFormerUser(newAfuvo);
 		

@@ -92,7 +92,7 @@
 				{name:'employeeStatus',index:'employeeStatus', width:60, align:'center'},
 				{name:'employeeName',index:'employeeName', width:80, align:'center'},
 				{name:'employeeId',index:'employeeId', width:100, align:'center'},
-				{name:'employeeDepartmentString',index:'employeeDepartmentString', width:160, align:'center'},
+				{name:'employeeDepartmentString',index:'employeeDepartmentString', width:220, align:'center'},
 				{name:'employeeRankString',index:'employeeRankString', width:100, align:'center'},
 				{name:'employeeLocation',index:'employeeLocation', width:60, align:'center'},
 				{name:'employeeEmail',index:'employeeEmail', width:160, align:'center'},
